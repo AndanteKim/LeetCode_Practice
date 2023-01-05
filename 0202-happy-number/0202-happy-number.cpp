@@ -12,13 +12,13 @@ public:
     }
     
     bool isHappy(int n) {
-        int slow_runner = n, fast_runner = get_next(n);
+        set<int> seen;
         
-        while(fast_runner != 1 && slow_runner != fast_runner){
-            slow_runner = get_next(slow_runner);
-            fast_runner = get_next(get_next(fast_runner));
+        while (n != 1 && seen.find(n) == seen.end()){
+            seen.insert(n);
+            n = get_next(n);
         }
-        
-        return fast_runner == 1;
+            
+        return n == 1;
     }
 };
