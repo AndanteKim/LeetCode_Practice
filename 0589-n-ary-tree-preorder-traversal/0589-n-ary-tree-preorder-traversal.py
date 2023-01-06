@@ -12,9 +12,8 @@ class Solution:
         stack, ans = [root], []
         
         while stack:
-            q = stack.pop()
-            ans.append(q.val)
-            while q.children:
-                stack.append(q.children.pop())
+            node = stack.pop()
+            ans.append(node.val)
+            stack.extend(node.children[::-1])
                 
         return ans
