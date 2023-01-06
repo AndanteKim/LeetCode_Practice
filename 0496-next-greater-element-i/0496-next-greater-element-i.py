@@ -1,17 +1,19 @@
 class Solution:
     def nextGreaterElement(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        num2_table, length2 = {elem : idx for idx, elem in enumerate(nums2)}, len(nums2)
-        ans = []
-        for num1 in nums1:
-            try:
-                for i in range(num2_table[num1], length2-1):
-                    if num1 < nums2[i+1]:
-                        ans.append(nums2[i+1])
-                        break
-                else:
-                    ans.append(-1)
-            
-            except:
-                ans.append(-1)
+        stack, m, len1, len2 = [], dict(), len(nums1), len(nums2)
+        
+        for i in range(0, len2):
+            while (stack and nums2[i] > stack[-1]):
+                m[stack.pop()] = nums2[i]
+            stack.append(nums2[i])
+        
+        while stack:
+            m[stack.pop()] = -1
+        
+        ans = [0] * len1
+        
+        for i in range(0, len1):
+            ans[i] = m[nums1[i]]
         return ans
+        
                 
