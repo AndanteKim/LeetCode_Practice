@@ -9,13 +9,12 @@ class Node:
 class Solution:
     def preorder(self, root: 'Node') -> List[int]:
         if not root: return []
-        queue, ans = deque([root]), []
+        stack, ans = [root], []
         
-        while queue:
-            q = queue.pop()
+        while stack:
+            q = stack.pop()
             ans.append(q.val)
             while q.children:
-                branch = q.children.pop()
-                queue.append(branch)
+                stack.append(q.children.pop())
                 
         return ans
