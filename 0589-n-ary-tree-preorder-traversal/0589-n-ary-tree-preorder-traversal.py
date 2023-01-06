@@ -7,13 +7,17 @@ class Node:
 """
 
 class Solution:
+    
     def preorder(self, root: 'Node') -> List[int]:
-        if not root: return []
-        stack, ans = [root], []
-        
-        while stack:
-            node = stack.pop()
-            ans.append(node.val)
-            stack.extend(node.children[::-1])
+        ans = []
+        def dfs(root = root, ans = ans):
+            if not root:
+                return
+            else:
+                ans.append(root.val)
                 
+                for child in root.children:
+                    dfs(child, ans)
+        
+        dfs()
         return ans
