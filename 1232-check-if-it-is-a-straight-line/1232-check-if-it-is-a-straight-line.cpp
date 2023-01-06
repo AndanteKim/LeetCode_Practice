@@ -1,6 +1,10 @@
 class Solution {
 public:
     bool checkStraightLine(vector<vector<int>>& coordinates) {
+        
+        ios_base::sync_with_stdio(0);
+        cin.tie(NULL);
+        cout.tie(NULL);
         int x_incre = coordinates[1][0] - coordinates[0][0], y_incre = coordinates[1][1] - coordinates[0][1];
         
         for (int i = 2; i < coordinates.size(); ++i){
