@@ -1,23 +1,25 @@
 class Solution {
 public:
     vector<int> nextGreaterElement(vector<int>& nums1, vector<int>& nums2) {
-        unordered_map<int, int> nums2_table;
+        unordered_map<int, int> m_lookup;
         int length1 = nums1.size(), length2 = nums2.size(); 
-        vector<int> ans;
-        for (int i = 0; i < length2; ++i) nums2_table[nums2[i]] = i;
+        vector<int> ans(length1, 0);
+        stack<int> st;
         
-        for (int i = 0; i < length1; ++i){
-            try {
-                for (int j = nums2_table[nums1[i]]; j < length2; ++j){
-                    if (nums1[i] < nums2[j]) {ans.push_back(nums2[j]); break;}
-                    if (j == length2-1) ans.push_back(-1);
-                } 
+        for (int i = 0; i < length2; ++i){
+            while ((!st.empty()) && nums2[i] > st.top()){
+                m_lookup[st.top()] = nums2[i];
+                st.pop();
             }
-            
-            catch(...){
-                ans.push_back(-1);
-            }
+            st.push(nums2[i]);
         }
+        
+        while (!st.empty()){
+            m_lookup[st.top()] = -1;
+            st.pop();
+        }
+        
+        for (int i = 0; i < length1; ++i) ans[i] = m_lookup[nums1[i]];
         
         return ans;
     }
