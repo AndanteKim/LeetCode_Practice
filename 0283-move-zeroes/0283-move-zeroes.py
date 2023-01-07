@@ -3,12 +3,12 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        queue = deque(nums)
-        i = 0
-        while queue:
-            q = queue.popleft()
-            if q != 0:
-                nums[i] = q
-                i += 1
-        for i in range(i, len(nums)):
+        lastNonZeroFoundAt, length = 0, len(nums)
+        
+        for i in range(length):
+            if nums[i] != 0:
+                nums[lastNonZeroFoundAt] = nums[i]
+                lastNonZeroFoundAt += 1
+        
+        for i in range(lastNonZeroFoundAt, length):
             nums[i] = 0
