@@ -3,12 +3,10 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        lastNonZeroFoundAt, length = 0, len(nums)
         
-        for i in range(length):
-            if nums[i] != 0:
-                nums[lastNonZeroFoundAt] = nums[i]
+        lastNonZeroFoundAt = 0
+        
+        for cur in range(len(nums)):
+            if nums[cur] != 0:
+                nums[lastNonZeroFoundAt], nums[cur] = nums[cur], nums[lastNonZeroFoundAt]
                 lastNonZeroFoundAt += 1
-        
-        for i in range(lastNonZeroFoundAt, length):
-            nums[i] = 0
