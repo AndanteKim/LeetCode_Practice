@@ -1,11 +1,14 @@
 class Solution {
 public:
     char findTheDifference(string s, string t) {
-        int ch = 0;
+        unordered_map<char, int> counter_s;
+        char ans;
+        for (const auto &c: s)++counter_s[c];
         
-        for(const auto &char_ : s) ch ^= (int)(char_ - '0');
-        
-        for(const auto &char_ : t) ch ^= (int)(char_ - '0');
-        return (char)(ch+48);
+        for (const auto &c: t){
+            if (counter_s.find(c) == counter_s.end() || counter_s[c] == 0) {ans = c; break;}
+            else --counter_s[c];
+        }
+        return ans;
     }
 };
