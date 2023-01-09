@@ -1,9 +1,11 @@
 class Solution:
     def findTheDifference(self, s: str, t: str) -> str:
-        counter_s = Counter(s)
+        ch = 0
         
-        for ch in t:
-            if ch not in counter_s or counter_s[ch] == 0:
-                return ch
-            else:
-                counter_s[ch] -= 1
+        for char_ in s:
+            ch ^= ord(char_)
+        
+        for char_ in t:
+            ch ^= ord(char_)
+        
+        return chr(ch)
