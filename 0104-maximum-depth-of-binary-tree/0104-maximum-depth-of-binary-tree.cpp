@@ -13,6 +13,19 @@ class Solution {
 public:
     int maxDepth(TreeNode* root) {
         if (root == NULL) return 0;
-        return max(1 + maxDepth(root -> left), 1 + maxDepth(root -> right));
+        int depth = 0;
+        queue<pair<int, TreeNode*>> dq({{depth+1, root}});
+        TreeNode *q;
+        while (!dq.empty()){
+            
+            depth = max(depth, dq.front().first);
+            q = dq.front().second;
+            if (q -> left != NULL) dq.push({depth+1, q -> left});
+            if (q -> right != NULL) dq.push({depth+1, q -> right});
+            dq.pop();
+            
+        }
+        
+        return depth;
     }
 };
