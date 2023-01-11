@@ -11,25 +11,18 @@
  */
 class Solution {
 public:
-    bool is_leaf(TreeNode* node){
-        return (node != NULL) && (node -> left == NULL) && (node -> right == NULL);
+    int process_subtree(TreeNode* sub_tree, bool is_left){
+        if (!(sub_tree -> left || sub_tree -> right)) return is_left == true? sub_tree->val: 0;
+        int total = 0;
+        if (sub_tree-> left != NULL) total += process_subtree(sub_tree -> left, true);
+        if (sub_tree-> right != NULL) total += process_subtree(sub_tree -> right, false);
+        
+        return total;
     }
     
     int sumOfLeftLeaves(TreeNode* root) {
         if (root == NULL) return 0;
-        stack<TreeNode*> st({root});
-        int total = 0;
-        TreeNode* sub_root;
-        while (!st.empty()){
-            sub_root = st.top();
-            st.pop();
-            if (is_leaf(sub_root->left)) total += sub_root->left->val;
-            
-            if (sub_root->right != NULL) st.push(sub_root -> right);
-            if (sub_root -> left != NULL) st.push(sub_root -> left);
-        }
-        
-        return total;
+        return process_subtree(root, false);
         
     }
 };
