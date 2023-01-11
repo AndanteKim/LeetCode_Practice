@@ -6,20 +6,26 @@
 #         self.right = right
 class Solution:
     def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
-        if not root.left and not root.right: return 0
-        tot, queue = 0, deque([root])
         
-        while queue:
-            q = queue.popleft()
+        if not root: return 0
+        
+        def is_leaf(node):
+            return node is not None and node.left is None and node.right is None
+        
+        stack, total = [root], 0
+        
+        while stack:
+            sub_root = stack.pop()
             
-            if q.left:
-                if not (q.left.left or q.left.right):
-                    print(q.left.val)
-                    tot += q.left.val
-                queue.append(q.left)
+            if is_leaf(sub_root.left):
+                total += sub_root.left.val
                 
-            if q.right:
-                queue.append(q.right)
+            if sub_root.right:
+                stack.append(sub_root.right)
+            
+            if sub_root.left:
+                stack.append(sub_root.left)
+                
+        return total
         
-        return tot
             
