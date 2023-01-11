@@ -6,20 +6,25 @@
 #         self.right = right
 class Solution:
     def sumOfLeftLeaves(self, root: Optional[TreeNode]) -> int:
-        
-        if not root: return 0
-        
-        def process_subtree(subtree, is_left):
-            if not (subtree.left or subtree.right):
-                return subtree.val if is_left else 0
-            
-            total = 0
-            if subtree.left:
-                total += process_subtree(subtree.left, True)
-            
-            if subtree.right:
-                total += process_subtree(subtree.right, False)
-            return total
-        
-        return process_subtree(root, False)
-            
+        total_sum = 0
+        current_node = root
+        while current_node:
+            if not current_node.left:
+                current_node = current_node.right
+                
+            else:
+                previous = current_node.left
+                
+                if not (previous.left or previous.right):
+                    total_sum += previous.val
+                
+                while previous.right and previous.right != current_node:
+                    previous = previous.right
+                
+                if not previous.right:
+                    previous.right = current_node
+                    current_node = current_node.left
+                else:
+                    previous.right = None
+                    current_node = current_node.right
+        return total_sum
