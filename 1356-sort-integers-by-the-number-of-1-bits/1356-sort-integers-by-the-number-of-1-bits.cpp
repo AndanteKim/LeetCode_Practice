@@ -1,25 +1,22 @@
 class Solution {
-    struct comparison{
-        inline bool operator()(int a, int b){
-            int bin_a_cnt1 = 0, bin_b_cnt1 = 0, a_cp = a, b_cp = b;
-        
-            while (a_cp > 0){
-                a_cp % 2 == 1? ++bin_a_cnt1 : bin_a_cnt1 += 0;
-                a_cp >>= 1;
-            }
-        
-            while (b_cp > 0){
-                b_cp % 2 == 1? ++bin_b_cnt1 : bin_b_cnt1 += 0;
-                b_cp >>= 1;
-            }
-            
-            return bin_a_cnt1 < bin_b_cnt1? bin_a_cnt1 < bin_b_cnt1 : bin_a_cnt1 == bin_b_cnt1 ? a < b : bin_b_cnt1 > bin_a_cnt1;
-        }
-    };
-    
 public:
+    bool static comp(pair<int, int> x, pair<int, int> y){
+        if (x.first == y.first) return x.second < y.second;
+        return false;
+    }
+    
     vector<int> sortByBits(vector<int>& arr) {
-        sort(arr.begin(), arr.end(), comparison());
-        return arr;
+        vector<pair<int, int>> v;
+        for (auto x : arr){
+            v.push_back({__builtin_popcount(x), x});
+        }
+        sort(v.begin(), v.end());
+        
+        vector<int> ans;
+        for (auto x:v){
+            ans.push_back(x.second);
+        }
+        
+        return ans;
     }
 };
