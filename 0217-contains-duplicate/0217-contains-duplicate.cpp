@@ -1,10 +1,14 @@
 class Solution {
 public:
     bool containsDuplicate(vector<int>& nums) {
-        set<int> st;
+        unordered_map<int, int> counter;
         
-        for(const auto &num : nums) st.insert(num);
+        for(const auto &num : nums) ++counter[num];
         
-        return st.size() == nums.size() ? false : true;
+        for (const auto c : counter){
+            if (c.second > 1) return true;
+        }
+        
+        return false;
     }
 };
