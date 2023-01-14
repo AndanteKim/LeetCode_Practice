@@ -33,10 +33,7 @@ class Solution:
         for key, value in match_up.items():
             curr = len(value)
             for char in value:
-                
                 match_up[key] = max(match_up[key], match_up[char], key = len)
-                
-        print(match_up)
         
         for c in baseStr:
             ans += c if c not in match_up.keys() else min(match_up[c])
