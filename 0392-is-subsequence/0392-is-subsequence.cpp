@@ -1,18 +1,19 @@
 class Solution {
+private:
+    int LEFT_BOUND, RIGHT_BOUND;
+    string s, t;
 public:
+    bool rec_isSubsequence(int left_index, int right_index){
+        if (this -> LEFT_BOUND == left_index) return true;
+        if (this -> RIGHT_BOUND == right_index) return false;
+        if (this -> s[left_index] == this -> t[right_index]) ++left_index;
+        ++right_index;
+        return rec_isSubsequence(left_index, right_index);
+    }
+    
     bool isSubsequence(string s, string t) {
-        unordered_map<char, vector<int>> letter_indices_table;
-        for (int i = 0; i < t.size(); ++i) letter_indices_table[t[i]].push_back(i);
-        
-        int cur_match_index = -1, match_index;
-        vector<int> indices_list;
-        for (const auto &letter:s){
-            if (letter_indices_table.find(letter) == letter_indices_table.end()) return false;
-            indices_list = letter_indices_table[letter];
-            match_index = upper_bound(indices_list.begin(), indices_list.end(), cur_match_index) - indices_list.begin();
-            if (match_index != indices_list.size()) cur_match_index = indices_list[match_index];
-            else return false;
-        }
-        return true;
+        this -> LEFT_BOUND = s.size(), this -> RIGHT_BOUND = t.size();
+        this -> s = s, this -> t = t;
+        return rec_isSubsequence(0, 0);
     }
 };
