@@ -1,23 +1,19 @@
 class Solution:
-    LEFT_BOUND, RIGHT_BOUND = 0, 0
-    s, t = "", ""
-    def rec_isSubsequence(self, left_index: str, right_index: str) -> bool:
-        #base cases
-        if left_index == self.LEFT_BOUND:
-            return True
-        if right_index == self.RIGHT_BOUND:
-            return False
-        
-        if self.s[left_index] == self.t[right_index]:
-            left_index += 1
-        right_index += 1
-        
-        return self.rec_isSubsequence(left_index, right_index)
-    
     def isSubsequence(self, s: str, t: str) -> bool:
-        self.LEFT_BOUND, self.RIGHT_BOUND = len(s), len(t)
-        self.s, self.t = s, t
-        return self.rec_isSubsequence(0, 0)
+        letter_indices_table = defaultdict(list)
+        for index, letter in enumerate(t):
+            letter_indices_table[letter].append(index)
         
+        curr_match_index = -1
+        for letter in s:
+            if letter not in letter_indices_table:
+                return False
+            
+            indices_list = letter_indices_table[letter]
+            match_index = bisect.bisect_right(indices_list, curr_match_index)
+            if match_index != len(indices_list):
+                curr_match_index = indices_list[match_index]
+            else:
+                return False
         
-        
+        return True
