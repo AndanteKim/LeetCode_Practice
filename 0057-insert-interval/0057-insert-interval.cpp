@@ -9,16 +9,9 @@ public:
     }
     
     void insertInterval(vector<vector<int>>& intervals, vector<int>& newInterval){
-        bool isIntervalInserted = false;
-        for (int i = 0; i < intervals.size(); ++i){
-            if (newInterval[0] <= intervals[i][0]){
-                intervals.insert(intervals.begin()+i, newInterval);
-                isIntervalInserted = true;
-                break;
-            }
-        }
-        
-        if (!isIntervalInserted) intervals.push_back(newInterval);
+        int index = upper_bound(intervals.begin(), intervals.end(), newInterval) - intervals.begin();
+        if (index != intervals.size()) intervals.insert(intervals.begin() + index, newInterval);
+        else intervals.push_back(newInterval);
     }
     
     vector<vector<int>> insert(vector<vector<int>>& intervals, vector<int>& newInterval) {
