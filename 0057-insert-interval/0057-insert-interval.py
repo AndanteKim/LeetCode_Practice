@@ -3,12 +3,13 @@ class Solution:
         insertI = bisect_left(intervals, newInterval)
         intervals.insert(insertI, newInterval)
         
-        stack = []
+        i = 0
         
-        for s, e in intervals:
-            if stack and stack[-1][1] >= s:
-                lastS, lastE = stack.pop()
-                stack.append([lastS, max(lastE, e)])
+        while i < len(intervals):
+            s, e = intervals[i]
+            if i > 0 and intervals[i-1][1] >= s:
+                lastS, lastE = intervals[i-1]
+                intervals[i-1:i+1] = [[lastS, max(lastE, e)]]
             else:
-                stack.append([s, e])
-        return stack
+                i += 1
+        return intervals
