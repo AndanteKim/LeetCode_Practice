@@ -1,15 +1,14 @@
 class Solution:
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-        insertI = bisect_left(intervals, newInterval)
-        intervals.insert(insertI, newInterval)
+        position = bisect.bisect(intervals, newInterval)
         
-        i = 0
+        intervals.insert(position, newInterval)
         
-        while i < len(intervals):
-            s, e = intervals[i]
-            if i > 0 and intervals[i-1][1] >= s:
-                lastS, lastE = intervals[i-1]
-                intervals[i-1:i+1] = [[lastS, max(lastE, e)]]
+        answer = []
+        
+        for i in range(len(intervals)):
+            if not answer or intervals[i][0] > answer[-1][1]:
+                answer.append(intervals[i])
             else:
-                i += 1
-        return intervals
+                answer[-1][1] = max(answer[-1][1], intervals[i][1])
+        return answer
