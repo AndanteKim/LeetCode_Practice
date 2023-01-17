@@ -9,8 +9,8 @@ class Solution:
         for i in range(1, length):
             tot[i] = tot[i-1] + nums[i]
             
-        ans = tot[k-1] * 1.0 / k
+        ans = tot[k-1] / k
         for i in range(k, length):
-            ans = max(ans, (tot[i]-tot[i-k]) * 1.0 / k)
+            ans = max(ans, (tot[i]-tot[i-k]) / k)
         return ans
             
