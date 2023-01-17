@@ -1,16 +1,18 @@
 class Solution {
 public:
     int numSubarrayProductLessThanK(vector<int>& nums, int k) {
-        if (k == 0) return 0;
-        vector<double> prefix(1, 0);
-        double log_k = log(k);
-        int ans = 0, j;
+        if (k <= 1) return 0;
         
-        for (int x : nums) prefix.push_back(prefix.back()+log(x));
+        int left = 0, curr = 1, ans = 0; 
         
-        for (int i = 0; i < prefix.size(); ++i){
-            j = lower_bound(prefix.begin()+i+1, prefix.end(), prefix[i] + log_k - 1e-9) - prefix.begin();
-            ans += j - i-1;
+        for (int right = 0; right < nums.size(); ++right){
+            curr *= nums[right];
+            while (curr >= k){
+                curr /= nums[left];
+                ++left;
+            }
+            
+            ans += right - left + 1;
         }
         
         return ans;
