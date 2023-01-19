@@ -1,15 +1,15 @@
 class Solution:
     def reverseWords(self, s: str) -> str:
-        result = ""
-        lastSpaceIndex, n = -1, len(s)
-        for strIndex in range(n):
-            if strIndex == n - 1 or s[strIndex] == " ":
-                reverseStrIndex = strIndex if strIndex == n - 1 else strIndex - 1
-                while reverseStrIndex > lastSpaceIndex:
-                    result += s[reverseStrIndex]
-                    reverseStrIndex -= 1
-                if strIndex != n - 1:
-                    result += " "
-                lastSpaceIndex = strIndex
+        s = [c for c in s]
+        lastSpaceIndex, length = -1, len(s)
         
-        return result
+        for strIndex in range(length+1):
+            if strIndex == length or s[strIndex] == " ":
+                startIndex, endIndex = lastSpaceIndex + 1, strIndex - 1
+                while startIndex < endIndex:
+                    s[startIndex], s[endIndex] = s[endIndex], s[startIndex]
+                    startIndex += 1
+                    endIndex -= 1
+                lastSpaceIndex = strIndex
+        return "".join(s)
+            
