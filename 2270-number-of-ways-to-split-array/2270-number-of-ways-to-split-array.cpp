@@ -1,17 +1,16 @@
-
 class Solution {
 public:
     int waysToSplitArray(vector<int>& nums) {
-        long long total = 0;
-        
+        int ans = 0;
+        long long left_section = 0, total = 0, right_section;
         for (const int &num: nums) total += num;
-        long long curr = 0, cnt = 0;
         
-        for (int i = 0; i <= nums.size()-2; ++i){
-            curr += nums[i];
-            
-            if (curr >= total - curr) ++cnt;
+        for (int i = 0; i < nums.size()-1; ++i){
+            left_section += nums[i];
+            right_section = total - left_section;
+            if (left_section >= right_section) ++ans;
         }
-        return cnt;
+        
+        return ans;
     }
 };
