@@ -1,15 +1,12 @@
 class Solution:
     def subarraysDivByK(self, nums: List[int], k: int) -> int:
-        n = len(nums)
-        prefixMod, result = 0, 0
-        
-        modGroups = [0] * k
-        modGroups[0] = 1
+        counts = Counter()
+        running_sum, res = 0, 0
         
         for num in nums:
-            prefixMod = (prefixMod + num % k + k) % k
-            result += modGroups[prefixMod]
-            modGroups[prefixMod] += 1
-        
-        return result
-        
+            running_sum += num
+            if running_sum % k == 0:
+                res += 1
+            res += counts[running_sum % k]
+            counts[running_sum % k] += 1
+        return res
