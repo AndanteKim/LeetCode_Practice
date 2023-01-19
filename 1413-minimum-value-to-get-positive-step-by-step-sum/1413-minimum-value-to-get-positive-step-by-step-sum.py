@@ -1,12 +1,9 @@
 class Solution:
     def minStartValue(self, nums: List[int]) -> int:
-        n, m = len(nums), 100
+        start_value = 1
         
-        left, right = 1, m*n+1
-        
-        while left < right:
-            mid = (left + right) >> 1
-            total = mid
+        while True:
+            total = start_value
             is_valid = True
             
             for num in nums:
@@ -17,7 +14,6 @@ class Solution:
                     break
             
             if is_valid:
-                right = mid
+                return start_value
             else:
-                left = mid + 1
-        return left
+                start_value += 1
