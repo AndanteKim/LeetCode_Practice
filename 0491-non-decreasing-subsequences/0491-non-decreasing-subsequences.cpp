@@ -1,26 +1,26 @@
 class Solution {
 public:
     vector<vector<int>> findSubsequences(vector<int>& nums) {
+        int n = nums.size();
         set<vector<int>> result;
-        vector<int> sequence;
-        function<void(int)> backtrack;
-        backtrack = [&nums, &sequence, &result, &backtrack](int index) -> void{
-            if (index == nums.size()){
-                if (sequence.size() >= 2)
-                result.insert(sequence);
-                return;
-            } 
-            
-            if (sequence.empty() || sequence.back() <= nums[index]){
-                sequence.push_back(nums[index]);
-                backtrack(index + 1);
-                sequence.pop_back();
+        for (int bitmask = 1; bitmask < (1 << n); ++bitmask){
+            vector<int> sequence;
+            for (int i = 0; i < n; ++i){
+                if(((bitmask >> i) & 1) == 1){
+                    sequence.push_back(nums[i]);
+                }
             }
             
-            backtrack(index + 1);
-        };
+            if (sequence.size() >= 2){
+                bool isIncreasing = true;
+                for (int i = 0; i < sequence.size() - 1; ++i){
+                    isIncreasing &= sequence[i] <= sequence[i+1];
+                }
+                
+                if (isIncreasing) result.insert(sequence);
+            }
+        }
         
-        backtrack(0);
         return vector(result.begin(), result.end());
     }
 };
