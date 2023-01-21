@@ -1,17 +1,18 @@
 class Solution {
 public:
     string reverseOnlyLetters(string s) {
-        vector<char> letters;
-        string ans;
-        for (const char& c:s) if (isalpha(c))
-            letters.push_back(c);
-        for (const char& c:s){
-            if (isalpha(c)){
-                ans += letters.back();
-                letters.pop_back();
+        int left = 0, right = s.size() - 1;
+        
+        while (left < right){
+            if (isalpha(s[left]) && isalpha(s[right])){
+                swap(s[left], s[right]);
+                ++left;
+                --right;
             }
-            else ans += c;
+            else if (!isalpha(s[left])) ++left;
+            else if (!isalpha(s[right])) --right;
         }
-        return ans;
+        
+        return s;
     }
 };
