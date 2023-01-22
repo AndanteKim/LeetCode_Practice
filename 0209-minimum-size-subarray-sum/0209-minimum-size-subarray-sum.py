@@ -1,15 +1,14 @@
 class Solution:
     def minSubArrayLen(self, target: int, nums: List[int]) -> int:
-        if sum(nums) < target: return 0
-        
-        ans, left, n = float("inf"), 0, len(nums)
-        prefix_sum = [0] * (n+1)
-        
+        n = len(nums)
+        if n == 0: return 0
+        ans, prefix_sum = 2**31 - 1, [0] * (n+1)
         for i in range(1, n+1):
             prefix_sum[i] = prefix_sum[i-1] + nums[i-1]
-        
-        for right in range(1,n+1):
-            while prefix_sum[right] - prefix_sum[left] >= target:
-                left += 1
-                ans = min(ans, right - left + 1)
-        return ans
+        for i in range(1, n+1):
+            to_find = target + prefix_sum[i-1]
+            bound = bisect.bisect_left(prefix_sum, to_find)
+            if bound != len(prefix_sum):
+                ans = min(ans, bound - i + 1)
+                    
+        return ans if ans != 2**31-1 else 0
