@@ -1,28 +1,20 @@
-#define ll long long
-
 class Solution {
-    vector<int> valid{0,1,6,8,9};
-    unordered_map<int, int> lookup{{0,0},{1,1},{6,9},{8,8},{9,6}};
-    ll n;
-public:
-    void backtrack(ll v, ll rotation, ll digits, ll &count){
-        if (v != 0){
-            if (v != rotation) ++count;
-            
-            for (const auto &i:valid){
-                if (v * 10 + i > this -> n) break;
-                else backtrack(v * 10 + i, lookup[i] * digits + rotation, digits * 10, count);
-            }
+    vector<pair<int,int>> pairs{{0,0}, {1,1}, {6,9}, {8,8}, {9,6}};
+    int dfs(long num, long rot, long p, int n){
+        int cnt = 0;
+        if (num != rot) ++cnt;
+        for (auto [x,y] : pairs){
+            if (num == 0 && x == 0) continue;
+            if (num * 10 + x > n) break;
+            cnt += dfs(num * 10 + x, y * p + rot, p * 10, n);
         }
+        
+        return cnt;
     }
     
+public:
+    
     int confusingNumberII(int n) {
-        this -> n = n;
-        ll count = 0;
-        backtrack(1, 1, 10, count);
-        backtrack(6, 9, 10, count);
-        backtrack(8, 8, 10, count);
-        backtrack(9, 6, 10, count);
-        return count;
+        return dfs(0, 0, 1, n);
     }
 };
