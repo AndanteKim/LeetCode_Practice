@@ -1,26 +1,19 @@
 class Solution {
 public:
     int findJudge(int n, vector<vector<int>>& trust) {
-        if (trust.size() == 0 && n == 1) return n;
+        if (trust.size() < n - 1) return -1;
+        int indegree[1001] = {0};
+        int outdegree[1001] = {0};
         
-        unordered_map<int, set<int>> trust_give;
-        unordered_map<int, set<int>> trust_receive;
-        int ans = -1;
-        for (const auto &t:trust){
-            trust_give[t[0]].insert(t[1]);
-            trust_receive[t[1]].insert(t[0]);
+        
+        for (const auto &t : trust){
+            ++outdegree[t[0]];
+            ++indegree[t[1]];
         }
         
-        vector<int> candidates;
-        
-        for (const auto m: trust_receive){
-            if (m.second.size() == n - 1) candidates.push_back(m.first);
+        for (int i = 1; i <= n; ++i){
+            if (indegree[i] == n - 1 && outdegree[i] == 0) return i;
         }
-        
-        for (const auto candidate: candidates){
-            if (trust_give[candidate].empty()) ans = candidate;
-        }
-        
-        return ans;
+        return -1;
     }
 };
