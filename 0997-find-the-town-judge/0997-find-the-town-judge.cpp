@@ -2,8 +2,9 @@ class Solution {
 public:
     int findJudge(int n, vector<vector<int>>& trust) {
         if (trust.size() < n - 1) return -1;
-        int indegree[1001] = {0};
-        int outdegree[1001] = {0};
+        int indegree[n+1], outdegree[n+1];
+        fill_n(indegree, n+1, 0);
+        fill_n(outdegree, n+1, 0);
         
         
         for (const auto &t : trust){
