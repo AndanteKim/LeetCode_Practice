@@ -1,5 +1,20 @@
 class Solution:
     def wordPattern(self, pattern: str, s: str) -> bool:
-        s = s.split()
+        map_char, map_word = dict(), dict()
         
-        return len(s) == len(pattern) and len(set(s)) == len(set(pattern)) == len(set(zip(s, pattern)))
+        words = s.split(' ')
+        if len(words) != len(pattern):
+            return False
+        
+        for c, w in zip(pattern, words):
+            if c not in map_char:
+                if w in map_word:
+                    return False
+                else:
+                    map_char[c] = w
+                    map_word[w] = c
+            else:
+                if map_char[c] != w:
+                    return False
+                
+        return True
