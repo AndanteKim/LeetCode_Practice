@@ -1,25 +1,23 @@
 class Solution:
     
     def confusingNumberII(self, n: int) -> int:
-        valid = [0,1,6,8,9]
         lookup = {0:0, 1:1, 6:9, 8:8, 9:6}
         
         self.count = 0
-
-        def backtrack(v: int, rotation: int, digits: int) -> None:
-            if v:
-                if v != rotation:
-                    self.count += 1
+        
+        def dfs(num: int, numRotated: int, unit: int) -> None:
             
-            for i in valid:
-                if v * 10 + i > n:
+            if num != numRotated:
+                self.count += 1
+            
+            for d, dRotate in lookup.items():
+                if d == 0 and num == 0:
+                    continue
+                if num * 10 + d > n:
                     break
-                else:
-                    backtrack(v * 10 + i, lookup[i] * digits + rotation, digits * 10)
-        backtrack(1, 1, 10)
-        backtrack(6, 9, 10)
-        backtrack(8, 8, 10)
-        backtrack(9, 6, 10)
+                dfs(num * 10 + d, dRotate * unit + numRotated, unit * 10)
+        
+        dfs(0, 0, 1)
         
         return self.count
         
