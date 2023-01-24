@@ -4,22 +4,24 @@ class Solution:
         cells = [None] * (n ** 2 + 1)
         label = 1
         columns = list(range(0, n))
-        for row in range(n - 1, -1, -1):
+        for row in range(n-1, -1, -1):
             for col in columns:
                 cells[label] = (row, col)
                 label += 1
             columns.reverse()
         dist = [-1] * (n * n + 1)
-        
-        q, dist[1] = deque([1]), 0
+        dist[1] = 0
+        q = [(0, 1)]
         
         while q:
-            curr = q.popleft()
-            for next_dice in range(curr + 1, min(curr + 6, n ** 2) + 1):
-                row, col = cells[next_dice]
-                destination = (board[row][col] if board[row][col] != -1 else next_dice)
+            d, curr = heapq.heappop(q)
+            if d != dist[curr]:
+                continue
+            for next_d in range(curr + 1, min(curr + 6, n ** 2) + 1):
+                row, col = cells[next_d]
+                destination = (board[row][col] if board[row][col] != -1 else next_d)
                 
-                if dist[destination] == -1:
+                if dist[destination] == -1 or dist[curr] + 1 < dist[destination]:
                     dist[destination] = dist[curr] + 1
-                    q.append(destination)
+                    heapq.heappush(q, (dist[destination], destination))
         return dist[n * n]
