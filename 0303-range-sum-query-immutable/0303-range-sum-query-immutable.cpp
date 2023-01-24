@@ -1,14 +1,13 @@
 class NumArray {
-private:
-    vector<int> prefix_sum{0};
-    int partial_total = 0;
+    vector<int> prefix_sum;
 public:
     NumArray(vector<int>& nums) {
-        for (const auto &num : nums){
-            partial_total += num;
-            prefix_sum.push_back(partial_total);
-        }
+        int n = nums.size();
+        prefix_sum.resize(n+1, 0);
         
+        for (int i = 1; i <= n; ++i){
+            prefix_sum[i] = prefix_sum[i-1] + nums[i-1];
+        }
     }
     
     int sumRange(int left, int right) {
