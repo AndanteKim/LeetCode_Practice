@@ -1,29 +1,31 @@
 class Solution:
+    def check(self, pref: List[int], maxCost: int, mid: int) -> int:
+        l, r = 0, mid
+        flag = False
+        while r < len(pref):
+            total = pref[r] - pref[l]
+            if total <= maxCost:
+                flag = True
+                break
+            l += 1
+            r += 1
+        return flag
+    
+    
     def equalSubstring(self, s: str, t: str, maxCost: int) -> int:
-        
-        left, max_len, curr, changed = 0, 0, 0, 0
-        
-        for right in range(len(s)):
-            right_cost = abs(ord(s[right]) - ord(t[right]))
-            
-            if curr + right_cost <= maxCost:
-                curr += right_cost
-                changed += 1
+        n = len(s)
+        pref = [0] * (n+1)
+        for i in range(1, n+1):
+            pref[i] = pref[i-1] + abs(ord(s[i-1]) - ord(t[i-1]))
+        l, h = 0, len(s) + 1
+        ans = 0
+        while (l <= h):
+            mid = l + ((h-l) >> 1)
+            if self.check(pref, maxCost, mid):
+                ans = mid
+                l = mid + 1
             else:
-                
-                while left < right:
-                    left_cost = abs(ord(s[left]) - ord(t[left]))
-                    if left_cost <= maxCost:
-                        curr -= left_cost
-                        changed -= 1
-                    left += 1
-                    if curr + right_cost <= maxCost:
-                        curr += right_cost
-                        changed += 1
-                        break
-            
-            max_len = max(max_len, changed)
-            
-            
+                h = mid - 1
         
-        return max_len
+        return ans
+                
