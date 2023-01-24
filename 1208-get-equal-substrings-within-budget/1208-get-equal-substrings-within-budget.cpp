@@ -1,32 +1,35 @@
 class Solution {
 public:
+    bool check(vector<int> &pref, int maxCost, int mid){
+        int l = 0, r = mid;
+        bool flag = false;
+        while (r < pref.size()){
+            int sum = pref[r] - pref[l];
+            if (sum <= maxCost) {
+                flag = true;
+                break;
+            }
+            ++l;
+            ++r;
+        }
+        return flag;
+    }
+    
     int equalSubstring(string s, string t, int maxCost) {
-        int left = 0, max_len = 0, curr = 0, changed = 0;
-        int right_cost, left_cost;
-        for (int right = 0; right < s.size(); ++right){
-            right_cost = abs((int)(s[right] - '0') - (int)(t[right] - '0'));
-            if (curr + right_cost <= maxCost){
-                curr += right_cost;
-                ++changed;
+        int n = s.size();
+        vector<int> pref(n+1, 0);
+        for (int i = 1; i < pref.size(); ++i)
+            pref[i] = pref[i-1] + abs((s[i-1] - 'a') - (t[i-1] - 'a'));
+        int l = 0, h = s.size()+1, ans = 0, mid;
+        while (l <= h){
+            mid = l + ((h - l) >> 1);
+            if (check(pref, maxCost, mid)){
+                ans = mid;
+                l = mid + 1;
             }
-            else{
-                while(left < right){
-                    left_cost = abs((int)(s[left] - '0') - (int)(t[left] - '0'));
-                    if (left_cost <= maxCost){
-                        curr -= left_cost;
-                        --changed;
-                    }
-                    ++left;
-                    if (curr + right_cost <= maxCost){
-                        curr += right_cost;
-                        ++changed;
-                        break;
-                    }
-                }
-            }
-            max_len = max(max_len, changed);
+            else h = mid - 1;
         }
         
-        return max_len;
+        return ans;
     }
 };
