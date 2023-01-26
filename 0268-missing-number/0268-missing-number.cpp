@@ -1,10 +1,10 @@
 class Solution {
 public:
     int missingNumber(vector<int>& nums) {
-        set<int> seen(nums.begin(), nums.end());
+        int missed = nums.size();
         
-        for (int i = 0; i <= nums.size(); ++i) if (seen.find(i) == seen.end()) return i;
+        for (int i = 0; i <nums.size();++i) missed ^= (i ^ nums[i]);
         
-        return -1;
+        return missed;
     }
 };
