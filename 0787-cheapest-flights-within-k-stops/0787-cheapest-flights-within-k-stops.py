@@ -1,13 +1,22 @@
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-        dist = [float('inf')] * n
-        dist[src] = 0
-        for i in range(k+1):
-            temp = deepcopy(dist)
-            for flight in flights:
-                if dist[flight[0]] != float('inf'):
-                    temp[flight[1]] = min(temp[flight[1]], dist[flight[0]] + flight[2])
-            
-            dist = temp
+        adj = defaultdict(list[list])
         
-        return -1 if dist[dst] == float('inf') else dist[dst]
+        for e in flights:
+            adj[e[0]].append([e[1], e[2]])
+            
+        stops = [float('inf')] * n
+        pq = [(0, src, 0)]
+        
+        while pq:
+            temp = heapq.heappop(pq)
+            dist, node, steps = temp[0], temp[1], temp[2]
+            
+            if steps > stops[node] or steps > k + 1: continue
+            
+            stops[node] = steps
+            if node == dst: return dist
+            
+            for neighbor, price in adj[node]:
+                heapq.heappush(pq, (dist + price, neighbor, steps + 1))
+        return -1
