@@ -1,22 +1,41 @@
-class Solution:
-    def dfs(self, word: str, length: int, visited: List[bool], dictionary: Set[str]) -> bool:
-        if length == len(word):
-            return True
-        if visited[length]:
-            return False
-        visited[length] = True
-        start = 1 if length == 0 else 0
-        for i in range(len(word) - start, length, -1):
-            if word[length:i] in dictionary and self.dfs(word, i, visited, dictionary):
-                return True
-        return False
-    
-    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+class TrieNode:
+    def __init__(self):
+        self.isWord = False
+        self.children = defaultdict(TrieNode)
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
         
-        dictionary = {word for word in words}
-        ans = []
-        for word in words:
-            visited = [False] * len(word)
-            if (self.dfs(word, 0, visited, dictionary)):
-                ans.append(word)
-        return ans
+    def insert(self, word):
+        node = self.root
+        for i, c in enumerate(word):
+            node = node.children[c]
+            if node.isWord:
+                if self.exists(word[i+1:]):
+                    return False
+                else:
+                    continue
+        node.isWord = True
+        return True
+    
+    
+    def exists(self, word):
+        node = self.root
+        for i, c in enumerate(word):
+            if c in node.children:
+                node = node.children[c]
+                if node.isWord:
+                    if i == len(word) - 1 or self.exists(word[i+1:]):
+                        return True
+                    else:
+                        continue
+            else:
+                return False
+                
+        
+class Solution:
+    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:
+        trie = Trie()
+        
+        return [word for word in sorted(words, key = len) if not trie.insert(word)]
