@@ -1,9 +1,13 @@
 class Solution:
     def intersection(self, nums: List[List[int]]) -> List[int]:
+        counts = defaultdict(int)
+        for arr in nums:
+            for x in arr:
+                counts[x] += 1
         
-        curr_set = set(nums[0])
-        for num in nums:
-            curr_set = curr_set.intersection(set(num))
-            
-        
-        return sorted(list(curr_set))
+        n = len(nums)
+        ans = []
+        for key in counts:
+            if counts[key] == n:
+                ans.append(key)
+        return sorted(ans)
