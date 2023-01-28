@@ -1,12 +1,16 @@
 class Solution:
-    def numberOfSubarrays(self, nums: List[int], k: int) -> int:
-        counts = defaultdict(int)
-        counts[0] = 1
-        ans = curr = 0
+    def atMost(self, k: int) -> int:
+        ans = left = 0
         
-        for num in nums:
-            curr += num % 2
-            ans += counts[curr - k]
-            counts[curr] += 1
-        
+        for right in range(len(self.nums)):
+            k -= self.nums[right] % 2
+            while k < 0:
+                k += self.nums[left] % 2
+                left += 1
+            ans += right - left + 1
         return ans
+    
+    def numberOfSubarrays(self, nums: List[int], k: int) -> int:
+        self.nums = nums
+        
+        return self.atMost(k) - self.atMost(k-1)
