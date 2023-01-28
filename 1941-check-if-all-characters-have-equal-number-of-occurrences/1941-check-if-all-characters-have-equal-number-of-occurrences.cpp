@@ -2,15 +2,11 @@ class Solution {
 public:
     bool areOccurrencesEqual(string s) {
         unordered_map<char, int> lookup;
+        set<int> values;
         for (const auto& c: s) ++lookup[c];
-        int prev = -1;
         for (const auto &[key, val] : lookup){
-            if (prev == -1) {
-                prev = val;
-                continue;
-            }
-            if (prev != val) return false;
+            values.insert(val);
         }
-        return true;
+        return values.size() == 1 ? true:false;
     }
 };
