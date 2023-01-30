@@ -1,21 +1,15 @@
 class Solution {
 public:
     vector<vector<string>> groupAnagrams(vector<string>& strs) {
-        map<vector<int>, vector<string>> group_list;
-        vector<int> curr_chars;
-        vector<vector<string>> answer;
-        for (const string& str: strs){
-            curr_chars.assign(26, 0);
-            for (const char& c : str){
-                ++curr_chars[c - 'a'];
-            }
-            group_list[curr_chars].push_back(str);
-            
+        unordered_map<string, vector<string>> groups;
+        for (const string& s: strs){
+            string key = s;
+            sort(key.begin(), key.end());
+            groups[key].push_back(s);
         }
         
-        for (const auto&[key, value] : group_list){
-            answer.push_back(value);
-        }
-        return answer;
+        vector<vector<string>> ans;
+        for (const auto&[key, value] : groups) ans.push_back(value);    
+        return ans;
     }
 };
