@@ -1,21 +1,32 @@
 class Solution:
-    def findMaxScore(self, ageScorePair: List[List[int]]) -> int:
-        n, answer = len(ageScorePair), 0
-        dp = [0] * n
+    def queryBIT(self, BIT: List[int], age: int) -> int:
+        maxScore = float('-inf')
+        i = age
+        while i > 0:
+            maxScore = max(maxScore, BIT[i])
+            i -= i & (-i)
+        return maxScore
+    
+    def updateBIT(self, BIT: List[int], age: int, currentBest: int) -> None:
+        i = age
+        while i < len(BIT):
+            BIT[i] = max(BIT[i], currentBest)
+            i += i & (-i)
         
-        for i in range(n):
-            dp[i] = ageScorePair[i][1]
-            answer= max(answer, dp[i])
-        
-        for i in range(n):
-            for j in range(i-1, -1, -1):
-                if ageScorePair[i][1] >= ageScorePair[j][1]:
-                    dp[i] = max(dp[i], ageScorePair[i][1] + dp[j])
-            answer = max(answer, dp[i])
-        return answer
     
     def bestTeamScore(self, scores: List[int], ages: List[int]) -> int:
-        ageScorePair = [[age, score] for age, score in zip(ages, scores)]
-        
+        ageScorePair = [[score, age] for score, age in zip(scores, ages)]
         ageScorePair.sort()
-        return self.findMaxScore(ageScorePair)
+        
+        highestAge = 0
+        for age in ages:
+            highestAge = max(highestAge, age)
+            
+        BIT = [0] * (highestAge + 1)
+        answer = float('-inf')
+        for ageScore in ageScorePair:
+            currentBest = ageScore[0] + self.queryBIT(BIT, ageScore[1])
+            self.updateBIT(BIT, ageScore[1], currentBest)
+            answer = max(answer, currentBest)
+        
+        return answer
