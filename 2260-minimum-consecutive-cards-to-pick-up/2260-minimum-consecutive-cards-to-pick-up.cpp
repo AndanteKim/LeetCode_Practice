@@ -1,14 +1,14 @@
 class Solution {
 public:
     int minimumCardPickup(vector<int>& cards) {
-        unordered_map<int, vector<int>> dictionary;
+        unordered_map<int, int> dictionary;
         int answer = INT_MAX;
-        for (int i = 0; i < cards.size(); ++i) dictionary[cards[i]].push_back(i);
-        
-        for (const auto& [key, value] : dictionary){
-            vector<int> arr = value;
-            for (int i = 0; i < arr.size()-1; ++i) answer = min(answer, arr[i+1] - arr[i] + 1);
-        }
+        for (int i = 0; i < cards.size(); ++i){
+            if (dictionary.find(cards[i]) != dictionary.end()){
+                answer = min(answer, i - dictionary[cards[i]] + 1);
+            }
+            dictionary[cards[i]] = i;
+        } 
         return answer == INT_MAX? -1: answer;
     }
 };
