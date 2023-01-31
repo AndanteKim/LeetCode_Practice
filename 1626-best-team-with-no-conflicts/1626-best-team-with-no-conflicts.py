@@ -1,22 +1,21 @@
 class Solution:
-    def findMaxScore(self, dp: List[List[int]], ageScorePair: List[List[int]], prev: int, index: int):
-        if index >= len(ageScorePair): return 0
+    def findMaxScore(self, ageScorePair: List[List[int]]) -> int:
+        n, answer = len(ageScorePair), 0
+        dp = [0] * n
         
-        if dp[prev + 1][index] != -1:
-            return dp[prev + 1][index]
+        for i in range(n):
+            dp[i] = ageScorePair[i][1]
+            answer= max(answer, dp[i])
         
-        if (prev == -1 or ageScorePair[index][1] >= ageScorePair[prev][1]):
-            dp[prev+1][index] = max(self.findMaxScore(dp, ageScorePair, prev, index + 1), ageScorePair[index][1] + self.findMaxScore(dp, ageScorePair, index, index + 1))
-            return dp[prev+1][index]
-        
-        dp[prev + 1][index] = self.findMaxScore(dp, ageScorePair, prev, index + 1)
-        return dp[prev + 1][index]
+        for i in range(n):
+            for j in range(i-1, -1, -1):
+                if ageScorePair[i][1] >= ageScorePair[j][1]:
+                    dp[i] = max(dp[i], ageScorePair[i][1] + dp[j])
+            answer = max(answer, dp[i])
+        return answer
     
     def bestTeamScore(self, scores: List[int], ages: List[int]) -> int:
-        ageScorePair = [[age, score] for score, age in zip(scores, ages)]
+        ageScorePair = [[age, score] for age, score in zip(ages, scores)]
         
         ageScorePair.sort()
-        
-        dp = [[-1] * len(scores) for _ in range(len(scores))]
-        return self.findMaxScore(dp, ageScorePair, -1, 0)
-        
+        return self.findMaxScore(ageScorePair)
