@@ -1,17 +1,18 @@
 class Solution {
 public:
     int equalPairs(vector<vector<int>>& grid) {
-        vector<vector<int>> columns(grid.size(), vector<int>(grid[0].size(), 0));
-        for (int i = 0; i < grid.size(); ++i)
-            for (int j = 0; j < grid[0].size(); ++j)
-                columns[i][j] = grid[j][i];
-        int answer = 0;
-        map<vector<int>, int> look_up_r, look_up_c;
-        for (int i = 0; i < grid.size(); ++i) ++look_up_r[grid[i]];
-        for (int i = 0; i < columns.size(); ++i) ++look_up_c[columns[i]];
-        for (const auto &[key, value] : look_up_r){
-            answer += look_up_r[key] * look_up_c[key];
+        map<vector<int>, int> dic, dic2;
+        vector<vector<int>> cols(grid[0].size(), vector<int>(grid.size(), 0));
+        
+        for (const vector<int>& row : grid) ++dic[row];
+        for (int i = 0; i < grid.size(); ++i){
+            for (int j = 0; j < grid[0].size(); ++j){
+                cols[i][j] = grid[j][i];
+            }
+            ++dic2[cols[i]];
         }
-        return answer;
+        int ans = 0;
+        for (const auto& [key, value] : dic) ans += dic[key] * dic2[key];
+        return ans;
     }
 };
