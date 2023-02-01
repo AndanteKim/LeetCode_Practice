@@ -1,16 +1,19 @@
 class Solution:
-    def maximumSum(self, nums: List[int]) -> int:
-        digit_sum_lookup, max_val = defaultdict(list), float('-inf')
-        for num in nums:
-            n, digit_sum = num, 0
-            while n != 0:
-                digit_sum += n % 10
-                n //= 10
-            digit_sum_lookup[digit_sum].append(num)
-            
-        for key, value in digit_sum_lookup.items():
-            if len(value) >= 2:
-                value.sort(reverse = True)
-                max_val = max(max_val, value[0] + value[1])
+    def get_digit_sum(self, num: int) -> int:
+        digit_sum = 0
+        while num:
+            digit_sum += num % 10
+            num //= 10
         
-        return -1 if max_val == float('-inf') else max_val
+        return digit_sum
+    
+    def maximumSum(self, nums: List[int]) -> int:
+        dic = defaultdict(int)
+        ans = -1
+        for num in nums:
+            digit_sum = self.get_digit_sum(num)
+            if digit_sum in dic:
+                ans = max(ans, num + dic[digit_sum])
+            dic[digit_sum] = max(dic[digit_sum], num)
+        
+        return ans
