@@ -1,12 +1,14 @@
 class Solution:
+    def gcd(self, a: int, b: int) -> int:
+        if a % b == 0:
+            return b
+        else:
+            return self.gcd(b, a % b)
+    
     def gcdOfStrings(self, str1: str, str2: str) -> str:
-        m, n = len(str1), len(str2)
+        if str1 + str2 != str2 + str1:
+            return ""
         
-        prefix_candidates = list()
-        for i in range(1, n+1):
-            prefix = str2[:i]
-            if prefix * (m // i) == str1 and prefix * (n // i) == str2:
-                prefix_candidates.append(prefix)
-        
-        return prefix_candidates[-1] if prefix_candidates else ""
+        max_length = self.gcd(len(str1), len(str2))
+        return str1[:max_length]
         
