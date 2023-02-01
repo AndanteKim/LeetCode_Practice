@@ -12,6 +12,5 @@ class Solution:
             if len(value) >= 2:
                 value.sort(reverse = True)
                 max_val = max(max_val, value[0] + value[1])
-        print(digit_sum_lookup)
         
         return -1 if max_val == float('-inf') else max_val
