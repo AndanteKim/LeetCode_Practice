@@ -1,18 +1,26 @@
 class Solution {
 public:
+     bool valid(string str1, string str2, int k){
+        int len1 = str1.size(), len2 = str2.size();
+        if (len1 % k > 0 || len2 % k > 0) return false;
+        else{
+            string base = str1.substr(0, k);
+            int n1 = len1 / k, n2 = len2 / k;
+            return str1 == joinWords(base, n1) && str2 == joinWords(base, n2);
+        }
+    }
+    
+    string joinWords(string str, int k){
+        string ans = "";
+        for (int i = 0; i < k; ++i) ans += str;
+        return ans;
+    }
+    
     string gcdOfStrings(string str1, string str2) {
         int m = str1.size(), n = str2.size();
-        vector<string> prefix_candidates;
-        for (int i = 1; i <= n; ++i){
-            string prefix = str2.substr(0, i);
-            
-            string s1 = prefix, s2 = prefix;
-            for (int j = 1; j < m / i; ++j) s1 += prefix;
-            for (int j = 1; j < n / i; ++j) s2 += prefix;
-            
-            if (s1 == str1 && s2 == str2) prefix_candidates.push_back(prefix);
+        for (int i = min(m, n); i >= 1; --i){
+            if (valid(str1, str2, i)) return str1.substr(0, i);
         }
-        
-        return prefix_candidates.empty()? "" : prefix_candidates.back();
+        return "";
     }
 };
