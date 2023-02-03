@@ -5,7 +5,7 @@ public:
         int n = s.size(), sections = ceil(n / (double)(2 * numRows - 2));
         int num_cols = sections * (numRows - 1);
         
-        vector<vector<string>> matrix(numRows, vector<string>(num_cols, " "));
+        vector<vector<char>> matrix(numRows, vector<char>(num_cols, ' '));
         int curr_row = 0, curr_col = 0, curr_string_index = 0;
         
         while (curr_string_index < n){
@@ -29,10 +29,9 @@ public:
         
         string answer = "";
         
-        for (const vector<string>& row : matrix){
-            for (const string& elem : row) {
-                if (elem == " ") continue;
-                answer += elem;
+        for (const vector<char>& row : matrix){
+            for (const char& elem : row) {
+                if (elem != ' ') answer += elem;
             }
         }
         
