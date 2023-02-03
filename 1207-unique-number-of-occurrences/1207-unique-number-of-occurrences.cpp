@@ -1,11 +1,16 @@
 class Solution {
 public:
+    // constant to make elements non-negative
+    static constexpr int k = 1000;
     bool uniqueOccurrences(vector<int>& arr) {
-        unordered_map<int, int> frequency;
-        vector<int> values_list;
-        for (const int& num : arr) ++frequency[num];
-        for (const auto&[key, value] : frequency) values_list.push_back(value);
-        set<int> unique_val(values_list.begin(), values_list.end());
-        return values_list.size() == unique_val.size()? true : false;
+        vector<int> freq(2* k + 1);
+        
+        for (int &num : arr) ++freq[num + k];
+        
+        sort(freq.begin(), freq.end());
+        
+        for (int i = 0; i < 2 * k; ++i) if (freq[i] && freq[i] == freq[i+1]) return false;
+        
+        return true;
     }
 };
