@@ -1,40 +1,22 @@
-class Solution {
-public:
-    string convert(string s, int numRows) {
-        if (numRows == 1) return s;
-        int n = s.size(), sections = ceil(n / (double)(2 * numRows - 2));
-        int num_cols = sections * (numRows - 1);
+class Solution:
+    def convert(self, s: str, numRows: int) -> str:
+        if numRows == 1: return s
         
-        vector<vector<char>> matrix(numRows, vector<char>(num_cols, ' '));
-        int curr_row = 0, curr_col = 0, curr_string_index = 0;
+        answer, n, chars_in_section = [], len(s), 2 * (numRows - 1)
         
-        while (curr_string_index < n){
-            // move down
-            while (curr_row < numRows && curr_string_index < n){
-                matrix[curr_row][curr_col] = s[curr_string_index];
-                ++curr_row; ++curr_string_index;
-            }        
-            
-            curr_row -= 2;
-            ++curr_col;
-            
-            // move up
-            while (curr_row > 0 && curr_col < num_cols && curr_string_index < n){
-                matrix[curr_row][curr_col] = s[curr_string_index];
-                --curr_row;
-                ++curr_string_index;
-                ++curr_col;
-            }
-        }
-        
-        string answer = "";
-        
-        for (const vector<char>& row : matrix){
-            for (const char& elem : row) {
-                if (elem != ' ') answer += elem;
-            }
-        }
-        
-        return answer;
-    }
-};
+        for curr_row in range(numRows):
+            index = curr_row
+            while index < n:
+                answer.append(s[index]);
+                
+                
+                if curr_row != 0 and curr_row != numRows - 1:
+                    chars_in_between = chars_in_section - 2 * curr_row
+                    second_index = index + chars_in_between
+                    
+                    if second_index < n:
+                        answer.append(s[second_index])
+                    
+                index += chars_in_section
+                    
+        return "".join(answer)
