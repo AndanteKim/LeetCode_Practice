@@ -1,24 +1,21 @@
 class Solution {
-    
-    
 public:
-    static bool sortByVal(pair<char, int> &a, pair<char, int> &b){
-        return a.second > b.second;
-    }
     string frequencySort(string s) {
-        map<char, int> dict_s;
-        string answer = "";
+        vector<vector<char>> bucket(s.size() + 1);
+        unordered_map<char, int> m;
+        string ans;
         
-        for (const char& c : s) ++dict_s[c];
+        for (const char &c : s) ++m[c];
         
-        vector<pair<char, int>> vec;
-        map<char, int>::iterator it;
-        for (it = dict_s.begin(); it != dict_s.end(); ++it)
-            vec.push_back(make_pair(it -> first, it -> second));
-        sort(vec.begin(), vec.end(), sortByVal);
-        for (int i = 0; i < vec.size(); ++i)
-            for (int j = 0; j < vec[i].second; ++j) answer += vec[i].first;
+        for (const auto&[key, value] : m){
+            bucket[value].push_back(key);
+        }
         
-        return answer;
+        for (int i = bucket.size() - 1; i > 0; --i){
+            for (int j = 0 ; j < bucket[i].size(); ++j){
+                for (int count = i; count > 0; --count) ans += bucket[i][j];
+            }
+        }
+        return ans;
     }
 };
