@@ -1,12 +1,18 @@
 class Solution:
     def frequencySort(self, s: str) -> str:
-        dict_s = defaultdict(int)
-        for c in s:
-            dict_s[c] += 1
+        if not s:
+            return s
         
-        sort_dict = sorted(dict_s, key = dict_s.get, reverse= True)
-        answer = ""
-        for key in sort_dict:
-            answer += key * dict_s[key]
-            
-        return answer
+        s = list(s)
+        s.sort()
+        all_strings = []
+        cur_sb = [s[0]]
+        for c in s[1:]:
+            if cur_sb[-1] != c:
+                all_strings.append("".join(cur_sb))
+                cur_sb = []
+            cur_sb.append(c)
+        all_strings.append("".join(cur_sb))
+        
+        all_strings.sort(key = lambda string: len(string), reverse = True)
+        return "".join(all_strings)
