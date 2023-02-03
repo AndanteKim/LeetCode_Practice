@@ -3,16 +3,15 @@ class Solution:
         if not s:
             return s
         
-        s = list(s)
-        s.sort()
-        all_strings = []
-        cur_sb = [s[0]]
-        for c in s[1:]:
-            if cur_sb[-1] != c:
-                all_strings.append("".join(cur_sb))
-                cur_sb = []
-            cur_sb.append(c)
-        all_strings.append("".join(cur_sb))
+        counts = Counter(s)
+        max_freq = max(counts.values())
         
-        all_strings.sort(key = lambda string: len(string), reverse = True)
-        return "".join(all_strings)
+        buckets = [[] for _ in range(max_freq + 1)]
+        for c, i in counts.items():
+            buckets[i].append(c)
+        
+        string_builder = []
+        for i in range(len(buckets)-1, 0, -1):
+            for c in buckets[i]:
+                string_builder.append(c*i)
+        return "".join(string_builder)
