@@ -1,8 +1,4 @@
 class Solution {
-    bool matches(vector<int> &s1, vector<int> &s2){
-        for (int i = 0; i < 26; ++i) if (s1[i] != s2[i]) return false;
-        return true;
-    }
     
 public:
     bool checkInclusion(string s1, string s2) {
@@ -16,12 +12,21 @@ public:
             ++dic_s2[s2[i] - 'a'];
         }
         
+        int cnt = 0;
+        for (int i = 0; i < 26; ++i) if (dic_s1[i] == dic_s2[i]) ++cnt; 
+        
         for (int i = 0; i < l2 - l1; ++i){
-            if (matches(dic_s1, dic_s2)) return true;
-            ++dic_s2[s2[i+l1] - 'a'];
-            --dic_s2[s2[i] - 'a'];
+            int right = s2[i + l1] - 'a', left = s2[i] - 'a';
+            if (cnt == 26) return true;
+            ++dic_s2[right];
+            if (dic_s2[right] == dic_s1[right]) ++cnt;
+            else if (dic_s2[right] == dic_s1[right] + 1) --cnt;
+            
+            --dic_s2[left];
+            if (dic_s2[left] == dic_s1[left]) ++cnt;
+            else if (dic_s2[left] == dic_s1[left] - 1) --cnt;
         }
         
-        return matches(dic_s1, dic_s2);
+        return cnt == 26;
     }
 };
