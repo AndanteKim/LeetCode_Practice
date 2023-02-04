@@ -1,17 +1,13 @@
 class Solution {
-    string transformString(string s){
-        unordered_map<char, int> index_mapping;
-        string decode = "";
-        for (int i = 0; i < s.size(); ++i){
-            if (index_mapping.find(s[i]) == index_mapping.end()) index_mapping[s[i]] = i;
-            decode += (char) (index_mapping[s[i]]);
-        }
-        
-        return decode;
-    }
-    
 public:
     bool isIsomorphic(string s, string t) {
-        return transformString(s) == transformString(t);
+        set<char> dic_s(s.begin(), s.end());
+        set<char> dic_t(t.begin(), t.end());
+        set<pair<char, char>> dic_s_t;
+        for (int i = 0; i < s.size(); ++i){
+            dic_s_t.insert(make_pair(s[i], t[i]));
+        }
+        
+        return dic_s.size() == dic_t.size() && dic_t.size() == dic_s_t.size()? true : false;
     }
 };
