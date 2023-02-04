@@ -1,16 +1,17 @@
 class Solution {
-public:
-    bool isIsomorphic(string s, string t) {
-        unordered_map<char, char> mapping_s_t, mapping_t_s;
-        
+    string transformString(string s){
+        unordered_map<char, int> index_mapping;
+        string decode = "";
         for (int i = 0; i < s.size(); ++i){
-            if (mapping_s_t.find(s[i]) == mapping_s_t.end() && mapping_t_s.find(t[i]) == mapping_t_s.end()) {
-                mapping_s_t[s[i]] = t[i];
-                mapping_t_s[t[i]] = s[i];
-            }
-            else if (mapping_s_t[s[i]] != t[i] || mapping_t_s[t[i]] != s[i]) return false;
+            if (index_mapping.find(s[i]) == index_mapping.end()) index_mapping[s[i]] = i;
+            decode += (char) (index_mapping[s[i]]);
         }
         
-        return true;
+        return decode;
+    }
+    
+public:
+    bool isIsomorphic(string s, string t) {
+        return transformString(s) == transformString(t);
     }
 };
