@@ -1,13 +1,19 @@
 class Solution:
     def checkInclusion(self, s1: str, s2: str) -> bool:
-        sort_s1 = [c for c in s1]
-        sort_s1.sort()
-        
-        sort_s2 = [c for c in s2]
-        
         l1, l2 = len(s1), len(s2)
-        for i in range(l2 - l1 + 1):
-            if sort_s1 == sorted(sort_s2[i:i+l1]):
-                return True
         
+        if l1 > l2: return False
+        
+        dic_s1 = defaultdict(int)
+        
+        for c in s1:
+            dic_s1[c] += 1
+        
+        for i in range(l2 - l1 + 1):
+            dic_s2 = defaultdict(int)
+            
+            for j in range(l1):
+                dic_s2[s2[i+j]] += 1
+            if dic_s1 == dic_s2:
+                return True
         return False
