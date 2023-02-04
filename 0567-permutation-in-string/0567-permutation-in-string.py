@@ -1,9 +1,4 @@
 class Solution:
-    def matches(self, s1: List[int], s2: List[int]) -> bool:
-        for i in range(26):
-            if s1[i] != s2[i]:
-                return False
-        return True
     
     def checkInclusion(self, s1: str, s2: str) -> bool:
         l1, l2 = len(s1), len(s2)
@@ -15,10 +10,23 @@ class Solution:
             dic_s1[ord(s1[i]) - ord('a')] += 1
             dic_s2[ord(s2[i]) - ord('a')] += 1
         
+        cnt = 0
+        for i in range(26):
+            if dic_s1[i] == dic_s2[i]:
+                cnt += 1
+                
         for i in range(l2 - l1):
-            if self.matches(dic_s1, dic_s2): return True
+            right, left = ord(s2[i + l1]) - ord('a'), ord(s2[i]) - ord('a')
             
-            dic_s2[ord(s2[i + l1]) - ord('a')] += 1
-            dic_s2[ord(s2[i]) - ord('a')] -= 1
+            if cnt == 26:
+                return True
+            
+            dic_s2[right] += 1
+            if (dic_s2[right] == dic_s1[right]): cnt += 1
+            elif (dic_s2[right] == dic_s1[right] + 1): cnt -= 1
+            
+            dic_s2[left] -= 1
+            if (dic_s2[left] == dic_s1[left]): cnt += 1
+            elif (dic_s2[left] == dic_s1[left] - 1): cnt -= 1
         
-        return self.matches(dic_s1, dic_s2)
+        return cnt == 26
