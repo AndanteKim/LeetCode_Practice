@@ -1,14 +1,25 @@
 class Solution {
 public:
     bool closeStrings(string word1, string word2) {
-        vector<int> chars_word1(26, 0), chars_word2(26, 0);
+        if (word1.size() != word2.size()) return false;
         
-        for (const char& c: word1) ++chars_word1[c - 'a'];
-        for (const char& c: word2) ++chars_word2[c - 'a'];
-        for (int i = 0; i < 26; ++i) if ((chars_word1[i] > 0 && chars_word2[i] == 0) || (chars_word1[i] == 0 && chars_word2[i] > 0)) return false;
-        sort(chars_word1.begin(), chars_word1.end());
-        sort(chars_word2.begin(), chars_word2.end());
+        vector<int> word1Map(26, 0), word2Map(26, 0);
+        int word1Bit = 0, word2Bit = 0;
+        for (const char &c : word1){
+            ++word1Map[c - 'a'];
+            word1Bit = word1Bit | (1 << (c - 'a'));
+        }
         
-        return chars_word1 == chars_word2;
+        for (const char &c : word2){
+            ++word2Map[c - 'a'];
+            word2Bit = word2Bit | (1 << (c - 'a'));
+        }
+        
+        if (word1Bit != word2Bit) return false;
+        sort(word1Map.begin(), word1Map.end());
+        sort(word2Map.begin(), word2Map.end());
+        
+        for (int i = 0; i < 26; ++i) if (word1Map[i] != word2Map[i]) return false;
+        return true;
     }
 };
