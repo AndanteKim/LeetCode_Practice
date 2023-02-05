@@ -1,4 +1,7 @@
 class Solution:
     def customSortString(self, order: str, s: str) -> str:
-        d = {k : i for i, k in enumerate(order)}
-        return ''.join(sorted(s, key = lambda x: d.get(x, len(s) + ord(x))))
+        d = defaultdict(lambda: len(order))
+        
+        for i, o in enumerate(order):
+            d[o] = i
+        return ''.join(sorted(s, key = lambda x: d[x]))
