@@ -1,10 +1,16 @@
 class Solution:
     def shuffle(self, nums: List[int], n: int) -> List[int]:
-        x_sec, y_sec = len(nums) // 2, len(nums)
-        ans = []
-        for i in range(x_sec):
-            x_n = nums[i]
-            y_n = nums[x_sec + i]
-            ans.extend([x_n, y_n])
+        
+        for i in range(n, 2*n):
+            secondNum = nums[i] << 10
+            nums[i - n] |= secondNum
             
-        return ans
+        allOnes = int(pow(2, 10)) - 1
+        
+        for i in range(n - 1, -1, -1):
+            secondNum = nums[i] >> 10
+            firstNum = nums[i] & allOnes
+            
+            nums[2 * i + 1] = secondNum
+            nums[2 * i] = firstNum
+        return nums
