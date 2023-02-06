@@ -1,14 +1,22 @@
 class Solution {
 public:
     vector<int> shuffle(vector<int>& nums, int n) {
-        int x_sec = nums.size() / 2, y_sec = nums.size();
-        vector<int> ans;
-        
-        for (int i = 0; i < x_sec; ++i){
-            int x_n = nums[i];
-            int y_n = nums[i + x_sec];
-            ans.insert(ans.end(), {x_n, y_n});
+        int firstNum, secondNum;
+        for (int i = n ; i < 2 * n; ++i){
+            secondNum = nums[i] << 10;
+            nums[i - n] |= secondNum;
         }
-        return ans;
+        
+        int allOnes = int(pow(2, 10)) - 1;
+        
+        for (int i = n - 1; i >= 0; --i){
+            firstNum = nums[i] & allOnes;
+            secondNum = nums[i] >> 10;
+            
+            nums[2 * i] = firstNum;
+            nums[2 * i + 1] = secondNum;
+        }
+        
+        return nums;
     }
 };
