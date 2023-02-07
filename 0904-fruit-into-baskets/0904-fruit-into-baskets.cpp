@@ -14,9 +14,9 @@ public:
                 if (basket_2[fruits[left]] == 0) basket_2.erase(fruits[left]);
                 ++left;
             }
-            int sum = accumulate(basket_2.begin(), basket_2.end(), 0, [](const size_t previous, const pair<const size_t, size_t> &p) {return previous + p.second;});
             
-            quantity = max(quantity, sum);
+            
+            quantity = max(quantity, right - left + 1);
         }
         
         return quantity;
