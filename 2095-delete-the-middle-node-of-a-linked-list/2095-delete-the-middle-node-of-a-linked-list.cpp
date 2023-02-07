@@ -1,23 +1,35 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def deleteMiddle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        if not head or not head.next: return None
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* deleteMiddle(ListNode* head) {
+        if (head == nullptr || head -> next == nullptr) return nullptr;
+        int length = 0;
+        ListNode* curr = head;
+        while (curr != nullptr){
+            ++length;
+            curr = curr -> next;
+        }
         
-        length, curr = 0, head
+        int i = 0, middle = (length / 2) - 1;
+        curr = head;
+        while (i < length){
+            if (i == middle) {
+                curr -> next = curr -> next -> next;
+                break;
+            }
+            curr = curr -> next;
+            ++i;
+        }
         
-        while curr:
-            length += 1
-            curr = curr.next
-        curr, i, middle = head, 0, length // 2 - 1
-        while i < length:
-            if i == middle:
-                curr.next = curr.next.next
-                break
-            curr = curr.next
-            i += 1
-            
-        return head
+        return head;
+    }
+};
