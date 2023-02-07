@@ -5,31 +5,27 @@
 #         self.next = next
 class Solution:
     def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:
-        if not head:
-            return None
+        if not head: return None
         
-        left_head, right_head = head, head
-        stop = False
+        cur, prev = head, None
+        while left > 1:
+            prev = cur
+            cur = cur.next
+            left, right = left - 1, right - 1
+            
+        tail, con = cur, prev
         
-        def recurseAndReverse(right_head, m, n):
-            nonlocal left_head, stop
-            
-            if n == 1:
-                return
-            right_head = right_head.next
-            
-            if m > 1:
-                left_head = left_head.next
-            
-            recurseAndReverse(right_head, m - 1, n - 1)
-            
-            if left_head == right_head or right_head.next == left_head:
-                stop = True
-                
-            if not stop:
-                left_head.val, right_head.val = right_head.val, left_head.val
-                
-                left_head = left_head.next
-            
-        recurseAndReverse(right_head, left, right)
+        while right:
+            third = cur.next
+            cur.next = prev
+            prev = cur
+            cur = third
+            right -= 1
+
+        if con:
+            con.next = prev
+        else:
+            head = prev
+        tail.next = cur
+        
         return head
