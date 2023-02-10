@@ -10,28 +10,40 @@
  */
 class Solution {
 public:
+    void swapListNodesToNext(ListNode* prevOfFirstK, ListNode* prevOfLastK){
+        if (prevOfLastK -> next == prevOfFirstK) swapListNodesToNext(prevOfLastK, prevOfFirstK);
+        else if (prevOfFirstK -> next == prevOfLastK){
+            prevOfFirstK -> next = prevOfLastK -> next;
+            prevOfLastK -> next = prevOfFirstK -> next -> next;
+            prevOfFirstK -> next -> next = prevOfLastK;
+        }
+        else{
+            ListNode *tempLeftNextNext = prevOfFirstK -> next -> next;
+            ListNode *tempRightNextNext = prevOfLastK -> next -> next;
+            ListNode *tempLeftNext = prevOfFirstK -> next;
+            prevOfFirstK -> next = prevOfLastK -> next;
+            prevOfFirstK -> next -> next = tempLeftNextNext;
+            prevOfLastK -> next = tempLeftNext;
+            prevOfLastK -> next -> next = tempRightNextNext;
+        }
+    }
+    
     ListNode* swapNodes(ListNode* head, int k) {
-        int length = 0;
-        ListNode* currNode = head;
-        ListNode* frontNode, *endNode;
+        ListNode* sentinel = new ListNode(-1);
+        sentinel -> next = head;
+        ListNode* last = sentinel;
         
-        while (currNode != nullptr){
-            ++length;
-            currNode = currNode -> next;
-        }
-        frontNode = head;
-        for (int i = 0; i < k - 1; ++i){
-            frontNode = frontNode -> next;
-        }
+        for (int i = 0; i < k - 1; ++i) last = last -> next;
         
+        ListNode* prevOfFirstK = last, *prevOfLastK = sentinel;
         
-        endNode = head;
-        for(int i = 0; i < length - k; ++i){
-            endNode = endNode -> next;
+        while (last -> next -> next != nullptr){
+            last = last -> next;
+            prevOfLastK = prevOfLastK -> next;
         }
         
-        swap(frontNode -> val, endNode -> val);
+        swapListNodesToNext(prevOfFirstK, prevOfLastK);
         
-        return head;
+        return sentinel -> next;
     }
 };
