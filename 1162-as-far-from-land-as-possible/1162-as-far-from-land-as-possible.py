@@ -2,7 +2,7 @@ class Solution:
     def maxDistance(self, grid: List[List[int]]) -> int:
         direction = [[-1,0], [1,0], [0,-1], [0,1]]
         r, c = len(grid), len(grid[0])
-        visited = [[0 for __ in range(len(grid[0]))] for _ in range(len(grid))]
+        visited = [[0 for __ in range(c)] for _ in range(r)]
         
         queue = deque([])
         for i in range(r):
@@ -23,6 +23,7 @@ class Solution:
                     if (x >= 0 and y >= 0 and x < r and y < c and visited[x][y] == 0):
                         visited[x][y] = 1
                         queue.append((x,y))
+                        
                 len_q -= 1
             
             distance += 1
