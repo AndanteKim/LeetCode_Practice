@@ -1,31 +1,24 @@
 class Solution:
     def maxDistance(self, grid: List[List[int]]) -> int:
-        direction = [[-1,0], [1,0], [0,-1], [0,1]]
-        r, c = len(grid), len(grid[0])
-        visited = [[0 for __ in range(c)] for _ in range(r)]
         
-        queue = deque([])
-        for i in range(r):
-            for j in range(c):
-                visited[i][j] = grid[i][j]
+        rows, cols = len(grid), len(grid[0])
+        
+        MAX_DISTANCE = rows + cols + 1
+        
+        dist = [[MAX_DISTANCE for __ in range(cols)] for _ in range(rows)]
+        
+        for i in range(rows):
+            for j in range(cols):
                 if grid[i][j]:
-                    queue.append((i, j))
-        
-        distance = -1
-        while queue:
-            len_q = len(queue)
-            
-            while(len_q):
-                landCell = queue.popleft()
-                for direc in direction:
-                    x, y = landCell[0] + direc[0], landCell[1] + direc[1]
+                    dist[i][j] = 0
+                else:
+                    dist[i][j] = min(dist[i][j], min(dist[i-1][j] + 1 if i > 0 else MAX_DISTANCE, dist[i][j-1] + 1 if j > 0 else MAX_DISTANCE))
                     
-                    if (x >= 0 and y >= 0 and x < r and y < c and visited[x][y] == 0):
-                        visited[x][y] = 1
-                        queue.append((x,y))
-                        
-                len_q -= 1
-            
-            distance += 1
-            
-        return -1 if distance == 0 else distance
+        ans = float('-inf')
+        
+        for i in range(rows-1, -1, -1):
+            for j in range(cols - 1, -1, -1):
+                dist[i][j] = min(dist[i][j], min(dist[i+1][j] + 1 if i < rows - 1 else MAX_DISTANCE, dist[i][j+1] + 1 if j < cols - 1 else MAX_DISTANCE))
+                ans = max(ans, dist[i][j])
+        
+        return -1 if (ans == 0 or ans == MAX_DISTANCE) else ans
