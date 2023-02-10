@@ -17,11 +17,13 @@ public:
         
         while (currNode != nullptr){
             ++length;
-            if (length == k){
-                frontNode = currNode;
-            }
             currNode = currNode -> next;
         }
+        frontNode = head;
+        for (int i = 0; i < k - 1; ++i){
+            frontNode = frontNode -> next;
+        }
+        
         
         endNode = head;
         for(int i = 0; i < length - k; ++i){
