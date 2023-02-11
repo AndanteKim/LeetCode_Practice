@@ -13,7 +13,7 @@ public:
         ans[0] = 0;
         
         while (!q.empty()){
-            auto element = q.front();
+            auto& element = q.front();
             int node = element[0], steps = element[1], prevColor = element[2];
             q.pop();
             
