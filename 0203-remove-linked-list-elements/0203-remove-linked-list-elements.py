@@ -4,16 +4,14 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:
-        
-        sentinel = ListNode(-1)
-        sentinel.next = head
-        prev, curr = sentinel, head
-        
-        while curr:
-            if curr.val == val:
-                prev.next = curr.next
+    def rec(self, node: Optional[ListNode], val: int) -> Optional[ListNode]:
+        if node:
+            if node.val == val:
+                return self.rec(node.next, val)
             else:
-                prev = curr
-            curr = curr.next
-        return sentinel.next
+                node.next = self.rec(node.next, val)
+            return node
+    
+    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:
+        # recursive review
+        return self.rec(head, val)
