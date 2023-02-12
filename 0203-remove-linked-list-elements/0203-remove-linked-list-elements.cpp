@@ -10,21 +10,17 @@
  */
 class Solution {
 public:
-    ListNode* removeElements(ListNode* head, int val) {
-        ListNode* sentinel = new ListNode(-1);
-        sentinel -> next = head;
-        ListNode* prev = sentinel, *curr = head;
-        
-        while (curr != nullptr){
-            if (curr -> val == val){
-                prev -> next = curr -> next;
-            }
+    ListNode* rec(ListNode* node, int val){
+        if (node != nullptr){
+            if (node -> val == val) return rec(node -> next, val);
             else{
-                prev = curr;
+                node -> next = rec(node -> next, val);
             }
-            curr = curr -> next;
         }
-        
-        return sentinel -> next;
+        return node;
+    }
+    
+    ListNode* removeElements(ListNode* head, int val) {
+        return rec(head, val);
     }
 };
