@@ -1,28 +1,42 @@
 class Solution {
 public:
-    long long fuel;
-    
-    long long dfs(int node, int parent, vector<vector<int>> &adj, int &seats){
-        int representatives = 1;
+    long long bfs(int n, vector<vector<int>> &adj, vector<int> &degree, int seats){
+        queue<int> q;
         
-        for (auto& child : adj[node]){
-            if (child != parent) representatives += dfs(child, node, adj, seats);
+        for (int i = 1; i < n; ++i){
+            if (degree[i] == 1) q.push(i);
         }
         
-        if (node != 0) fuel += ceil((double) representatives / seats);
-        return representatives;
+        vector<int> representatives(n, 1);
+        long long fuel = 0;
+        
+        while (!q.empty()){
+            int node = q.front();
+            q.pop();
+            
+            fuel += ceil((double) representatives[node] / seats);
+            for (auto &neighbor : adj[node]){
+                --degree[neighbor];
+                representatives[neighbor] += representatives[node];
+                if (degree[neighbor] == 1 && neighbor != 0) q.push(neighbor);
+            }
+        }
+        
+        return fuel;
     }
     
     long long minimumFuelCost(vector<vector<int>>& roads, int seats) {
         int n = roads.size() + 1;
         vector<vector<int>> adj(n);
+        vector<int> degree(n);
         
-        for (auto& road : roads){
+        for (auto &road : roads){
             adj[road[0]].push_back(road[1]);
             adj[road[1]].push_back(road[0]);
+            ++degree[road[0]];
+            ++degree[road[1]];
         }
         
-        dfs(0, -1, adj, seats);
-        return fuel;
+        return bfs(n, adj, degree, seats);
     }
 };
