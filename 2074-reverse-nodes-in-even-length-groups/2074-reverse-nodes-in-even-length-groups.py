@@ -15,7 +15,7 @@ class Solution:
                     break
                 n += 1
                 node = node.next
-                print(n)
+                
             if n & 1:
                 prev = node
             else:
