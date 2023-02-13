@@ -12,14 +12,15 @@ class Solution {
 public:
     int pairSum(ListNode* head) {
         int length = 0;
-        ListNode* root = head;
+        ListNode *curr = head;
         
-        while (root != nullptr) {
+        while (curr != nullptr){
             ++length;
-            root = root -> next;
+            curr = curr -> next;
         }
         
-        ListNode* rev = nullptr, * curr = head;
+        ListNode * rev = nullptr;
+        curr = head;
         int i = 0;
         
         while (i < length / 2){
@@ -27,20 +28,21 @@ public:
             ++i;
         }
         
+        ListNode *next_node;
         while (i < length){
-            ListNode* next_node = curr -> next;
+            next_node = curr -> next;
             curr -> next = rev;
             rev = curr;
             curr = next_node;
             ++i;
         }
         
-        int ans = 0, current = 0;
-        ListNode* slow = head;
         i = 0;
+        int ans = 0;
+        ListNode* slow = head;
         while (i < length / 2){
-            current = slow -> val + rev -> val;
-            ans = max(ans, current);
+            int curr_val = slow -> val + rev -> val;
+            ans = max(ans, curr_val);
             slow = slow -> next;
             rev = rev -> next;
             ++i;
