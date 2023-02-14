@@ -1,21 +1,20 @@
 class Solution {
 public:
     string addBinary(string a, string b) {
-        int n = a.size(), m = b.size();
-        if (n < m) return addBinary(b, a);
+        bitset<128> x(a);
+        bitset<128> y(b);
         
-        int L = max(n, m), carry = 0, j = m - 1;
-        string ans;
-        for (int i = L - 1; i >= 0; --i){
-            if (a[i] == '1') ++carry;
-            if (j >= 0 && b[j--] == '1') ++carry;
-            if (carry % 2 == 1) ans = "1" + ans;
-            else ans = "0" + ans;
-            carry /= 2;
+        while (y.any()){
+            bitset<128> answer = x ^ y;
+            bitset<128> carry = (x & y) << 1;
+            x = answer;
+            y = carry;
         }
         
-        if (carry == 1) ans = "1" + ans;  
-        
-        return ans;
+        string s = x.to_string();
+        int i = 0;
+        while (s[i] == '0') ++i;
+        s = s.substr(i);
+        return s == ""? "0" : s;
     }
 };
