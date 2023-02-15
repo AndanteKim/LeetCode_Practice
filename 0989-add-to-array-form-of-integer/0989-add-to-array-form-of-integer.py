@@ -1,13 +1,12 @@
 class Solution:
     def addToArrayForm(self, num: List[int], k: int) -> List[int]:
-        digits, total, ans = len(num) - 1, 0, []
+        num[-1] += k
         
-        for i in range(digits, -1, -1):
-            total += (num[digits - i] * (10 ** i))
-        total += k
+        for i in range(len(num) - 1, -1, -1):
+            carry, num[i] = divmod(num[i], 10)
+            if i:
+                num[i - 1] += carry
         
-        while total:
-            ans = [total % 10] + ans
-            total //= 10
-        
-        return ans
+        if carry:
+            num = list(map(int, str(carry))) + num
+        return num
