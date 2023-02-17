@@ -10,23 +10,24 @@
  * };
  */
 class Solution {
-public:
-    vector<int> inorderNodes;
+private:
+    int minDistance = INT_MAX;
+    TreeNode* prevValue = nullptr;
     
-    void inorderTraversal(TreeNode* root){
+public:
+    void dfs(TreeNode* root){
         if (root == nullptr) return;
-        inorderTraversal(root -> left);
-        inorderNodes.push_back(root -> val);
-        inorderTraversal(root -> right);
+        
+        dfs(root -> left);
+        if (prevValue != nullptr){
+            minDistance = min(minDistance, root -> val - prevValue -> val);
+        }
+        prevValue = root;
+        dfs(root -> right);
     }
     
     int minDiffInBST(TreeNode* root) {
-        inorderTraversal(root);
-        int minDist = INT_MAX;
-        
-        for (int i = 1; i < inorderNodes.size(); ++i)
-            minDist = min(minDist, inorderNodes[i] - inorderNodes[i-1]);
-        
-        return minDist;
+        dfs(root);
+        return minDistance;
     }
 };
