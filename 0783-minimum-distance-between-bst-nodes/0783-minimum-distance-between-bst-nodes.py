@@ -5,17 +5,21 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    minDistance = 2**31
+    prevValue = None
+    
+    def dfs(self, root: Optional[TreeNode]) -> None:
+        if not root: return
+        
+        self.dfs(root.left)
+        
+        if self.prevValue:
+            self.minDistance = min(self.minDistance, root.val - self.prevValue.val)
+        self.prevValue = root
+
+        self.dfs(root.right)
+    
     def minDiffInBST(self, root: Optional[TreeNode]) -> int:
-        flattened = []
+        self.dfs(root)
         
-        def dfs(node: Optional[TreeNode]) -> None:
-            if not node: return
-            dfs(node.left)
-            flattened.append(node.val)
-            dfs(node.right)
-        
-        dfs(root)
-        ans = float('inf')
-        for i in range(1, len(flattened)):
-            ans = min(ans, flattened[i] - flattened[i-1])
-        return ans
+        return self.minDistance
