@@ -12,16 +12,12 @@ class Solution:
         
         while queue:
             curr = queue.popleft()
+            curr.left, curr.right = curr.right, curr.left
             
-            if curr.left and curr.right:
-                curr.left, curr.right = curr.right, curr.left
+            if curr.left:
                 queue.append(curr.left)
+            
+            if curr.right:
                 queue.append(curr.right)
-            elif curr.left:
-                curr.left, curr.right = curr.right, curr.left
-                queue.append(curr.right)
-            elif curr.right:
-                curr.left, curr.right = curr.right, curr.left
-                queue.append(curr.left)
-        
+            
         return root
