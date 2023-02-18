@@ -1,16 +1,18 @@
 class Logger:
 
     def __init__(self):
-        self.logs = dict()
+        self._logs = dict()
 
     def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
-        if message not in self.logs:
-            self.logs[message] = timestamp + 10
-        elif timestamp < self.logs[message]:
+        if message not in self._logs:
+            self._logs[message] = timestamp
+            return True
+        
+        if timestamp - self._logs[message] >= 10:
+            self._logs[message] = timestamp
+            return True
+        else:
             return False
-        elif timestamp >= self.logs[message]:
-            self.logs[message] = timestamp + 10
-        return True
 
 
 # Your Logger object will be instantiated and called as such:
