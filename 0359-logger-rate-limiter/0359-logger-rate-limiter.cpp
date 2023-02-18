@@ -1,21 +1,32 @@
 class Logger {
-    unordered_map<string, int> logs;
+    set<string> msg_set;
+    queue<pair<string, int>> msg_queue;
+    
 public:
     Logger() {
         
     }
     
     bool shouldPrintMessage(int timestamp, string message) {
-        if (logs.find(message) == logs.end()) {
-            logs[message] = timestamp;
-            return true;
+        while (!msg_queue.empty()){
+            auto elem = msg_queue.front();
+            string msg = elem.first;
+            int ts = elem.second;
+            if (timestamp - ts >= 10){
+                msg_queue.pop();
+                msg_set.erase(msg);
+            }
+            else break;
         }
         
-        if (timestamp - logs[message] >= 10){
-            logs[message] = timestamp;
+        if (msg_set.find(message) == msg_set.end()){
+            msg_set.insert(message);
+            msg_queue.push({message, timestamp});
             return true;
         }
-        else return false;
+        else{
+            return false;
+        }
     }
 };
 
