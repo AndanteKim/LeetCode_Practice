@@ -10,31 +10,27 @@
  * };
  */
 class Solution {
+    void dfs(TreeNode* root, int level, vector<deque<int>>& tmp){
+        if (tmp.size() == level){
+            tmp.push_back(deque<int>());
+        }
+        
+        if (level % 2 == 0) tmp[level].push_back(root -> val);
+        else tmp[level].push_front(root -> val);
+        
+        
+        if (root -> left != nullptr) dfs(root -> left, level + 1, tmp); 
+        if (root -> right != nullptr) dfs(root -> right, level + 1, tmp);
+    }
+    
 public:
     vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
-        if (root == nullptr) return {};
-        vector<vector<int>> ans;
-        deque<int> level_list;
-        deque<TreeNode*> node_queue{{root, NULL}};
-        bool is_order_left = true;
-        
-        while (!node_queue.empty()){
-            TreeNode *curr_node = node_queue.front();
-            node_queue.pop_front();
-            if (curr_node != NULL){
-                if (is_order_left) level_list.push_back(curr_node -> val);
-                else level_list.push_front(curr_node -> val);
-                
-                if (curr_node -> left) node_queue.push_back(curr_node -> left);
-                if (curr_node -> right) node_queue.push_back(curr_node -> right);
-            }
-            else{
-                vector<int> sub_vec(level_list.begin(), level_list.end());
-                ans.push_back(sub_vec);
-                level_list.clear();
-                if (node_queue.size() > 0) node_queue.push_back(NULL);
-                is_order_left = !is_order_left;
-            }
+        if (not root) return {};
+        vector<deque<int>> tmp;
+        dfs(root, 0, tmp);
+        vector<vector<int>> ans(tmp.size());
+        for (int i = 0; i < tmp.size(); ++i){
+            ans[i] = vector<int>(tmp[i].begin(), tmp[i].end());
         }
         
         return ans;
