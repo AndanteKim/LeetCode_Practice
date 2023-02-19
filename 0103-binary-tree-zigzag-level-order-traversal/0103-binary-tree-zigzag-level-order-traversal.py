@@ -9,30 +9,19 @@ class Solution:
         if not root: return root
         
         ans = []
-        level_list = deque()
-        node_queue = deque([root, None])
-        is_order_left = True
         
-        while len(node_queue) > 0:
-            curr_node = node_queue.popleft()
-            
-            if curr_node:
-                if is_order_left:
-                    level_list.append(curr_node.val)
-                else:
-                    level_list.appendleft(curr_node.val)
-                
-                if curr_node.left:
-                    node_queue.append(curr_node.left)
-                
-                if curr_node.right:
-                    node_queue.append(curr_node.right)
+        def dfs(node, level):
+            if level >= len(ans):
+                ans.append(deque([node.val]))
             else:
-                ans.append(level_list)
-                
-                if len(node_queue) > 0:
-                    node_queue.append(None)
-                
-                level_list = deque()
-                is_order_left = not is_order_left
+                if level % 2 == 0:
+                    ans[level].append(node.val)
+                else:
+                    ans[level].appendleft(node.val)
+        
+            for next_node in [node.left, node.right]:
+                if next_node is not None:
+                    dfs(next_node, level + 1)
+        
+        dfs(root, 0)
         return ans
