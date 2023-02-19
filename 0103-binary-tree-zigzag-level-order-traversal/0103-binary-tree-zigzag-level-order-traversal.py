@@ -8,28 +8,31 @@ class Solution:
     def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         if not root: return root
         
-        queue, ans = deque([(root, 0)]), []
-        curr, curr_lv = [], 0
-        while queue:
-            q, lv = queue.popleft()
-            if curr_lv != lv:
-                if curr_lv % 2 == 1:
-                    ans.append(curr[::-1])
-                else:
-                    ans.append(curr)
-                curr_lv = lv
-                curr = []
-            
-            curr.append(q.val)
-            
-            if q.left:
-                queue.append((q.left, lv + 1))
-            
-            if q.right:
-                queue.append((q.right, lv + 1))
-        if curr and curr_lv % 2 == 0:
-            ans.append(curr)
-        elif curr and curr_lv % 2 == 1:
-            ans.append(curr[::-1])
+        ans = []
+        level_list = deque()
+        node_queue = deque([root, None])
+        is_order_left = True
         
+        while len(node_queue) > 0:
+            curr_node = node_queue.popleft()
+            
+            if curr_node:
+                if is_order_left:
+                    level_list.append(curr_node.val)
+                else:
+                    level_list.appendleft(curr_node.val)
+                
+                if curr_node.left:
+                    node_queue.append(curr_node.left)
+                
+                if curr_node.right:
+                    node_queue.append(curr_node.right)
+            else:
+                ans.append(level_list)
+                
+                if len(node_queue) > 0:
+                    node_queue.append(None)
+                
+                level_list = deque()
+                is_order_left = not is_order_left
         return ans
