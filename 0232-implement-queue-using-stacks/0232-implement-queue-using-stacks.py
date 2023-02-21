@@ -4,8 +4,6 @@ class MyQueue:
         self.stack, self.queue = [], []
 
     def push(self, x: int) -> None:
-        if self.stack == []:
-            self.front = x
         while self.stack:
             self.queue.append(self.stack.pop())
         self.queue.append(x)
@@ -13,16 +11,13 @@ class MyQueue:
             self.stack.append(self.queue.pop())
 
     def pop(self) -> int:
-        res = self.stack.pop()
-        if self.stack:
-            self.front = self.stack[-1]
-        return res
+        return self.stack.pop()
 
     def peek(self) -> int:
-        return self.front
+        return self.stack[-1]
 
     def empty(self) -> bool:
-        return self.stack == []
+        return not self.stack
 
 
 # Your MyQueue object will be instantiated and called as such:
