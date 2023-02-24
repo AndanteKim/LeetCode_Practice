@@ -1,30 +1,39 @@
 class Solution:
     def minimumDeviation(self, nums: List[int]) -> int:
-        
-        evens, minimum = [], float('inf')
-        
-        for num in nums:
+        n = len(nums)
+        possible = []
+        for i, num in enumerate(nums):
             if num % 2 == 0:
-                evens.append(-num)
-                minimum = min(minimum, num)
-            
+                temp = num
+                possible.append((temp, i))
+                while temp % 2 == 0:
+                    temp //= 2
+                    possible.append((temp, i))
             else:
-                evens.append(-num * 2)
-                minimum = min(minimum, num * 2)
+                possible.append((num, i))
+                possible.append((num * 2 ,i))
         
-        heapq.heapify(evens)
+        possible.sort()
         
         min_deviation = float('inf')
-        while evens:
-            current_value = -heapq.heappop(evens)
-            min_deviation = min(min_deviation, current_value - minimum)
+        need_include = {i: 1 for i in range(n)}
+        not_included, current_start = n, 0
+        
+        for current_value, current_item in possible:
+            need_include[current_item] -= 1
+            if need_include[current_item] == 0:
+                not_included -= 1
             
-            if current_value % 2 == 0:
-                minimum = min(minimum, current_value // 2)
-                heappush(evens, -current_value // 2)
-            else:
-                break
+            if not_included == 0:
+                while need_include[possible[current_start][1]] < 0:
+                    need_include[possible[current_start][1]] += 1
+                    current_start += 1
+            
+                if min_deviation > current_value - possible[current_start][0]:
+                    min_deviation = current_value - possible[current_start][0]
+            
+                need_include[possible[current_start][1]] += 1
+                current_start += 1
+                not_included += 1
+        
         return min_deviation
-        
-        
-        
