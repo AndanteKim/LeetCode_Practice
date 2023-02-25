@@ -1,16 +1,11 @@
 class Solution:
     def validateStackSequences(self, pushed: List[int], popped: List[int]) -> bool:
-        queue = deque(popped)
-        stack = []
-        for num in pushed:
-            while stack and stack[-1] == queue[0]:
-                stack.pop()
-                queue.popleft()
-            stack.append(num)
-            
-        while stack and stack[-1] == queue[0]:
-            stack.pop()
-            queue.popleft()
-                
-        return stack == []
+        j, stack = 0, []
         
+        for x in pushed:
+            stack.append(x)
+            while stack and j < len(popped) and stack[-1] == popped[j]:
+                stack.pop()
+                j += 1
+        
+        return j == len(popped)
