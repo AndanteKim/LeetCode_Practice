@@ -1,27 +1,30 @@
 class Solution {
-    vector<vector<int>> memo;
 public:
     int minDistance(string word1, string word2) {
-        memo.resize(word1.size()+1, vector<int>(word2.size() + 1, -1));
-        return minDistanceRecur(word1, word2, word1.size(), word2.size());
-    }
-    
-    int minDistanceRecur(string& word1, string& word2, int word1Index, int word2Index){
-        if (word1Index == 0) return word2Index;
-        if (word2Index == 0) return word1Index;
-        if (memo[word1Index][word2Index] != -1) return memo[word1Index][word2Index];
-        int minEditDistance = 0;
-        if (word1[word1Index - 1] == word2[word2Index - 1]){
-            minEditDistance = minDistanceRecur(word1, word2, word1Index - 1, word2Index - 1);
+        int word1Length = word1.size(), word2Length = word2.size();
+        if (word1Length == 0) return word2Length;
+        if (word2Length == 0) return word1Length;
+        
+        vector<vector<int>> dp(word1Length + 1, vector<int>(word2Length + 1, 0)); 
+        for (int word1Index = 1; word1Index <= word1Length; ++word1Index){
+            dp[word1Index][0] = word1Index;
         }
-        else{
-            int insertOperation = minDistanceRecur(word1, word2, word1Index, word2Index - 1);
-            int deleteOperation = minDistanceRecur(word1, word2, word1Index - 1, word2Index);
-            int replaceOperation = minDistanceRecur(word1, word2, word1Index - 1, word2Index - 1);
-            minEditDistance = min(insertOperation, min(deleteOperation, replaceOperation)) + 1;
+        
+        for (int word2Index = 1; word2Index <= word2Length; ++word2Index){
+            dp[0][word2Index] = word2Index;
         }
-        memo[word1Index][word2Index] = minEditDistance;
-        return minEditDistance;
+        
+        for (int word1Index = 1; word1Index <= word1Length; ++word1Index){
+            for (int word2Index = 1; word2Index <= word2Length; ++word2Index){
+                if (word1[word1Index - 1] == word2[word2Index - 1]) dp[word1Index][word2Index] = dp[word1Index - 1][word2Index - 1];
+                else{
+                    dp[word1Index][word2Index] = min(dp[word1Index - 1][word2Index],
+                                                     min(dp[word1Index][word2Index - 1],
+                                                         dp[word1Index - 1][word2Index-1])) + 1;
+                }
+            }
+        }
+        
+        return dp[word1Length][word2Length];
     }
-    
 };
