@@ -1,25 +1,27 @@
 class Solution:
-    memo = [[]]
     def minDistance(self, word1: str, word2: str) -> int:
-        self.memo = [[-1 for j in range(len(word2) + 1)] for i in range(len(word1) + 1)]
-        return self.minDistanceRecur(word1, word2, len(word1), len(word2))
-    
-    def minDistanceRecur(self, word1: str, word2: str, word1Index: int, word2Index: int) -> int:
-        if word1Index == 0:
-            return word2Index
-        if word2Index == 0:
-            return word1Index
+        word1Length, word2Length = len(word1), len(word2)
+        if word1Length == 0:
+            return word2Length
+        if word2Length == 0:
+            return word1Length
         
-        if self.memo[word1Index][word2Index] != -1:
-            return self.memo[word1Index][word2Index]
+        dp = [[0 for j in range(len(word2) + 1)] for i in range(len(word1) + 1)]
+        for word1Index in range(1, word1Length + 1):
+            dp[word1Index][0] = word1Index
         
-        minEditDistance = 0
-        if word1[word1Index - 1] == word2[word2Index - 1]:
-            minEditDistance = self.minDistanceRecur(word1, word2, word1Index - 1, word2Index - 1)
-        else:
-            insertOperation = self.minDistanceRecur(word1, word2, word1Index, word2Index - 1)
-            deleteOperation = self.minDistanceRecur(word1, word2, word1Index - 1, word2Index)
-            replaceOperation = self.minDistanceRecur(word1, word2, word1Index - 1, word2Index - 1)
-            minEditDistance = min(insertOperation, deleteOperation, replaceOperation) + 1
-        self.memo[word1Index][word2Index] = minEditDistance
-        return minEditDistance
+        for word2Index in range(1, word2Length + 1):
+            dp[0][word2Index] = word2Index
+        
+        
+        for word1Index in range(1, word1Length + 1):
+            for word2Index in range(1, word2Length + 1):
+                if word2[word2Index - 1] == word1[word1Index - 1]:
+                    dp[word1Index][word2Index] = dp[word1Index - 1][word2Index - 1]
+                else:
+                    dp[word1Index][word2Index] = min(dp[word1Index - 1][word2Index],
+                                                     dp[word1Index][word2Index-1],
+                                                     dp[word1Index - 1][word2Index - 1]) + 1
+        
+        return dp[word1Length][word2Length]
+                
