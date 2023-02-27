@@ -11,24 +11,21 @@ class Node:
 """
 
 class Solution:
-    def sameValue(self, grid: List[List[int]], x1: int, y1: int, length: int) -> bool:
-        for i in range(x1, x1 + length):
-            for j in range(y1, y1 + length):
-                if grid[i][j] != grid[x1][y1]:
-                    return False
-        return True
-    
     def solve(self, grid: List[List[int]], x1: int, y1: int, length: int) -> 'Node':
-        if self.sameValue(grid, x1, y1, length):
+        if length == 1:
             return Node(grid[x1][y1], True)
-        else:
-            root = Node(False, False)
-            
-            root.topLeft = self.solve(grid, x1, y1, length // 2)
-            root.topRight = self.solve(grid, x1, y1 + length // 2, length // 2)
-            root.bottomLeft = self.solve(grid, x1 + length // 2, y1, length // 2)
-            root.bottomRight = self.solve(grid, x1 + length // 2, y1 + length // 2, length // 2)
-            return root
+        
+        topLeft = self.solve(grid, x1, y1, length // 2)
+        topRight = self.solve(grid, x1, y1 + length // 2, length // 2)
+        bottomLeft = self.solve(grid, x1 + length // 2, y1, length // 2)
+        bottomRight = self.solve(grid, x1 + length // 2, y1 + length // 2, length // 2)
+        
+        if topLeft.isLeaf and topRight.isLeaf and bottomLeft.isLeaf and bottomRight.isLeaf\
+        and topLeft.val == topRight.val and topRight.val == bottomLeft.val\
+        and bottomLeft.val == bottomRight.val:
+            return Node(topLeft.val, True)
+        
+        return Node(False, False, topLeft, topRight, bottomLeft, bottomRight)
     
     def construct(self, grid: List[List[int]]) -> 'Node':
         return self.solve(grid, 0, 0, len(grid))
