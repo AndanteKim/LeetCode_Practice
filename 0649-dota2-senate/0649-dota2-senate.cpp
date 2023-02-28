@@ -1,29 +1,18 @@
 class Solution {
-    queue<int> *q;
+    queue<int> *q1, *q2;
 public:
     string predictPartyVictory(string senate) {
-        q = new queue<int>;
-        vector<int> people(2, 0), bans(2, 0);
-        
-        for (const char& person : senate){
-            int x = (person == 'R');
-            ++people[x];
-            q -> push(x);
+        q1 = new queue<int>, q2 = new queue<int>;
+        int n = senate.size();
+        for (int i = 0; i < n; ++i){
+            senate[i] == 'R'? q1 -> push(i) : q2 -> push(i);
         }
         
-        while(people[0] > 0 && people[1] > 0){
-            int x = q -> front();
-            q -> pop();
-            --people[x];
-            
-            if (bans[x]) --bans[x];
-            else{
-                ++bans[x ^ 1];
-                ++people[x];
-                q -> push(x);
-            }
+        while(!q1 -> empty() && !q2 -> empty()){
+            int r_index = q1 -> front(), d_index = q2 -> front();
+            q1 -> pop(), q2 -> pop();
+            (r_index < d_index)? q1 -> push(r_index + n) : q2 -> push(d_index + n); 
         }
-        
-        return people[1]? "Radiant" : "Dire";
+        return (q1 -> size() > q2 -> size())? "Radiant" : "Dire";
     }
 };
