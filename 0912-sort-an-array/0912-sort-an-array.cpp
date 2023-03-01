@@ -1,45 +1,50 @@
 class Solution {
-    vector<int> mergesort(vector<int>& nums){
-        if (nums.size() > 1){
-            int mid = nums.size() / 2;
-            vector<int> Left = {nums.begin(), nums.begin() + mid}; 
-            vector<int> Right = {nums.begin() + mid, nums.end()};
-            mergesort(Left);
-            mergesort(Right);
-            
-            int i = 0, j = 0, k = 0;
-            while (i < Left.size() && j < Right.size()){
-                if (Left[i] <= Right[j]){
-                    nums[k] = Left[i];
-                    ++i;
-                }
-                else{
-                    nums[k] = Right[j];
-                    ++j;
-                }
-                ++k;
-            }
-            
-            while (i < Left.size()){
-                nums[k] = Left[i];
+    void merge(vector<int>& nums, int left, int mid, int right, vector<int>& tempArr){
+        int start1 = left, start2 = mid + 1;
+        int n1 = mid - left + 1, n2 = right - mid;
+        
+        for (int i = 0; i < n1; ++i) tempArr[start1 + i] = nums[start1 + i];
+        for (int i = 0; i < n2; ++i) tempArr[start2 + i] = nums[start2 + i];
+        
+        int i = 0, j = 0, k = left;
+        
+        while (i < n1 && j < n2){
+            if (tempArr[start1 + i] <= tempArr[start2 + j]) {
+                nums[k] = tempArr[start1 + i];
                 ++i;
-                ++k;
             }
-            
-            while (j < Right.size()){
-                nums[k] = Right[j];
+            else {
+                nums[k] = tempArr[start2 + j];
                 ++j;
-                ++k;
             }
-            
-            return nums;
+            ++k;
         }
-        return {};
+        
+        while (i < n1){
+            nums[k] = tempArr[start1 + i];
+            ++i;
+            ++k;
+        }
+        
+        while (j < n2){
+            nums[k] = tempArr[start2 + j];
+            ++j;
+            ++k;
+        }
+    }
+    
+    void mergeSort(vector<int>& nums, int left, int right, vector<int>& tempArr){
+        if (left >= right) return;
+        int mid = left + (right - left) / 2;
+        mergeSort(nums, left, mid, tempArr);
+        mergeSort(nums, mid + 1, right, tempArr);
+        merge(nums, left, mid, right, tempArr);
     }
     
 public:
     vector<int> sortArray(vector<int>& nums) {
-        if (nums.size() <= 1) return nums;
-        return mergesort(nums);
+        vector<int> tempArray(nums.size());
+        mergeSort(nums, 0, nums.size() - 1, tempArray);
+        return nums;
     }
 };
