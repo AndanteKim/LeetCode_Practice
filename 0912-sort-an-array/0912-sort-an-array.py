@@ -1,49 +1,28 @@
 class Solution:
-    def merge(self, arr: List[int], left: int, mid: int, right: int, tempArr: List[int]) -> None:
-        start1 = left
-        start2 = mid + 1
-        n1 = mid - left + 1
-        n2 = right - mid
+    def heapify(self, arr: List[int], n: int, i: int) -> None:
+        largest = i
+        left = 2 * i + 1
+        right = 2 * i + 2
         
-        for i in range(n1):
-            tempArr[start1 + i] = arr[start1 + i]
+        if left < n and arr[left] > arr[largest]:
+            largest = left
         
-        for i in range(n2):
-            tempArr[start2 + i] = arr[start2 + i]
+        if right < n and arr[right] > arr[largest]:
+            largest = right
         
-        i = j = 0
-        k = left
+        if largest != i:
+            arr[i], arr[largest] = arr[largest], arr[i]
+            self.heapify(arr, n, largest)
         
-        while (i < n1 and j < n2):
-            if tempArr[start1 + i] <= tempArr[start2 + j]:
-                arr[k] = tempArr[start1 + i]
-                i += 1
-            else:
-                arr[k] = tempArr[start2 + j]
-                j += 1
-            k += 1
-            
-        while i < n1:
-            arr[k] = tempArr[start1 + i]
-            i += 1
-            k += 1
+    def heapSort(self, arr: List[int]) -> None:
+        n = len(arr)
+        for i in range(n//2 - 1, -1, -1):
+            self.heapify(arr, n, i)
         
-        while j < n2:
-            arr[k] = tempArr[start2 + j]
-            j += 1
-            k += 1
-            
-    
-    def mergeSort(self, arr: List[int], left: int, right: int, tempArr: List[int]) -> None:
-        if left >= right: return;
-        
-        mid = left + (right - left) // 2
-        self.mergeSort(arr, left, mid, tempArr)
-        self.mergeSort(arr, mid + 1, right, tempArr)
-        self.merge(arr, left, mid, right, tempArr)
+        for i in range(n-1, -1, -1):
+            arr[0], arr[i] = arr[i], arr[0]
+            self.heapify(arr, i, 0)
     
     def sortArray(self, nums: List[int]) -> List[int]:
-        tempArray = [0] * len(nums)
-        self.mergeSort(nums, 0, len(nums) - 1, tempArray)
+        self.heapSort(nums)
         return nums
-        
