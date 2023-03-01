@@ -1,28 +1,20 @@
 class Solution:
-    def heapify(self, arr: List[int], n: int, i: int) -> None:
-        largest = i
-        left = 2 * i + 1
-        right = 2 * i + 2
+    
+    def counting_sort(self) -> None:
+        counts = dict()
+        minVal, maxVal = min(self.nums), max(self.nums)
+        for val in self.nums:
+            counts[val] = counts.get(val, 0) + 1
         
-        if left < n and arr[left] > arr[largest]:
-            largest = left
-        
-        if right < n and arr[right] > arr[largest]:
-            largest = right
-        
-        if largest != i:
-            arr[i], arr[largest] = arr[largest], arr[i]
-            self.heapify(arr, n, largest)
-        
-    def heapSort(self, arr: List[int]) -> None:
-        n = len(arr)
-        for i in range(n//2 - 1, -1, -1):
-            self.heapify(arr, n, i)
-        
-        for i in range(n-1, -1, -1):
-            arr[0], arr[i] = arr[i], arr[0]
-            self.heapify(arr, i, 0)
+        index = 0
+        for val in range(minVal, maxVal + 1):
+            while counts.get(val, 0) > 0:
+                self.nums[index] = val
+                index += 1
+                counts[val] -= 1
+            
     
     def sortArray(self, nums: List[int]) -> List[int]:
-        self.heapSort(nums)
-        return nums
+        self.nums = nums
+        self.counting_sort()
+        return self.nums
