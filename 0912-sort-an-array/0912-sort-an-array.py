@@ -1,36 +1,49 @@
 class Solution:
-    def mergesort(self, nums: List[int]) -> List[int]:
-        if len(nums) > 1:
-            mid = len(nums) // 2
-            Left = nums[:mid]
-            Right = nums[mid:]
-            
-            self.mergesort(Left)
-            self.mergesort(Right)
-            
-            i = j = k = 0
-            
-            while i < len(Left) and j < len(Right):
-                if Left[i] <= Right[j]:
-                    nums[k] = Left[i]
-                    i += 1
-                else:
-                    nums[k] = Right[j]
-                    j += 1
-                k += 1
-            
-            while i < len(Left):
-                nums[k] = Left[i]
+    def merge(self, arr: List[int], left: int, mid: int, right: int, tempArr: List[int]) -> None:
+        start1 = left
+        start2 = mid + 1
+        n1 = mid - left + 1
+        n2 = right - mid
+        
+        for i in range(n1):
+            tempArr[start1 + i] = arr[start1 + i]
+        
+        for i in range(n2):
+            tempArr[start2 + i] = arr[start2 + i]
+        
+        i = j = 0
+        k = left
+        
+        while (i < n1 and j < n2):
+            if tempArr[start1 + i] <= tempArr[start2 + j]:
+                arr[k] = tempArr[start1 + i]
                 i += 1
-                k += 1
-            
-            while j < len(Right):
-                nums[k] = Right[j]
+            else:
+                arr[k] = tempArr[start2 + j]
                 j += 1
-                k += 1
-            return nums
+            k += 1
+            
+        while i < n1:
+            arr[k] = tempArr[start1 + i]
+            i += 1
+            k += 1
+        
+        while j < n2:
+            arr[k] = tempArr[start2 + j]
+            j += 1
+            k += 1
+            
+    
+    def mergeSort(self, arr: List[int], left: int, right: int, tempArr: List[int]) -> None:
+        if left >= right: return;
+        
+        mid = left + (right - left) // 2
+        self.mergeSort(arr, left, mid, tempArr)
+        self.mergeSort(arr, mid + 1, right, tempArr)
+        self.merge(arr, left, mid, right, tempArr)
     
     def sortArray(self, nums: List[int]) -> List[int]:
-        if len(nums) <= 1:
-            return nums
-        return self.mergesort(nums)
+        tempArray = [0] * len(nums)
+        self.mergeSort(nums, 0, len(nums) - 1, tempArray)
+        return nums
+        
