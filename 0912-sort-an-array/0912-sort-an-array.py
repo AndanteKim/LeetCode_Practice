@@ -1,20 +1,39 @@
 class Solution:
-    
-    def counting_sort(self) -> None:
-        counts = dict()
-        minVal, maxVal = min(self.nums), max(self.nums)
-        for val in self.nums:
-            counts[val] = counts.get(val, 0) + 1
+    def radix_sort(self, nums: List[int]) -> List[int]:
+        max_element = nums[0]
         
-        index = 0
-        for val in range(minVal, maxVal + 1):
-            while counts.get(val, 0) > 0:
-                self.nums[index] = val
-                index += 1
-                counts[val] -= 1
+        for val in nums:
+            max_element = max(abs(val), max_element)
+        
+        max_digits = 0
+        while max_element > 0:
+            max_digits += 1
+            max_element //= 10
+        
+        place_value = 1
+        
+        def bucket_sort():
+            buckets = [[] for i in range(10)]
+            for val in nums:
+                digit = abs(val) / place_value
+                digit = int(digit % 10)
+                buckets[digit].append(val)
             
+            index = 0
+            for digit in range(10):
+                for val in buckets[digit]:
+                    nums[index] = val
+                    index += 1
+        
+        for _ in range(max_digits):
+            bucket_sort()
+            place_value *= 10
+        
+        positives = [val for val in nums if val >= 0]
+        negatives = [val for val in nums if val < 0]
+        negatives.reverse()
+        return negatives + positives
+        
     
     def sortArray(self, nums: List[int]) -> List[int]:
-        self.nums = nums
-        self.counting_sort()
-        return self.nums
+        return self.radix_sort(nums)
