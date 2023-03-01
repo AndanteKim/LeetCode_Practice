@@ -1,50 +1,27 @@
 class Solution {
-    void merge(vector<int>& nums, int left, int mid, int right, vector<int>& tempArr){
-        int start1 = left, start2 = mid + 1;
-        int n1 = mid - left + 1, n2 = right - mid;
+    void heapify(vector<int>& nums, int n, int i){
+        int largest = i, left = 2 * i + 1, right = 2 * i + 2;
+        if (left < n && nums[left] > nums[largest]) largest = left;
+        if (right < n && nums[right] > nums[largest]) largest = right;
         
-        for (int i = 0; i < n1; ++i) tempArr[start1 + i] = nums[start1 + i];
-        for (int i = 0; i < n2; ++i) tempArr[start2 + i] = nums[start2 + i];
-        
-        int i = 0, j = 0, k = left;
-        
-        while (i < n1 && j < n2){
-            if (tempArr[start1 + i] <= tempArr[start2 + j]) {
-                nums[k] = tempArr[start1 + i];
-                ++i;
-            }
-            else {
-                nums[k] = tempArr[start2 + j];
-                ++j;
-            }
-            ++k;
-        }
-        
-        while (i < n1){
-            nums[k] = tempArr[start1 + i];
-            ++i;
-            ++k;
-        }
-        
-        while (j < n2){
-            nums[k] = tempArr[start2 + j];
-            ++j;
-            ++k;
+        if (largest != i){
+            swap(nums[i], nums[largest]);
+            heapify(nums, n, largest);
         }
     }
     
-    void mergeSort(vector<int>& nums, int left, int right, vector<int>& tempArr){
-        if (left >= right) return;
-        int mid = left + (right - left) / 2;
-        mergeSort(nums, left, mid, tempArr);
-        mergeSort(nums, mid + 1, right, tempArr);
-        merge(nums, left, mid, right, tempArr);
+    void heapSort(vector<int>& nums){
+        int n = nums.size();
+        for (int i = n / 2 - 1; i >= 0; --i) heapify(nums, n, i);
+        for (int i = n - 1; i >= 0; --i) {
+            swap(nums[0], nums[i]);
+            heapify(nums, i, 0);
+        }
     }
     
 public:
     vector<int> sortArray(vector<int>& nums) {
-        vector<int> tempArray(nums.size());
-        mergeSort(nums, 0, nums.size() - 1, tempArray);
+        heapSort(nums);
         return nums;
     }
 };
