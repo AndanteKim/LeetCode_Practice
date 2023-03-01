@@ -1,20 +1,13 @@
 class Solution {
 public:
     bool validWordSquare(vector<string>& words) {
-        int cols = 0, rows = words.size();
-        vector<string> new_words;
-        for (const string& word: words) cols = max(cols, (int)word.size());
-        
-        if (cols != words[0].size() || cols != rows) return false;
-        
-        for (int col = 0; col < cols; ++col){
-            string new_word = "";
-            for (int row = 0; row < rows; ++row){
-                if (col < words[row].size()) new_word += words[row][col];
+        for (int word_num = 0; word_num < words.size(); ++word_num){
+            for (int char_pos = 0; char_pos < words[word_num].size(); ++char_pos){
+                if (char_pos >= words.size() || word_num >= words[char_pos].size() ||\
+                   words[word_num][char_pos] != words[char_pos][word_num]) return false;
             }
-            new_words.push_back(new_word);
         }
         
-        return words == new_words;
+        return true;
     }
 };
