@@ -1,15 +1,11 @@
 class Solution:
     def mostCompetitive(self, nums: List[int], k: int) -> List[int]:
-        queue = deque()
-        additionalCount = len(nums) - k
+        stack = []
+        
         for i in range(len(nums)):
-            while queue and queue[-1] > nums[i] and additionalCount > 0:
-                queue.pop()
-                additionalCount -= 1
-            queue.append(nums[i])
-        
-        result = []
-        for i in range(k):
-            result.append(queue.popleft())
-        
-        return result
+            min_stack_len = max(0, k - len(nums) + i)
+            while len(stack) > min_stack_len and nums[i] < stack[-1]:
+                stack.pop()
+            stack.append(nums[i])
+            
+        return stack[:k]
