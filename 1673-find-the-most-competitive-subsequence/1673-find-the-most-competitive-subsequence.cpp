@@ -1,22 +1,17 @@
 class Solution {
-    deque<int>* queue;
 public:
     vector<int> mostCompetitive(vector<int>& nums, int k) {
-        queue = new deque<int>;
-        vector<int> ans;
-        int additionalCount = nums.size() - k;
+        stack<int> *st = new stack<int>;
         
         for (int i = 0; i < nums.size(); ++i){
-            while (!queue -> empty() && queue -> back() > nums[i] && additionalCount > 0){
-                queue -> pop_back();
-                --additionalCount;
-            }
-            queue -> push_back(nums[i]);
+            while (!st -> empty() && st -> top() > nums[i] && st -> size() + nums.size() - i > k) st -> pop();
+            if (st -> size() < k) st -> push(nums[i]);
         }
         
-        for (int i = 0; i < k; ++i) {
-            ans.push_back(queue -> front());
-            queue -> pop_front();
+        vector<int> ans(k);
+        for (int i = k - 1; i >= 0; --i) {
+            ans[i] = st -> top();
+            st -> pop();
         }
         
         return ans;
