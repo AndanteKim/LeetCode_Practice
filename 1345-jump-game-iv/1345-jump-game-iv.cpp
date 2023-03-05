@@ -26,12 +26,14 @@ public:
                 }
                 graph.erase(arr[node]);
                 
-                for (int child : {node - 1, node + 1}){
-                    if (other.find(child) != other.end()) return step + 1;
-                    if (child >= 0 && child < arr.size() && !visited[child]){
-                        visited[child] = true;
-                        nex.insert(child);
-                    }
+                if (other.find(node + 1) != other.end() || other.find(node - 1) != other.end()) return step + 1;
+                if (node + 1 < n && !visited[node + 1]){
+                    visited[node + 1] = true;
+                    nex.insert(node + 1);
+                }
+                if (node - 1 >= 0 && !visited[node - 1]){
+                    visited[node - 1] = true;
+                    nex.insert(node - 1);
                 }
             }
             
