@@ -5,46 +5,39 @@ public:
         if (n <= 1) return 0;
         
         unordered_map<int, vector<int>> graph;
-        
         for (int i = 0; i < n; ++i) graph[arr[i]].push_back(i);
-    
-        queue<int> q({0});
+        set<int> curs, other;
+        curs.insert(0);
+        other.insert(n-1);
         vector<bool> visited(n, false);
         int step = 0;
-        visited[0] = true;
         
-        while (!q.empty()){
-            int len = q.size();
-            while (--len >= 0){
-                int curr = q.front();
-                q.pop();
-                
-                if (curr == n - 1) return step;
-                
-                if (curr + 1 < n && !visited[curr + 1]){
-                    q.push(curr + 1);
-                    visited[curr + 1] = true;
-                }
-                
-                if (curr - 1 >= 0 && !visited[curr - 1]){
-                    q.push(curr - 1);
-                    visited[curr - 1] = true;
-                }
-                
-                if (graph.find(arr[curr]) != graph.end()){
-                    for (int next : graph[arr[curr]]){
-                        if (!visited[next]){
-                            q.push(next);
-                            visited[next] = true;
-                        }
+        while (!curs.empty()){
+            if (curs.size() > other.size()) swap(curs, other);
+            set<int> nex;
+            
+            for (int node : curs){
+                for (int child : graph[arr[node]]){
+                    if (other.find(child) != other.end()) return step + 1;
+                    if (!visited[child]){
+                        visited[child] = true;
+                        nex.insert(child);
                     }
-                    
-                    graph.erase(arr[curr]);
+                }
+                graph.erase(arr[node]);
+                
+                for (int child : {node - 1, node + 1}){
+                    if (other.find(child) != other.end()) return step + 1;
+                    if (child >= 0 && child < arr.size() && !visited[child]){
+                        visited[child] = true;
+                        nex.insert(child);
+                    }
                 }
             }
+            
+            curs = nex;
             ++step;
         }
-        
         return -1;
     }
 };
