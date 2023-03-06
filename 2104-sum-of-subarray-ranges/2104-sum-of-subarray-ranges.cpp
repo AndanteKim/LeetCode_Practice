@@ -3,15 +3,29 @@ public:
     long long subArrayRanges(vector<int>& nums) {
         long long ans = 0;
         int n = nums.size();
-        for (int left = 0; left < n; ++left){
-            int min_val = INT_MAX, max_val = INT_MIN;
-            
-            for (int right = left; right < n; ++right){
-                min_val = min(min_val, nums[right]);
-                max_val = max(max_val, nums[right]);
-                ans += max_val - min_val;
+        stack<int> *st = new stack<int>;
+        
+        for (int right = 0; right <= n; ++right){
+            while (!st -> empty() && (right == n || nums[st -> top()] >= nums[right])){
+                int mid = st -> top();
+                st -> pop();
+                int left = st -> empty()? -1 : st -> top(); 
+                ans -= (long long) nums[mid] * (mid - left) * (right - mid);
             }
+            st -> push(right);
         }
+        
+        st -> pop();
+        for (int right = 0; right <= n; ++right){
+            while (!st -> empty() && (right == n || nums[st -> top()] <= nums[right])){
+                int mid = st -> top();
+                st -> pop();
+                int left = st -> empty()? -1 : st -> top();
+                ans += (long long)nums[mid] * (mid - left) * (right - mid);
+            }
+            st -> push(right);
+        }
+        
         return ans;
     }
 };
