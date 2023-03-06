@@ -1,16 +1,18 @@
 class Solution:
     def findKthPositive(self, arr: List[int], k: int) -> int:
-        track = [False] * 2000
+        if k <= arr[0] - 1:
+            return k
         
-        for num in arr:
-            track[num-1] = True
+        k -= arr[0] - 1
         
-        ans, i = 0, 0
-        while i < k and ans < 2000:
-            if not track[ans]:
-                i += 1
-            ans += 1
+        for i in range(len(arr) - 1):
+            
+            curr_missing = arr[i+1] - arr[i] - 1
+            
+            if k <= curr_missing:
+                return arr[i] + k
+            
+            k -= curr_missing
         
-        return ans
-        
+        return arr[-1] + k
         
