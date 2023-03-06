@@ -1,14 +1,20 @@
 class Solution:
     def subArrayRanges(self, nums: List[int]) -> int:
         n, ans = len(nums), 0
+        stack = []
         
-        for left in range(n):
-            min_val, max_val = float('inf'), float('-inf')
-            for right in range(left, n):
-                max_val = max(max_val, nums[right])
-                min_val = min(min_val, nums[right])
-                ans += max_val - min_val
+        for right in range(n + 1):
+            while stack and (right == n or nums[stack[-1]] >= nums[right]):
+                mid = stack.pop()
+                left = -1 if not stack else stack[-1]
+                ans -= nums[mid] * (mid - left) * (right - mid)
+            stack.append(right)
+            
+        stack.clear()
+        for right in range(n + 1):
+            while stack and (right == n or nums[stack[-1]] <= nums[right]):
+                mid = stack.pop()
+                left = -1 if not stack else stack[-1]
+                ans += nums[mid] * (mid - left) * (right - mid)
+            stack.append(right)
         return ans
-
-        
-        
