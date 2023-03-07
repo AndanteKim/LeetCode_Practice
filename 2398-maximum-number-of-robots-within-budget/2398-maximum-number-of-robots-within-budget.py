@@ -1,18 +1,19 @@
 class Solution:
+    def remove_stale(self, pq: List[Tuple], left: int) -> int:
+        while pq and pq[0][1] <= left:
+            heappop(pq)
+        return -pq[0][0] if pq else 0
+    
     def maximumRobots(self, chargeTimes: List[int], runningCosts: List[int], budget: int) -> int:
-        curr = left = 0
-        n, dq = len(chargeTimes), deque()
+        ans, total_run, left, pq = 0, 0, -1, []
         
-        for right in range(n):
-            curr += runningCosts[right]
-            while dq and chargeTimes[dq[-1]] <= chargeTimes[right]:
-                dq.pop()
+        for right in range(len(runningCosts)):
+            total_run += runningCosts[right]
             
-            dq.append(right)
+            heappush(pq, (-chargeTimes[right], right))
             
-            if chargeTimes[dq[0]] + (right - left + 1) * curr > budget:
-                if dq[0] == left:
-                    dq.popleft()
-                curr -= runningCosts[left]
+            while total_run * (right - left) + self.remove_stale(pq, left) > budget:
                 left += 1
-        return n - left
+                total_run -= runningCosts[left]
+            ans = max(ans, right - left)
+        return ans
