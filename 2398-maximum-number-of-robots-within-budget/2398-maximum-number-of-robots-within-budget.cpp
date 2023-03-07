@@ -15,7 +15,7 @@ public:
             pq.push(make_pair(chargeTimes[right], right));
             while (total_run * (right - left) + 1LL * remove_stale(pq, left) > budget)
                 total_run -= runningCosts[++left];
-            cout << right - left << endl;
+            
             ans = max(ans, right - left);
         }
         
