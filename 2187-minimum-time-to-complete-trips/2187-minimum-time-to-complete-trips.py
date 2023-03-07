@@ -1,18 +1,18 @@
 class Solution:
-    def timeEnough(self, time: List[int], given_time: int, totalTrips) -> bool:
-        actual_trips = 0
-        for t in time:
-            actual_trips += given_time // t
-        return actual_trips >= totalTrips
-    
     def minimumTime(self, time: List[int], totalTrips: int) -> int:
-        left, right = 1, max(time) * totalTrips
+        if len(time) == 1: return totalTrips * time[0]
         
-        while left < right:
-            mid = (left + right) >> 1
-            if self.timeEnough(time, mid, totalTrips):
-                right = mid
+        l, r = 1, totalTrips * min(time)
+        
+        while l < r:
+            tripCount = 0
+            mid = (l + r) >> 1
+            for t in time:
+                tripCount += (mid // t)
+            
+            if tripCount >= totalTrips:
+                r = mid
             else:
-                left = mid + 1
+                l = mid + 1
         
-        return left
+        return l
