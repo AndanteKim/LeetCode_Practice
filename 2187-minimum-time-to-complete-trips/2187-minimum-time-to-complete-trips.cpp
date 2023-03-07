@@ -10,7 +10,7 @@ class Solution {
     
 public:
     long long minimumTime(vector<int>& time, int totalTrips) {
-        long long left = 1, right = 1LL * *max_element(time.begin(), time.end()) * totalTrips, mid;
+        long long left = 1, right = 2LL * *max_element(time.begin(), time.end()) * totalTrips, mid;
         
         while (left < right){
             mid = left + (right - left) / 2;
