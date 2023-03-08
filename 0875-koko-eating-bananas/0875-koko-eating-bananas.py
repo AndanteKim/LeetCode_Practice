@@ -8,7 +8,7 @@ class Solution:
             hour_spent = 0
             
             for pile in piles:
-                hour_spent += ceil(pile / mid)
+                hour_spent += pile // mid + 1 if pile / mid != pile // mid else pile // mid
             
             if hour_spent <= h:
                 right = mid
