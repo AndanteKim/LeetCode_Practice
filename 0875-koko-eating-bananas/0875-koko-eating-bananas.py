@@ -1,21 +1,18 @@
 class Solution:
-    def feasible(self, piles: List[int], rate: int, h: int) -> bool:
-        hoursNeeded = 0
-        for pile in piles:
-            hoursNeeded += (pile // rate) + 1 if pile / rate != pile // rate else pile // rate
-    
-        return hoursNeeded <= h
-    
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
         
         left, right = 1, max(piles)
         
         while left < right:
-            curr_rate = (left + right) >> 1
+            mid = (left + right) >> 1
+            hour_spent = 0
             
-            if self.feasible(piles, curr_rate, h):
-                right = curr_rate
+            for pile in piles:
+                hour_spent += ceil(pile / mid)
+            
+            if hour_spent <= h:
+                right = mid
             else:
-                left = curr_rate + 1
+                left = mid + 1
         
-        return left
+        return right
