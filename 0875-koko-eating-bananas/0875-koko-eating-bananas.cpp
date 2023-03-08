@@ -7,7 +7,7 @@ public:
             mid = left + (right - left) / 2;
             hours_spent = 0;
             
-            for (int pile : piles) hours_spent += (double)pile / mid != pile / mid? pile / mid + 1: pile / mid;
+            for (int pile : piles) hours_spent += ceil((double)pile / mid);
             
             if (hours_spent <= h) right = mid;
             else left = mid + 1;
