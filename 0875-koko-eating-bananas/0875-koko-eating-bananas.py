@@ -7,8 +7,6 @@ class Solution:
         return hoursNeeded <= h
     
     def minEatingSpeed(self, piles: List[int], h: int) -> int:
-        if len(piles) == 1:
-            return piles[0] // h + 1 if piles[0] / h != piles[0] // h else piles[0] // h
         
         left, right = 1, max(piles)
         
