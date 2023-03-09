@@ -7,21 +7,33 @@
  * };
  */
 class Solution {
-public:
-    ListNode *detectCycle(ListNode *head) {
-        set<ListNode*> *seen = new set<ListNode*>;
-        ListNode* root = head;
+    ListNode *getIntersect(ListNode *head){
+        ListNode *hare = head, *tortoise = head;
         
-        while (root != nullptr && root -> next != nullptr){
-            if (seen -> find(root) == seen -> end()){
-                seen -> insert(root);
-            }
-            else{
-                return root;
-            }
-            root = root -> next;
+        while (hare && hare -> next){
+            tortoise = tortoise -> next;
+            hare = hare -> next -> next;
+            if (tortoise == hare) return tortoise;
         }
         
         return nullptr;
+    }
+    
+public:
+    ListNode *detectCycle(ListNode *head) {
+        if (head == nullptr) return nullptr;
+        
+        ListNode* intersect = getIntersect(head);
+        
+        if (!intersect) return nullptr;
+        
+        ListNode* ptr1 = head, *ptr2 = intersect;
+        
+        while(ptr1 != ptr2){
+            ptr1 = ptr1 -> next;
+            ptr2 = ptr2 -> next;
+        }
+        
+        return ptr1;
     }
 };
