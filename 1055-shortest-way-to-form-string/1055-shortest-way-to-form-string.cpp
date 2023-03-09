@@ -1,32 +1,26 @@
 class Solution {
-    bool is_subsequence(string to_target, string in_string){
-        int i = 0, j = 0;
-        
-        while (i < to_target.size() && j < in_string.size()){
-            if (to_target[i] == in_string[j]) ++i;
-            ++j;
-        }
-        return i == to_target.size();
-    }
-    
 public:
     int shortestWay(string source, string target) {
-        
-        vector<bool> source_set(26, false);
-        
-        for (const char& c : source) source_set[c - 'a'] = true;
-        
-        for (const char& c : target){
-            if (source_set[c - 'a'] == false) return -1;
-        }
-        string concatenated_source = source;
-        int cnt = 1;
-        
-        while (!is_subsequence(target, concatenated_source)){
-            concatenated_source += source;
-            ++cnt;
+        unordered_map<char, vector<int>> char_to_indices;
+        for (int i = 0; i < source.size(); ++i){
+            char_to_indices[source[i]].push_back(i);
         }
         
-        return cnt;
+        int source_iterator = 0, count = 1;
+        for (char& c : target){
+            if (char_to_indices.find(c) == char_to_indices.end()) return -1;
+            
+            int index = lower_bound(char_to_indices[c].begin(), char_to_indices[c].end(), source_iterator) - char_to_indices[c].begin();
+            
+            if (index == char_to_indices[c].size()){
+                ++count;
+                source_iterator = char_to_indices[c][0] + 1;
+            } 
+            else{
+                source_iterator = char_to_indices[c][index] + 1;
+            }
+        }
+        
+        return count;
     }
 };
