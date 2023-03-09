@@ -5,14 +5,30 @@
 #         self.next = None
 
 class Solution:
-    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        seen = set()
-        root = head
-        while root and root.next:
-            if root not in seen:
-                seen.add(root)
-            else:
-                return root
-            root = root.next
-        return None
+    def getIntersect(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        tortoise, hare = head, head
         
+        while hare and hare.next:
+            tortoise = tortoise.next
+            hare = hare.next.next
+            
+            if tortoise == hare:
+                return tortoise
+        
+        return None
+    
+    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        if not head:
+            return None
+        
+        intersect = self.getIntersect(head)
+        if not intersect:
+            return None
+        
+        ptr1, ptr2 = head, intersect
+        
+        while ptr1 != ptr2:
+            ptr1 = ptr1.next
+            ptr2 = ptr2.next
+            
+        return ptr1
