@@ -9,22 +9,22 @@
  * };
  */
 class Solution {
-    vector<int> range;
+    ListNode* mHead;
 public:
     Solution(ListNode* head) {
-        while (head != nullptr){
-            range.push_back(head -> val);
-            head = head -> next;
-        }
-        
+        mHead = head;
     }
     
     int getRandom() {
-        random_device rd;
-        mt19937 gen(rd());
-        uniform_real_distribution<> dis(0, 1.0);
-        int pick = int(dis(gen) * range.size());
-        return range[pick];
+        ListNode* curr = mHead;
+        int scope = 1, chosen_value = 0;
+        
+        while (curr != nullptr){
+            if (rand() % scope == 0) chosen_value = curr -> val;
+            ++scope;
+            curr = curr -> next;
+        }
+        return chosen_value;
     }
 };
 
