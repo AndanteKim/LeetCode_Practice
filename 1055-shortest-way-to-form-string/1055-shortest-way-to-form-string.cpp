@@ -1,27 +1,33 @@
 class Solution {
 public:
     int shortestWay(string source, string target) {
-        vector<int> char_to_indices[26];
-        for (int i = 0; i < source.size(); ++i){
-            char_to_indices[source[i] - 'a'].push_back(i);
+        int source_length = source.size();
+        int nextOccurrence[source.length()][26];
+        
+        for (int c = 0; c < 26; ++c) nextOccurrence[source.size() - 1][c] = -1;
+        
+        nextOccurrence[source.size() - 1][source[source.size() - 1] - 'a'] = source.size() - 1;
+        
+        for (int idx = source.size() - 2; idx >= 0; --idx){
+            for (int c = 0; c < 26; ++c) nextOccurrence[idx][c] = nextOccurrence[idx + 1][c];
+            
+            nextOccurrence[idx][source[idx] - 'a'] = idx;
         }
         
         int source_iterator = 0, count = 1;
-        for (int i = 0; i < target.size(); ++i){
-            if (char_to_indices[target[i] - 'a'].size() == 0) return -1;
+        
+        for (const char&c : target){
+            if (nextOccurrence[0][c - 'a'] == -1) return -1;
             
-            vector<int> indices = char_to_indices[target[i] - 'a'];
-            int index = lower_bound(indices.begin(), indices.end(), source_iterator) - indices.begin();
-            
-            if (index == indices.size()){
+            if (source_iterator == source.size() || nextOccurrence[source_iterator][c - 'a'] == -1){
                 ++count;
-                source_iterator = indices[0] + 1;
-            } 
-            else{
-                source_iterator = indices[index] + 1;
+                source_iterator = 0;
             }
+            
+            source_iterator = nextOccurrence[source_iterator][c - 'a'] + 1;
         }
         
         return count;
+        
     }
 };
