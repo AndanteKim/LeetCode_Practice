@@ -9,22 +9,18 @@
  * };
  */
 class Solution {
-    ListNode* mHead;
+    ListNode *_head;
 public:
-    Solution(ListNode* head) {
-        mHead = head;
+    Solution(ListNode* head) : _head(head) {
+        
     }
     
     int getRandom() {
-        ListNode* curr = mHead;
-        int scope = 1, chosen_value = 0;
-        
-        while (curr != nullptr){
-            if (rand() % scope == 0) chosen_value = curr -> val;
-            ++scope;
-            curr = curr -> next;
+        int res = 0, i = 1;
+        for(ListNode* h = _head; h; h = h->next, ++i){
+            if (rand() % i == 0) res = h -> val;
         }
-        return chosen_value;
+        return res;
     }
 };
 
