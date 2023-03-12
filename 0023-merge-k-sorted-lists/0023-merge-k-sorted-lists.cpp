@@ -9,25 +9,40 @@
  * };
  */
 class Solution {
+    ListNode* merge2Lists(ListNode* l1, ListNode* l2){
+        ListNode* head = new ListNode();
+        ListNode* point = head;
+        
+        while (l1 != nullptr && l2 != nullptr){
+            if (l1 -> val <= l2 -> val){
+                point -> next = l1;
+                l1 = l1 -> next;
+            }
+            else{
+                point -> next = l2;
+                l2 = l1;
+                l1 = point -> next -> next;
+            }
+            point = point -> next;
+        }
+        
+        if (l1 == nullptr) point -> next = l2;
+        else point -> next = l1;
+        
+        return head -> next;
+    }
+    
 public:
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        auto cmp = [](ListNode* a, ListNode* b) {return a -> val > b -> val;};
+        int amount = lists.size(), interval = 1;
         
-        priority_queue<ListNode*, vector<ListNode*>, decltype(cmp)> pq(cmp);
-        
-        for (auto list: lists){
-            if (list) pq.push(list);
+        while (interval < amount){
+            for (int i = 0; i < amount - interval; i += interval * 2){
+                lists[i] = merge2Lists(lists[i], lists[i + interval]);
+            }
+            interval *= 2;
         }
         
-        ListNode* dummy = new ListNode();
-        ListNode* tail = dummy;
-        while (!pq.empty()){
-            auto curr = pq.top(); pq.pop();
-            tail -> next = curr;
-            tail = tail -> next;
-            if (curr -> next) pq.push(curr -> next);
-        }
-        
-        return dummy -> next;
+        return amount > 0? lists[0] : NULL;
     }
 };
