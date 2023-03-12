@@ -20,32 +20,30 @@
  * };
  */
 class Solution {
-    ListNode* findMiddle(ListNode* head){
-        ListNode* prevPtr = NULL;
-        ListNode* slowPtr = head, *fastPtr = head;
-        
-        while (fastPtr && fastPtr -> next){
-            prevPtr = slowPtr;
-            slowPtr = slowPtr -> next;
-            fastPtr = fastPtr -> next -> next;
+    vector<int> mapListToValues(ListNode* head){
+        vector<int> vals;
+        while (head){
+            vals.push_back(head -> val);
+            head = head -> next;
         }
+        return vals;
+    }
+    
+    TreeNode* convertListToBST(vector<int>& values, int left, int right){
+        if (left > right) return nullptr;
+        int mid = (left + right) >> 1;
+        TreeNode* node = new TreeNode(values[mid]);
         
-        if (prevPtr) prevPtr -> next = NULL;
+        if (left == right) return node;
+        node -> left = convertListToBST(values, left, mid - 1);
+        node -> right = convertListToBST(values, mid + 1, right);
         
-        return slowPtr;
+        return node;
     }
     
 public:
     TreeNode* sortedListToBST(ListNode* head) {
-        if (!head) return NULL;
-        
-        ListNode* mid = findMiddle(head);
-        
-        TreeNode* node = new TreeNode(mid -> val);
-        if (head == mid) return node;
-        
-        node -> left = sortedListToBST(head);
-        node -> right = sortedListToBST(mid -> next);
-        return node;
+        vector<int> values = mapListToValues(head);
+        return convertListToBST(values, 0, values.size() - 1);
     }
 };
