@@ -20,30 +20,35 @@
  * };
  */
 class Solution {
-    vector<int> mapListToValues(ListNode* head){
-        vector<int> vals;
-        while (head){
-            vals.push_back(head -> val);
-            head = head -> next;
+    ListNode* head;
+    
+    int findSize(ListNode* head){
+        ListNode *ptr = head;
+        int c = 0;
+        while (ptr){
+            ++c;
+            ptr = ptr -> next;
         }
-        return vals;
+        return c;
     }
     
-    TreeNode* convertListToBST(vector<int>& values, int left, int right){
+    TreeNode* convert(int left, int right){
         if (left > right) return nullptr;
+        
         int mid = (left + right) >> 1;
-        TreeNode* node = new TreeNode(values[mid]);
         
-        if (left == right) return node;
-        node -> left = convertListToBST(values, left, mid - 1);
-        node -> right = convertListToBST(values, mid + 1, right);
-        
+        TreeNode* Left_node = convert(left, mid - 1);
+        TreeNode* node = new TreeNode(this -> head -> val);
+        node -> left = Left_node;
+        this -> head = this -> head -> next;
+        node -> right = convert(mid + 1, right);
         return node;
     }
     
 public:
     TreeNode* sortedListToBST(ListNode* head) {
-        vector<int> values = mapListToValues(head);
-        return convertListToBST(values, 0, values.size() - 1);
+        this -> head = head;
+        int s = findSize(this -> head);
+        return convert(0, s - 1);
     }
 };
