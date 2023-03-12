@@ -10,29 +10,28 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def findMiddle(self, head):
-        prevPtr = None
-        slowPtr, fastPtr = head, head
-        
-        while fastPtr and fastPtr.next:
-            prevPtr = slowPtr
-            slowPtr = slowPtr.next
-            fastPtr = fastPtr.next.next
-        
-        if prevPtr:
-            prevPtr.next = None
-        
-        return slowPtr
+    def mapListToValues(self, head: Optional[ListNode]) -> List[int]:
+        vals = []
+        while head:
+            vals.append(head.val)
+            head = head.next
+        return vals
     
-    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
-        if not head: return None
+    def convertListToBST(self, values: List[int], left: int, right: int) -> Optional[TreeNode]:
+        if left > right:
+            return None
         
-        mid = self.findMiddle(head)
-        node = TreeNode(mid.val)
+        mid = (left + right) >> 1
+        node = TreeNode(values[mid])
         
-        if head == mid:
+        if left == right:
             return node
         
-        node.left = self.sortedListToBST(head)
-        node.right = self.sortedListToBST(mid.next)
+        node.left = self.convertListToBST(values, left, mid - 1)
+        node.right = self.convertListToBST(values, mid + 1, right)
         return node
+    
+    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
+        values = self.mapListToValues(head)
+        
+        return self.convertListToBST(values, 0, len(values) - 1)
