@@ -10,28 +10,28 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def mapListToValues(self, head: Optional[ListNode]) -> List[int]:
-        vals = []
-        while head:
-            vals.append(head.val)
-            head = head.next
-        return vals
+    def findSize(self, head):
+        ptr = head
+        c = 0
+        while ptr:
+            ptr = ptr.next
+            c += 1
+        return c
     
-    def convertListToBST(self, values: List[int], left: int, right: int) -> Optional[TreeNode]:
+    def convert(self, left: int, right: int) -> Optional[TreeNode]:
         if left > right:
             return None
-        
         mid = (left + right) >> 1
-        node = TreeNode(values[mid])
+        left = self.convert(left, mid - 1)
+        node = TreeNode(self.head.val)
+        node.left = left
+        self.head = self.head.next
         
-        if left == right:
-            return node
-        
-        node.left = self.convertListToBST(values, left, mid - 1)
-        node.right = self.convertListToBST(values, mid + 1, right)
+        node.right = self.convert(mid + 1, right)
         return node
     
     def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
-        values = self.mapListToValues(head)
+        size = self.findSize(head)
+        self.head = head;
+        return self.convert(0, size - 1)
         
-        return self.convertListToBST(values, 0, len(values) - 1)
