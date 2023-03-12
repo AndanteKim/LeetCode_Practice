@@ -11,27 +11,26 @@
 #         self.right = right
 class Solution:
     def findSize(self, head):
-        ptr = head
-        c = 0
-        while ptr:
-            ptr = ptr.next
-            c += 1
-        return c
-    
-    def convert(self, left: int, right: int) -> Optional[TreeNode]:
-        if left > right:
-            return None
-        mid = (left + right) >> 1
-        left = self.convert(left, mid - 1)
-        node = TreeNode(self.head.val)
-        node.left = left
-        self.head = self.head.next
+            ptr, c = head, 0
+            
+            while ptr:
+                ptr = ptr.next
+                c += 1
+            return c
         
-        node.right = self.convert(mid + 1, right)
-        return node
-    
     def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:
         size = self.findSize(head)
-        self.head = head;
-        return self.convert(0, size - 1)
-        
+        def convert(left: int, right: int) -> Optional[TreeNode]:
+            nonlocal head
+            if left > right:
+                return None
+            mid = (left + right) >> 1
+            left = convert(left, mid - 1)
+            
+            node = TreeNode(head.val)
+            node.left = left
+            head = head.next
+            
+            node.right = convert(mid + 1, right)
+            return node
+        return convert(0, size - 1)
