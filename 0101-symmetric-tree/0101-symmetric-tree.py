@@ -5,13 +5,23 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def isMirror(self, left: Optional[TreeNode], right: Optional[TreeNode]) -> bool:
-        if not left and not right:
-            return True
-        if not left or not right:
-            return False
-        
-        return (left.val == right.val) and self.isMirror(left.left, right.right) and self.isMirror(left.right, right.left)
-    
     def isSymmetric(self, root: Optional[TreeNode]) -> bool:
-        return self.isMirror(root.left, root.right)
+        queue = deque([root, root])
+        
+        while queue:
+            t1, t2 = queue.popleft(), queue.popleft()
+            
+            if not t1 and not t2:
+                continue
+            
+            if not t1 or not t2:
+                return False
+            
+            if t1.val != t2.val:
+                return False
+            queue.append(t1.left)
+            queue.append(t2.right)
+            queue.append(t1.right)
+            queue.append(t2.left)
+        
+        return True
