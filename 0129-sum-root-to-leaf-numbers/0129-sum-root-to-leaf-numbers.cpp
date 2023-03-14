@@ -10,18 +10,27 @@
  * };
  */
 class Solution {
-    int dfs(TreeNode* root, int total){
-        if (!root) return 0;
-        
-        total = total * 10 + root -> val;
-        
-        if (!root -> left && !root -> right) return total;
-        
-        return dfs(root -> left, total) + dfs(root -> right, total);
-    }
-    
 public:
     int sumNumbers(TreeNode* root) {
-        return dfs(root, 0);
+        int root_to_leaf = 0;
+        stack<pair<TreeNode*, int>> *st = new stack<pair<TreeNode*, int>>;
+        st -> push({root, 0});
+        
+        while (!st -> empty()){
+            TreeNode* node = st -> top().first;
+            int curr_number = st -> top().second;
+            st -> pop();
+            
+            if (node != nullptr){
+                curr_number = curr_number * 10 + node -> val;
+                if (!node -> left && !node -> right) root_to_leaf += curr_number;
+                else{
+                    st -> push({node -> left, curr_number});
+                    st -> push({node -> right, curr_number});
+                }
+            }
+        }
+        
+        return root_to_leaf;
     }
 };
