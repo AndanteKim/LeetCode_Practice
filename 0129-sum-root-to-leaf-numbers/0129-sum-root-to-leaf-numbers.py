@@ -18,7 +18,7 @@ class Solution:
                     root_to_leaf += curr_number
                 
                 else:
-                    stack.append((root.right, curr_number))
                     stack.append((root.left, curr_number))
+                    stack.append((root.right, curr_number))
             
         return root_to_leaf
