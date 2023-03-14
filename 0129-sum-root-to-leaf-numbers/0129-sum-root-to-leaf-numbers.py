@@ -6,19 +6,33 @@
 #         self.right = right
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        root_to_leaf = 0
-        stack = [(root, 0)]
+        root_to_leaf = curr_number = 0
         
-        while stack:
-            root, curr_number = stack.pop()
-            if root:
-                curr_number = curr_number * 10 + root.val
+        while root:
+            if root.left:
+                predecessor = root.left
+                steps = 1
+                while predecessor.right and not predecessor.right == root:
+                    predecessor = predecessor.right
+                    steps += 1
                 
-                if not root.left and not root.right:
-                    root_to_leaf += curr_number
+                if not predecessor.right:
+                    curr_number = curr_number * 10 + root.val
+                    predecessor.right = root
+                    root = root.left
                 
                 else:
-                    stack.append((root.left, curr_number))
-                    stack.append((root.right, curr_number))
-            
+                    if not predecessor.left:
+                        root_to_leaf += curr_number
+                    
+                    for _ in range(steps):
+                        curr_number //= 10
+                    predecessor.right = None
+                    root = root.right
+            else:
+                curr_number = curr_number * 10 + root.val
+                if not root.right:
+                    root_to_leaf += curr_number
+                root = root.right
+                
         return root_to_leaf
