@@ -12,25 +12,35 @@
 class Solution {
 public:
     int sumNumbers(TreeNode* root) {
-        int root_to_leaf = 0;
-        stack<pair<TreeNode*, int>> *st = new stack<pair<TreeNode*, int>>;
-        st -> push({root, 0});
-        
-        while (!st -> empty()){
-            TreeNode* node = st -> top().first;
-            int curr_number = st -> top().second;
-            st -> pop();
-            
-            if (node != nullptr){
-                curr_number = curr_number * 10 + node -> val;
-                if (!node -> left && !node -> right) root_to_leaf += curr_number;
+        int root_to_leaf = 0, curr_number = 0, steps;
+        TreeNode* predecessor;
+        while(root){
+            if (root -> left){
+                predecessor = root -> left;
+                steps = 1;
+                while (predecessor -> right && predecessor -> right != root){
+                    predecessor = predecessor -> right;
+                    ++steps;
+                }
+                if (!predecessor -> right){
+                    curr_number = curr_number * 10 + root -> val;
+                    predecessor -> right = root;
+                    root = root -> left;
+                }
                 else{
-                    st -> push({node -> left, curr_number});
-                    st -> push({node -> right, curr_number});
+                    if (!predecessor -> left) root_to_leaf += curr_number;
+                    
+                    for (int i = 0; i < steps; ++i) curr_number /= 10;
+                    predecessor -> right = nullptr;
+                    root = root -> right;
                 }
             }
+            else{
+                curr_number = curr_number * 10 + root -> val;
+                if (!root -> right) root_to_leaf += curr_number;
+                root = root -> right;
+            }
         }
-        
         return root_to_leaf;
     }
 };
