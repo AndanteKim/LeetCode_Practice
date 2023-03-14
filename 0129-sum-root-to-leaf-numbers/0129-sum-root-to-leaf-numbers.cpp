@@ -12,12 +12,11 @@
 class Solution {
 public:
     int sumNumbers(TreeNode* root) {
-        int root_to_leaf = 0, curr_number = 0, steps;
-        TreeNode* predecessor;
+        int root_to_leaf = 0, curr_number = 0;
         while(root){
             if (root -> left){
-                predecessor = root -> left;
-                steps = 1;
+                TreeNode* predecessor = root -> left;
+                int steps = 1;
                 while (predecessor -> right && predecessor -> right != root){
                     predecessor = predecessor -> right;
                     ++steps;
