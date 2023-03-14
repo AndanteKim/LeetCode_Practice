@@ -5,32 +5,15 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def dfs(self, root: Optional[TreeNode], total: int) -> int:
+        if not root:
+            return 0
+        
+        total = total * 10 + root.val
+        if not root.left and not root.right:
+            return total
+        
+        return self.dfs(root.left, total) + self.dfs(root.right, total)
+    
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        total = 0
-        def dfs(root, arr):
-            nonlocal total
-            
-            if not root.left and not root.right:
-                arr += [root.val]
-                num = 0
-                digit = len(arr) - 1
-                for i in range(len(arr)):
-                    num += arr[i] * (10 ** digit)
-                    digit -= 1
-                
-                total += num
-                return
-            
-            if root.left:
-                dfs(root.left, arr + [root.val])
-            if root.right:
-                dfs(root.right, arr + [root.val])
-                
-        dfs(root, [])
-        
-        return total
-        
-        
-        
-        
-        
+        return self.dfs(root, 0)
