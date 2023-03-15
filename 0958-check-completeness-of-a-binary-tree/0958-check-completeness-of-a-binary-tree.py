@@ -5,21 +5,18 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def isCompleteTree(self, root: Optional[TreeNode]) -> bool:
-        if not root:
+    def countNodes(self, root: Optional[TreeNode]) -> int:
+        if not root: return 0
+        return 1 + self.countNodes(root.left) + self.countNodes(root.right)
+    
+    def dfs(self, node: Optional[TreeNode], index: int, n: int) -> bool:
+        if not node:
             return True
         
-        queue, nullNodeFound = deque([root]), False
+        if index >= n:
+            return False
         
-        while queue:
-            node = queue.popleft()
-            
-            if not node:
-                nullNodeFound = True
-            else:
-                if nullNodeFound:
-                    return False
-                queue.append(node.left)
-                queue.append(node.right)
-                
-        return True
+        return self.dfs(node.left, 2 * index + 1, n) and self.dfs(node.right, 2 * index + 2, n)
+    
+    def isCompleteTree(self, root: Optional[TreeNode]) -> bool:
+        return self.dfs(root, 0, self.countNodes(root))
