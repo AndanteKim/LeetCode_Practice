@@ -10,26 +10,21 @@
  * };
  */
 class Solution {
+    int countNodes(TreeNode* root){
+        if (!root) return 0;
+        
+        return 1 + countNodes(root -> left) + countNodes(root -> right);
+    }
+    
+    bool dfs(TreeNode* root, int index, int n){
+        if (!root) return true;
+        if (index >= n) return false;
+        
+        return dfs(root -> left, 2 * index + 1, n) && dfs(root -> right, 2 * index + 2, n);
+    }
+    
 public:
     bool isCompleteTree(TreeNode* root) {
-        if (!root) return true;
-        
-        queue<TreeNode*> *q = new queue<TreeNode*>;
-        q -> push(root);
-        
-        bool nodeNullFound = false;
-        while (!q -> empty()){
-            TreeNode* node = q -> front();
-            q -> pop();
-            
-            if (node == nullptr) nodeNullFound = true;
-            else{
-                if (nodeNullFound) return false;
-                q -> push(node -> left);
-                q -> push(node -> right);
-            }
-        }
-        
-        return true;
+        return dfs(root, 0, countNodes(root));
     }
 };
