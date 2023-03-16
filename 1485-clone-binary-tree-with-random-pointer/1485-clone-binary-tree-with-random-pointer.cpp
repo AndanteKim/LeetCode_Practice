@@ -15,9 +15,9 @@ class Solution {
     unordered_map<Node*, NodeCopy*> seen;
     
     NodeCopy* dfs(Node* root){
-        if (!root) return nullptr;
+        if (!root) return NULL;;
         
-        if (seen[root] != nullptr) return seen[root];
+        if (seen.find(root) != seen.end()) return seen[root];
         NodeCopy* new_root = new NodeCopy(root -> val);
         seen[root] = new_root;
         new_root -> left = dfs(root -> left);
