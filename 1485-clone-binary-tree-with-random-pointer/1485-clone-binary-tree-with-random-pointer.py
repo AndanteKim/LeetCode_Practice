@@ -8,23 +8,41 @@
 
 class Solution:
     def __init__(self):
-        self.seen: dict[str, int] = {None: None}
+        self.seen: dict = {None: None}
     
-    def dfs(self, root: 'Optional[Node]') -> 'Optional[NodeCopy]':
+    def bfs(self, root: 'Optional[Node]') -> 'Optional[NodeCopy]':
         if not root:
             return None
         
-        if self.seen.get(root):
-            return self.seen.get(root)
+        pending = deque()
+        pending.append(root)
+        self.seen[root] = NodeCopy(root.val)
         
-        new_root = NodeCopy(root.val)
-        self.seen[root] = new_root
+        while pending:
+            old_node = pending.popleft()
+            new_node = self.seen[old_node]
+            
+            if old_node.left:
+                if not old_node.left in self.seen:
+                    pending.append(old_node.left)
+                    self.seen[old_node.left] = NodeCopy(old_node.left.val)
+                new_node.left = self.seen[old_node.left]
+            
+            if old_node.right:
+                if not old_node.right in self.seen:
+                    pending.append(old_node.right)
+                    self.seen[old_node.right] = NodeCopy(old_node.right.val)
+                new_node.right = self.seen[old_node.right]
         
-        new_root.left = self.dfs(root.left)
-        new_root.right = self.dfs(root.right)
-        new_root.random = self.dfs(root.random)
-        return new_root
+            if old_node.random:
+                if not old_node.random in self.seen:
+                    pending.append(old_node.random)
+                    self.seen[old_node.random] = NodeCopy(old_node.random.val)
+                new_node.random = self.seen[old_node.random]
+            
+        return self.seen[root]
+        
     
     def copyRandomBinaryTree(self, root: 'Optional[Node]') -> 'Optional[NodeCopy]':
-        new_root = self.dfs(root)
+        new_root = self.bfs(root)
         return new_root
