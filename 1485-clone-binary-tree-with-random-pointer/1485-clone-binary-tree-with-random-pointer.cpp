@@ -12,31 +12,25 @@
  */
 
 class Solution {
-    unordered_map<Node*, NodeCopy*> new_old_pairs;
-
-    NodeCopy* deep_copy(Node* root){
-        if(!root) return nullptr;
-        NodeCopy* new_root = new NodeCopy(root -> val);
-        new_root -> left = deep_copy(root -> left);
-        new_root -> right = deep_copy(root -> right);
-        new_old_pairs[root] = new_root;
-        return new_root;
-    }
+    unordered_map<Node*, NodeCopy*> seen;
     
-    void map_random_pointers(Node* old_node){
-        if (!old_node) return;
-        NodeCopy* new_node = new_old_pairs[old_node];
-        Node* old_node_random = old_node -> random;
-        NodeCopy* new_node_random = new_old_pairs[old_node_random];
-        new_node -> random = new_node_random;
-        map_random_pointers(old_node -> left);
-        map_random_pointers(old_node -> right);
+    NodeCopy* dfs(Node* root){
+        if (!root) return nullptr;
+        
+        if (seen[root] != nullptr) return seen[root];
+        NodeCopy* new_root = new NodeCopy(root -> val);
+        seen[root] = new_root;
+        new_root -> left = dfs(root -> left);
+        new_root -> right = dfs(root -> right);
+        new_root -> random = dfs(root -> random);
+        
+        return new_root;
     }
     
 public:
     NodeCopy* copyRandomBinaryTree(Node* root) {
-        NodeCopy* new_root = deep_copy(root);
-        map_random_pointers(root);
-        return new_root;    
+        NodeCopy* new_root = dfs(root);
+        
+        return new_root;
     }
 };
