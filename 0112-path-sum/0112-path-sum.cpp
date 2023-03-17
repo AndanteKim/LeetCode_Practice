@@ -10,25 +10,18 @@
  * };
  */
 class Solution {
+    bool dfs(TreeNode* node, int total, int targetSum){
+        if (!node) return false;
+        
+        if (!node -> left && !node -> right) return total + node -> val == targetSum;
+        bool left = dfs(node -> left, total + node -> val, targetSum);
+        bool right = dfs(node -> right, total + node -> val, targetSum);
+        return left || right;
+    }
+    
 public:
     bool hasPathSum(TreeNode* root, int targetSum) {
         if (!root) return false;
-        
-        queue<pair<TreeNode*, int>> *q = new queue<pair<TreeNode*, int>>;
-        q -> push({root, 0});
-        while (!q -> empty()){
-            TreeNode* node = q -> front().first;
-            int total = q -> front().second;
-            q -> pop();
-            
-            if (!node -> left && !node -> right){
-                if (total + node -> val == targetSum) return true;
-            }
-            
-            if (node -> left) q -> push({node -> left, total + node -> val});
-            if (node -> right) q -> push({node -> right, total + node -> val});
-        }
-        
-        return false;
+        return dfs(root, 0, targetSum);
     }
 };
