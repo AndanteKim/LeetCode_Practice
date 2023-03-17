@@ -12,24 +12,71 @@
 class Solution {
 public:
     bool hasPathSum(TreeNode* root, int targetSum) {
-        if (!root) return false;
-        stack<pair<TreeNode*, int>> stack;
-        stack.push(pair(root, 0));
+        /*
+        if not root: return False
         
-        while(!stack.empty()){
-            auto [node, curr] = stack.top();
-            stack.pop();
-            
-            if (!node -> left && !node -> right){
-                if (curr + node -> val == targetSum) return true;
+        curr, m, result = root, 0, False
+        
+        while curr:
+            if not curr.left:
+                m += curr.val
+                curr = curr.right
+                if not curr and m == targetSum:
+                    return True
+            else:
+                pred = curr.left
+                n = pred.val
+                
+                while pred.right and pred.right != curr:
+                    pred = pred.right
+                    n += pred.val
+                    
+                if not pred.right:
+                    pred.right = curr
+                    m += curr.val
+                    if not pred.left and m + n == targetSum:
+                        return True
+                    curr = curr.left
+                else:
+                    pred.right = None
+                    m -= n
+                    curr = curr.right
+        */
+        
+        if (!root) return false;
+        TreeNode* curr = root;
+        int m = 0;
+        bool result = false;
+        
+        while (curr){
+            if (!curr -> left){
+                m += curr -> val;
+                curr = curr -> right;
+                if (!curr && m == targetSum) result = true;
             }
-            
-            curr += node -> val;
-            
-            if (node -> left) stack.push({node -> left, curr});
-            if (node -> right) stack.push({node -> right, curr});
+            else{
+                TreeNode* pred = curr -> left;
+                int n = pred -> val;
+                
+                while (pred -> right && pred -> right != curr){
+                    pred = pred -> right;
+                    n += pred -> val;
+                }
+                
+                if (!pred -> right){
+                    pred -> right = curr;
+                    m += curr -> val;
+                    if (!pred -> left && m + n == targetSum) result = true;
+                    curr = curr -> left;
+                }
+                else{
+                    pred -> right = nullptr;
+                    m -= n;
+                    curr = curr -> right;
+                }
+            }
         }
         
-        return false;
+        return result;
     }
 };
