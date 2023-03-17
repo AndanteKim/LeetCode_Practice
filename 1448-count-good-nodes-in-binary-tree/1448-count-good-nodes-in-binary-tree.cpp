@@ -10,22 +10,20 @@
  * };
  */
 class Solution {
-public:
-    int goodNodes(TreeNode* root) {
-        queue<pair<TreeNode*, int>> *q = new queue<pair<TreeNode*, int>>;
-        q -> push({root, INT_MIN});
-        int ans = 0;
+    int dfs(TreeNode* node, int max_so_far){
+        if (!node) return 0;
         
-        while(!q -> empty()){
-            auto[node, prev_max_val] = q -> front();
-            q -> pop();
-            if (node -> val >= prev_max_val) ++ans;
-            
-            if (node -> left) q -> push({node -> left, max(prev_max_val, node -> val)});
-            
-            if (node -> right) q -> push({node -> right, max(prev_max_val, node -> val)});
-        }
+        int left = dfs(node -> left, max(max_so_far, node -> val));
+        int right = dfs(node -> right, max(max_so_far, node -> val));
+        int ans = left + right;
+        
+        if (node -> val >= max_so_far) ++ans;
         
         return ans;
+    }
+    
+public:
+    int goodNodes(TreeNode* root) {
+        return dfs(root, INT_MIN);
     }
 };
