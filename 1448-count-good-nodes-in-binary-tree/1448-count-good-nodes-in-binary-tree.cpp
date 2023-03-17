@@ -10,20 +10,21 @@
  * };
  */
 class Solution {
-    int dfs(TreeNode* node, int max_so_far){
-        if (!node) return 0;
-        
-        int left = dfs(node -> left, max(max_so_far, node -> val));
-        int right = dfs(node -> right, max(max_so_far, node -> val));
-        int ans = left + right;
-        
-        if (node -> val >= max_so_far) ++ans;
-        
-        return ans;
-    }
-    
 public:
     int goodNodes(TreeNode* root) {
-        return dfs(root, INT_MIN);
+        stack<pair<TreeNode*, int>> *st = new stack<pair<TreeNode*, int>>;
+        st -> push({root, INT_MIN});
+        int ans = 0;
+        
+        while (!st -> empty()){
+            auto[node, max_so_far] = st -> top();
+            st -> pop();
+            if (node -> val >= max_so_far) ++ans;
+            
+            if (node -> left) st -> push({node -> left, max(max_so_far, node -> val)});
+            if (node -> right) st -> push({node -> right, max(max_so_far, node -> val)});
+        }
+        
+        return ans;
     }
 };
