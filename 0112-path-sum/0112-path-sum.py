@@ -5,21 +5,19 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+    def dfs(self, root: Optional[TreeNode], total: int, targetSum: int) -> bool:
         if not root:
             return False
         
-        queue = deque([(root, 0)])
-        
-        while queue:
-            q, total = queue.popleft()
-            if not q.left and not q.right:
-                if total + q.val == targetSum:
-                    return True
-            if q.left:
-                queue.append((q.left, total + q.val))
+        if not root.left and not root.right:
+            return total + root.val == targetSum
             
-            if q.right:
-                queue.append((q.right, total + q.val))
-                
-        return False
+        left = self.dfs(root.left, total + root.val, targetSum)
+        right = self.dfs(root.right, total + root.val, targetSum)
+        
+        return left or right
+    
+    def hasPathSum(self, root: Optional[TreeNode], targetSum: int) -> bool:
+        if not root:
+            return False
+        return self.dfs(root, 0, targetSum)
