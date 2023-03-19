@@ -1,21 +1,50 @@
+struct TrieNode{
+    bool end;
+    vector<TrieNode*> children = vector<TrieNode*>(26, nullptr);  
+};
+
 class WordDictionary {
-    unordered_map<int, vector<string>> dict;
-    
+    TrieNode* root;
 public:
-    WordDictionary() {}
+    WordDictionary() {
+        root = new TrieNode();
+    }
     
     void addWord(string word) {
-        dict[word.size()].push_back(word);
+        TrieNode* curr = root;
+        for (const char& c : word){
+            int index = c - 'a';
+            if (!curr -> children[index]){
+                curr -> children[index] = new TrieNode();
+            }
+            curr = curr -> children[index];
+        }
+        curr -> end = true;
+    }
+    
+    bool pathSearch(string word, TrieNode* root, int index){
+        if (index == word.size()) return root -> end;
+        TrieNode* node = root;
+        char c = word[index];
+        
+        int idx = c - 'a';
+        if (c == '.'){
+            for (int i = 0; i < 26; ++i){
+                if (node -> children[i]){
+                    bool search = pathSearch(word, node -> children[i], index + 1);
+                    if (search) return true;
+                }
+            }
+            return false;
+        }
+        else{
+            if (!node -> children[idx]) return false;
+            return pathSearch(word, node -> children[idx], index + 1);
+        }
     }
     
     bool search(string word) {
-        int m = word.size();
-        for (const string& dict_word : dict[m]){
-            int i = 0;
-            while (i < m && (dict_word[i] == word[i] || word[i] == '.')) ++i;
-            if (i == m) return true;
-        }
-        return false;
+        return pathSearch(word, root, 0);
     }
 };
 
