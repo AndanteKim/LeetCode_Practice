@@ -1,24 +1,31 @@
 class WordDictionary:
 
     def __init__(self):
-        self.d = defaultdict(set)
-        
+        self.trie = {}
 
     def addWord(self, word: str) -> None:
-        self.d[len(word)].add(word)
+        node = self.trie
+        
+        for ch in word:
+            if not ch in node:
+                node[ch] = {}
+            node = node[ch]
+        node['$'] = True
 
     def search(self, word: str) -> bool:
-        m = len(word)
-        for dict_word in self.d[m]:
-            i = 0
-            while i < m and (dict_word[i] == word[i] or word[i] == '.'):
-                i += 1
-            
-            if i == m:
-                return True
+        def search_in_node(word: str, node: dict) -> bool:
+            for i, ch in enumerate(word):
+                if not ch in node:
+                    if ch == '.':
+                        for x in node:
+                            if x != '$' and search_in_node(word[i + 1:], node[x]):
+                                return True
+                    return False
+                else:
+                    node = node[ch]
+            return '$' in node
         
-        return False
-        
+        return search_in_node(word, self.trie)
 
 
 # Your WordDictionary object will be instantiated and called as such:
