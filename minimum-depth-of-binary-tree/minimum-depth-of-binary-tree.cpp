@@ -13,22 +13,22 @@ class Solution {
 public:
     int minDepth(TreeNode* root) {
         if (!root) return 0;
-        stack<pair<TreeNode*, int>> *st = new stack<pair<TreeNode*, int>>;
-        st -> push({root, 1});
+        queue<pair<TreeNode*, int>> *q = new queue<pair<TreeNode*, int>>;
+        q -> push({root, 1});
         int ans = INT_MAX;
         
-        while (!st -> empty()){
-            auto[node, height] = st -> top();
-            st -> pop();
+        while (!q -> empty()){
+            auto[node, height] = q -> front();
+            q -> pop();
             if (node -> left == nullptr && node -> right == nullptr){
                 ans = min(ans, height);
             }
             
             if (node -> left){
-                st -> push({node -> left, height + 1});
+                q -> push({node -> left, height + 1});
             }
             
-            if (node -> right) st -> push({node -> right, height + 1});
+            if (node -> right) q -> push({node -> right, height + 1});
         }
         
         return ans;
