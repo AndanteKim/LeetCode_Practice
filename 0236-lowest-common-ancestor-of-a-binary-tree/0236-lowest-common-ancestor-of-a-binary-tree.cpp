@@ -27,13 +27,13 @@ public:
                 st -> push(node -> right);
             }
         }
-        set<TreeNode*> ancestors;
+        vector<TreeNode*> ancestors;
         while (p){
-            ancestors.insert(p);
+            ancestors.push_back(p);
             p = parent[p];
         }
         
-        while (ancestors.find(q) == ancestors.end()){
+        while (find(ancestors.begin(), ancestors.end(), q) == ancestors.end()){
             q = parent[q];
         }
                
