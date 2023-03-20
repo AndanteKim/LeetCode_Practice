@@ -10,5 +10,6 @@ class Solution:
                 if empty_left_plot and empty_right_plot:
                     flowerbed[i] = 1
                     count += 1
-        
+                    if count >= n:
+                        return True
         return count >= n
