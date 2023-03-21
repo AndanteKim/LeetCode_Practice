@@ -10,20 +10,31 @@
  * };
  */
 class Solution {
-    int diameter = 0;
-    int longest_path(TreeNode* node){
-        if (!node) return 0;
-        int left_path = longest_path(node -> left);
-        int right_path = longest_path(node -> right);
-        
-        diameter = max(diameter, left_path + right_path);
-        
-        return max(left_path, right_path) + 1;
-    }
-    
 public:
     int diameterOfBinaryTree(TreeNode* root) {
-        longest_path(root);
+        int diameter = 0;
+        stack<pair<TreeNode*, bool>> *st = new stack<pair<TreeNode*, bool>>;
+        st -> push({root, false});
+        unordered_map<TreeNode*, int> height;
+        
+        while (!st -> empty()){
+            auto[node, seen] = st -> top();
+            
+            if (!seen){
+                st -> top().second = true;
+                
+                if (node -> left) st -> push({node -> left, false});
+                if (node -> right) st -> push({node -> right, false});
+            }
+            else{
+                int left = height[node -> left], right = height[node -> right];
+                diameter = max(diameter, left + right);
+                height[node] = max(left, right) + 1;
+                st -> pop();
+            }
+        }
+        
+        
         return diameter;
     }
 };
