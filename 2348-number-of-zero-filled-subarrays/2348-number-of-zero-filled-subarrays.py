@@ -1,16 +1,11 @@
 class Solution:
     def zeroFilledSubarray(self, nums: List[int]) -> int:
-        total, arr_0 = 0, []
+        ans, num_subarray = 0, 0
         
-        for i in range(len(nums)):
-            if nums[i] == 0:
-                arr_0.append(nums[i])
-                if i == len(nums) - 1:
-                    total += len(arr_0) * (len(arr_0) + 1) // 2
-                    arr_0 = []
-                
+        for num in nums:
+            if num == 0:
+                num_subarray += 1
             else:
-                total += len(arr_0) * (len(arr_0) + 1) // 2
-                arr_0 = []
-        
-        return total
+                num_subarray = 0
+            ans += num_subarray
+        return ans
