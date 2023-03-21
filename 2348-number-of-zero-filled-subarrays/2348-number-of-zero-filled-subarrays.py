@@ -1,11 +1,13 @@
 class Solution:
     def zeroFilledSubarray(self, nums: List[int]) -> int:
-        ans, num_subarray = 0, 0
+        ans, cnt = 0, 0
         
-        for num in nums:
-            if num == 0:
-                num_subarray += 1
+        for i in range(len(nums)):
+            if nums[i] == 0:
+                cnt += 1
             else:
-                num_subarray = 0
-            ans += num_subarray
+                ans += cnt * (cnt + 1) // 2
+                cnt = 0
+        
+        ans += cnt * (cnt + 1) // 2
         return ans
