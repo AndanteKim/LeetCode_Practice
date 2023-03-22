@@ -8,24 +8,29 @@
  */
 
 class Solution {
+    string getHostname(string& url){
+        int pos = min(url.size(), url.find('/', 7));
+        return url.substr(7, pos - 7);
+    }
+    
 public:
     vector<string> crawl(string startUrl, HtmlParser htmlParser) {
-        function<string(string)> get_hostname = [](string url) -> string{
-            int pos = min(url.size(), url.find('/', 7));
-            return url.substr(7, pos - 7);
-        };
-        
-        string start_hostname = get_hostname(startUrl);
+        string startHostname = getHostname(startUrl);
+        queue<string> *q = new queue<string>;
+        q -> push(startUrl);
         unordered_set<string> *visited = new unordered_set<string>;
-        
-        function<void(string)> dfs = [&](string url) -> void{
-            visited -> insert(url);
+        visited -> insert(startUrl);
+        while (!q -> empty()){
+            string url = q -> front();
+            q -> pop();
             for (string& next_url : htmlParser.getUrls(url)){
-                if (get_hostname(next_url) == start_hostname && !visited -> count(next_url)) dfs(next_url);
+                if (getHostname(next_url) == startHostname && !visited -> count(next_url)){
+                    q -> push(next_url);
+                    visited -> insert(next_url);
+                }
             }
-        };
+        }
         
-        dfs(startUrl);
         return vector<string>(visited -> begin(), visited -> end());
     }
 };
