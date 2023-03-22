@@ -1,25 +1,42 @@
-class Solution {
-    void dfs(int node, vector<vector<pair<int, int>>>& adj, vector<bool>& visit, int& answer){
-        visit[node] = true;
-        
-        for (auto& edge : adj[node]){
-            answer = min(answer, edge.second);
-            if (!visit[edge.first]) dfs(edge.first, adj, visit, answer);
-        }
+class UnionFind {
+private:
+    vector<int> parent, rank;
+public:
+    UnionFind(int size){
+        parent.resize(size);
+        rank.resize(size, 0);
+        for (int i = 0; i < size; ++i) parent[i] = i;
     }
     
+    int find(int x){
+        if (parent[x] != x) parent[x] = find(parent[x]);
+        return parent[x];
+    }
+    
+    void union_set(int x, int y){
+        int xset = find(x), yset = find(y);
+        if (xset == yset) return;
+        else if (rank[xset] < rank[yset]) parent[xset] = yset;
+        else if (rank[xset] > rank[yset]) parent[yset] = xset;
+        else{
+            parent[yset] = xset;
+            ++rank[xset];
+        }
+    }
+};
+
+class Solution {
 public:
     int minScore(int n, vector<vector<int>>& roads) {
-        vector<vector<pair<int, int>>> adj(n + 1);
+        UnionFind dsu(n + 1);
         int answer = numeric_limits<int>::max();
-        
-        for (auto road : roads){
-            adj[road[0]].push_back({road[1], road[2]});
-            adj[road[1]].push_back({road[0], road[2]});
+        for (auto& road : roads){
+            dsu.union_set(road[0], road[1]);
         }
-        vector<bool> visit(n + 1, false);
-        dfs(1, adj, visit, answer);
         
+        for (auto& road: roads){
+            if (dsu.find(1) == dsu.find(road[0])) answer = min(answer, road[2]);
+        }
         return answer;
     }
 };
