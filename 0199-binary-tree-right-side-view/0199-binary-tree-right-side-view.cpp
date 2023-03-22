@@ -19,15 +19,14 @@ public:
         q -> push(root);
         while (!q -> empty()){
             int level = q -> size();
-            TreeNode* node;
+            answer.push_back(q -> back() -> val);
             for (int i = 0; i < level; ++i){
-                node = q -> front();
+                TreeNode* node = q -> front();
                 q -> pop();
                 
                 if (node -> left) q -> push(node -> left);
                 if (node -> right) q -> push(node -> right);
             }
-            answer.push_back(node -> val);
         }
         
         return answer;
