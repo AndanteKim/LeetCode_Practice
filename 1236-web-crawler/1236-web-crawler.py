@@ -10,17 +10,19 @@
 #        """
 
 class Solution:
+    def get_hostname(self, url: str) -> str:
+        return url.split('/')[2]
+    
+    def dfs(self, url: str, htmlParser: 'HtmlParser') -> None:
+        self.visited.add(url)
+        for next_url in htmlParser.getUrls(url):
+            if self.get_hostname(next_url) == self.start_hostname and next_url not in self.visited:
+                self.dfs(next_url, htmlParser)
+    
     def crawl(self, startUrl: str, htmlParser: 'HtmlParser') -> List[str]:
-        ans = [startUrl]
-        queue = deque([startUrl])
         
-        while queue:
-            parse = queue.popleft()
-            derived = htmlParser.getUrls(parse)
-            
-            for directory in derived:
-                if parse.split('/')[2] == directory.split('/')[2] and directory not in ans:
-                    ans.append(directory)
-                    queue.append(directory)
+        self.start_hostname = self.get_hostname(startUrl)
+        self.visited = set()
         
-        return ans
+        self.dfs(startUrl, htmlParser)
+        return self.visited
