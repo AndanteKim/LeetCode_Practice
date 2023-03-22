@@ -10,25 +10,19 @@
  * };
  */
 class Solution {
+    vector<int> rightside;
+    void helper(TreeNode* node, int level){
+        if (level == rightside.size()) rightside.push_back(node -> val);
+        for (TreeNode* child : {node -> right, node -> left}){
+            if (child) helper(child, level + 1);
+        }
+    }
+    
 public:
     vector<int> rightSideView(TreeNode* root) {
         if (!root) return {};
         
-        queue<TreeNode*> *q = new queue<TreeNode*>;
-        vector<int> answer;
-        q -> push(root);
-        while (!q -> empty()){
-            int level = q -> size();
-            answer.push_back(q -> back() -> val);
-            for (int i = 0; i < level; ++i){
-                TreeNode* node = q -> front();
-                q -> pop();
-                
-                if (node -> left) q -> push(node -> left);
-                if (node -> right) q -> push(node -> right);
-            }
-        }
-        
-        return answer;
+        helper(root, 0);
+        return rightside;
     }
 };
