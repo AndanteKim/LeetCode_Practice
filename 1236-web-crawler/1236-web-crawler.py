@@ -10,19 +10,18 @@
 #        """
 
 class Solution:
-    def get_hostname(self, url: str) -> str:
+    def get_hostname(self, url: str):
         return url.split('/')[2]
     
-    def dfs(self, url: str, htmlParser: 'HtmlParser') -> None:
-        self.visited.add(url)
-        for next_url in htmlParser.getUrls(url):
-            if self.get_hostname(next_url) == self.start_hostname and next_url not in self.visited:
-                self.dfs(next_url, htmlParser)
-    
     def crawl(self, startUrl: str, htmlParser: 'HtmlParser') -> List[str]:
+        start_hostname = self.get_hostname(startUrl)
+        queue = deque([startUrl])
+        visited = set([startUrl])
         
-        self.start_hostname = self.get_hostname(startUrl)
-        self.visited = set()
-        
-        self.dfs(startUrl, htmlParser)
-        return self.visited
+        while queue:
+            url = queue.popleft()
+            for next_url in htmlParser.getUrls(url):
+                if self.get_hostname(next_url) == start_hostname and next_url not in visited:
+                    queue.append(next_url)
+                    visited.add(next_url)
+        return visited
