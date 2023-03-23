@@ -5,16 +5,22 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def deepestLeavesSum(self, root: Optional[TreeNode]) -> int:
-        next_level = deque([root])
+    
+    ans, depth = 0, 0
+    def dfs(self, node: Optional[TreeNode], level: int) -> None:
+        if not node:
+            return
         
-        while next_level:
-            curr_level = next_level
-            next_level = deque()
-            
-            for node in curr_level:
-                if node.left:
-                    next_level.append(node.left)
-                if node.right:
-                    next_level.append(node.right)
-        return sum([node.val for node in curr_level])
+        if level == self.depth:
+            self.ans += node.val
+        
+        elif level > self.depth:
+            self.ans = node.val
+            self.depth = level
+        
+        self.dfs(node.left, level + 1)
+        self.dfs(node.right, level + 1)
+    
+    def deepestLeavesSum(self, root: Optional[TreeNode]) -> int:
+        self.dfs(root, 0)
+        return self.ans
