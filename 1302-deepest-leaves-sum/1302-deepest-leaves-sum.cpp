@@ -10,25 +10,22 @@
  * };
  */
 class Solution {
-public:
-    int deepestLeavesSum(TreeNode* root) {
-        if(!root) return 0;
-        queue<TreeNode*> *q = new queue<TreeNode*>;
-        q -> push(root);
-        int ans;
-        
-        while(!q -> empty()){
-            ans = 0;
-            int iteration = q -> size();
-            for(int i = 0; i < iteration; ++i){
-                TreeNode* node = q -> front();
-                q -> pop();
-                ans += node -> val;
-                if (node -> left)  q -> push(node -> left);
-                if (node -> right) q -> push(node -> right);
-            }
+    int ans = 0, depth = 0;
+    void dfs(TreeNode* node, int level){
+        if (!node) return;
+        if (level == depth) ans += node -> val;
+        else if (level > depth) {
+            ans = node -> val;
+            depth = level;
         }
         
+        dfs(node -> left, level + 1);
+        dfs(node -> right, level + 1);
+    }
+    
+public:
+    int deepestLeavesSum(TreeNode* root) {
+        dfs(root, 0);
         return ans;
     }
 };
