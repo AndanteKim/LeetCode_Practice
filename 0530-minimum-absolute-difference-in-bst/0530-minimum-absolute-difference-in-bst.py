@@ -18,6 +18,6 @@ class Solution:
         ans = float('inf')
         
         for i in range(len(self.flatten) - 1):
-            ans = min(ans, abs(self.flatten[i+1] - self.flatten[i]))
+            ans = min(ans, self.flatten[i+1] - self.flatten[i])
         
         return ans
