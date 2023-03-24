@@ -12,16 +12,16 @@
 class Solution {
 public:
     int rangeSumBST(TreeNode* root, int low, int high) {
-        queue<TreeNode*> *q = new queue<TreeNode*>;
+        stack<TreeNode*> *st = new stack<TreeNode*>;
         int sum = 0;
-        q -> push(root);
-        while (!q -> empty()){
-            TreeNode* node = q -> front();
-            q -> pop();
+        st -> push(root);
+        while (!st -> empty()){
+            TreeNode* node = st -> top();
+            st -> pop();
             if (node -> val >= low && node -> val <= high) sum += node -> val;
             
-            if (node -> left) q -> push(node -> left);
-            if (node -> right) q -> push(node -> right);
+            if (node -> left) st -> push(node -> left);
+            if (node -> right) st -> push(node -> right);
         }
         
         return sum;
