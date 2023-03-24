@@ -1,11 +1,20 @@
 class Solution {
     int count = 0;
-    void dfs(int node, int parent, vector<vector<pair<int, int>>>& adj){
+    void bfs(int node, int n, vector<vector<pair<int, int>>>& adj){
+        queue<int> *q = new queue<int>;
+        vector<bool> visited(n, false);
+        q -> push(node);
+        visited[node] = true;
         
-        for (auto& [child, sign] : adj[node]){
-            if (child != parent){
-                count += sign;
-                dfs(child, node, adj);
+        while (!q -> empty()){
+            int curr_node = q -> front();
+            q -> pop();
+            for (auto& [neighbor, sign] : adj[curr_node]){
+                if (!visited[neighbor]) {
+                    visited[neighbor] = true;
+                    count += sign;
+                    q -> push(neighbor);
+                }
             }
         }
         
@@ -14,12 +23,12 @@ class Solution {
 public:
     int minReorder(int n, vector<vector<int>>& connections) {
         vector<vector<pair<int, int>>> adj(n);
-        for (auto& connection : connections){
+        for (vector<int>& connection : connections){
             adj[connection[0]].push_back({connection[1], 1});
             adj[connection[1]].push_back({connection[0], 0});
         }
         
-        dfs(0, -1, adj);
+        bfs(0, n, adj);
         return count;
     }
 };
