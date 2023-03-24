@@ -5,19 +5,24 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def dfs(self, root: Optional[TreeNode]) -> None:
-        if not root:
-            return
-        self.dfs(root.left)
-        self.flatten.append(root.val)
-        self.dfs(root.right)
+    def iterative_dfs(self, node: Optional[TreeNode]) -> List[int]:
+        stack, values = [], []
+        curr = node
+        
+        while stack or curr:
+            if curr:
+                stack.append(curr)
+                curr = curr.left
+            else:
+                curr = stack.pop()
+                values.append(curr.val)
+                curr = curr.right
+        return values
     
     def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
-        self.flatten = []
-        self.dfs(root)
+        values = self.iterative_dfs(root)
         ans = float('inf')
-        
-        for i in range(len(self.flatten) - 1):
-            ans = min(ans, self.flatten[i+1] - self.flatten[i])
-        
+        for i in range(1, len(values)):
+            ans = min(ans, values[i] - values[i - 1])
+            
         return ans
