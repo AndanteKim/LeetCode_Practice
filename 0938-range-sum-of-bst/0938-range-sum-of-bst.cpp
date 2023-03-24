@@ -12,18 +12,13 @@
 class Solution {
 public:
     int rangeSumBST(TreeNode* root, int low, int high) {
-        stack<TreeNode*> *st = new stack<TreeNode*>;
-        int sum = 0;
-        st -> push(root);
-        while (!st -> empty()){
-            TreeNode* node = st -> top();
-            st -> pop();
-            if (node -> val >= low && node -> val <= high) sum += node -> val;
-            
-            if (node -> left) st -> push(node -> left);
-            if (node -> right) st -> push(node -> right);
-        }
+        if (!root) return 0;
+        int ans = 0;
+        if (root -> val >= low && root -> val <= high) ans += root -> val;
         
-        return sum;
+        if (root -> left) ans += rangeSumBST(root -> left, low, high);
+        if (root -> right) ans += rangeSumBST(root -> right, low, high);
+        
+        return ans;
     }
 };
