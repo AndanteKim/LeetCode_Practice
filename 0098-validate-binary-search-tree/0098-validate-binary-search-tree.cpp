@@ -10,20 +10,17 @@
  * };
  */
 class Solution {
-    void dfs(TreeNode* node, vector<int>& values){
-        if (!node) return;
-        dfs(node -> left, values);
-        values.push_back(node -> val);
-        dfs(node -> right, values);
+    bool dfs(TreeNode* node, long long small, long long large){
+        if (!node) return true;
+        if (!(small < node -> val && node -> val < large)) return false;
+        
+        bool left = dfs(node -> left, small, node -> val);
+        bool right = dfs(node -> right, node -> val, large);
+        return left && right;
     }
     
 public:
     bool isValidBST(TreeNode* root) {
-        vector<int> InorderTraversal;
-        dfs(root, InorderTraversal);
-        for (int i = 1; i < InorderTraversal.size(); ++i){
-            if ((long long)InorderTraversal[i] - (long long)InorderTraversal[i - 1] <= 0) return false;
-        }
-        return true;
+        return dfs(root, LONG_LONG_MIN, LONG_LONG_MAX);
     }
 };
