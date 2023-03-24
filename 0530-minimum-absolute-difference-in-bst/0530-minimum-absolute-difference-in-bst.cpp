@@ -10,26 +10,23 @@
  * };
  */
 class Solution {
-    void dfs(TreeNode* node, vector<int>& elements){
+    void dfs(TreeNode* node, vector<int>& flatten){
         if (!node) return;
-        dfs(node -> left, elements);
-        elements.push_back(node -> val);
-        dfs(node -> right, elements);
+        dfs(node -> left, flatten);
+        flatten.push_back(node -> val);
+        dfs(node -> right, flatten);
     }
     
 public:
     int getMinimumDifference(TreeNode* root) {
-        vector<int> elements;
-        dfs(root, elements);
-        int prev = elements.back();
-        elements.pop_back();
-        int answer = INT_MAX;
-        while (!elements.empty()){
-            int curr = elements.back();
-            elements.pop_back();
-            answer = min(answer, abs(prev - curr));
-            prev = curr;
+        vector<int> flatten;
+        dfs(root, flatten);
+        
+        int ans = INT_MAX;
+        for (int i = 0; i < flatten.size() - 1; ++i){
+            ans = min(ans, flatten[i + 1] - flatten[i]);
         }
-        return answer;
+        
+        return ans;
     }
 };
