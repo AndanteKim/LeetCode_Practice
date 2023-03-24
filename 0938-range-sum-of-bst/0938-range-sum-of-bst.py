@@ -7,18 +7,18 @@
 class Solution:
     def rangeSumBST(self, root: Optional[TreeNode], low: int, high: int) -> int:
         total = 0
-        queue = deque([root])
+        stack = [root]
         
-        while queue:
-            q = queue.popleft()
-            if low <= q.val <= high:
-                total += q.val
+        while stack:
+            elem = stack.pop()
+            if low <= elem.val <= high:
+                total += elem.val
             
-            if q.left:
-                queue.append(q.left)
+            if elem.left:
+                stack.append(elem.left)
             
-            if q.right:
-                queue.append(q.right)
+            if elem.right:
+                stack.append(elem.right)
         
         return total
         
