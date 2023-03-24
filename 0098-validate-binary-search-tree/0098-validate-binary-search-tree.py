@@ -5,16 +5,18 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def dfs(self, node: Optional[TreeNode]) -> List[int]:
+    def dfs(self, node: Optional[TreeNode], small: int, large: int) -> bool:
         if not node:
-            return []
-        return self.dfs(node.left) + [node.val] + self.dfs(node.right)
+            return True
+        
+        if not (small < node.val < large):
+            return False
+        
+        left = self.dfs(node.left, small, node.val)
+        right = self.dfs(node.right, node.val, large)
+        
+        return left and right
     
     def isValidBST(self, root: Optional[TreeNode]) -> bool:
-        inorder_traversal = self.dfs(root)
         
-        for i in range(1, len(inorder_traversal)):
-            if inorder_traversal[i] - inorder_traversal[i - 1] <= 0:
-                return False
-        
-        return True
+        return self.dfs(root, float('-inf'), float('inf'))
