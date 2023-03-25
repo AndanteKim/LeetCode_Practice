@@ -5,8 +5,11 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def inorder(self, node: Optional[TreeNode]) -> List[int]:
-        return self.inorder(node.left) + [node.val] + self.inorder(node.right) if node else []
-    
     def closestValue(self, root: Optional[TreeNode], target: float) -> int:
-        return min(self.inorder(root), key = lambda x: abs(target - x))
+        closest = root.val
+        while root:
+            val = root.val
+            closest = val if abs(val - target) < abs(closest - target) else closest
+            root = root.left if target < root.val else root.right
+        
+        return closest
