@@ -12,16 +12,16 @@
 class Solution {
 public:
     int closestValue(TreeNode* root, double target) {
-        stack<TreeNode*> *st = new stack<TreeNode*>;
+        queue<TreeNode*> *q = new queue<TreeNode*>;
         int ans = INT_MAX;
-        st -> push(root);
-        while (!st -> empty()){
-            TreeNode* node = st -> top();
-            st -> pop();
+        q -> push(root);
+        while (!q -> empty()){
+            TreeNode* node = q -> front();
+            q -> pop();
             if (abs(node -> val - target) < abs(ans - target)) ans = node -> val;
             
-            if (node -> left) st -> push(node -> left);
-            if (node -> right) st -> push(node -> right);
+            if (node -> left) q -> push(node -> left);
+            if (node -> right) q -> push(node -> right);
         }
         
         return ans;
