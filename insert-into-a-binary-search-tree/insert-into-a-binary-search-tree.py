@@ -9,21 +9,21 @@ class Solution:
         if not root:
             return TreeNode(val)
         
-        queue = deque([root])
+        stack = [root]
         
-        while queue:
-            q = queue.popleft()
-            if not q.left and val < q.val:
-                q.left = TreeNode(val)
+        while stack:
+            node = stack.pop()
+            if not node.left and val < node.val:
+                node.left = TreeNode(val)
                 break
-            if not q.right and val > q.val:
-                q.right = TreeNode(val)
+            if not node.right and val > node.val:
+                node.right = TreeNode(val)
                 break
+                
+            if node.right and val > node.val:
+                stack.append(node.right)
             
-            if q.left and val < q.val:
-                queue.append(q.left)
+            if node.left and val < node.val:
+                stack.append(node.left)
             
-            if q.right and val > q.val:
-                queue.append(q.right)
-        
         return root
