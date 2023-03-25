@@ -1,32 +1,39 @@
-class Solution:
-    def bfs(self, node: int, adj: List[List[int]], visited: List[bool]) -> int:
-        visited[node], count = True, 1
-        queue = deque([node])
-        
-        while queue:
-            curr_node = queue.popleft()
-            for neighbor in adj[curr_node]:
-                if not visited[neighbor]:
-                    visited[neighbor] = True
-                    count += 1
-                    queue.append(neighbor)
-        return count
-        
+class UnionFind:
+    def __init__(self, size):
+        self.parent, self.rank = [], [0] * size
+        for i in range(size):
+            self.parent.append(i)
+            
+    def find(self, x: int) -> int:
+        if self.parent[x] != x:
+            return self.find(self.parent[x])
+        return x
     
+    def union_set(self, x: int, y: int) -> None:
+        xset, yset = self.find(x), self.find(y)
+        
+        if self.rank[xset] < self.rank[yset]:
+            self.parent[xset] = yset
+        elif self.rank[xset] > self.rank[yset]:
+            self.parent[yset] = xset
+        else:
+            self.parent[yset] = xset
+            self.rank[xset] += 1
+
+class Solution:
     def countPairs(self, n: int, edges: List[List[int]]) -> int:
-        adj = [[] for _ in range(n)]
+        dsu = UnionFind(n)
+        numberOfPairs, remainingNodes = 0, n
+        sizeOfComponent = defaultdict(int)
         
         for start, end in edges:
-            adj[start].append(end)
-            adj[end].append(start)
-        
-        numberOfPairs, sizeOfComponent, remainingNodes = 0, 0, n
-        visited = [False] * n
-        
+            dsu.union_set(start, end)
+            
         for node in range(n):
-            if not visited[node]:
-                sizeOfComponent = self.bfs(node, adj, visited)
-                numberOfPairs += sizeOfComponent * (remainingNodes - sizeOfComponent)
-                remainingNodes -= sizeOfComponent
-        
+            sizeOfComponent[dsu.find(node)] += 1
+            
+        for node in range(n):
+            componentSize = sizeOfComponent[node]
+            numberOfPairs += componentSize * (remainingNodes - componentSize)
+            remainingNodes -= componentSize
         return numberOfPairs
