@@ -1,47 +1,47 @@
 #define ll long long
-
-class Solution {
-    int bfs(int node, vector<vector<int>>& adj, vector<bool>& visited){
-        int count = 1;
-        queue<int> *q = new queue<int>;
-        visited[node] = true;
-        q -> push(node);
-        
-        while (!q -> empty()){
-            int curr_node = q -> front();
-            q -> pop();
-            
-            for (int neighbor : adj[curr_node]){
-                if (!visited[neighbor]){
-                    visited[neighbor] = true;
-                    ++count;
-                    q -> push(neighbor);
-                }
-            }
-        }
-        return count;
+class UnionFind {
+    vector<int> parent, rank;
+public:
+    UnionFind(int size){
+        parent.resize(size);
+        rank.resize(size, 0);
+        for (int i = 0; i < size; ++i) parent[i] = i;
     }
     
+    int find(int x){
+        if (parent[x] != x) parent[x] = find(parent[x]);
+        return parent[x];
+    }
     
+    void UnionSet(int x, int y){
+        int xset = find(x), yset = find(y);
+        if (xset == yset) return;
+        else if (rank[xset] > rank[yset]) parent[xset] = yset;
+        else if (rank[xset] < rank[yset]) parent[xset] = yset;
+        else{
+            parent[yset] = xset;
+            ++rank[xset];
+        }
+    }
+};
+
+class Solution {
 public:
     long long countPairs(int n, vector<vector<int>>& edges) {
-        vector<vector<int>> adj(n);
+        UnionFind dsu = UnionFind(n);
         for (vector<int>& edge : edges){
-            adj[edge[0]].push_back(edge[1]);
-            adj[edge[1]].push_back(edge[0]);
+            dsu.UnionSet(edge[0], edge[1]);
         }
         
-        vector<bool> visited(n);
-        ll numberOfPairs = 0, sizeOfComponent = 0, remainingNodes = n;
+        unordered_map<int, int> sizeOfComponent;
+        ll numberOfPairs = 0, remainingNodes = n;
+        for (int node = 0; node < n; ++node) ++sizeOfComponent[dsu.find(node)];
         
         for (int node = 0; node < n; ++node){
-            if (!visited[node]){
-                sizeOfComponent = bfs(node, adj, visited);
-                numberOfPairs += sizeOfComponent * (remainingNodes - sizeOfComponent);
-                remainingNodes -= sizeOfComponent;
-            }
+            int componentSize = sizeOfComponent[node];
+            numberOfPairs += componentSize * (remainingNodes - componentSize);
+            remainingNodes -= componentSize;
         }
-        
         return numberOfPairs;
     }
 };
