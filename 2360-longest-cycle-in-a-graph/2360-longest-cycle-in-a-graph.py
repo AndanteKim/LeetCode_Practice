@@ -1,25 +1,37 @@
 class Solution:
-    ans = -1
-    def dfs(self, node: int, edges: List[int], dist: DefaultDict[int, int],\
-            visited: List[bool]) -> None:
-        visited[node] = True
-        neighbor = edges[node]
-        
-        if neighbor != -1 and not visited[neighbor]:
-            dist[neighbor] = dist[node] + 1
-            self.dfs(neighbor, edges, dist, visited)
-        elif neighbor != -1 and dist.get(neighbor, 0) > 0:
-            self.ans = max(self.ans, dist[node] - dist[neighbor] + 1)
-    
     def longestCycle(self, edges: List[int]) -> int:
         n = len(edges)
-        visited = [False] * n
+        visited, indegree = [False] * n, [0] * n
+        
+        for edge in edges:
+            if edge != -1:
+                indegree[edge] += 1
+        
+        queue = deque()
+        for node in range(n):
+            if indegree[node] == 0:
+                queue.append(node)
+            
+        while queue:
+            node = queue.popleft()
+            visited[node] = True
+            neighbor = edges[node]
+            if neighbor != -1:
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    queue.append(neighbor)
+        
+        ans = -1
         
         for node in range(n):
             if not visited[node]:
-                dist = defaultdict(int)
-                dist[node] = 1
-                self.dfs(node, edges, dist, visited)
-        
-        return self.ans
-        
+                neighbor = edges[node]
+                count = 1
+                visited[node] = True
+                
+                while neighbor != node:
+                    visited[neighbor] = True
+                    count += 1
+                    neighbor = edges[neighbor]
+                ans = max(ans, count)
+        return ans
