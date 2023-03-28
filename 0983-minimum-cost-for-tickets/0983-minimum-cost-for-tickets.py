@@ -1,18 +1,12 @@
 class Solution:
-    @lru_cache(None)
-    def dp(self, i: int) -> int:
-        if i > 365:
-            return 0
-        elif i in self.dayset:
-            return min(self.dp(i + d) + c for c, d in zip(self.costs, self.durations))
-        else:
-            return self.dp(i+1)
-        
-    
     def mincostTickets(self, days: List[int], costs: List[int]) -> int:
-        self.dayset = set(days)
-        self.durations = [1, 7, 30]
-        self.costs = costs
+        dp = [0] * (days[-1] + 1)
+        set_days = set(days)
         
-        return self.dp(1)
+        for i in range(1, len(dp)):
+            if i in days:
+                dp[i] = min(dp[max(i - 1, 0)] + costs[0], dp[max(i - 7, 0)] + costs[1], dp[max(i - 30, 0)] + costs[2])
+            else:
+                dp[i] = dp[i-1]
         
+        return dp[-1]
