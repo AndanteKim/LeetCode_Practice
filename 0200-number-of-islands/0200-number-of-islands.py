@@ -1,26 +1,51 @@
+class UnionFind:
+    def __init__(self, grid: List[List[chr]]):
+        self.count, self.parent, self.rank = 0, [], []
+        m, n = len(grid), len(grid[0])
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == '1':
+                    self.parent.append(i * n + j)
+                    self.count += 1
+                else:
+                    self.parent.append(-1)
+                self.rank.append(0)
+        
+    def find(self, x: int) -> int:
+        if self.parent[x] != x:
+            self.parent[x] = self.find(self.parent[x])
+        return self.parent[x]
+    
+    def union_set(self, x: int, y: int) -> None:
+        xset, yset = self.find(x), self.find(y)
+        
+        if xset != yset:
+            self.count -= 1
+            if self.rank[xset] < self.rank[yset]:
+                self.parent[xset] = yset
+            elif self.rank[xset] > self.rank[yset]:
+                self.parent[yset] = xset
+            else:
+                self.parent[yset] = xset
+                self.rank[xset] += 1
+
 class Solution:
-    directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
-    def valid(self, row: int, col: int) -> bool:
-        return 0 <= row < self.m and 0 <= col < self.n and self.grid[row][col] == '1'
-    
-    def dfs(self, row: int, col: int) -> None:
-        for dx, dy in self.directions:
-            next_row, next_col = row + dy, col + dx
-            if self.valid(next_row, next_col) and (next_row, next_col) not in self.seen:
-                self.seen.add((next_row, next_col))
-                self.dfs(next_row, next_col)
-        
-    
     def numIslands(self, grid: List[List[str]]) -> int:
-        self.m, self.n, self.grid = len(grid), len(grid[0]), grid
-        self.seen, ans = set(), 0
+        nr, nc = len(grid), len(grid[0])
         
-        for row in range(self.m):
-            for col in range(self.n):
-                if self.grid[row][col] == '1' and (row, col) not in self.seen:
-                    ans += 1
-                    self.seen.add((row, col))
-                    self.dfs(row, col)
-                    
-        return ans
-            
+        unf, num = UnionFind(grid), 0
+        
+        for r in range(nr):
+            for c in range(nc):
+                if grid[r][c] == '1':
+                    grid[r][c] == '0'
+                    if r >= 1 and grid[r-1][c] == '1':
+                        unf.union_set(r * nc + c, (r-1) * nc + c)
+                    if r < nr - 1 and grid[r+1][c] == '1':
+                        unf.union_set(r * nc + c, (r+1) * nc + c)
+                    if c >= 1 and grid[r][c-1] == '1':
+                        unf.union_set(r * nc + c, r * nc + c - 1)
+                    if c < nc - 1 and grid[r][c+1] == '1':
+                        unf.union_set(r * nc + c, r * nc + c + 1)
+        
+        return unf.count
