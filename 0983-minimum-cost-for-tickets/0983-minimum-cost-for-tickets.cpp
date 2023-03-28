@@ -1,25 +1,15 @@
 class Solution {
-    vector<int> costs, memo;
-    set<int> dayset;
-    int dp(int i){
-        if (i > 365) return 0;
-        if (memo[i] != NULL) return memo[i];
-        int ans;
-        if (dayset.find(i) != dayset.end()){
-            ans = min(dp(i+1) + costs[0], dp(i+7) + costs[1]);
-            ans = min(ans, dp(i+30) + costs[2]);
-        }
-        else ans = dp(i + 1);
-        
-        memo[i] = ans;
-        return ans;
-    }
-    
 public:
     int mincostTickets(vector<int>& days, vector<int>& costs) {
-        this -> costs = costs;
-        memo.resize(366);
-        for (int d : days) dayset.insert(d);
-        return dp(1);
+        vector<int> dp(days.back() + 1, 0);
+        for (int i = 1; i < dp.size(); ++i){
+            if (find(days.begin(), days.end(), i) != days.end()){
+                dp[i] = min(min(dp[max(i-1, 0)] + costs[0], dp[max(i-7, 0)] + costs[1]),\
+                            min(dp[max(i-7, 0)] + costs[1], dp[max(i-30, 0)]) + costs[2]);
+            }
+            else dp[i] = dp[i-1];
+        }
+        
+        return dp.back();
     }
 };
