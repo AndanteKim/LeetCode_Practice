@@ -1,37 +1,65 @@
-class Solution {
-    vector<pair<int, int>> directions{{0,1}, {1,0}, {0, -1}, {-1, 0}};
-    int m, n;
-    vector<vector<char>> grid;
-    vector<vector<bool>> seen;
-    bool valid(int row, int col){
-        return (0 <= row && row < m) && (0 <= col && col < n) && this -> grid[row][col] == '1'; 
-    }
-    
-    void dfs(int row, int col){
-        for (auto& [dx, dy] : directions){
-            int next_row = row + dy, next_col = col + dx;
-            if (valid(next_row, next_col) && !seen[next_row][next_col]){
-                seen[next_row][next_col] = true;
-                dfs(next_row, next_col);
+class UnionFind{
+    public:
+    UnionFind(vector<vector<char>>& grid){
+        count = 0;
+        int m = grid.size(), n = grid[0].size();
+        for (int i = 0; i < m; ++i){
+            for (int j = 0; j < n; ++j){
+                if (grid[i][j] == '1'){
+                    parent.push_back(i * n + j);
+                    ++count;
+                }
+                else parent.push_back(-1);
+                rank.push_back(0);
             }
         }
     }
+    
+    int find(int x){
+        if(parent[x] != x) parent[x] = find(parent[x]);
+        return parent[x];
+    }
+    
+    void UnionSet(int x, int y){
+        int xset = find(x), yset = find(y);
+        if (xset != yset){
+            if (rank[xset] > rank[yset]) parent[yset] = xset;
+            else if (rank[xset] < rank[yset]) parent[xset] = yset;
+            else {
+                parent[yset] = xset;
+                ++rank[xset];
+            }
+            --count;
+        }
+    }
+    
+    int getCount() const{
+        return count;
+    }
+    private:
+    vector<int> parent, rank;
+    int count;
+};
+
+class Solution {
 public:
     int numIslands(vector<vector<char>>& grid) {
-        m = grid.size(), n = grid[0].size();
-        this -> grid = grid;
-        seen = vector(m, vector<bool>(n, false));
-        int ans = 0;
-        for (int row = 0; row < m; ++row){
-            for (int col = 0; col < n; ++col){
-                if (grid[row][col] == '1' && !seen[row][col]){
-                    ++ans;
-                    seen[row][col] = true;
-                    dfs(row, col);
+        if (grid.size() == 0) return 0;
+        int nr = grid.size(), nc = grid[0].size();
+        
+        UnionFind unf(grid);
+        for (int r = 0; r < nr; ++r){
+            for (int c = 0; c < nc; ++c){
+                if (grid[r][c] == '1'){
+                    grid[r][c] = '0';
+                    if (r >= 1 && grid[r-1][c] == '1') unf.UnionSet(r * nc + c, (r-1) * nc + c);
+                    if (r < nr - 1 && grid[r+1][c] == '1') unf.UnionSet(r * nc + c, (r+1) * nc + c);
+                    if (c >= 1 && grid[r][c-1] == '1') unf.UnionSet(r * nc + c, r * nc + c - 1);
+                    if (c < nc - 1 && grid[r][c+1] == '1') unf.UnionSet(r * nc + c, r * nc + c + 1);
                 }
             }
         }
         
-        return ans;
+        return unf.getCount();
     }
 };
