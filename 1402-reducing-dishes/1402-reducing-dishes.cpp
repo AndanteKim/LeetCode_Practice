@@ -1,17 +1,18 @@
 class Solution {
+    int findMaxSatisfaction(vector<int>& satisfaction, vector<vector<int>>& memo, int index, int time){
+        if (index == satisfaction.size()) return 0;
+        
+        if (memo[index][time] != -1) return memo[index][time];
+        
+        return memo[index][time] = max(satisfaction[index] * time + findMaxSatisfaction(satisfaction, memo, index + 1, time + 1),\
+                                      findMaxSatisfaction(satisfaction, memo, index + 1, time));
+    }
+    
 public:
     int maxSatisfaction(vector<int>& satisfaction) {
         sort(satisfaction.begin(), satisfaction.end());
-        if (satisfaction.back() < 0) return 0;
-        int ans = 0;
-        for (int i = 0; i < satisfaction.size() - 1; ++i){
-            int time = 1, curr = 0;
-            for (int j = i; j < satisfaction.size(); ++j){
-                curr += satisfaction[j] * time;
-                ++time;
-            }
-            ans = max(ans, curr);
-        }
-        return ans;
+        int m = satisfaction.size();
+        vector<vector<int>> memo(m + 1, vector<int>(m+1, -1));
+        return findMaxSatisfaction(satisfaction, memo, 0, 1);
     }
 };
