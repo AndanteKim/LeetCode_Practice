@@ -1,19 +1,11 @@
 class Solution:
-    count = 0
-    
-    def bfs(self, node: int, n: int, adj: List[Tuple[int]]) -> None:
-        queue = deque([node])
-        visited = [False] * n
+    def dfs(self, node: int, adj: List[List[Tuple[int, int]]], visited: List[bool]) -> None:
         visited[node] = True
         
-        while queue:
-            curr_node = queue.popleft()
-            
-            for neighbor, sign in adj[curr_node]:
-                if not visited[neighbor]:
-                    self.count += sign
-                    visited[neighbor] = True
-                    queue.append(neighbor)
+        for neighbor, score in adj[node]:
+            if not visited[neighbor]:
+                self.ans += score
+                self.dfs(neighbor, adj, visited)
     
     def minReorder(self, n: int, connections: List[List[int]]) -> int:
         adj = [[] for _ in range(n)]
@@ -22,6 +14,9 @@ class Solution:
             adj[start].append((end, 1))
             adj[end].append((start, 0))
         
-        self.bfs(0, n, adj)
+        visited, self.ans = [False] * n, 0
         
-        return self.count
+        for node in range(n):
+            if not visited[node]:
+                self.dfs(node, adj, visited)
+        return self.ans
