@@ -2,27 +2,22 @@ class Solution {
 public:
     int shortestWordDistance(vector<string>& wordsDict, string word1, string word2) {
         int ans = INT_MAX;
-        vector<int> w1_loc, w2_loc;
+        vector<pair<int, int>> indices;
         
         for (int i = 0; i < wordsDict.size(); ++i){
             if (wordsDict[i] == word1){
-                w1_loc.push_back(i);
+                indices.push_back({i, 0});
             }
             
             if (wordsDict[i] == word2){
-                w2_loc.push_back(i);
+                indices.push_back({i, 1});
             }
         }
         
-        for (int index : w1_loc){
-            int x = upper_bound(w2_loc.begin(), w2_loc.end(), index) - w2_loc.begin();
-            
-            if (x != w2_loc.size()) ans = min(ans, w2_loc[x] - index);
-            if (x != 0 && w2_loc[x - 1] != index)
-                ans = min(ans, index - w2_loc[x - 1]);
-            
+        for (int i = 0; i < indices.size() - 1; ++i){
+            if (indices[i].second != indices[i + 1].second && indices[i].first != indices[i + 1].first)
+                ans = min(ans, indices[i + 1].first - indices[i].first);
         }
-        
         
         return ans;
     }
