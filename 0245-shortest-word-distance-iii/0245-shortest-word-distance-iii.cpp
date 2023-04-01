@@ -9,17 +9,20 @@ public:
                 w1_loc.push_back(i);
             }
             
-            if (!w1_loc.empty() && !w2_loc.empty() && w1_loc.back() != w2_loc.back()){
-                ans = min(ans, abs(w1_loc.back() - w2_loc.back()));
-            }
-            
             if (wordsDict[i] == word2){
                 w2_loc.push_back(i);
             }
+        }
+        
+        for (int index : w1_loc){
+            int x = upper_bound(w2_loc.begin(), w2_loc.end(), index) - w2_loc.begin();
+            
+            if (x != w2_loc.size()) ans = min(ans, w2_loc[x] - index);
+            if (x != 0 && w2_loc[x - 1] != index)
+                ans = min(ans, index - w2_loc[x - 1]);
             
         }
         
-        if (w1_loc.back() != w2_loc.back()) ans = min(ans, abs(w1_loc.back() - w2_loc.back()));
         
         return ans;
     }
