@@ -1,11 +1,4 @@
 class Solution:
     def successfulPairs(self, spells: List[int], potions: List[int], success: int) -> List[int]:
-        ans, rows, cols = [], len(spells), len(potions)
         potions.sort()
-        
-        for i in range(rows):
-            target = success / spells[i]
-            ans.append(cols - bisect_left(potions, target))
-            
-        return ans
-        
+        return (len(potions) - bisect_left(potions, success, key = lambda p: p * s) for s in spells)
