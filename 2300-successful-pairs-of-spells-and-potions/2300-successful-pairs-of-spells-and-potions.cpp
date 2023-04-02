@@ -3,15 +3,21 @@
 class Solution {
 public:
     vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) {
-        int rows = spells.size(), cols = potions.size();
         sort(potions.begin(), potions.end());
-        vector<int> ans;
-        for (int i = 0; i < rows; ++i){
-            ll target = ceil((double)success / spells[i]);
-            int cnt = cols - (lower_bound(potions.begin(), potions.end(), target) - potions.begin());
-            ans.push_back(cnt);
+        vector<int> answer;
+        int m = potions.size();
+        int maxPotion = potions[m - 1];
+        
+        for (int spell : spells){
+            ll minPotion = (success + spell - 1) / spell;
+            if (minPotion > maxPotion){
+                answer.push_back(0);
+                continue;
+            }
+            int index = lower_bound(potions.begin(), potions.end(), minPotion) - potions.begin();
+            answer.push_back(m - index);
         }
         
-        return ans;
+        return answer;
     }
 };
