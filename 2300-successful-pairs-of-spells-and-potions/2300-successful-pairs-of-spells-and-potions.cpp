@@ -3,19 +3,19 @@
 class Solution {
 public:
     vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) {
+        vector<pair<int, int>> SortedSpells;
+        for (int i = 0; i < spells.size(); ++i){
+            SortedSpells.push_back({spells[i], i});
+        }
+        sort(SortedSpells.begin(), SortedSpells.end());
         sort(potions.begin(), potions.end());
-        vector<int> answer;
-        int m = potions.size();
-        int maxPotion = potions[m - 1];
+        vector<int> answer(spells.size(), 0);
+        int m = potions.size(), potionIndex = m - 1;
         
-        for (int spell : spells){
-            ll minPotion = (success + spell - 1) / spell;
-            if (minPotion > maxPotion){
-                answer.push_back(0);
-                continue;
-            }
-            int index = lower_bound(potions.begin(), potions.end(), minPotion) - potions.begin();
-            answer.push_back(m - index);
+        for (auto& [spell, index] : SortedSpells){
+            while (potionIndex >= 0 && ((ll)spell * potions[potionIndex]) >= success)
+                --potionIndex;
+            answer[index] = m - (potionIndex + 1);
         }
         
         return answer;
