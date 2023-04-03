@@ -8,45 +8,43 @@
  * };
  */
 class Solution {
-    unordered_map<TreeNode*, TreeNode*> parents;
+    int k;
+    int dfs(TreeNode* node, vector<int>& ans, TreeNode* target){
+        if (!node) return -1;
+        else if (node == target){
+            subtree_add(node, 0, ans);
+            return 1;
+        }
+        else{
+            int L = dfs(node -> left, ans, target), R = dfs(node -> right, ans, target);
+            if (L != -1){
+                if (L == this -> k) ans.push_back(node -> val);
+                subtree_add(node -> right, L + 1, ans);
+                return L + 1;
+            }
+            else if (R != -1){
+                if (R == this -> k) ans.push_back(node -> val);
+                subtree_add(node -> left, R + 1, ans);
+                return R + 1;
+            }
+            else return -1;
+        }
+    }
     
-    void dfs(TreeNode* node, TreeNode* parent){
+    void subtree_add(TreeNode* node, int dist, vector<int>& ans){
         if (!node) return;
-        parents[node] = parent;
-        dfs(node -> left, node);
-        dfs(node -> right, node);
+        else if (dist == this -> k) ans.push_back(node -> val);
+        else{
+            subtree_add(node -> left, dist + 1, ans);
+            subtree_add(node -> right, dist + 1, ans);
+        }
     }
     
 public:
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
-        dfs(root, nullptr);
-        queue<TreeNode*> *q = new queue<TreeNode*>;
-        unordered_set<TreeNode*> *seen = new unordered_set<TreeNode*>;
-        int distance = 0;
-        q -> push(target);
-        seen -> insert(target);
-        
-        while (!q -> empty() && distance < k){
-            int curr_length = q -> size();
-            for (int i = 0; i < curr_length; ++i){
-                TreeNode* node = q -> front();
-                q -> pop();
-                for (TreeNode* neighbor : {node -> left, node -> right, parents[node]}){
-                    if (neighbor && seen -> find(neighbor) == seen -> end()){
-                        seen -> insert(neighbor);
-                        q -> push(neighbor);
-                    }
-                }
-            }
-            ++distance;
-        }
-        
         vector<int> ans;
-        while (!q -> empty()){
-            ans.push_back(q -> front() -> val);
-            q -> pop();
-        }
-        
+        this -> k = k;
+        dfs(root, ans, target);
         return ans;
     }
 };
