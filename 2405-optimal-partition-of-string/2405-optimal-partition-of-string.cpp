@@ -1,16 +1,15 @@
 class Solution {
 public:
     int partitionString(string s) {
-        vector<int> hash_table(26, 0);
-        int ans = 1;
-        for(const char& c: s){
-            if (hash_table[c - 'a'] == 0)
-                ++hash_table[c - 'a'];
-            else {
+        int ans = 1, chars_bitmask = 0;
+        
+        for(const char&c : s){
+            int set_bit = 1 << c - 97;
+            if (chars_bitmask & set_bit){
                 ++ans;
-                for (int i = 0; i < 26; ++i) hash_table[i] = 0;
-                ++hash_table[c - 'a'];
+                chars_bitmask = 0;
             }
+            chars_bitmask |= set_bit;
         }
         
         return ans;
