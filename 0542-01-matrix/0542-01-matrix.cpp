@@ -1,37 +1,28 @@
 class Solution {
-    int rows, cols;
-    vector<pair<int, int>> directions{{0,1}, {1, 0}, {0, -1}, {-1, 0}};
-    bool valid(int x, int y, vector<vector<int>>& mat){
-        return (x >= 0 && x < rows) && (y >= 0 && y < cols) && mat[x][y];
-    }
-    
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
-        rows = mat.size(), cols = mat[0].size();
-        queue<vector<int>> *q = new queue<vector<int>>;
-        vector<vector<bool>> seen(rows, vector<bool>(cols, false));
-        for (int row = 0; row < rows; ++row){
-            for (int col = 0; col < cols; ++col)
-                if (!mat[row][col]){
-                    seen[row][col] = true;
-                    q -> push({row, col, 1});
-                }
-        }
+        int rows = mat.size();
+        if (rows == 0) return mat;
+        int cols = mat[0].size();
+        vector<vector<int>> dist(rows, vector<int>(cols, INT_MAX - 100000));
         
-        while (!q -> empty()){
-            auto it = q -> front();
-            q -> pop();
-            int x = it[0], y = it[1], dist = it[2];
-            
-            for (auto& [dx, dy] : directions){
-                int next_row = x + dx, next_col = y + dy;
-                if (valid(next_row, next_col, mat) && !seen[next_row][next_col]){
-                    seen[next_row][next_col] = true;
-                    q -> push({next_row, next_col, dist + 1});
-                    mat[next_row][next_col] = dist;
+        for (int i = 0; i < rows; ++i){
+            for (int j = 0; j < cols; ++j){
+                if (!mat[i][j]) dist[i][j] = 0;
+                else{
+                    if (i > 0) dist[i][j] = min(dist[i][j], dist[i - 1][j] + 1);
+                    if (j > 0) dist[i][j] = min(dist[i][j], dist[i][j - 1] + 1);
                 }
             }
         }
-        return mat;
+        
+        for (int i = rows - 1; i >= 0; --i){
+            for (int j = cols - 1; j >= 0; --j){
+                if (i < rows - 1) dist[i][j] = min(dist[i][j], dist[i + 1][j] + 1);
+                if (j < cols - 1) dist[i][j] = min(dist[i][j], dist[i][j + 1] + 1);
+            }
+        }
+        
+        return dist;
     }
 };
