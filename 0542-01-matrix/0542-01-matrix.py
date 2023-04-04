@@ -1,31 +1,26 @@
 class Solution:
-    def valid(self, x: int, y: int, mat: List[List[int]]) -> bool:
-        return 0 <= x < self.rows and 0 <= y < self.cols and mat[x][y]
-    
     def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
-        self.rows, self.cols = len(mat), len(mat[0])
-        visited = [[False] * self.cols for _ in range(self.rows)]
-        directions = ((1, 0), (0, 1), (-1, 0), (0, -1))
-        queue = deque()
+        rows = len(mat)
+        if rows == 0:
+            return mat
+        cols = len(mat[0])
+        dist = [[float('inf')] * cols for _ in range(rows)]
         
-        for row in range(self.rows):
-            for col in range(self.cols):
-                if not mat[row][col]:
-                    queue.append((row, col, 1))
-                    visited[row][col] = True
+        for i in range(rows):
+            for j in range(cols):
+                if not mat[i][j]:
+                    dist[i][j] = 0
+                else:
+                    if i > 0:
+                        dist[i][j] = min(dist[i][j], dist[i - 1][j] + 1)
+                    if j > 0:
+                        dist[i][j] = min(dist[i][j], dist[i][j - 1] + 1)
         
-        while queue:
-            x, y, dist = queue.popleft()
-            
-            for dx, dy in directions:
-                next_row, next_col = x + dx, y + dy
-                if self.valid(next_row, next_col, mat) and not visited[next_row][next_col]:
-                    visited[next_row][next_col] = True
-                    queue.append((next_row, next_col, dist + 1))
-                    mat[next_row][next_col] = dist
-                    
-        return mat
-                
-                    
+        for i in range(rows - 1, -1, -1):
+            for j in range(cols - 1, -1, -1):
+                if i < rows - 1:
+                    dist[i][j] = min(dist[i][j], dist[i + 1][j] + 1)
+                if j < cols - 1:
+                    dist[i][j] = min(dist[i][j], dist[i][j + 1] + 1)
         
-        
+        return dist
