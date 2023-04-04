@@ -1,13 +1,12 @@
 class Solution:
     def partitionString(self, s: str) -> int:
-        ans, hash_table = 1, [0] * 26
+        lastSeen = [-1] * 26
+        count, substrStart = 1, 0
         
-        for c in s:
-            char = ord(c) - 97
-            if hash_table[char] == 0:
-                hash_table[char] += 1
-            else:
-                ans += 1
-                hash_table = [0] * 26
-                hash_table[char] += 1 
-        return ans
+        for i in range(len(s)):
+            if lastSeen[ord(s[i]) - ord('a')] >= substrStart:
+                count += 1
+                substrStart = i
+            lastSeen[ord(s[i]) - ord('a')] = i
+        
+        return count
