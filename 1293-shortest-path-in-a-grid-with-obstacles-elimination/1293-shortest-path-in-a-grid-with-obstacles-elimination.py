@@ -1,28 +1,28 @@
 class Solution:
-    def valid(self, x: int, y:int) -> bool:
-        return 0 <= x < self.r and 0 <= y < self.c
-    
     def shortestPath(self, grid: List[List[int]], k: int) -> int:
-        self.r, self.c = len(grid), len(grid[0])
-        queue = deque([(0, 0, k, 0)])
-        seen = {(0, 0, k)}
-        directions = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+        rows, cols = len(grid), len(grid[0])
+        target = (rows - 1, cols - 1)
+        
+        if k >= rows + cols - 2:
+            return rows + cols - 2
+        
+        state = (0, 0, k)
+        queue = deque([(0, state)])
+        seen = set([state])
         
         while queue:
-            y, x, remain, steps = queue.popleft()
-            if y == self.r - 1 and x == self.c - 1:
+            steps, (row, col, k) = queue.popleft()
+            
+            if (row, col) == target:
                 return steps
             
-            for dx, dy in directions:
-                next_row, next_col = y + dy, x + dx
-                
-                if self.valid(next_row, next_col):
-                    if not grid[next_row][next_col]:
-                        if (next_row, next_col, remain) not in seen:
-                            queue.append((next_row, next_col, remain, steps + 1))
-                            seen.add((next_row, next_col, remain))
-                    elif remain and (next_row, next_col, remain - 1) not in seen:
-                        seen.add((next_row, next_col, remain - 1))
-                        queue.append((next_row, next_col, remain - 1, steps + 1))
+            for new_row, new_col in [(row, col + 1), (row + 1, col), (row, col - 1), (row - 1, col)]:
+                if (0 <= new_row < rows) and (0 <= new_col < cols):
+                    new_eliminations = k - grid[new_row][new_col]
+                    new_state = (new_row, new_col, new_eliminations)
+                    
+                    if new_eliminations >= 0 and new_state not in seen:
+                        seen.add(new_state)
+                        queue.append((steps + 1, new_state))
         return -1
         
