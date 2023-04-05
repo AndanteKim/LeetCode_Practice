@@ -1,9 +1,20 @@
 class Solution:
-    def minimizeArrayValue(self, nums: List[int]) -> int:
-        ans, prefix_sum = 0, 0
-        
+    def is_valid(self, x: int, nums: List[int]) -> bool:
+        total = 0
         for i in range(len(nums)):
-            prefix_sum += nums[i]
-            ans = max(ans, ceil(prefix_sum / (i + 1)))
+            total += nums[i]
+            if total > x * (i + 1):
+                return False
+        return True
+    
+    def minimizeArrayValue(self, nums: List[int]) -> int:
+        left, right = 0, max(nums)
         
-        return ans
+        while left < right:
+            mid = (left + right) >> 1
+            
+            if (self.is_valid(mid, nums)):
+                right = mid
+            else:
+                left = mid + 1
+        return left
