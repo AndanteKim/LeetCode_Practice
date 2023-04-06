@@ -1,15 +1,23 @@
 class Solution {
     int rows, cols;
-    vector<pair<int, int>> directions{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+    vector<pair<int, int>> directions{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
     
-    bool dfs(int y, int x, vector<vector<bool>>& visited, vector<vector<int>>& grid){
-        if (y < 0 || y >= rows || x < 0 || x >= cols) return false;
-        if (grid[y][x] || visited[y][x]) return true;
+    bool bfs(int y, int x, vector<vector<bool>>& visited, vector<vector<int>>& grid){
+        queue<pair<int, int>> *q = new queue<pair<int, int>>;
         visited[y][x] = true;
         bool isClosed = true;
-        for (auto& [dy, dx] : directions){
-            int new_rows = y + dy, new_cols = x + dx;
-            if (!dfs(new_rows, new_cols, visited, grid)) isClosed = false;
+        q -> push({y, x});
+        while (!q -> empty()){
+            int y = q -> front().first, x = q -> front().second;
+            q -> pop();
+            for (auto& [dy, dx] : directions){
+                int new_row = y + dy, new_col = x + dx;
+                if (new_row < 0 || new_row >= rows || new_col < 0 || new_col >= cols) isClosed = false;
+                else if (!grid[new_row][new_col] && !visited[new_row][new_col]){
+                    q -> push({new_row, new_col});
+                    visited[new_row][new_col] = true;
+                }
+            }
         }
         
         return isClosed;
@@ -23,7 +31,7 @@ public:
         
         for (int y = 0; y < rows; ++y){
             for (int x = 0; x < cols; ++x){
-                if (grid[y][x] == 0 && !visited[y][x] && dfs(y, x, visited, grid)) ++ans;
+                if (!grid[y][x] && !visited[y][x] && bfs(y, x, visited, grid)) ++ans;
             }
         }
         
