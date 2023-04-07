@@ -1,25 +1,25 @@
 class Solution:
     def shortestAlternatingPaths(self, n: int, redEdges: List[List[int]], blueEdges: List[List[int]]) -> List[int]:
-        ans = [-1] * n
-        adj = [[] for _ in range(n)]
+        RED, BLUE = 0, 1
+        graph = defaultdict(lambda: defaultdict(list))
         
         for start, end in redEdges:
-            adj[start].append((end, 0))
+            graph[RED][start].append(end)
         
         for start, end in blueEdges:
-            adj[start].append((end, 1))
-        
-        queue = deque([(0, 0, -1)])
-        visited = [[False, False] for _ in range(n)]
+            graph[BLUE][start].append(end)
+            
+        ans = [float("inf")] * n
+        queue = deque([(0, RED, 0), (0, BLUE, 0)])
+        seen = {(0, RED), (0, BLUE)}
         
         while queue:
-            node, distance, prevColor = queue.popleft()
-            
-            ans[node] = distance if ans[node] == -1 else min(ans[node], distance)
-            
-            for neighbor, color in adj[node]:
-                if color != prevColor and not visited[neighbor][color]:
-                    visited[neighbor][color] = True
-                    queue.append((neighbor, distance + 1, color))    
+            node, color, steps = queue.popleft()
+            ans[node] = min(ans[node], steps)
         
-        return ans
+            for neighbor in graph[color][node]:
+                if (neighbor, 1 - color) not in seen:
+                    seen.add((neighbor, 1 - color))
+                    queue.append((neighbor, 1 - color, steps + 1))
+        
+        return [x if x != float("inf") else -1 for x in ans]
