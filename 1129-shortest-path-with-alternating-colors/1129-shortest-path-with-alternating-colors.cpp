@@ -1,28 +1,44 @@
 class Solution {
 public:
     vector<int> shortestAlternatingPaths(int n, vector<vector<int>>& redEdges, vector<vector<int>>& blueEdges) {
-        vector<int> ans(n, -1);
-        vector<vector<pair<int, int>>> adj(n);
-        for (auto& redEdge : redEdges) adj[redEdge[0]].push_back({redEdge[1], 0});
-        for (auto& blueEdge : blueEdges) adj[blueEdge[0]].push_back({blueEdge[1], 1});
+        constexpr int RED = 0, BLUE = 1;
+        unordered_map<int, unordered_map<int, vector<int>>> graph;
         
-        vector<vector<bool>> visited(n, vector<bool>(2, false));
-        queue<vector<int>> *q = new queue<vector<int>>;
-        q -> push({0, 0, -1});
+        for (vector<int>& edge: redEdges){
+            int x = edge[0], y = edge[1];
+            graph[RED][x].push_back(y);
+        }
         
-        while (!q -> empty()){
-            int node = q -> front()[0], distance = q -> front()[1], prevColor = q -> front()[2];
-            q -> pop();
-            ans[node] == -1? ans[node] = distance : ans[node] = min(ans[node], distance);
+        for (vector<int>& edge: blueEdges){
+            int x = edge[0], y = edge[1];
+            graph[BLUE][x].push_back(y);
+        }
+        
+        vector<int> ans(n, INT_MAX);
+        queue<vector<int>> queue;
+        vector<vector<bool>> seen(n, vector<bool>(2, false));
+        
+        queue.push({0, RED, 0});
+        queue.push({0, BLUE, 0});
+        seen[0][RED] = true;
+        seen[0][BLUE] = true;
+        
+        while(!queue.empty()){
+            vector<int> curr = queue.front();
+            queue.pop();
             
-            for (auto& [neighbor, color] : adj[node]){
-                if (color != prevColor && !visited[neighbor][color]){
-                    visited[neighbor][color] = true;
-                    q -> push({neighbor, distance + 1, color});
+            int node = curr[0], color = curr[1], steps = curr[2];
+            ans[node] = min(ans[node], steps);
+            
+            for (int neighbor : graph[color][node]){
+                if (!seen[neighbor][1 - color]){
+                    seen[neighbor][1 - color] = true;
+                    queue.push({neighbor, 1 - color, steps + 1});
                 }
             }
         }
         
+        replace(ans.begin(), ans.end(), INT_MAX, -1);
         return ans;
     }
 };
