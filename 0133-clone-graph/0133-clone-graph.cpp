@@ -24,16 +24,24 @@ class Solution {
 public:
     Node* cloneGraph(Node* node) {
         if (!node) return node;
-        if (visited.find(node) != visited.end()) return visited[node];
         
-        Node* CloneNode = new Node(node -> val, vector<Node*>());
-        visited[node] = CloneNode;
+        queue<Node*> *q = new queue<Node*>;
+        q -> push(node);
+        visited[node] = new Node(node -> val, vector<Node*>());
         
-        if (!node -> neighbors.empty()){
-            for (Node* n : node -> neighbors)
-                CloneNode -> neighbors.push_back(cloneGraph(n)); 
+        while (!q -> empty()){
+            Node* n = q -> front();
+            q -> pop();
+            
+            for (Node* neighbor : n -> neighbors){
+                if (visited.find(neighbor) == visited.end()){
+                    visited[neighbor] = new Node(neighbor -> val, vector<Node*>());
+                    q -> push(neighbor);
+                }
+                visited[n] -> neighbors.push_back(visited[neighbor]);
+            }
         }
         
-        return CloneNode;
+        return visited[node];
     }
 };
