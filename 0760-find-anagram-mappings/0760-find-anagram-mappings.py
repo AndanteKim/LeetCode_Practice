@@ -1,11 +1,17 @@
 class Solution:
     def anagramMappings(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        mapping_1, mapping_2 = dict(), dict()
+        bitsToShift = 7
+        numToGetLastBits = (1 << bitsToShift) - 1
         
         for i in range(len(nums1)):
-            mapping_1[nums1[i]] = i
+            nums1[i] = (nums1[i] << bitsToShift) + i
+            nums2[i] = (nums2[i] << bitsToShift) + i
+            
+        nums1.sort()
+        nums2.sort()
         
-        for i in range(len(nums2)):
-            mapping_2[nums2[i]] = i
+        mappings = [0] * len(nums1)
+        for i in range(len(nums1)):
+            mappings[nums1[i] & numToGetLastBits] = (nums2[i] & numToGetLastBits)
         
-        return [mapping_2[nums1[i]] for i in range(len(nums1))]
+        return mappings
