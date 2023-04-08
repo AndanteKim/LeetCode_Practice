@@ -7,21 +7,22 @@ class Node:
 """
 
 class Solution:
-    def __init__(self):
-        self.visited = dict()
-    
     def cloneGraph(self, node: 'Node') -> 'Node':
         if not node:
             return node
         
-        if node in self.visited:
-            return self.visited[node]
+        visited = dict()
         
-        clone_node = Node(node.val, [])
+        queue = deque([node])
+        visited[node] = Node(node.val, [])
         
-        self.visited[node] = clone_node
+        while queue:
+            n = queue.popleft()
+            
+            for neighbor in n.neighbors:
+                if neighbor not in visited:
+                    visited[neighbor] = Node(neighbor.val, [])
+                    queue.append(neighbor)
+                visited[n].neighbors.append(visited[neighbor])
         
-        if node.neighbors:
-            clone_node.neighbors = [self.cloneGraph(n) for n in node.neighbors]
-        
-        return clone_node
+        return visited[node]
