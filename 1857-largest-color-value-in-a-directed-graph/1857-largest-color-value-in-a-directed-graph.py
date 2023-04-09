@@ -1,31 +1,32 @@
 class Solution:
+    def dfs(self, node: int, colors: List[str], adj: List[List[int]], count: List[List[int]], \
+           visited: List[bool], inStack: List[bool]) -> int:
+        if inStack[node]:
+            return float('inf')
+        if visited[node]:
+            return count[node][ord(colors[node]) - ord('a')]
+        
+        visited[node], inStack[node] = True, True
+        
+        for neighbor in adj[node]:
+            if self.dfs(neighbor, colors, adj, count, visited, inStack) == float('inf'):
+                return float('inf')
+            for i in range(26):
+                count[node][i] = max(count[node][i], count[neighbor][i])
+        count[node][ord(colors[node]) - ord('a')] += 1
+        inStack[node] = False
+        return count[node][ord(colors[node]) - ord('a')]
+    
     def largestPathValue(self, colors: str, edges: List[List[int]]) -> int:
         n = len(colors)
-        adj, indegree = [[] for _ in range(n)], [0] * n
-        
+        adj = [[] for _ in range(n)]
         for start, end in edges:
             adj[start].append(end)
-            indegree[end] += 1
-        
-        count_sort = [[0] * 26 for _ in range(n)]
-        queue = deque()
-        
-        for i in range(n):
-            if indegree[i] == 0:
-                queue.append(i)
-        
-        answer, nodesSeen = 0, 0
-        while queue:
-            node = queue.popleft()
-            count_sort[node][ord(colors[node]) - ord('a')] += 1
-            answer = max(answer, count_sort[node][ord(colors[node]) - ord('a')])
-            nodesSeen += 1
             
-            for neighbor in adj[node]:
-                for i in range(26):
-                    count_sort[neighbor][i] = max(count_sort[neighbor][i], count_sort[node][i])
-                
-                indegree[neighbor] -= 1
-                if indegree[neighbor] == 0:
-                    queue.append(neighbor)
-        return -1 if nodesSeen < n else answer
+        count = [[0] * 26 for _ in range(n)]
+        visited, inStack = [False] * n, [False] * n
+        ans = 0
+        for i in range(n):
+            ans = max(ans, self.dfs(i, colors, adj, count, visited, inStack))
+        
+        return -1 if ans == float('inf') else ans
