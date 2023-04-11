@@ -2,10 +2,12 @@ class Solution {
     vector<string> neighbors(string& node){
         vector<string> node_bfs;
         for (int i = 0; i < 4; ++i){
-            int num = int(node[i] - '0');
+            int num = node[i];
             for (int change : {-1, 1}){
-                int x = (num + change + 10) % 10;
-                node_bfs.push_back(node.substr(0, i) + (char)(x + 48) + node.substr(i+1));
+                int x = (num - '0' + change + 10) % 10 + '0';
+                string neighbor = node;
+                neighbor[i] = x;
+                node_bfs.push_back(neighbor);
             }
         }
         
@@ -22,10 +24,9 @@ public:
         seen.insert("0000");
         
         while (!queue.empty()){
-            auto it = queue.front();
+            auto [node, steps] = queue.front();
             queue.pop();
-            string node = it.first;
-            int steps = it.second;
+            
             if (node == target) return steps;
             for (string& neighbor : neighbors(node)){
                 if (seen.find(neighbor) == seen.end()){
