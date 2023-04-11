@@ -1,12 +1,10 @@
 class Solution:
     def neighbors(self, node: List[str]) -> List[str]:
-        ans = []
         for i in range(4):
             num = int(node[i])
-            for change in [-1, 1]:
+            for change in (-1, 1):
                 x = (num + change) % 10
-                ans.append(node[:i] + str(x) + node[i + 1:])
-        return ans
+                yield node[:i] + str(x) + node[i + 1:]
     
     def openLock(self, deadends: List[str], target: str) -> int:
         if "0000" in deadends:
