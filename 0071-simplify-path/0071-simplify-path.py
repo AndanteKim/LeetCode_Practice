@@ -1,22 +1,24 @@
 class Solution:
     def simplifyPath(self, path: str) -> str:
-        stack, ans = [], ""
-        i = 0
-        while i < len(path):
-            if path[i] == '/':
-                i += 1
-                continue
-            temp = ""
-            while i < len(path) and path[i] != '/':
-                temp += path[i]
-                i += 1
-            
-            if temp == '.':
-                continue
-            elif temp == "..":
-                if stack:
-                    stack.pop()
-            else:
-                stack.append(temp)
-            
-        return "/" if not stack else "/" + "/".join(stack)
+        path = re.sub("[/]+", "/", path)
+        
+        last_path = ""
+        while last_path != path:
+            last_path = path
+            path = re.sub("/[.]/", "/", path)
+        
+        path = re.sub("^[.]/", "/", path)
+        path = re.sub("/[.]$", "/", path)
+        
+        path = re.sub("/$", "", path)
+        
+        path = re.sub("^/", "", path)
+        
+        path_stack = []
+        for frag in path.split('/'):
+            if frag != "..":
+                path_stack.append(frag)
+            elif path_stack:
+                path_stack.pop()
+        
+        return "/" + "/".join(path_stack)
