@@ -1,33 +1,36 @@
 class Solution:
-    def answer_query(self, graph: Dict[float, Dict[float, float]], start: int, end: int) -> int:
-        if start not in graph:
-            return -1
+    def find(self, node_id: str) -> Tuple[str, float]:
+        if node_id not in self.gid_weight:
+            self.gid_weight[node_id] = (node_id, 1)
+        group_id, node_weight = self.gid_weight[node_id]
         
-        seen = {start}
-        stack = [(start, 1)]
-        
-        while stack:
-            node, ratio = stack.pop()
-            if node == end:
-                return ratio
-            
-            for neighbor in graph[node]:
-                if neighbor not in seen:
-                    seen.add(neighbor)
-                    stack.append((neighbor, ratio * graph[node][neighbor]))
-        return -1
+        if group_id != node_id:
+            new_group_id, group_weight = self.find(group_id)
+            self.gid_weight[node_id] = (new_group_id, node_weight * group_weight)
+        return self.gid_weight[node_id]
     
-    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
-        graph = defaultdict(dict)
+    def union(self, dividend: str, divisor: str, value: float) -> None:
+        dividend_gid, dividend_weight = self.find(dividend)
+        divisor_gid, divisor_weight = self.find(divisor)
+        if dividend_gid != divisor_gid:
+            self.gid_weight[dividend_gid] = (divisor_gid, divisor_weight * value / dividend_weight)
         
-        for i in range(len(equations)):
-            numerator, denominator = equations[i]
-            val = values[i]
-            graph[numerator][denominator] = val
-            graph[denominator][numerator] = 1 / val
+    def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
+        self.gid_weight = dict()
+            
+        for (dividend, divisor), value in zip(equations, values):
+            self.union(dividend, divisor, value)
         
         ans = []
-        for numerator, denominator in queries:
-            ans.append(self.answer_query(graph, numerator, denominator))
         
+        for (dividend, divisor) in queries:
+            if dividend not in self.gid_weight or divisor not in self.gid_weight:
+                ans.append(-1.0)
+            else:
+                dividend_gid, dividend_weight = self.find(dividend)
+                divisor_gid, divisor_weight = self.find(divisor)
+                if dividend_gid != divisor_gid:
+                    ans.append(-1.0)
+                else:
+                    ans.append(dividend_weight / divisor_weight)
         return ans
