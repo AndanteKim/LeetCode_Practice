@@ -1,41 +1,38 @@
 class Solution {
-    unordered_map<string, unordered_map<string, double>> graph;
-    double AnswerQuery(string& start, string& end){
-        if (graph.find(start) == graph.end()) return -1.0;
-        stack<pair<string, double>> stack;
-        stack.push({start, 1});
-        unordered_set<string> seen;
-        
-        while (!stack.empty()){
-            auto [node, ratio] = stack.top();
-            stack.pop();
-            if (node == end) return ratio;
-            
-            for (auto& neighbor_graph : graph[node]){
-                string neighbor = neighbor_graph.first;
-                if (seen.find(neighbor) == seen.end()){
-                    seen.insert(neighbor);
-                    stack.push({neighbor, ratio * graph[node][neighbor]});
-                }
-            }
+    unordered_map<string, pair<string,double>> GidWeight;
+    
+    pair<string, double> find(string& NodeId){
+        if (GidWeight.find(NodeId) == GidWeight.end()) GidWeight[NodeId] = make_pair(NodeId, 1);
+        auto [GroupId, NodeWeight] = GidWeight[NodeId];
+        if (GroupId != NodeId){
+            auto [NewGroupId, GroupWeight] = find(GroupId);
+            GidWeight[NodeId] = make_pair(NewGroupId, NodeWeight * GroupWeight);
         }
-        
-        return -1.0;
+        return GidWeight[NodeId];
+    }
+    
+    void UnionSet(string& Dividend, string& Divisor, double value){
+        auto [DividendGid, DividendWeight] = find(Dividend);
+        auto [DivisorGid, DivisorWeight] = find(Divisor);
+        if (DividendGid != DivisorGid) GidWeight[DividendGid] = make_pair(DivisorGid, DivisorWeight * value / DividendWeight);
     }
     
 public:
     vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
         for (int i = 0; i < equations.size(); ++i){
-            string numerator = equations[i][0], denominator = equations[i][1];
-            double val = values[i];
-            graph[numerator][denominator] = val;
-            graph[denominator][numerator] = 1 / val;
+            UnionSet(equations[i][0], equations[i][1], values[i]);
         }
         vector<double> ans;
-        for (auto& query : queries){
-            ans.push_back(AnswerQuery(query[0], query[1]));
-        }
         
+        for (vector<string>& query : queries){
+            if (GidWeight.find(query[0]) == GidWeight.end() || GidWeight.find(query[1]) == GidWeight.end()) ans.push_back(-1.0);
+            else{
+                auto [DividendGid, DividendWeight] = find(query[0]);
+                auto [DivisorGid, DivisorWeight] = find(query[1]);
+                if (DividendGid != DivisorGid) ans.push_back(-1.0);
+                else ans.push_back(DividendWeight / DivisorWeight);
+            }
+        }
         return ans;
     }
 };
