@@ -1,19 +1,16 @@
 class Solution {
-    int lps(int left, int right, string& s, vector<vector<int>>& memo){
-        if (memo[left][right] != 0) return memo[left][right];
-        if (left > right) return 0;
-        if (left == right) return 1;
-        
-        if (s[left] == s[right]) memo[left][right] = lps(left + 1, right - 1, s, memo) + 2;
-        else memo[left][right] = max(lps(left, right - 1, s, memo), lps(left + 1, right, s, memo));
-        
-        return memo[left][right];
-    }
-    
 public:
     int longestPalindromeSubseq(string s) {
         int n = s.size();
-        vector<vector<int>> memo(n, vector<int>(n));
-        return lps(0, s.size() - 1, s, memo);
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (int i = n - 1; i >= 0; --i){
+            dp[i][i] = 1;
+            for (int j = i + 1; j < n; ++j){
+                if (s[i] == s[j]) dp[i][j] = dp[i + 1][j - 1] + 2;
+                else dp[i][j] = max(dp[i + 1][j], dp[i][j - 1]);
+            }
+        }
+        
+        return dp[0][n - 1];
     }
 };
