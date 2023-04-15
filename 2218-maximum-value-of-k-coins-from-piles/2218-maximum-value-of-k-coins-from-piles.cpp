@@ -2,18 +2,19 @@ class Solution {
 public:
     int maxValueOfCoins(vector<vector<int>>& piles, int k) {
         int n = piles.size();
-        vector<vector<int>> dp(n + 1, vector<int>(k + 1));
+        vector dp(n + 1, vector<int>(k + 1, -1));
         
-        for (int i = 1; i <= n; ++i){
-            for (int coins = 0; coins <= k; ++coins){
-                int currentSum = 0;
-                for (int currentCoins = 0; currentCoins <= min(int(piles[i - 1].size()), coins); ++currentCoins){
-                    if (currentCoins > 0) currentSum += piles[i - 1][currentCoins - 1];
-                    dp[i][coins] = max(dp[i][coins], dp[i - 1][coins - currentCoins] + currentSum);
-                }
+        function<int(int, int)> f = [&](int i, int coins){
+            if (i == 0) return 0;
+            if (dp[i][coins] != -1) return dp[i][coins];
+            int currentSum = 0;
+            for (int currentCoins = 0; currentCoins <= min((int)piles[i - 1].size(), coins); ++currentCoins){
+                if (currentCoins > 0) currentSum += piles[i - 1][currentCoins - 1];
+                dp[i][coins] = max(dp[i][coins], f(i - 1, coins - currentCoins) + currentSum);
             }
-        }
+            return dp[i][coins];
+        };
         
-        return dp[n][k];
+        return f(n, k);
     }
 };
