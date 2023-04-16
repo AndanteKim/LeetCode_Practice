@@ -1,7 +1,8 @@
 class Solution {
 public:
     int numWays(vector<string>& words, string target) {
-        int alphabet = 26, mod = 1e9 + 7;
+        const int alphabet = 26;
+        const int mod = 1e9 + 7;
         int m = target.size(), k = words[0].size();
         vector<vector<int>> cnt(alphabet, vector<int>(k));
         for (int j = 0; j < k; ++j){
@@ -10,16 +11,21 @@ public:
             }
         }
         
-        vector dp(m + 1, vector<long long>(k + 1));
-        dp[0][0] = 1;
-        for (int i = 0; i <= m; ++i){
-            for (int j = 0; j < k; ++j){
-                if (i < m){
-                    (dp[i + 1][j + 1] += cnt[target[i] - 'a'][j] * dp[i][j]) %= mod;
-                }
-                (dp[i][j + 1] += dp[i][j]) %= mod;
+        vector dp(m + 1, vector<long long>(k + 1, -1));
+        
+        function<long long(int, int)> f = [&](int i, int j) -> long long {
+            if (j == 0) return i == 0? 1 : 0;
+            if (dp[i][j] != -1) return dp[i][j];
+            
+            dp[i][j] = f(i, j - 1);
+            
+            if (i > 0){
+                dp[i][j] += cnt[target[i - 1] - 'a'][j - 1] * f(i - 1, j - 1);
             }
-        }
-        return dp[m][k];
+            dp[i][j] %= mod;
+            return dp[i][j];
+        };
+        
+        return f(m, k);
     }
 };
