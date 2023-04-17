@@ -5,23 +5,22 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def recurseTree(self, node: Optional[TreeNode], remainingSum: int, pathNodes: List[int],
+                    ans: List[List[int]]) -> None:
+        if not node:
+            return
+        
+        pathNodes.append(node.val)
+        
+        if remainingSum == node.val and not node.left and not node.right:
+            ans.append(list(pathNodes))
+        else:
+            self.recurseTree(node.left, remainingSum - node.val, pathNodes, ans)
+            self.recurseTree(node.right, remainingSum - node.val, pathNodes, ans)
+        
+        pathNodes.pop();   
+    
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
-        if not root:
-            return []
-        
-        stack, ans = [(root, [root.val], root.val)], []
-        
-        while stack:
-            node, paths, total = stack.pop()
-            
-            if not node.left and not node.right and total == targetSum:
-                ans.append(paths)
-            
-            if node.left:
-                stack.append((node.left, paths + [node.left.val], total + node.left.val))
-            
-            if node.right:
-                stack.append((node.right, paths + [node.right.val], total + node.right.val))
-                
-        
+        ans = []
+        self.recurseTree(root, targetSum, [], ans)
         return ans
