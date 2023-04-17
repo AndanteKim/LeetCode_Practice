@@ -12,6 +12,7 @@
 class Solution {
 public:
     TreeNode* removeLeafNodes(TreeNode* root, int target) {
+        if (!root) return nullptr;
         if (root -> left)
             root -> left = removeLeafNodes(root -> left, target);
         if (root -> right)
