@@ -10,25 +10,26 @@
  * };
  */
 class Solution {
-    void path(TreeNode* root, int target, vector<int> &&pth, vector<vector<int>>& ans){
-        if (!root) return;
+    void recurseTree(TreeNode* node, int remainingSum, vector<int> pathNodes, \
+                    vector<vector<int>>& ans){
+        if (!node) return;
         
-        if (root -> val == target && !root -> left && !root -> right){
-            pth.push_back(root -> val);
-            ans.push_back(pth);
-            pth.pop_back();
-            return;
+        pathNodes.push_back(node -> val);
+        
+        if (remainingSum == node -> val && !node -> left && !node -> right)
+            ans.push_back(pathNodes);
+        else{
+            recurseTree(node -> left, remainingSum - node -> val, pathNodes, ans);
+            recurseTree(node -> right, remainingSum - node -> val, pathNodes, ans);
         }
-        pth.push_back(root -> val);
-        path(root -> left, target - root -> val, move(pth), ans);
-        path(root -> right, target - root -> val, move(pth), ans);
-        pth.pop_back();
+        
+        pathNodes.pop_back();
     }
     
 public:
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
         vector<vector<int>> ans;
-        path(root, targetSum, {}, ans);
+        recurseTree(root, targetSum, {}, ans);
         return ans;
     }
 };
