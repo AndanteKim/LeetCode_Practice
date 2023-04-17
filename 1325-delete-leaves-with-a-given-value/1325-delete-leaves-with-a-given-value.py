@@ -20,7 +20,7 @@ class Solution:
                         return None
                     elif parent.left == child:
                         parent.left = None
-                    elif parent.right == child:
+                    else:
                         parent.right = None
             else:
                 stack.append((child, parent, True))
