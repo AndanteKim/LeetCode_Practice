@@ -5,33 +5,26 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def preorder(self, node: Optional[TreeNode], curr_sum: int) -> None:
+        if not node:
+            return
+        
+        curr_sum += node.val
+        
+        if curr_sum == self.targetSum:
+            self.count += 1
+        
+        self.count += self.h[curr_sum - self.targetSum]
+        self.h[curr_sum] += 1
+        
+        self.preorder(node.left, curr_sum)
+        self.preorder(node.right, curr_sum)
+        
+        self.h[curr_sum] -= 1
+    
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
-        if not root:
-            return 0
+        self.count, self.targetSum = 0, targetSum
+        self.h = defaultdict(int)
+        self.preorder(root, 0)
+        return self.count
         
-        ans, h = 0, defaultdict(int)
-        stack = [(root, 0, False)]
-        
-        while stack:
-            node, curr_sum, visited = stack.pop()
-            if visited:
-                h[curr_sum] -= 1
-                continue
-            
-            curr_sum += node.val
-            
-            if curr_sum == targetSum:
-                ans += 1
-            
-            ans += h[curr_sum - targetSum]
-            
-            h[curr_sum] += 1
-            stack.append((node, curr_sum, True))
-            
-            if node.right:
-                stack.append((node.right, curr_sum, False))
-            
-            if node.left:
-                stack.append((node.left, curr_sum, False))
-            
-        return ans
