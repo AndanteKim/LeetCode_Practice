@@ -10,30 +10,20 @@
  * };
  */
 class Solution {
+    vector<vector<int>> ans;
+    
+    void dfs(TreeNode* node, int level){
+        if (ans.size() == level) ans.push_back({});
+        
+        ans[level].push_back(node -> val);
+        if (node -> left) dfs(node -> left, level + 1);
+        if (node -> right) dfs(node -> right, level + 1);
+    }
+    
 public:
     vector<vector<int>> levelOrder(TreeNode* root) {
-        if (!root) return {};
-        vector<vector<int>> ans;
-        
-        queue<TreeNode*> queue;
-        queue.push(root);
-        
-        while (!queue.empty()){
-            vector<int> curr;
-            int sz = queue.size();
-            for (int i = 0; i < sz; ++i){
-                TreeNode* node = queue.front();
-                queue.pop();
-                
-                curr.push_back(node -> val);
-                
-                if (node -> left) queue.push(node -> left);
-                if (node -> right) queue.push(node -> right);
-            }
-            
-            ans.push_back(curr);
-        }
-        
+        if(!root) return ans;
+        dfs(root, 0);
         return ans;
     }
 };
