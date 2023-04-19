@@ -10,27 +10,28 @@
  * };
  */
 class Solution {
-    int ans = 0;
-    
-    void dfs(TreeNode* node, bool goLeft, int steps){
-        if (node){
-            ans = max(ans, steps);
-            
-            if (goLeft){
-                dfs(node -> left, false, steps + 1);
-                dfs(node -> right, true, 1);
-            }
-            else{
-                dfs(node -> left, false, 1);
-                dfs(node -> right, true, steps + 1);
-            }
-        }
-    }
-    
 public:
     int longestZigZag(TreeNode* root) {
-        dfs(root, false, 0);
-        dfs(root, true, 0);
+        int ans = 0;
+        stack<pair<TreeNode*, pair<int, char>>> stack;
+        stack.push({root, {0, NULL}});
+        
+        while(!stack.empty()){
+            auto [node, others] = stack.top();
+            auto [zigzag, direction] = others;
+            stack.pop();
+            
+            ans = max(ans, zigzag);
+            if (node -> left){
+                if (direction == 'l') stack.push({node -> left, {1, 'l'}});
+                else stack.push({node -> left, {zigzag + 1, 'l'}});
+            }
+            
+            if (node -> right){
+                if (direction == 'r') stack.push({node -> right, {1, 'r'}});
+                else stack.push({node -> right, {zigzag + 1, 'r'}});
+            }
+        }
         
         return ans;
     }
