@@ -9,30 +9,32 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-#define ll long long
-
 class Solution {
-public:
-    vector<double> averageOfLevels(TreeNode* root) {
-        vector<double> ans;
-        queue<TreeNode*> queue;
-        queue.push(root);
+    void average(TreeNode* t, int i, vector<double>& total, vector<int>& count){
+        if (!t) return;
         
-        while(!queue.empty()){
-            ll curr = 0;
-            int sz = queue.size();
-            
-            for (int i = 0; i < sz; ++i){
-                TreeNode* node = queue.front();
-                queue.pop();
-                curr += node -> val;
-                
-                if (node -> left) queue.push(node -> left);
-                if (node -> right) queue.push(node -> right);
-            }
-            ans.push_back((double) curr / sz);
+        if (i < total.size()){
+            total[i] += t -> val;
+            ++count[i];
+        }
+        else{
+            total.push_back(t -> val);
+            count.push_back(1);
         }
         
-        return ans;
+        average(t -> left, i + 1, total, count);
+        average(t -> right, i + 1, total, count);
+    }
+    
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        vector<double> res;
+        vector<int> count;
+        
+        average(root, 0, res, count);
+        int sz = res.size();
+        for (int i = 0; i < sz; ++i) res[i] /= count[i];
+        
+        return res;
     }
 };
