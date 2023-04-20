@@ -10,37 +10,26 @@
  * };
  */
 class Solution {
+    unordered_map<int, int> lastVal;
+    
+    bool dfs(TreeNode* node, int level){
+        if (!node) return true;
+        
+        if (level % 2 == 0){
+            if (node -> val % 2 == 0 || (lastVal[level] && lastVal[level] >= node -> val))
+                return false;
+            lastVal[level] = node -> val;
+        }
+        else{
+            if (node -> val % 2 == 1 || (lastVal[level] && lastVal[level] <= node -> val))
+                return false;
+            lastVal[level] = node -> val;
+        }
+        return dfs(node -> left, level + 1) && dfs(node -> right, level + 1);
+    }
+    
 public:
     bool isEvenOddTree(TreeNode* root) {
-        queue<pair<TreeNode*, int>> queue;
-        queue.push({root, 0});
-        
-        while (!queue.empty()){
-            int sz = queue.size();
-            stack<int> stack;
-            
-            for (int i = 0; i < sz; ++i){
-                auto [node, level] = queue.front();
-                queue.pop();
-                
-                if (level % 2 == 0){
-                    if (node -> val % 2 == 0 || (!stack.empty() && node -> val - stack.top() <= 0))
-                        return false;
-                    else
-                        stack.push(node -> val);
-                }
-                else{
-                    if (node -> val % 2 == 1 || (!stack.empty() && node -> val - stack.top() >= 0))
-                        return false;
-                    else
-                        stack.push(node -> val);
-                }
-                
-                if (node -> left) queue.push({node -> left, level + 1});
-                if (node -> right) queue.push({node -> right, level + 1});
-            }
-        }
-        
-        return true;
+        return dfs(root, 0);
     }
 };
