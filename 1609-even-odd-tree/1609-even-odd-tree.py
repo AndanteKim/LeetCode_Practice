@@ -5,31 +5,22 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def dfs(self, node: Optional[TreeNode], level: int, last_val: DefaultDict[int, int]) -> bool:
+        if not node:
+            return True
+        
+        if level % 2 == 0:
+            if node.val % 2 == 0 or (last_val[level] and last_val[level] >= node.val):
+                return False
+            last_val[level] = node.val
+        else:
+            if node.val % 2 == 1 or (last_val[level] and last_val[level] <= node.val):
+                return False
+            last_val[level] = node.val
+        return self.dfs(node.left, level + 1, last_val) and self.dfs(node.right, level + 1, last_val)
+                
+    
     def isEvenOddTree(self, root: Optional[TreeNode]) -> bool:
+        last_val = defaultdict(int)
+        return self.dfs(root, 0, last_val)
         
-        queue = deque([(root, 0)])
-        while queue:
-            sz, stack = len(queue), []
-            
-            for _ in range(sz):
-                node, level = queue.popleft()
-                
-                if level % 2 == 0:
-                    if node.val % 2 == 0 or (stack and node.val - stack[-1] <= 0):
-                        return False
-                    else:
-                        stack.append(node.val)
-                else:
-                    if node.val % 2 == 1 or (stack and node.val - stack[-1] >= 0):
-                        return False
-                    else:
-                        stack.append(node.val)
-                
-                if node.left:
-                    queue.append((node.left, level + 1))
-                
-                if node.right:
-                    queue.append((node.right, level + 1))
-        
-        
-        return True
