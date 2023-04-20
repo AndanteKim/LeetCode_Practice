@@ -5,26 +5,21 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def dfs(self, node: Optional[TreeNode], depth: int, col_index: int) -> None:
+        if not node:
+            return
+        
+        if depth not in self.first_col_index_table:
+            self.first_col_index_table[depth] = col_index
+        
+        self.ans = max(self.ans, col_index - self.first_col_index_table[depth] + 1)
+        
+        self.dfs(node.left, depth + 1, 2 * col_index)
+        self.dfs(node.right, depth + 1, 2 * col_index + 1)
+    
     def widthOfBinaryTree(self, root: Optional[TreeNode]) -> int:
-        if not root:
-            return 0
+        self.first_col_index_table = dict()
+        self.ans = 0
         
-        ans = 0
-        queue = deque([(root, 0)])
-        
-        while queue:
-            size = len(queue)
-            _, level_head_index = queue[0]
-        
-            for _ in range(size):
-                node, col_index = queue.popleft()
-                
-                if node.left:
-                    queue.append((node.left, 2 * col_index))
-                
-                if node.right:
-                    queue.append((node.right, 2 * col_index + 1))
-            
-            ans = max(ans, col_index - level_head_index + 1)
-        
-        return ans
+        self.dfs(root, 0, 0)
+        return self.ans
