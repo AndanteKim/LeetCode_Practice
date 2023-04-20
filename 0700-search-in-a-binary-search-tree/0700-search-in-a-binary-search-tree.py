@@ -10,17 +10,17 @@ class Solution:
         if not root:
             return None
         
-        queue = deque([root])
-        while queue:
-            node = queue.popleft()
+        stack = [root]
+        while stack:
+            node = stack.pop()
             
             if node.val == val:
                 return node
             
-            if node.left:
-                queue.append(node.left)
-            
             if node.right:
-                queue.append(node.right)
+                stack.append(node.right)
+            
+            if node.left:
+                stack.append(node.left)
             
         return None
