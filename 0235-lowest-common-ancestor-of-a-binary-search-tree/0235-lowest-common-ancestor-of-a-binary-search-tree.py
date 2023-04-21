@@ -7,26 +7,10 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        ancestors = dict()
         
-        queue = deque([(root, None)])
-        
-        while queue:
-            child, parent = queue.popleft()
-            ancestors[child] = parent
-            
-            if child.left:
-                queue.append((child.left, child))
-            
-            if child.right:
-                queue.append((child.right, child))
-        
-        seen = set()
-        while p:
-            seen.add(p)
-            p = ancestors[p]
-            
-        while q not in seen:
-            q = ancestors[q]
-        
-        return q
+        if p.val > root.val and q.val > root.val:
+            return self.lowestCommonAncestor(root.right, p, q)
+        elif p.val < root.val and q.val < root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
+        else:
+            return root
