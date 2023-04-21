@@ -10,21 +10,37 @@
  * };
  */
 class Solution {
-    void inorder(TreeNode* node, vector<int>& arr){
-        if (!node) return;
-        inorder(node -> left, arr);
-        arr.push_back(node -> val);
-        inorder(node -> right, arr);
-    }
-    
 public:
     vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
-        vector<int> r1, r2;
-        inorder(root1, r1);
-        inorder(root2, r2);
-        vector<int> ans = r1;
-        ans.insert(ans.end(), r2.begin(), r2.end());
-        sort(ans.begin(), ans.end());
+        stack<TreeNode*> stack1, stack2;
+        vector<int> ans;
+        
+        while (!stack1.empty() || !stack2.empty() || root1 || root2){
+            while (root1){
+                stack1.push(root1);
+                root1 = root1 -> left;
+            }
+            
+            while (root2){
+                stack2.push(root2);
+                root2 = root2 -> left;
+            }
+            
+            if (stack2.empty() || !stack1.empty() && (stack1.top() -> val <= stack2.top() -> val)){
+                root1 = stack1.top();
+                ans.push_back(root1 -> val);
+                stack1.pop();
+                root1 = root1 -> right;
+            }
+            else{
+                root2 = stack2.top();
+                ans.push_back(root2 -> val);
+                stack2.pop();
+                root2 = root2 -> right;
+            }
+            
+        }
+        
         return ans;
     }
 };
