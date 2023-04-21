@@ -1,19 +1,16 @@
 class Solution:
-    def find(self, pos: int, count: int, profit: int, n: int, minProfit: int, group: List[int], profits: List[int]) -> int:
-        if pos == len(group):
-            return profit >= minProfit
+    def profitableSchemes(self, n: int, minProfit: int, group: List[int], profits: List[int]) -> int:
+        mod = int(1e9 + 7)
+        dp = [[[0] * 101 for _ in range(101)] for __ in range(101)]
         
-        if self.memo[pos][count][profit] != -1:
-            return self.memo[pos][count][profit]
+        for count in range(n + 1):
+            dp[len(group)][count][minProfit] = 1
         
-        totalWays = self.find(pos + 1, count, profit, n, minProfit, group, profits)
-        if count + group[pos] <= n:
-            totalWays += self.find(pos + 1, count + group[pos], min(minProfit, profit + profits[pos]), n, minProfit, group, profits)
-        self.memo[pos][count][profit] = totalWays % self.mod
-        return self.memo[pos][count][profit]
-    
-    def profitableSchemes(self, n: int, minProfit: int, group: List[int], profit: List[int]) -> int:
-        self.mod = int(1e9 + 7)
-        self.memo = [[[-1] * 101 for _ in range(101)] for __ in range(101)]
-        
-        return self.find(0, 0, 0, n, minProfit, group, profit)
+        for index in range(len(group) - 1, -1, -1):
+            for count in range(n + 1):
+                for profit in range(minProfit + 1):
+                    dp[index][count][profit] = dp[index + 1][count][profit]
+                    if count + group[index] <= n:
+                        dp[index][count][profit] = (dp[index][count][profit] + dp[index + 1][count + group[index]]
+                                                   [min(minProfit, profit + profits[index])]) % mod
+        return dp[0][0][0]
