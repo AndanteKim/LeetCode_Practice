@@ -6,19 +6,7 @@
 #         self.right = right
 class Solution:
     def getAllElements(self, root1: TreeNode, root2: TreeNode) -> List[int]:
-        ans = []
-        queue = deque([root1, root2])
+        def inorder(r: TreeNode) -> List[int]:
+            return inorder(r.left) + [r.val] + inorder(r.right) if r else []
         
-        while queue:
-            node = queue.popleft()
-            if not node:
-                continue
-            ans.append(node.val)
-            
-            if node.left:
-                queue.append(node.left)
-            if node.right:
-                queue.append(node.right)
-        
-        ans.sort()
-        return ans
+        return sorted(inorder(root1) + inorder(root2))
