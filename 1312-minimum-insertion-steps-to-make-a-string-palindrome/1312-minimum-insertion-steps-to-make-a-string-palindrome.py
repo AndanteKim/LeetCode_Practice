@@ -1,12 +1,20 @@
 class Solution:
-    @cache
-    def Insertions(self, left: int, right: int, s: str) -> int:
-        if left >= right:
+    def lcs(self, s1: str, s2: str, m: int, n: int, memo: List[List[int]]) -> int:
+        if m == 0 or n == 0:
             return 0
-        elif s[left] == s[right]:
-            return self.Insertions(left + 1, right - 1, s)
-        else:
-            return 1 + min(self.Insertions(left + 1, right, s), self.Insertions(left, right - 1, s))
+        
+        if memo[m][n] != -1:
+            return memo[m][n]
+        
+        if s1[m - 1] == s2[n - 1]:
+            memo[m][n] = 1 + self.lcs(s1, s2, m - 1, n - 1, memo) 
+            return memo[m][n]
+        memo[m][n] = max(self.lcs(s1, s2, m - 1, n, memo), self.lcs(s1, s2, m, n - 1, memo))
+        return memo[m][n]
     
     def minInsertions(self, s: str) -> int:
-        return self.Insertions(0, len(s) - 1, s)
+        n = len(s)
+        sReverse = s[::-1]
+        memo = [[-1] * (n + 1) for _ in range(n + 1)]
+        
+        return n - self.lcs(s, sReverse, n, n, memo)
