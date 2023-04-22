@@ -2,26 +2,24 @@ class Solution {
 public:
     string minWindow(string s1, string s2) {
         int n = s1.size(), m = s2.size();
-        string ans = "";
-        unordered_map<char, vector<int>> indices;
-        for (int i = 0; i < n; ++i) indices[s1[i]].push_back(i);
-        vector<int> ind(m, 0);
-        for (int start = 0; start <= n - 1; ++start){
-            int prev = start - 1;
-            for (int j = 0; j <= m - 1; ++j){
-                if (!indices.count(s2[j])) return "";
-                const vector<int>& curIndices = indices[s2[j]];
-                while (ind[j] < curIndices.size() && curIndices[ind[j]] <= prev){
-                    ++ind[j];
-                }
-                if (ind[j] == curIndices.size())
-                    return ans;
-                prev = curIndices[ind[j]];
+        
+        vector dp(n + 1, vector<int>(m + 1, 1000000000));
+        dp[0][0] = 0;
+        int end = 0, length = n + 1;
+        
+        for (int i = 1; i <= n; ++i){
+            dp[i][0] = 0;
+            
+            for (int j = 1; j <= m; ++j){
+                dp[i][j] = 1 + (s1[i - 1] == s2[j - 1]? dp[i - 1][j - 1] : dp[i - 1][j]);
             }
-            if (ans == "" || prev - start + 1 < ans.size())
-                ans = s1.substr(start, prev - start + 1);
+            
+            if (dp[i][m] < length){
+                length = dp[i][m];
+                end = i;
+            }
         }
         
-        return ans;
+        return length > n? "" : s1.substr(end - length, length);
     }
 };
