@@ -10,38 +10,22 @@
  * };
  */
 class Solution {
-    int predecessor(TreeNode* root){
-        root = root -> left;
-        while (root -> right) root = root -> right;
-        return root -> val;
-    }
-    
-    int successor(TreeNode* root){
-        root = root -> right;
-        while (root -> left) root = root -> left;
-        return root -> val;
-    }
-    
 public:
     TreeNode* deleteNode(TreeNode* root, int key) {
-        if (!root) return nullptr;
-        
-        if (key > root -> val)
-            root -> right = deleteNode(root -> right, key);
-        else if (key < root -> val)
-            root -> left = deleteNode(root -> left, key);
-        else{
-            if (!(root -> left || root -> right)) root = nullptr;
-            else if (root -> right){
-                root -> val = successor(root);
-                root -> right = deleteNode(root -> right, root -> val);
-            }
+        if (root){
+            if (key < root -> val)
+                root -> left = deleteNode(root -> left, key);
+            else if (key > root -> val)
+                root -> right = deleteNode(root -> right, key);
             else{
-                root -> val = predecessor(root);
+                if (!root -> left)
+                    return root -> right;
+                TreeNode* child = root -> left;
+                while (child && child -> right) child = child -> right;
+                root -> val = child -> val;
                 root -> left = deleteNode(root -> left, root -> val);
             }
         }
-        
         return root;
     }
 };
