@@ -1,19 +1,38 @@
 class Solution:   
     def maximalNetworkRank(self, n: int, roads: List[List[int]]) -> int:
-        if roads == []:
-            return 0
-        adj, ans = [[] for _ in range(n)], 0
+        degrees = [0] * n
         
         for start, end in roads:
-            adj[start].append(end)
-            adj[end].append(start)
+            degrees[start] += 1
+            degrees[end] += 1
         
-        for i in range(n - 1):
-            node1 = i
-            for j in range(i + 1, n):
-                node2 = j
-                if [node1, node2] in roads or [node2, node1] in roads:
-                    ans = max(ans, len(adj[node1]) + len(adj[node2]) - 1)
-                else:
-                    ans = max(ans, len(adj[node1]) + len(adj[node2]))
-        return ans
+        first, second = 0, 0
+        for degree in degrees:
+            if degree > first:
+                second, first = first, degree
+            elif degree == first:
+                continue
+            elif degree > second:
+                second = degree
+        
+        first_count, second_count = 0, 0
+        for degree in degrees:
+            if degree == first:
+                first_count += 1
+            elif degree == second:
+                second_count += 1
+        
+        if first_count == 1:
+            count = 0
+            for start, end in roads:
+                if degrees[start] == first and degrees[end] == second:
+                    count += 1
+                elif degrees[end] == first and degrees[start] == second:
+                    count += 1
+            return first + second - (0 if second_count > count else 1)
+        else:
+            count = 0
+            for start, end in roads:
+                if degrees[start] == first and degrees[end] == first:
+                    count += 1
+            return first + first - (0 if (first_count * (first_count - 1) / 2) > count else 1)
