@@ -1,9 +1,14 @@
 class Solution:
     def lastStoneWeight(self, stones: List[int]) -> int:
-        stones.sort()
+        for i in range(len(stones)):
+            stones[i] *= -1
+            
+        heapify(stones)
+        
         while len(stones) > 1:
-            stone1 = stones.pop()
-            stone2 = stones.pop()
+            stone1 = heappop(stones)
+            stone2 = heappop(stones)
             if stone1 != stone2:
-                bisect.insort(stones, stone1 - stone2)
-        return stones[0] if stones else 0
+                heappush(stones, stone1 - stone2)
+        
+        return -heappop(stones) if stones else 0
