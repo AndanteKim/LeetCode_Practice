@@ -1,19 +1,28 @@
 class Solution:
-    def dfs(self, start: int, curr: int, adj: List[List[int]], ans: List[List[int]]) -> None:
-        for neighbor in adj[curr]:
-            if ans[neighbor] and ans[neighbor][-1] == start:
-                continue
-            ans[neighbor].append(start)
-            self.dfs(start, neighbor, adj, ans)
-    
     def getAncestors(self, n: int, edges: List[List[int]]) -> List[List[int]]:
-        adj, ans = [[] for _ in range(n)], [[] for _ in range(n)]
+        adj = [[] for _ in range(n)]
+        indegrees = [0] * n
         
         for start, end in edges:
             adj[start].append(end)
+            indegrees[end] += 1
         
-        for node in range(n):
-            self.dfs(node, node, adj, ans)
+        queue = deque()
+        ans = [set() for _ in range(n)]
+        for i in range(len(indegrees)):
+            if indegrees[i] == 0:
+                queue.append(i)
+        
+        while queue:
+            curr = queue.popleft()
             
+            for neighbor in adj[curr]:
+                ans[neighbor].add(curr)
+                ans[neighbor].update(ans[curr])
+                indegrees[neighbor] -= 1
+                if indegrees[neighbor] == 0:
+                    queue.append(neighbor)
+        
+        ans = [(sorted(list(s))) for s in ans]
         return ans
         
