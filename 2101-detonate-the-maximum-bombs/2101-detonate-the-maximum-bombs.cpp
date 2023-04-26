@@ -1,32 +1,23 @@
-#define ll long long
-
-class Solution {
-    bool isOverlapped(int sX, int sY, int sR, int nX, int nY){
-        return ((ll)abs(nX - sX) * abs(nX - sX) + (ll)abs(nY - sY) * abs(nY - sY) <= (ll)sR * sR);
-    }
+class Solution:
+    def isOverlapped(self, s_x: int, s_y: int, s_r: int, n_x: int, n_y: int) -> bool:
+        return (n_x - s_x) ** 2 + (n_y - s_y) ** 2 <= s_r ** 2
     
-    void dfs(int n, int origin, int start, vector<bool>& visited, vector<vector<int>>& bombs){
-        visited[start] = true;
-        for (int neighbor = 0; neighbor < n; ++neighbor){
-            if (visited[neighbor]) continue;
-            int startX = bombs[start][0], startY = bombs[start][1], startR = bombs[start][2];
-            int neighborX = bombs[neighbor][0], neighborY = bombs[neighbor][1], neighborR = bombs[neighbor][2];
+    def dfs(self, n: int, origin: int, start: int, visited: List[int], bombs: List[List[int]]) -> int:
+        visited[start] = True
+        for neighbor in range(n):
+            if visited[neighbor]:
+                continue
+            start_x, start_y, start_r = bombs[start]
+            neighbor_x, neighbor_y, neighbor_r = bombs[neighbor]
             
-            if (isOverlapped(startX, startY, startR, neighborX, neighborY))
-                dfs(n, origin, neighbor, visited, bombs);
-        }
-    }
+            if self.isOverlapped(start_x, start_y, start_r, neighbor_x, neighbor_y):
+                self.dfs(n, origin, neighbor, visited, bombs)
     
-public:
-    int maximumDetonation(vector<vector<int>>& bombs) {
-        int n = bombs.size(), ans = 0;
-        for (int node = 0; node < n; ++node){
-            vector<bool> visited(n);
-            visited[node] = true;
-            dfs(n, node, node, visited, bombs);
-            int cnt = count(visited.begin(), visited.end(), true);
-            ans = max(ans, cnt);
-        }
-        return ans;
-    }
-};
+    def maximumDetonation(self, bombs: List[List[int]]) -> int:
+        n, ans = len(bombs), 0
+        for node in range(n):
+            visited = [False] * n
+            visited[node] = True
+            self.dfs(n, node, node, visited, bombs)
+            ans = max(ans, visited.count(True))
+        return ans
