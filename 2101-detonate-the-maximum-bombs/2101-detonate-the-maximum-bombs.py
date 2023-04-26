@@ -1,23 +1,38 @@
 class Solution:
-    def isOverlapped(self, s_x: int, s_y: int, s_r: int, n_x: int, n_y: int) -> bool:
-        return (n_x - s_x) ** 2 + (n_y - s_y) ** 2 <= s_r ** 2
-    
-    def dfs(self, n: int, origin: int, start: int, visited: List[int], bombs: List[List[int]]) -> int:
-        visited[start] = True
-        for neighbor in range(n):
-            if visited[neighbor]:
-                continue
-            start_x, start_y, start_r = bombs[start]
-            neighbor_x, neighbor_y, neighbor_r = bombs[neighbor]
-            
-            if self.isOverlapped(start_x, start_y, start_r, neighbor_x, neighbor_y):
-                self.dfs(n, origin, neighbor, visited, bombs)
-    
     def maximumDetonation(self, bombs: List[List[int]]) -> int:
-        n, ans = len(bombs), 0
-        for node in range(n):
-            visited = [False] * n
-            visited[node] = True
-            self.dfs(n, node, node, visited, bombs)
-            ans = max(ans, visited.count(True))
+        adj = defaultdict(lambda: [])
+        bombs.sort(key = lambda x: x[2])
+        n = len(bombs)
+        
+        for i in range(n - 1):
+            for j in range(i + 1, n):
+                x1, y1, r1 = bombs[i]
+                x2, y2, r2 = bombs[j]
+                d = ((x2 - x1) ** 2 + (y2 - y1) ** 2) ** 0.5
+                if d <= r1:
+                    adj[i].append(j)
+                if d <= r2:
+                    adj[j].append(i)
+        
+        ans, d = 0, set()
+        for b0 in range(len(bombs)):
+            if b0 in d:
+                continue
+            
+            if len(d) == n:
+                continue
+            
+            queue, v = deque([b0]), set([b0])
+            
+            while queue:
+                b1 = queue.popleft()
+                d.add(b1)
+                for b2 in adj[b1]:
+                    if b2 not in v:
+                        v.add(b2)
+                        queue.append(b2)
+            ans = max(ans, len(v))
         return ans
+            
+        
+            
