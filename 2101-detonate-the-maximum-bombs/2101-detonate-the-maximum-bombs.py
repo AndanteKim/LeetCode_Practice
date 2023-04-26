@@ -1,7 +1,7 @@
 class Solution:
     def maximumDetonation(self, bombs: List[List[int]]) -> int:
         adj = defaultdict(lambda: [])
-        bombs.sort(key = lambda x: x[2])
+        #bombs.sort(key = lambda x: x[2])
         n = len(bombs)
         
         for i in range(n - 1):
