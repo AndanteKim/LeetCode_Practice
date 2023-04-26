@@ -26,7 +26,7 @@ class Solution:
                     if self.is_valid(new_x, new_y, rows, cols, visited, grid):
                         queue.append((new_x, new_y))
                         fresh_orange -= 1
-            if len(queue) > 0:
+            if queue:
                 ans += 1
         
         return ans if fresh_orange == 0 else -1
