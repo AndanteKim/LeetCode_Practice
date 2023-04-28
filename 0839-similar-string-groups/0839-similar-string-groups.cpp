@@ -1,20 +1,32 @@
-class Solution {
-    void bfs(int start, vector<vector<int>>& adj, vector<bool>& visited){
-        queue<int> queue;
-        queue.push(start);
-        
-        while (!queue.empty()){
-            int node = queue.front();
-            visited[node] = true;
-            queue.pop();
-            for (int neighbor : adj[node]){
-                if (!visited[neighbor]){
-                    queue.push(neighbor);
-                }
-            }
+class UnionFind{
+private:
+    vector<int> parent, rank;
+
+public:
+    UnionFind(int size){
+        parent.resize(size);
+        iota(parent.begin(), parent.end(), 0);
+        rank.resize(size, 0);
+    }
+    
+    int find(int x){
+        if (parent[x] != x) parent[x] = find(parent[x]);
+        return parent[x];
+    }
+    
+    void unionSet(int x, int y){
+        int xset = find(x), yset = find(y);
+        if (rank[xset] < rank[yset]) parent[xset] = yset;
+        else if (rank[xset] > rank[yset]) parent[yset] = xset;
+        else{
+            parent[yset] = xset;
+            ++rank[xset];
         }
     }
     
+};
+
+class Solution {
     bool isSimilar(string& a, string& b){
         int diff = 0;
         for (int i = 0; i < a.size(); ++i){
@@ -27,22 +39,14 @@ class Solution {
 public:
     int numSimilarGroups(vector<string>& strs) {
         int n = strs.size();
-        vector adj(n, vector<int>(n));
+        UnionFind dsu = UnionFind(n);
+        int ans = n;
         for (int i = 0; i < n; ++i){
             for (int j = i + 1; j < n; ++j){
-                if (isSimilar(strs[i], strs[j])){
-                    adj[i].push_back(j);
-                    adj[j].push_back(i);
+                if (isSimilar(strs[i], strs[j]) && dsu.find(i) != dsu.find(j)){
+                    --ans;
+                    dsu.unionSet(i, j);
                 }
-            }
-        }
-        
-        vector<bool> visited(n);
-        int ans = 0;
-        for (int i = 0; i < n; ++i){
-            if (!visited[i]) {
-                bfs(i, adj, visited);
-                ++ans;
             }
         }
         
