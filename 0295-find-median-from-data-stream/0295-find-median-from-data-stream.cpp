@@ -1,35 +1,30 @@
 class MedianFinder {
     multiset<int> data;
-    multiset<int>::iterator lo_median, hi_median;
+    multiset<int>::iterator mid;
     
 public:
-    MedianFinder() : lo_median(data.end()), hi_median(data.end()) {
+    MedianFinder() : mid(data.end()) {
         
     }
     
     void addNum(int num) {
-        const size_t n = data.size();
+        const int n = data.size();
         data.insert(num);
         
         if (!n){
-            lo_median = hi_median = data.begin();
+            mid = data.begin();
         }
-        else if (n & 1){
-            if (num < *lo_median) --lo_median;
-            else ++hi_median;
+        else if (num < *mid){
+            mid = (n & 1? mid : prev(mid));
         }
         else{
-            if (num > *lo_median && num < *hi_median){
-                ++lo_median;
-                --hi_median;
-            }
-            else if (num >= *hi_median) ++lo_median;
-            else lo_median = --hi_median;
+            mid = (n & 1? next(mid) : mid);
         }
     }
     
     double findMedian() {
-        return ((double) *lo_median + *hi_median) * 0.5;
+        const int n = data.size();
+        return ((double) *mid + *next(mid, n % 2 - 1)) * 0.5;
     }
 };
 
