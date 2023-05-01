@@ -1,23 +1,35 @@
 class MedianFinder {
-    priority_queue<int, vector<int>, greater<int>> minH;
-    priority_queue<int> maxH;
+    multiset<int> data;
+    multiset<int>::iterator lo_median, hi_median;
+    
 public:
-    MedianFinder() {
+    MedianFinder() : lo_median(data.end()), hi_median(data.end()) {
+        
     }
     
     void addNum(int num) {
-        maxH.push(num);
-        minH.push(maxH.top());
-        maxH.pop();
-        if (minH.size() > maxH.size()) {
-            maxH.push(minH.top());
-            minH.pop();
+        const size_t n = data.size();
+        data.insert(num);
+        
+        if (!n){
+            lo_median = hi_median = data.begin();
+        }
+        else if (n & 1){
+            if (num < *lo_median) --lo_median;
+            else ++hi_median;
+        }
+        else{
+            if (num > *lo_median && num < *hi_median){
+                ++lo_median;
+                --hi_median;
+            }
+            else if (num >= *hi_median) ++lo_median;
+            else lo_median = --hi_median;
         }
     }
     
     double findMedian() {
-        if (maxH.size() > minH.size()) return maxH.top();
-        return (minH.top() + maxH.top()) / 2.0;
+        return ((double) *lo_median + *hi_median) * 0.5;
     }
 };
 
