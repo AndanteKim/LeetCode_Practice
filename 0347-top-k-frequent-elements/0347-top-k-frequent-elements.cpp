@@ -5,11 +5,19 @@ public:
         
         for (int num : nums) ++hashTable[num];
         
-        vector<pair<int, int>> frequencies;
-        for (auto &[num, freq] : hashTable) frequencies.push_back(make_pair(num, freq));
-        sort(frequencies.begin(), frequencies.end(), [](pair<int, int>& n1, pair<int, int>& n2){return n1.second > n2.second;});
+        priority_queue<pair<int, int>> heap;
+        
+        for (auto& [key, val] : hashTable){
+            heap.push({-val, key});
+            if (heap.size() > k) heap.pop();
+        }
+        
         vector<int> ans;
-        for (int i = 0; i < k; ++i) ans.push_back(frequencies[i].first);
+        while (!heap.empty()){
+            ans.push_back(heap.top().second);
+            heap.pop();
+        }
+        
         return ans;
     }
 };
