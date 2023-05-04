@@ -1,18 +1,41 @@
 class Solution {
-    queue<int> *q1, *q2;
 public:
     string predictPartyVictory(string senate) {
-        q1 = new queue<int>, q2 = new queue<int>;
-        int n = senate.size();
-        for (int i = 0; i < n; ++i){
-            senate[i] == 'R'? q1 -> push(i) : q2 -> push(i);
+        int rCount = count(senate.begin(), senate.end(), 'R');
+        int dCount = senate.size() - rCount;
+        
+        auto ban = [&](char toBan, int startAt){
+            bool loopAround = false;
+            int pointer = startAt;
+            
+            while (true){
+                if (pointer == 0) loopAround = true;
+                if (senate[pointer] == toBan){
+                    senate.erase(senate.begin() + pointer);
+                    break;
+                }
+                pointer = (pointer + 1) % senate.size();
+            }
+            return loopAround;
+        };
+        
+        int turn = 0;
+        
+        while (rCount > 0 && dCount > 0){
+            if (senate[turn] == 'R'){
+                bool bannedSenatorBefore = ban('D', (turn + 1) % senate.size());
+                --dCount;
+                if (bannedSenatorBefore) --turn;
+            }
+            else{
+                bool bannedSenatorBefore = ban('R', (turn + 1) % senate.size());
+                --rCount;
+                if (bannedSenatorBefore) --turn;
+            }
+            
+            turn = (turn + 1) % senate.size();
         }
         
-        while(!q1 -> empty() && !q2 -> empty()){
-            int r_index = q1 -> front(), d_index = q2 -> front();
-            q1 -> pop(), q2 -> pop();
-            (r_index < d_index)? q1 -> push(r_index + n) : q2 -> push(d_index + n); 
-        }
-        return (q1 -> size() > q2 -> size())? "Radiant" : "Dire";
+        return dCount == 0? "Radiant" : "Dire";
     }
 };
