@@ -1,22 +1,39 @@
 class Solution {
 public:
     string predictPartyVictory(string senate) {
-        int n = senate.size();
+        int rCount = count(senate.begin(), senate.end(), 'R');
+        int dCount = senate.size() - rCount;
         
-        queue<int> r_queue, d_queue;
-        for (int i = 0; i < senate.size(); ++i){
-            if (senate[i] == 'R') r_queue.push(i);
-            else d_queue.push(i);
+        int dFloatingBan = 0, rFloatingBan = 0;
+        queue<char> queue;
+        for (int i = 0; i < senate.size(); ++i) queue.push(senate[i]);
+        
+        while (rCount > 0 && dCount > 0){
+            char curr = queue.front();
+            queue.pop();
+            
+            if (curr == 'D'){
+                if (dFloatingBan > 0){
+                    --dFloatingBan;
+                    --dCount;
+                }
+                else{
+                    ++rFloatingBan;
+                    queue.push(curr);
+                }
+            }
+            else{
+                if (rFloatingBan > 0){
+                    --rFloatingBan;
+                    --rCount;
+                }
+                else {
+                    ++dFloatingBan;
+                    queue.push(curr);
+                }
+            }
         }
         
-        while (!r_queue.empty() && !d_queue.empty()){
-            int r_turn = r_queue.front(), d_turn = d_queue.front();
-            r_queue.pop();
-            d_queue.pop();
-            if (r_turn < d_turn) r_queue.push(r_turn + n);
-            else d_queue.push(d_turn + n);
-        }
-        
-        return d_queue.size() == 0? "Radiant" : "Dire";
+        return dCount == 0? "Radiant" : "Dire";
     }
 };
