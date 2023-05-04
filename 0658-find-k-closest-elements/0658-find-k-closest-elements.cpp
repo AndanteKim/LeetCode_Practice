@@ -1,21 +1,16 @@
 class Solution {
 public:
     vector<int> findClosestElements(vector<int>& arr, int k, int x) {
-        if (arr.size() == k) return arr;
+        int left = 0, right = arr.size() - k;
         
-        int left = lower_bound(arr.begin(), arr.end(), x) - arr.begin() - 1;
-        int right = left + 1;
-        
-        while (right - left - 1 < k){
-            if (left == -1){
-                ++right;
-                continue;
-            }
-            if (right == arr.size() || abs(arr[left] - x) <= abs(arr[right] - x)) --left;
-            else ++right;
+        while (left < right){
+            int mid = left + (right - left) / 2;
+            if (x - arr[mid] > arr[mid + k] - x) left = mid + 1;
+            else right = mid;
         }
+        
         vector<int> ans;
-        ans.assign(arr.begin() + left + 1, arr.begin() + right);
+        ans.assign(arr.begin() + left, arr.begin() + left + k);
         return ans;
     }
 };
