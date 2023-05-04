@@ -1,22 +1,28 @@
 class Solution:
     def predictPartyVictory(self, senate: str) -> str:
-        n = len(senate)
+        r_count = senate.count('R')
+        d_count = len(senate) - r_count
         
-        r_queue, d_queue = deque(), deque()
-        for i in range(n):
-            if senate[i] == 'R':
-                r_queue.append(i)
+        d_floating_ban, r_floating_ban = 0, 0
+        
+        queue = deque(senate)
+        
+        while r_count and d_count:
+            curr = queue.popleft()
+            
+            if curr == 'D':
+                if d_floating_ban:
+                    d_floating_ban -= 1
+                    d_count -= 1
+                else:
+                    r_floating_ban += 1
+                    queue.append('D')
             else:
-                d_queue.append(i)
+                if r_floating_ban:
+                    r_floating_ban -= 1
+                    r_count -= 1
+                else:
+                    d_floating_ban += 1
+                    queue.append('R')
             
-        
-        while r_queue and d_queue:
-            r_turn, d_turn = r_queue.popleft(), d_queue.popleft()
-            
-            if d_turn < r_turn:
-                d_queue.append(d_turn + n)
-            else:
-                r_queue.append(r_turn + n)
-        
-        return "Radiant" if r_queue else "Dire"
-            
+        return 'Radiant' if r_count else 'Dire'
