@@ -1,41 +1,22 @@
 class Solution {
 public:
     string predictPartyVictory(string senate) {
-        int rCount = count(senate.begin(), senate.end(), 'R');
-        int dCount = senate.size() - rCount;
+        int n = senate.size();
         
-        auto ban = [&](char toBan, int startAt){
-            bool loopAround = false;
-            int pointer = startAt;
-            
-            while (true){
-                if (pointer == 0) loopAround = true;
-                if (senate[pointer] == toBan){
-                    senate.erase(senate.begin() + pointer);
-                    break;
-                }
-                pointer = (pointer + 1) % senate.size();
-            }
-            return loopAround;
-        };
-        
-        int turn = 0;
-        
-        while (rCount > 0 && dCount > 0){
-            if (senate[turn] == 'R'){
-                bool bannedSenatorBefore = ban('D', (turn + 1) % senate.size());
-                --dCount;
-                if (bannedSenatorBefore) --turn;
-            }
-            else{
-                bool bannedSenatorBefore = ban('R', (turn + 1) % senate.size());
-                --rCount;
-                if (bannedSenatorBefore) --turn;
-            }
-            
-            turn = (turn + 1) % senate.size();
+        queue<int> r_queue, d_queue;
+        for (int i = 0; i < senate.size(); ++i){
+            if (senate[i] == 'R') r_queue.push(i);
+            else d_queue.push(i);
         }
         
-        return dCount == 0? "Radiant" : "Dire";
+        while (!r_queue.empty() && !d_queue.empty()){
+            int r_turn = r_queue.front(), d_turn = d_queue.front();
+            r_queue.pop();
+            d_queue.pop();
+            if (r_turn < d_turn) r_queue.push(r_turn + n);
+            else d_queue.push(d_turn + n);
+        }
+        
+        return d_queue.size() == 0? "Radiant" : "Dire";
     }
 };
