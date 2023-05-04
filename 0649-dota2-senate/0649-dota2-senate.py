@@ -1,35 +1,22 @@
 class Solution:
-    def ban(self, to_ban: chr, start_at: int, senate: List[chr]) -> bool:
-        loop_around = False
-        pointer = start_at
-        
-        while True:
-            if pointer == 0:
-                loop_around = True
-            if senate[pointer] == to_ban:
-                senate.pop(pointer)
-                break
-            pointer = (pointer + 1) % len(senate)
-        
-        return loop_around
-    
     def predictPartyVictory(self, senate: str) -> str:
-        senate = list(senate)
+        n = len(senate)
         
-        r_count = senate.count('R')
-        d_count = len(senate) - r_count
-        
-        turn = 0
-        while r_count > 0 and d_count > 0:
-            if senate[turn] == 'R':
-                banned_senator_before = self.ban('D', (turn + 1) % len(senate), senate)
-                d_count -= 1
+        r_queue, d_queue = deque(), deque()
+        for i in range(n):
+            if senate[i] == 'R':
+                r_queue.append(i)
             else:
-                banned_senator_before = self.ban('R', (turn + 1) % len(senate), senate)
-                r_count -= 1
+                d_queue.append(i)
             
-            if banned_senator_before:
-                turn -= 1
-            turn = (turn + 1) % len(senate)
         
-        return 'Radiant' if d_count == 0 else 'Dire'
+        while r_queue and d_queue:
+            r_turn, d_turn = r_queue.popleft(), d_queue.popleft()
+            
+            if d_turn < r_turn:
+                d_queue.append(d_turn + n)
+            else:
+                r_queue.append(r_turn + n)
+        
+        return "Radiant" if r_queue else "Dire"
+            
