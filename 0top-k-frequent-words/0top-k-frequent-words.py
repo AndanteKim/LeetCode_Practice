@@ -1,10 +1,18 @@
+class Pair:
+    def __init__(self, word: str, freq: int):
+        self.word = word
+        self.freq = freq
+    
+    def __lt__(self, p: 'Pair') -> bool:
+        return self.freq < p.freq or (self.freq == p.freq and self.word > p.word)
+
+
 class Solution:
     def topKFrequent(self, words: List[str], k: int) -> List[str]:
-        frequencies = defaultdict(int)
-        for word in words:
-            frequencies[word] += 1
-        
-        heap = [(-frequencies[key], key) for key in frequencies]
-        heapify(heap)
-        
-        return [heappop(heap)[1] for i in range(k)]
+        cnt = Counter(words)
+        h = []
+        for word, freq in cnt.items():
+            heappush(h, Pair(word, freq))
+            if len(h) > k:
+                heappop(h)
+        return [p.word for p in sorted(h, reverse = True)]
