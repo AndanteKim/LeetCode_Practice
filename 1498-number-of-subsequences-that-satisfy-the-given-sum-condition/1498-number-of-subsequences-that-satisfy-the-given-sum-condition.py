@@ -3,9 +3,13 @@ class Solution:
         nums.sort()
         mod = 10 ** 9 + 7
         ans, n = 0, len(nums)
-        for left in range(n):
-            right = bisect_right(nums, target - nums[left]) - 1
-            if right >= left:
-                ans += 2 ** (right - left)
-            
-        return ans % mod
+        left, right = 0, n - 1
+        
+        while left <= right:
+            if nums[left] + nums[right] <= target:
+                ans = (ans + 2 ** (right - left)) % mod
+                left += 1
+            else:
+                right -= 1
+        return ans
+        
