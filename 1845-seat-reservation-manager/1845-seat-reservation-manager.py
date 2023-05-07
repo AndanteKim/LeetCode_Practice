@@ -1,22 +1,19 @@
 class SeatManager:
 
     def __init__(self, n: int):
-        self.heap, self.missing = [], []
+        self.unreserved_seats = []
         self.current = 1
 
     def reserve(self) -> int:
-        if not self.missing:
-            heappush(self.heap, self.current)
-            self.current += 1
-            return self.current - 1
+        if len(self.unreserved_seats) > 0:
+            return heappop(self.unreserved_seats)
         else:
-            num = heappop(self.missing)
-            heappush(self.heap, num)
-            return num
+            current_counter = self.current
+            self.current += 1
+            return current_counter
 
     def unreserve(self, seatNumber: int) -> None:
-        self.heap.remove(seatNumber)
-        heappush(self.missing, seatNumber)
+        heappush(self.unreserved_seats, seatNumber)
 
 
 # Your SeatManager object will be instantiated and called as such:
