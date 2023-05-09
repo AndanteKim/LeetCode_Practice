@@ -1,23 +1,25 @@
 class Solution {
 public:
     vector<int> spiralOrder(vector<vector<int>>& matrix) {
-        int rows = matrix.size(), cols = matrix[0].size();
-        vector<int> ans;
-        int up = 0, left = 0, down = rows - 1, right = cols - 1;
+        int visited = 101, rows = matrix.size(), cols = matrix[0].size();
+        vector<pair<int, int>> directions {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int currentDirection = 0, changeDirection = 0, row = 0, col = 0;
+        vector<int> ans{matrix[0][0]};
+        matrix[0][0] = visited;
         
-        while (ans.size() < rows * cols){
-            for (int col = left; col <= right; ++col) ans.push_back(matrix[up][col]);
-            for (int row = up + 1; row <= down; ++row) ans.push_back(matrix[row][right]);
-            
-            if (up != down){
-                for (int col = right - 1; col >= left; --col) ans.push_back(matrix[down][col]);
+        while (changeDirection < 2){
+            while (true){
+                int nextRow = row + directions[currentDirection].first;
+                int nextCol = col + directions[currentDirection].second;
+                if (!((nextRow >= 0 && nextRow < rows) && (nextCol >= 0 && nextCol < cols))) break;
+                if (matrix[nextRow][nextCol] == visited) break;
+                changeDirection = 0;
+                row = nextRow, col = nextCol;
+                ans.push_back(matrix[row][col]);
+                matrix[row][col] = visited;
             }
-            
-            if (left != right){
-                for (int row = down - 1; row > up; --row) ans.push_back(matrix[row][left]);
-            }
-            
-            ++left, --right, ++up, --down;
+            currentDirection = (currentDirection + 1) % 4;
+            ++changeDirection;
         }
         
         return ans;
