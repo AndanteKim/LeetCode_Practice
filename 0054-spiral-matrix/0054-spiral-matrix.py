@@ -1,28 +1,27 @@
 class Solution:
     def spiralOrder(self, matrix: List[List[int]]) -> List[int]:
-        ans = []
+        Visited = 101
         rows, cols = len(matrix), len(matrix[0])
-        up = left = 0
-        right, down = cols - 1, rows - 1
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        current_direction = 0
+        change_direction = 0
+        row = col = 0
+        result = [matrix[0][0]]
+        matrix[0][0] = Visited
         
-        while len(ans) < rows * cols:
-            for col in range(left, right + 1):
-                ans.append(matrix[up][col])
+        while change_direction < 2:
+            while True:
+                next_row = row + directions[current_direction][0]
+                next_col = col + directions[current_direction][1]
+                
+                if not (0 <= next_row < rows and 0 <= next_col < cols): break
+                if matrix[next_row][next_col] == Visited: break
+                
+                change_direction = 0
+                row, col = next_row, next_col
+                result.append(matrix[row][col])
+                matrix[row][col] = Visited
             
-            for row in range(up + 1, down + 1):
-                ans.append(matrix[row][right])
-            
-            if up != down:
-                for col in range(right - 1, left - 1, -1):
-                    ans.append(matrix[down][col])
-            
-            if left != right:
-                for row in range(down - 1, up, -1):
-                    ans.append(matrix[row][left])
-            
-            left += 1
-            right -= 1
-            up += 1
-            down -= 1
-        
-        return ans
+            current_direction = (current_direction + 1) % 4
+            change_direction += 1
+        return result
