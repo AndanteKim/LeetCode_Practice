@@ -1,34 +1,23 @@
 class Solution {
+    int floorMod(int x, int y){
+        return ((x % y) + y) % y;
+    }
+    
 public:
     vector<vector<int>> generateMatrix(int n) {
         vector<vector<int>> ans(n, vector<int>(n, 0));
-        int i = 1;
-        int left = 0, right = n - 1, up = 0, down = n - 1;
+        vector<pair<int, int>> directions{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        int i = 1, d = 0, row = 0, col = 0;
+        
         while (i <= n * n){
-            for (int col = left; col <= right; ++col){
-                ans[up][col] = i;
-                ++i;
-            }
-            for (int row = up + 1; row <= down; ++row){
-                ans[row][right] = i;
-                ++i;
-            }
-            if (up != down){
-                for (int col = right - 1; col >= left; --col){
-                    ans[down][col] = i;
-                    ++i;
-                }
-            }
-            
-            if (left != right){
-                for (int row = down - 1; row > up; --row){
-                    ans[row][left] = i;
-                    ++i;
-                }
-            }
-            
-            ++left, --right, ++up, --down;
+            ans[row][col] = i++;
+            int r = floorMod(row + directions[d].first, n);
+            int c = floorMod(col + directions[d].second, n);
+            if (ans[r][c] != 0) d = (d + 1) % 4;
+            row += directions[d].first;
+            col += directions[d].second;
         }
+        
         return ans;
     }
 };
