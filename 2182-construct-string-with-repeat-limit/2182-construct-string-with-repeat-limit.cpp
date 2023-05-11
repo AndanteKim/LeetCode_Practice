@@ -1,29 +1,24 @@
 class Solution {
 public:
     string repeatLimitedString(string s, int repeatLimit) {
-        priority_queue<pair<char, int>> pq;
-        unordered_map<char, int> m;
-        string ans = "";
-        for (char& c : s) ++m[c];
-        for (auto& [key, val] : m) pq.push({key, val});
-        
-        while (!pq.empty()){
-            auto [key, val] = pq.top();
-            pq.pop();
-            if (!ans.empty() && ans.back() == key){
-                if (pq.empty()) break;
-                auto[nextKey, nextVal] = pq.top();
-                pq.pop();
-                ans += nextKey;
-                --nextVal;
-                if (nextVal > 0) pq.push({nextKey, nextVal});
-                pq.push({key, val});
+        vector<int> cnt(26, 0);
+        string ans;
+        for (char& c : s) ++cnt[c - 'a'];
+        while (true){
+            int i = 25;
+            bool onlyOne = false;
+            for(; i >= 0; --i){
+                if (ans.size() && i == ans.back() - 'a' && cnt[i]){
+                    onlyOne = true;
+                    continue;
+                }
+                if (cnt[i]) break;
             }
-            else{
-                int m = min(val, repeatLimit);
-                for (int i = 0; i < m; ++i) ans += key;
-                if (val - m > 0) pq.push({key, val - m});
-            }
+            
+            if (i == -1) break;
+            int fill = onlyOne? 1: min(cnt[i], repeatLimit);
+            cnt[i] -= fill;
+            while(fill--) ans += 'a' + i;
         }
         return ans;
     }
