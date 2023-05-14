@@ -7,7 +7,7 @@ class Solution:
         
         for state in range(finalMask, -1, -1):
             if state == finalMask:
-                dp[state] == 0
+                dp[state] = 0
                 continue
             
             numbersTaken = bin(state).count('1')
