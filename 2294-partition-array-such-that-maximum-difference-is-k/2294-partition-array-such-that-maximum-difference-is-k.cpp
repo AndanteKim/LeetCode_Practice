@@ -2,14 +2,13 @@ class Solution {
 public:
     int partitionArray(vector<int>& nums, int k) {
         sort(nums.begin(), nums.end());
-        int ans = 1, prev = nums.back();
-        while (!nums.empty()){
-            int num = nums.back();
-            if (prev - num > k){
-                prev = num;
+        int ans = 1, x = nums[0];
+        
+        for (int i = 1; i < nums.size(); ++i){
+            if (nums[i] - x > k){
                 ++ans;
+                x = nums[i];
             }
-            nums.pop_back();
         }
         
         return ans;
