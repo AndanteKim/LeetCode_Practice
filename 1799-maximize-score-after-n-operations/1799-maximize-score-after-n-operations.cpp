@@ -1,36 +1,34 @@
 class Solution {
-    int gcd(int x, int y){
-        while(y){
-            int temp = x;
-            x = y;
-            y = temp % y;
-        }
-        return x;
-    }
-    
-    int backtrack(vector<int>& nums, int mask, int pairsPicked, vector<int>& memo){
-        if (2 * pairsPicked == nums.size()) return 0;
-        if (memo[mask] != -1) return memo[mask];
-        int maxScore = 0;
-        
-        for (int firstIndex = 0; firstIndex < nums.size(); ++firstIndex){
-            for(int secondIndex = firstIndex + 1; secondIndex < nums.size(); ++secondIndex){
-                if (((mask >> firstIndex) & 1) == 1 or ((mask >> secondIndex) & 1) == 1) continue;
-                int newMask = mask | (1 << firstIndex) | ((1 << secondIndex));
-                int currScore = (pairsPicked + 1) * gcd(nums[firstIndex], nums[secondIndex]);
-                int remainingScore = backtrack(nums, newMask, pairsPicked + 1, memo);
-                maxScore = max(maxScore, currScore + remainingScore);
-            }
-        }
-        memo[mask] = maxScore;
-        return maxScore;
-    }
-    
 public:
     int maxScore(vector<int>& nums) {
-        int memoSize = 1 << nums.size();
-        vector<int> memo(memoSize, -1);
+        int maxStates = 1 << nums.size();
+        int finalMask = maxStates - 1;
         
-        return backtrack(nums, 0, 0, memo);
+        vector<int> dp(maxStates);
+        
+        for (int state = finalMask; state >= 0; --state){
+            if(state == finalMask){
+                dp[state] == 0;
+                continue;
+            }
+            
+            int numbersTaken = __builtin_popcount(state);
+            int pairsFormed = numbersTaken / 2;
+            
+            if (numbersTaken % 2) continue;
+            
+            for (int firstIndex = 0; firstIndex < nums.size(); ++firstIndex){
+                for (int secondIndex = firstIndex + 1; secondIndex < nums.size(); ++secondIndex){
+                    if (((state >> firstIndex) & 1) == 1 || ((state >> secondIndex) & 1) == 1)
+                        continue;
+                    int currentScore = (pairsFormed + 1) * __gcd(nums[firstIndex], nums[secondIndex]);
+                    int stateAfterPickingCurrPair = state | (1 << firstIndex) | (1 << secondIndex);
+                    int remainingScore = dp[stateAfterPickingCurrPair];
+                    dp[state] = max(dp[state], currentScore + remainingScore);
+                }
+            }
+        }
+        
+        return dp[0];
     }
 };
