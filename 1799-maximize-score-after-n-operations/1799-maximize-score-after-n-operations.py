@@ -1,29 +1,31 @@
 class Solution:
-    def backtrack(self, nums: List[int], mask: int, pairsPicked: int, memo: List[int]) -> int:
-        if 2 * pairsPicked == len(nums):
-            return 0
-        
-        if memo[mask] != -1:
-            return memo[mask]
-        
-        maxScore = 0
-        
-        for firstIndex in range(len(nums)):
-            for secondIndex in range(firstIndex + 1, len(nums)):
-                if (mask >> firstIndex) & 1 == 1 or (mask >> secondIndex) & 1 == 1:
-                    continue
-                newMask = mask | (1 << firstIndex) | (1 << secondIndex)
-                
-                currScore = (pairsPicked + 1) * math.gcd(nums[firstIndex], nums[secondIndex])
-                remainingScore = self.backtrack(nums, newMask, pairsPicked + 1, memo)
-                
-                maxScore = max(maxScore, currScore + remainingScore)
-        
-        memo[mask] = maxScore
-        return maxScore
-    
     def maxScore(self, nums: List[int]) -> int:
-        memoSize = 1 << len(nums)
-        memo = [-1] * memoSize
+        maxStates = 1 << len(nums)
+        finalMask = maxStates - 1
         
-        return self.backtrack(nums, 0, 0, memo)
+        dp = [0] * maxStates
+        
+        for state in range(finalMask, -1, -1):
+            if state == finalMask:
+                dp[state] == 0
+                continue
+            
+            numbersTaken = bin(state).count('1')
+            pairsFormed = numbersTaken // 2
+            
+            if numbersTaken % 2:
+                continue
+            
+            for firstIndex in range(len(nums)):
+                for secondIndex in range(firstIndex + 1, len(nums)):
+                    if (state >> firstIndex & 1) == 1 or (state >> secondIndex & 1) == 1:
+                        continue
+                    currentScore = (pairsFormed + 1) * math.gcd(nums[firstIndex], nums[secondIndex])
+                    stateAfterPickingCurrPair = state | (1 << firstIndex) | (1 << secondIndex)
+                    remainingScore = dp[stateAfterPickingCurrPair]
+                    dp[state] = max(dp[state], currentScore + remainingScore)
+                    
+        return dp[0]
+                    
+                    
+                    
