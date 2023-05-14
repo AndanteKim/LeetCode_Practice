@@ -1,12 +1,11 @@
 class Solution:
     def partitionArray(self, nums: List[int], k: int) -> int:
         nums.sort()
-        ans, prev = 1, nums[-1]
-        while nums:
-            num = nums.pop()
-            if prev - num > k:
+        ans, x = 1, nums[0]
+        for i in range(len(nums)):
+            if nums[i] - x > k:
                 ans += 1
-                prev = num
+                x = nums[i]
         return ans
             
         
