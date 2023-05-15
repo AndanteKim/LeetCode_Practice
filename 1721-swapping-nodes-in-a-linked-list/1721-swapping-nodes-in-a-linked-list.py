@@ -10,22 +10,16 @@ class Solution:
             n += 1
             root = root.next
         
-        root, kth, n_kth, i = head, -1, -1, 1
-        while root:
-            if i == k:
-                kth = root.val
-            if i == n - k + 1:
-                n_kth = root.val
-            root = root.next
-            i += 1
+        front_node = head
+        for _ in range(k - 1):
+            front_node = front_node.next
         
-        root, i = head, 1
-        while root:
-            if i == k:
-                root.val = n_kth
-            if i == n - k + 1:
-                root.val = kth
-            root = root.next
-            i += 1
-            
-        return head 
+        end_node = head
+        for _ in range(n - k):
+            end_node = end_node.next
+        
+        front_node.val, end_node.val = end_node.val, front_node.val
+        
+        return head
+        
+        
