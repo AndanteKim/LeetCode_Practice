@@ -4,41 +4,28 @@
 #         self.val = val
 #         self.next = next
 class Solution:
-    def swapListNodesToNext(self, prevOfFirstK: Optional[ListNode], prevOfLastK: Optional[ListNode]) -> None:
-        if prevOfLastK.next == prevOfFirstK:
-            self.swapListNodesToNext(prevOfLastK, prevOfFirstK)
-        elif prevOfFirstK.next == prevOfLastK:
-            prevOfFirstK.next = prevOfLastK.next
-            prevOfLastK.next = prevOfFirstK.next.next
-            prevOfFirstK.next.next = prevOfLastK
-        else:
-            tempLeftNextNext = prevOfFirstK.next.next
-            tempRightNextNext = prevOfLastK.next.next
-            
-            tempLeftNext = prevOfFirstK.next
-            prevOfFirstK.next = prevOfLastK.next
-            prevOfFirstK.next.next = tempLeftNextNext
-            
-            prevOfLastK.next = tempLeftNext
-            prevOfLastK.next.next = tempRightNextNext
-    
     def swapNodes(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:
-        sentinel = ListNode(-1)
-        sentinel.next = head
-        last = sentinel
+        root, n = head, 0
+        while root:
+            n += 1
+            root = root.next
         
-        for i in range(k-1):
-            last = last.next
+        root, kth, n_kth, i = head, -1, -1, 1
+        while root:
+            if i == k:
+                kth = root.val
+            if i == n - k + 1:
+                n_kth = root.val
+            root = root.next
+            i += 1
         
-        prevOfFirstK = last
-        
-        prevOfLastK = sentinel
-        
-        while last.next.next != None:
-            last = last.next
-            prevOfLastK = prevOfLastK.next
-        
-        self.swapListNodesToNext(prevOfFirstK, prevOfLastK)
-        
-        return sentinel.next
-        
+        root, i = head, 1
+        while root:
+            if i == k:
+                root.val = n_kth
+            if i == n - k + 1:
+                root.val = kth
+            root = root.next
+            i += 1
+            
+        return head 
