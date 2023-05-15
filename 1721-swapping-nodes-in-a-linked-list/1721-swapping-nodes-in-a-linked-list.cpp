@@ -10,40 +10,17 @@
  */
 class Solution {
 public:
-    void swapListNodesToNext(ListNode* prevOfFirstK, ListNode* prevOfLastK){
-        if (prevOfLastK -> next == prevOfFirstK) swapListNodesToNext(prevOfLastK, prevOfFirstK);
-        else if (prevOfFirstK -> next == prevOfLastK){
-            prevOfFirstK -> next = prevOfLastK -> next;
-            prevOfLastK -> next = prevOfFirstK -> next -> next;
-            prevOfFirstK -> next -> next = prevOfLastK;
-        }
-        else{
-            ListNode *tempLeftNextNext = prevOfFirstK -> next -> next;
-            ListNode *tempRightNextNext = prevOfLastK -> next -> next;
-            ListNode *tempLeftNext = prevOfFirstK -> next;
-            prevOfFirstK -> next = prevOfLastK -> next;
-            prevOfFirstK -> next -> next = tempLeftNextNext;
-            prevOfLastK -> next = tempLeftNext;
-            prevOfLastK -> next -> next = tempRightNextNext;
-        }
-    }
-    
     ListNode* swapNodes(ListNode* head, int k) {
-        ListNode* sentinel = new ListNode(-1);
-        sentinel -> next = head;
-        ListNode* last = sentinel;
-        
-        for (int i = 0; i < k - 1; ++i) last = last -> next;
-        
-        ListNode* prevOfFirstK = last, *prevOfLastK = sentinel;
-        
-        while (last -> next -> next != nullptr){
-            last = last -> next;
-            prevOfLastK = prevOfLastK -> next;
+        ListNode* root = head;
+        int n = 0;
+        while (root) {
+            ++n;
+            root = root -> next;
         }
-        
-        swapListNodesToNext(prevOfFirstK, prevOfLastK);
-        
-        return sentinel -> next;
+        ListNode* frontNode = head, *endNode = head;
+        for (int i = 0; i <= k - 2; ++i) frontNode = frontNode -> next;
+        for (int i = 0; i <= n - k - 1; ++i) endNode = endNode -> next;
+        swap(frontNode -> val, endNode -> val);
+        return head;
     }
 };
