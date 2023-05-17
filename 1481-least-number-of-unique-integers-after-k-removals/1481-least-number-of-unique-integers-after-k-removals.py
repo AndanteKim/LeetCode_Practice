@@ -7,7 +7,7 @@ class Solution:
         
         pairs = [(k, v) for k, v in frequencies.items()]
         pairs.sort(key = lambda x: -x[1])
-        print(pairs)
+        
         while k != 0:
             key, val = pairs.pop()
             val -= 1
