@@ -1,13 +1,20 @@
 class Solution:
+    def dfs(self, node: int, start: int, visited: List[int], adj: List[List[int]]) -> None:
+        if not visited[node]:
+            if node != start:
+                visited[node] = True
+            for neighbor in adj[node]:
+                self.dfs(neighbor, start, visited, adj)
+    
     def findSmallestSetOfVertices(self, n: int, edges: List[List[int]]) -> List[int]:
-        indegree = [0 for _ in range(n)]
+        adj = [[] for _ in range(n)]
         
         for start, end in edges:
-            indegree[end] += 1
+            adj[start].append(end)
         
-        ans, mn = [], min(indegree)
-        for node in range(len(indegree)):
-            if indegree[node] == mn:
-                ans.append(node)
-        return ans
+        visited = [False] * n
         
+        for node in range(n):
+            self.dfs(node, node, visited, adj)
+        
+        return [node for node in range(n) if not visited[node]]
