@@ -1,21 +1,25 @@
-class Solution:
-    def dfs(self, node: int, colors: Dict[int, int], color: int, graph: List[List[int]]) -> bool:
-        if node in colors:
-            if colors[node] != color:
-                return False
-            return True
-        
-        colors[node] = color
-        for neighbor in graph[node]:
-            if self.dfs(neighbor, colors, color ^ 1, graph) == False:
-                return False
-        return True
-        
+class Solution {
+    bool dfs(int node, vector<int>& colors, int color, vector<vector<int>>& graph){
+        if (colors[node] != -1){
+            if (colors[node] != color) return false;
+            return true;
+        }
+        colors[node] = color;
+        for (int neighbor : graph[node]){
+            if (dfs(neighbor, colors, color ^ 1, graph) == false) return false;
+        }
+        return true;
+    }
     
-    def isBipartite(self, graph: List[List[int]]) -> bool:
-        colors, n = dict(), len(graph)
-        for node in range(n):
-            if node not in colors:
-                if self.dfs(node, colors, 0, graph) == False:
-                    return False
-        return True
+public:
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n = graph.size();
+        vector<int> colors(n, -1);
+        for (int node = 0; node < n; ++node){
+            if (colors[node] == -1) {
+                if (dfs(node, colors, 0, graph) == false) return false;
+            }
+        }
+        return true;
+    }
+};
