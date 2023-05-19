@@ -1,5 +1,5 @@
 class Solution:
-    def dfs(self, node: int, colors: Set[int], color: int, graph: List[List[int]]) -> bool:
+    def dfs(self, node: int, colors: Dict[int, int], color: int, graph: List[List[int]]) -> bool:
         if node in colors:
             if colors[node] != color:
                 return False
