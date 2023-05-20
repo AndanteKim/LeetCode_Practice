@@ -1,17 +1,14 @@
 class Solution:
     def findLeastNumOfUniqueInts(self, arr: List[int], k: int) -> int:
-        frequencies = defaultdict(int)
+        cnts = Counter(arr)
+        ordered = sorted(cnts.values(), reverse = True)
+        print(ordered)
         
-        for n in arr:
-            frequencies[n] += 1
-        
-        pairs = [(k, v) for k, v in frequencies.items()]
-        pairs.sort(key = lambda x: -x[1])
-        
-        while k != 0:
-            key, val = pairs.pop()
-            val -= 1
-            if val > 0:
-                pairs.append((key, val))
-            k -= 1
-        return len(pairs)
+        while k:
+            val = ordered[-1]
+            if val <= k:
+                k -= val
+                ordered.pop()
+            else:
+                break
+        return len(ordered)
