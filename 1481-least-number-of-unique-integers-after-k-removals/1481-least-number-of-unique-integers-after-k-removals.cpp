@@ -4,18 +4,19 @@ public:
         unordered_map<int, int> frequencies;
         
         for (int num : arr) ++frequencies[num];
-        vector<pair<int, int>> combo;
-        for (auto& [key, val] : frequencies) combo.push_back({key, val});
+        vector<int> ordered;
+        for (auto& [key, val] : frequencies) ordered.push_back(val);
+        sort(ordered.begin(), ordered.end(), [](int a, int b){return a > b;});
         
-        sort(combo.begin(), combo.end(), [](pair<int, int>& a, pair<int, int>& b){return a.second > b.second;});
-        
-        while (k != 0){
-            auto [key, val] = combo.back();
-            combo.pop_back();
-            
-            if (--val > 0) combo.push_back({key, val});
-            --k;
+        while (k > 0){
+            int val = ordered.back();
+            if (val <= k){
+                k -= val;
+                ordered.pop_back();
+            }
+            else break;
         }
-        return combo.size();
+        
+        return ordered.size();
     }
 };
