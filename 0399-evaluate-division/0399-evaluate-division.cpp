@@ -1,38 +1,46 @@
 class Solution {
-    unordered_map<string, pair<string,double>> GidWeight;
-    
-    pair<string, double> find(string& NodeId){
-        if (GidWeight.find(NodeId) == GidWeight.end()) GidWeight[NodeId] = make_pair(NodeId, 1);
-        auto [GroupId, NodeWeight] = GidWeight[NodeId];
-        if (GroupId != NodeId){
-            auto [NewGroupId, GroupWeight] = find(GroupId);
-            GidWeight[NodeId] = make_pair(NewGroupId, NodeWeight * GroupWeight);
+private:
+    double backtrackEvaluate(string currNode, string& targetNode, double accProduct, unordered_set<string>& visited, unordered_map<\
+                             string, unordered_map<string, double>>& graph){
+        visited.insert(currNode);
+        double ret = -1.0;
+        unordered_map<string, double> neighbors = graph[currNode];
+        
+        if (neighbors.find(targetNode) != neighbors.end())
+            ret = accProduct * neighbors[targetNode];
+        else{
+            for (auto [neighbor, value] : neighbors){
+                if (visited.find(neighbor) != visited.end()) continue;
+                ret = backtrackEvaluate(neighbor, targetNode, accProduct * value, visited, graph);
+                if (ret != -1.0) break;
+            }
         }
-        return GidWeight[NodeId];
-    }
-    
-    void UnionSet(string& Dividend, string& Divisor, double value){
-        auto [DividendGid, DividendWeight] = find(Dividend);
-        auto [DivisorGid, DivisorWeight] = find(Divisor);
-        if (DividendGid != DivisorGid) GidWeight[DividendGid] = make_pair(DivisorGid, DivisorWeight * value / DividendWeight);
+        visited.erase(currNode);
+        return ret;
     }
     
 public:
     vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
-        for (int i = 0; i < equations.size(); ++i){
-            UnionSet(equations[i][0], equations[i][1], values[i]);
-        }
-        vector<double> ans;
+        unordered_map<string, unordered_map<string, double>> graph;
         
-        for (vector<string>& query : queries){
-            if (GidWeight.find(query[0]) == GidWeight.end() || GidWeight.find(query[1]) == GidWeight.end()) ans.push_back(-1.0);
-            else{
-                auto [DividendGid, DividendWeight] = find(query[0]);
-                auto [DivisorGid, DivisorWeight] = find(query[1]);
-                if (DividendGid != DivisorGid) ans.push_back(-1.0);
-                else ans.push_back(DividendWeight / DivisorWeight);
-            }
+        for (int i = 0; i < equations.size(); ++i){
+            graph[equations[i][0]][equations[i][1]] = values[i];
+            graph[equations[i][1]][equations[i][0]] = 1 / values[i];
         }
+        
+        vector<double> ans;
+        double ret;
+        for (vector<string>& query : queries){
+            if (graph.find(query[0]) == graph.end() || graph.find(query[1]) == graph.end())
+                ret = -1.0;
+            else if (query[0] == query[1]) ret = 1.0;
+            else{
+                unordered_set<string> visited;
+                ret = backtrackEvaluate(query[0], query[1], 1, visited, graph);
+            }
+            ans.push_back(ret);
+        }
+        
         return ans;
     }
 };
