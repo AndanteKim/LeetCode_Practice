@@ -1,5 +1,5 @@
 class Solution:
-    def backtrack_evaluate(self, curr_node: float, target_node: float, acc_product: float, visited: Set[float], graph: Dict[Dict[float, float], float]) -> float:
+    def backtrack_evaluate(self, curr_node: str, target_node: str, acc_product: float, visited: Set[str], graph: Dict[str, Dict[str, float]]) -> float:
         visited.add(curr_node)
         ret = -1.0
         neighbors = graph[curr_node]
