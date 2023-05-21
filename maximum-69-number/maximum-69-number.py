@@ -1,10 +1,11 @@
 class Solution:
     def maximum69Number (self, num: int) -> int:
-        num_char_list = list(str(num))
+        curr_digit, index_first_six, num_copy = 0, -1, num
         
-        for i in range(len(num_char_list)):
-            if num_char_list[i] == '6':
-                num_char_list[i] = '9'
-                break
-        
-        return int("".join(num_char_list))
+        while num_copy:
+            if num_copy % 10 == 6:
+                index_first_six = curr_digit
+            
+            num_copy //= 10
+            curr_digit += 1
+        return num if index_first_six == -1 else num + 3 * 10 ** index_first_six
