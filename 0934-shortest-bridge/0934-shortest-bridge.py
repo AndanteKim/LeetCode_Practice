@@ -1,24 +1,24 @@
 class Solution:
+    def dfs(self, x: int, y: int, bfs_queue: List[int], grid: List[List[int]]) -> None:
+        grid[x][y] = 2
+        bfs_queue.append((x, y))
+            
+        for cur_x, cur_y in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
+            if 0 <= cur_x < self.n and 0 <= cur_y < self.n and grid[cur_x][cur_y] == 1:
+                self.dfs(cur_x, cur_y, bfs_queue, grid)
+    
     def shortestBridge(self, grid: List[List[int]]) -> int:
-        n = len(grid)
+        self.n = len(grid)
         first_x, first_y = -1, -1
         
-        for i in range(n):
-            for j in range(n):
+        for i in range(self.n):
+            for j in range(self.n):
                 if grid[i][j]:
                     first_x, first_y = i, j
                     break
             
-        def dfs(x, y):
-            grid[x][y] = 2
-            bfs_queue.append((x, y))
-            
-            for cur_x, cur_y in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
-                if 0 <= cur_x < n and 0 <= cur_y < n and grid[cur_x][cur_y] == 1:
-                    dfs(cur_x, cur_y)
-        
         bfs_queue = []
-        dfs(first_x, first_y)
+        self.dfs(first_x, first_y, bfs_queue, grid)
         
         dist = 0
         
@@ -27,7 +27,7 @@ class Solution:
             
             for x, y in bfs_queue:
                 for cur_x, cur_y in [(x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)]:
-                    if 0 <= cur_x < n and 0 <= cur_y < n:
+                    if 0 <= cur_x < self.n and 0 <= cur_y < self.n:
                         if grid[cur_x][cur_y] == 1:
                             return dist
                         elif grid[cur_x][cur_y] == 0:
