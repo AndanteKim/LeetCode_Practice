@@ -1,15 +1,26 @@
 class Solution {
 public:
     int minMeetingRooms(vector<vector<int>>& intervals) {
-        sort(intervals.begin(), intervals.end(), [](vector<int>& a, vector<int>& b){return a[0] < b[0];});
-        priority_queue<int, vector<int>, greater<int>> heap;
-        heap.push(intervals[0][1]);
-        
-        for (int i = 1; i < intervals.size(); ++i){
-            if (heap.top() <= intervals[i][0]) heap.pop();
-            heap.push(intervals[i][1]);
+        int usedRooms = 0;
+        vector<int> startTime, endTime;
+        for (int i = 0; i < intervals.size(); ++i){
+            startTime.push_back(intervals[i][0]);
+            endTime.push_back(intervals[i][1]);
         }
         
-        return heap.size();
+        sort(startTime.begin(), startTime.end());
+        sort(endTime.begin(), endTime.end());
+        int n = intervals.size(), startPtr = 0, endPtr = 0;
+        
+        while (startPtr < n){
+            if (startTime[startPtr] >= endTime[endPtr]) {
+                --usedRooms;
+                ++endPtr;
+            }
+            ++usedRooms;
+            ++startPtr;
+        }
+        
+        return usedRooms;
     }
 };
