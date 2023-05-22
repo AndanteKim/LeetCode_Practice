@@ -1,14 +1,18 @@
 class Solution:
     def minMeetingRooms(self, intervals: List[List[int]]) -> int:
-        intervals.sort(key = lambda x: x[0])
-        free_rooms = []
+        used_rooms = 0
         
-        heappush(free_rooms, intervals[0][1])
+        start_time = sorted([interval[0] for interval in intervals])
+        end_time = sorted([interval[1] for interval in intervals])
+        n = len(intervals)
         
-        for interval in intervals[1:]:
-            if free_rooms[0] <= interval[0]:
-                heappop(free_rooms)
+        start_ptr, end_ptr = 0, 0
+        
+        while start_ptr < n:
+            if start_time[start_ptr] >= end_time[end_ptr]:
+                used_rooms -= 1
+                end_ptr += 1
             
-            heappush(free_rooms, interval[1])
-        
-        return len(free_rooms)
+            used_rooms += 1
+            start_ptr += 1
+        return used_rooms
