@@ -10,11 +10,11 @@ public:
     }
     
     int add(int val) {
-        if (minHeap.size() >= k && minHeap.top() <= val) {
+        if (minHeap.size() >= this -> k && minHeap.top() <= val) {
             minHeap.pop();
             minHeap.push(val);
         }
-        else if (minHeap.size() < k) minHeap.push(val);
+        else if (minHeap.size() < this -> k) minHeap.push(val);
         return minHeap.top();
     }
 };
