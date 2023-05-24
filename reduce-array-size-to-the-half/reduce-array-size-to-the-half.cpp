@@ -3,17 +3,16 @@ public:
     int minSetSize(vector<int>& arr) {
         unordered_map<int, int> frequencies;
         for (int i : arr) ++frequencies[i];
-        vector<int> freq;
+        priority_queue<int, vector<int>> freq;
         int total = 0, ans = 0, n = arr.size();
         for (auto& [key, val] : frequencies) {
-            freq.push_back(val);
+            freq.push(val);
             total += val;
         }
-        sort(freq.begin(), freq.end());
         
         while (total > n / 2){
-            total -= freq.back();
-            freq.pop_back();
+            total -= freq.top();
+            freq.pop();
             ++ans;
         }
         
