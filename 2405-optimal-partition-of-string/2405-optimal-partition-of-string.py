@@ -1,12 +1,12 @@
 class Solution:
     def partitionString(self, s: str) -> int:
-        substr, ans = [0] * 26, 1
-        for c in s:
-            if substr[ord(c) - 97] & 1:
-                ans += 1
-                substr = [0] * 26
-                substr[ord(c) - 97] += 1
-            else:
-                substr[ord(c) - 97] += 1
-            
-        return ans
+        lastSeen = [-1] * 26
+        cnt, substrStart = 1, 0
+        
+        for i in range(len(s)):
+            if lastSeen[ord(s[i]) - ord('a')] >= substrStart:
+                cnt += 1
+                substrStart = i
+            lastSeen[ord(s[i]) - ord('a')] = i
+        
+        return cnt
