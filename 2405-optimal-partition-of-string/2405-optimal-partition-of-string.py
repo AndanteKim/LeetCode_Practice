@@ -1,11 +1,12 @@
 class Solution:
     def partitionString(self, s: str) -> int:
-        partitions, chars_bitmask = 1, 0
-        
+        substr, ans = [0] * 26, 1
         for c in s:
-            set_bit = 1 << (ord(c) - 97)
-            if chars_bitmask & set_bit:
-                partitions += 1
-                chars_bitmask = 0
-            chars_bitmask |= set_bit
-        return partitions
+            if substr[ord(c) - 97] & 1:
+                ans += 1
+                substr = [0] * 26
+                substr[ord(c) - 97] += 1
+            else:
+                substr[ord(c) - 97] += 1
+            
+        return ans
