@@ -3,9 +3,8 @@ class Solution:
         i, j, ans = 0, len(height) - 1, 0
         
         while i < j:
-            area = min(height[i], height[j]) * (j - i)
-            ans = max(ans, area)
-            if height[i] <= height[j]:
+            ans = max(ans, min(height[i], height[j]) * (j - i))
+            if height[i] < height[j]:
                 i += 1
             else:
                 j -= 1
