@@ -1,17 +1,15 @@
 class Solution {
 public:
     int partitionString(string s) {
-        int ans = 1;
-        vector<int> substr(26, 0);
+        int ans = 1, substrStart = 0;
+        vector<int> lastSeen(26, -1);
         
-        for (char& c: s){
-            if (substr[c - 'a'] == 0)
-                ++substr[c - 'a'];
-            else{
-                for (int i = 0; i < 26; ++i) substr[i] = 0;
-                ++substr[c - 'a'];
+        for (int i = 0; i < s.size(); ++i){
+            if (lastSeen[s[i] - 'a'] >= substrStart){
                 ++ans;
+                substrStart = i;
             }
+            lastSeen[s[i] - 'a'] = i;
         }
         
         return ans;
