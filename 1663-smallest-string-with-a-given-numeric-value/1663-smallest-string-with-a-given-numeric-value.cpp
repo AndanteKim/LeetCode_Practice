@@ -1,12 +1,11 @@
 class Solution {
 public:
     string getSmallestString(int n, int k) {
-        string ans(n, 'a');
-        k -= n;
+        string ans(n, 0);
         
-        for (int pos = n - 1; pos >= 0 && k > 0; --pos){
-            int add = min(k, 25);
-            ans[pos] = ans[pos] + add;
+        for (int pos = n - 1; pos >= 0; --pos){
+            int add = min(k - pos, 26);
+            ans[pos] = 'a' + add - 1;
             k -= add;
         }
         
