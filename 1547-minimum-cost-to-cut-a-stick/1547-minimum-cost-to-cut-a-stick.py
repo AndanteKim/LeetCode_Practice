@@ -1,16 +1,17 @@
 class Solution:
-    def cost(self, left: int, right: int, memo: Dict[Tuple[int, int], int], cuts: List[int]) -> int:
-        if (left, right) in memo:
-            return memo[(left, right)]
-        
-        if right - left == 1:
-            return 0
-        ans = min(self.cost(left, mid, memo, cuts) + self.cost(mid, right, memo, cuts) + cuts[right] - cuts[left] for mid in range(left + 1, right))
-        memo[(left, right)] = ans
-        return ans
-    
     def minCost(self, n: int, cuts: List[int]) -> int:
-        memo = dict()
+        m = len(cuts)
         cuts = [0] + sorted(cuts) + [n]
         
-        return self.cost(0, len(cuts) - 1, memo, cuts)
+        dp = [[0] * (m + 2) for _ in range(m + 2)]
+        
+        for diff in range(2, m + 2):
+            for left in range(m + 2 - diff):
+                right = left + diff
+                ans = float('inf')
+                
+                for mid in range(left + 1, right):
+                    ans = min(ans, dp[left][mid] + dp[mid][right] + cuts[right] - cuts[left])
+                dp[left][right] = ans
+        
+        return dp[0][m + 1]
