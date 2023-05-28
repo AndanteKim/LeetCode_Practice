@@ -4,19 +4,20 @@ class Solution:
         for c in num:
             cnt[int(c)] += 1
         
-        lp, rp = "", ""
+        front, rear = "", ""
         
-        for _ in range(len(num)):
-            for i in range(9, -1, -1):
-                if cnt[i] > 1 and (i > 0 or lp != ""):
-                    lp += str(i)
-                    rp += str(i)
-                    cnt[i] -= 2
-                    break
+        for i in range(9, -1, -1):
+            if i == 0 and front == "":
+                continue
+            
+            while cnt[i] > 1:
+                front += str(i)
+                rear += str(i)
+                cnt[i] -= 2
         
         for i in range(9, -1, -1):
             if cnt[i]:
-                lp += str(i)
+                front += str(i)
                 break
         
-        return lp + rp[::-1]
+        return front + rear[::-1]
