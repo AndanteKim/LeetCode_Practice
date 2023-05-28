@@ -1,5 +1,5 @@
 class Solution:
-    def cost(self, left: int, right: int, memo: Dict[int, int], cuts: List[int]) -> int:
+    def cost(self, left: int, right: int, memo: Dict[Tuple[int, int], int], cuts: List[int]) -> int:
         if (left, right) in memo:
             return memo[(left, right)]
         
