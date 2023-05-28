@@ -1,14 +1,12 @@
 class Solution {
 public:
     int minMoves(int target, int maxDoubles) {
-        int ans = 0;
+        if (target == 1) return 0;
+        if (maxDoubles == 0) return target - 1;
         
-        while (target > 1 && maxDoubles > 0){
-            ans += 1 + target % 2;
-            --maxDoubles;
-            target >>= 1;
-        }
-        
-        return target - 1 + ans;
-    }
+        if (target & 1)
+            return 1 + minMoves(target - 1, maxDoubles);
+        else
+            return 1 + minMoves(target / 2, maxDoubles - 1);
+  }
 };
