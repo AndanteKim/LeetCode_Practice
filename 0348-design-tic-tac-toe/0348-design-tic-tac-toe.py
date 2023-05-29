@@ -1,40 +1,25 @@
 class TicTacToe:
 
     def __init__(self, n: int):
-        self.board = [[0] * n for _ in range(n)]
         self.n = n
+        self.rows, self.cols = [0] * self.n, [0] * self.n
+        self.diagonal, self.antiDiagonal = 0, 0
 
     def move(self, row: int, col: int, player: int) -> int:
-        self.board[row][col] = player
-        if self.checkCol(col, player) or self.checkRow(row, player) or (row == col and self.checkDiagonal(player)) or \
-        (row == self.n - col - 1 and self.checkAntiDiagonal(player)):
+        currentPlayer = 1 if player == 1 else -1
+        self.rows[row] += currentPlayer
+        self.cols[col] += currentPlayer
+        
+        if row == col:
+            self.diagonal += currentPlayer
+        
+        if col == len(self.cols) - row - 1:
+            self.antiDiagonal += currentPlayer
+        
+        if abs(self.rows[row]) == self.n or abs(self.cols[col]) == self.n or abs(self.diagonal) == self.n or abs(self.antiDiagonal) == self.n:
             return player
         
         return 0
-        
-    def checkDiagonal(self, player: int) -> bool:
-        for row in range(self.n):
-            if self.board[row][row] != player:
-                return False
-        return True
-    
-    def checkAntiDiagonal(self, player:int) -> bool:
-        for row in range(self.n):
-            if self.board[row][self.n - row - 1] != player:
-                return False
-        return True
-    
-    def checkRow(self, row: int, player: int) -> bool:
-        for col in range(self.n):
-            if self.board[row][col] != player:
-                return False
-        return True
-    
-    def checkCol(self, col: int, player: int) -> bool:
-        for row in range(self.n):
-            if self.board[row][col] != player:
-                return False
-        return True
 
 
 # Your TicTacToe object will be instantiated and called as such:
