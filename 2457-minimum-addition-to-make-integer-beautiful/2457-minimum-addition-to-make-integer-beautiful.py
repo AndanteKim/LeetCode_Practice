@@ -1,6 +1,11 @@
 class Solution:
     def digit_sum(self, n: int) -> int:
-        return sum([int(c) for c in str(n)])
+        digit = 0
+        while n > 0:
+            digit += n % 10
+            n //= 10
+        
+        return digit
     
     def makeIntegerBeautiful(self, n: int, target: int) -> int:
         lst, add = 1, 0
