@@ -1,20 +1,13 @@
 class Solution:
-    def digit_sum(self, num: int) -> int:
-        s = 0;
-        while num > 0:
-            s += num % 10
-            num //= 10
-        return s
+    def digit_sum(self, n: int) -> int:
+        return sum([int(c) for c in str(n)])
     
     def makeIntegerBeautiful(self, n: int, target: int) -> int:
-        num = n
-        if self.digit_sum(num) <= target:
-            return 0
+        lst, add = 1, 0
         
-        digit = 10
-        while self.digit_sum(n) > target:
-            if n % digit == 0:
-                digit *= 10
-            n = (n // digit + 1) * digit
-            digit *= 10
-        return n - num
+        while self.digit_sum(n + add) > target:
+            x = 10 ** lst
+            add = x - n % x
+            lst += 1
+            
+        return add
