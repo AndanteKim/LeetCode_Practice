@@ -1,20 +1,16 @@
 class ParkingSystem {
-private:
-    int big, medium, small;
-    unordered_map<int, int> carType_capacity;
-    unordered_map<int, int> current_status{{1,0},{2,0},{3,0}};
+    vector<int> available = vector<int>(3);
 public:
     ParkingSystem(int big, int medium, int small) {
-        this -> big = big;
-        this -> medium = medium;
-        this -> small = small;
-        carType_capacity = {{1, this->big}, {2, this -> medium}, {3, this -> small}};
-        
+        available[0] = big, available[1] = medium, available[2] = small;
     }
     
     bool addCar(int carType) {
-        ++current_status[carType];
-        return current_status[carType] <= carType_capacity[carType];
+        if (available[carType - 1] > 0){
+            --available[carType - 1];
+            return true;
+        }
+        return false;
     }
 };
 
