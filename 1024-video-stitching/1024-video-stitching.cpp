@@ -2,16 +2,13 @@ class Solution {
 public:
     int videoStitching(vector<vector<int>>& clips, int time) {
         sort(clips.begin(), clips.end());
-        int end = -1, end2 = 0, ans = 0;
+        vector<int> dp(101, 101);
+        dp[0] = 0;
         for (vector<int>& clip : clips){
-            if (end2 >= time || clip[0] > end2) break;
-            else if (clip[0] > end && clip[0] <= end2){
-                ++ans;
-                end = end2;
+            for (int i = clip[0] + 1; i <= clip[1]; ++i){
+                dp[i] = min(dp[i], dp[clip[0]] + 1);
             }
-            end2 = max(end2, clip[1]);
         }
-        
-        return end2 >= time? ans : -1;
+        return (dp[time] >= 100)? -1: dp[time];
     }
 };
