@@ -5,7 +5,7 @@ class MyHashSet:
         self.keyRange = 769
         self.bucketArray = [Bucket() for i in range(self.keyRange)]
     
-    def _hash(self, key):
+    def _hash(self, key) -> int:
         return key % self.keyRange
 
     def add(self, key: int) -> None:
