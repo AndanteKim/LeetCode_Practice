@@ -1,49 +1,87 @@
-struct Node{
-    int value;
-    Node* next;
-    Node() : value(0), next(nullptr) {}
-    Node(int value) : value(value), next(nullptr) {}
-    Node(int value, Node* next) : value(value), next(next) {}
+/*struct TreeNode{
+    int val;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode() : val(0), left(nullptr), right(nullptr){}
+    TreeNode(int x) : val(x), left(nullptr), right(nullptr){}
+    TreeNode(int x, TreeNode* left, TreeNode* right) : val(x), left(left), right(right) {}
+};*/
+
+class BSTree{
+public:
+    TreeNode* root;
+
+    BSTree(){
+        root = nullptr;
+    }
+    
+    TreeNode* searchBST(TreeNode* root, int val){
+        if (!root || val == root -> val) return root;
+        
+        return (val < root -> val)? searchBST(root -> left, val) : searchBST(root -> right, val);
+    }
+    
+    TreeNode* insertIntoBST(TreeNode* root, int val){
+        if (!root) return new TreeNode(val);
+        
+        if (val > root -> val)
+            root -> right = insertIntoBST(root -> right, val);
+        else if (val == root -> val) return root;
+        else root -> left = insertIntoBST(root -> left, val);
+        return root;
+    }
+    
+    int successor(TreeNode* root){
+        root = root -> right;
+        while (root -> left) root = root -> left;
+        return root -> val;
+    }
+    
+    int predecessor(TreeNode* root){
+        root = root -> left;
+        while (root -> right) root = root -> right;
+        return root -> val;
+    }
+    
+    TreeNode* deleteNode(TreeNode* root, int key){
+        if (!root) return nullptr;
+        if (key > root -> val) root -> right = deleteNode(root -> right, key);
+        else if (key < root -> val) root -> left = deleteNode(root -> left, key);
+        else{
+            if (!(root -> left || root -> right)) root = nullptr;
+            else if (root -> right){
+                root -> val = successor(root);
+                root -> right = deleteNode(root -> right, root -> val);
+            }
+            else{
+                root -> val = predecessor(root);
+                root -> left = deleteNode(root -> left, root -> val);
+            }
+        }
+        
+        return root;
+    }
 };
 
 class Bucket {
 private:
-    Node* head;
+    BSTree* tree;
 
 public:
     Bucket(){
-        head = new Node(0);
+        tree = new BSTree();
     }
     
-    void insert(int newValue){
-        if (!exists(newValue)){
-            Node* newNode = new Node(newValue, head -> next);
-            head -> next = newNode;
-        }
+    void insert(int value){
+        tree -> root = tree -> insertIntoBST(tree -> root, value);
     }
     
     void erase(int value){
-        Node* prev = head;
-        Node* curr = head -> next;
-        
-        while (curr){
-            if (curr -> value == value){
-                prev -> next = curr -> next;
-                return;
-            }
-            prev = curr;
-            curr = curr -> next;
-        }
+        tree -> root = tree -> deleteNode(tree -> root, value);
     }
     
     bool exists(int value){
-        Node* curr = head -> next;
-        while (curr){
-            if (curr -> value == value) return true;
-            curr = curr -> next;
-        }
-        
-        return false;
+        return tree -> searchBST(tree -> root, value) != nullptr;
     }
 };
 
