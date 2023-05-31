@@ -1,23 +1,23 @@
-#define ll long long
+typedef long long ll;
 
 class Solution {
 public:
     vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) {
-        vector<pair<int, int>> SortedSpells;
-        for (int i = 0; i < spells.size(); ++i){
-            SortedSpells.push_back({spells[i], i});
-        }
-        sort(SortedSpells.begin(), SortedSpells.end());
+        int n = spells.size();
+        vector<int> ans(n, 0);
         sort(potions.begin(), potions.end());
-        vector<int> answer(spells.size(), 0);
-        int m = potions.size(), potionIndex = m - 1;
         
-        for (auto& [spell, index] : SortedSpells){
-            while (potionIndex >= 0 && ((ll)spell * potions[potionIndex]) >= success)
-                --potionIndex;
-            answer[index] = m - (potionIndex + 1);
+        for (int i = 0; i < n; ++i){
+            int left = 0, right = potions.size();
+            int curr = right;
+            while (left < right){
+                int mid = left + (right - left) / 2;
+                if ((ll)spells[i] * potions[mid] < success) left = mid + 1;
+                else right = mid;
+            }
+            ans[i] = curr - left;
         }
         
-        return answer;
+        return ans;
     }
 };
