@@ -1,22 +1,18 @@
 class Solution {
-    double findProbability(int index, int target, int n, vector<vector<double>>& memo, vector<double>& prob){
-        if (target < 0) return 0;
-        
-        if (index == n){
-            if (target == 0) return 1;
-            return 0;
-        }
-        
-        if (memo[index][target] != -1.0) return memo[index][target];
-        
-        return memo[index][target] = findProbability(index + 1, target - 1, n, memo, prob) * prob[index] + findProbability(index + 1, target, n, memo, prob) * (1 - prob[index]);
-    }
-    
 public:
     double probabilityOfHeads(vector<double>& prob, int target) {
         int n = prob.size();
-        vector<vector<double>> memo(n, vector<double>(target + 1, -1));
+        vector<vector<double>> dp(n + 1, vector<double>(target + 1, 0));
+        dp[0][0] = 1;
         
-        return findProbability(0, target, n, memo, prob);
+        for (int i = 1; i <= n; ++i){
+            dp[i][0] = dp[i - 1][0] * (1 - prob[i - 1]);
+            for (int j = 1; j <= target; ++j){
+                if (j > i) break;
+                dp[i][j] = dp[i - 1][j - 1] * prob[i - 1] + dp[i - 1][j] * (1 - prob[i - 1]);
+            }
+        }
+        
+        return dp[n][target];
     }
 };
