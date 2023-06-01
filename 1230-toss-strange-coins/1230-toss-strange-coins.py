@@ -1,5 +1,5 @@
 class Solution:
-    def findProbability(self, index: int, target: int, n: int, prob: List[float], memo: List[List[float]]) -> int:
+    def findProbability(self, index: int, target: int, n: int, prob: List[float], memo: List[List[float]]) -> float:
         if target < 0:
             return 0
         
