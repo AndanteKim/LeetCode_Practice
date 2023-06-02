@@ -3,16 +3,16 @@ typedef long long ll;
 class Solution {
     int dfs(int node, unordered_set<int>& visited, unordered_map<int, vector<int>>& graph){
         visited.insert(node);
-        stack<int> stack{{node}};
+        queue<int> queue{{node}};
         
-        while (!stack.empty()){
-            int curr = stack.top();
-            stack.pop();
+        while (!queue.empty()){
+            int curr = queue.front();
+            queue.pop();
             
             for (int neighbor : graph[curr]){
                 if (visited.find(neighbor) == visited.end()) {
                     visited.insert(neighbor);
-                    stack.push(neighbor);
+                    queue.push(neighbor);
                 }
             }
         }
