@@ -1,11 +1,20 @@
 typedef long long ll;
 
 class Solution {
-    int dfs(int curr, unordered_set<int>& visited, unordered_map<int, vector<int>>& graph){
-        visited.insert(curr);
+    int dfs(int node, unordered_set<int>& visited, unordered_map<int, vector<int>>& graph){
+        visited.insert(node);
+        stack<int> stack{{node}};
         
-        for (int neighbor : graph[curr]){
-            if (visited.find(neighbor) == visited.end()) dfs(neighbor, visited, graph);
+        while (!stack.empty()){
+            int curr = stack.top();
+            stack.pop();
+            
+            for (int neighbor : graph[curr]){
+                if (visited.find(neighbor) == visited.end()) {
+                    visited.insert(neighbor);
+                    stack.push(neighbor);
+                }
+            }
         }
         return visited.size();
     }
