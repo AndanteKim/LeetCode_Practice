@@ -1,14 +1,14 @@
 class Solution:
-    def dfs(self, node: int, visited: Set[int], graph: DefaultDict[int, List[int]]) -> int:
-        stack = [node]
+    def bfs(self, node: int, visited: Set[int], graph: DefaultDict[int, List[int]]) -> int:
+        queue = deque([node])
         visited.add(node)
         
-        while stack:
-            curr = stack.pop()
+        while queue:
+            curr = queue.popleft()
             for neighbor in graph[curr]:
                 if neighbor not in visited:
                     visited.add(neighbor)
-                    stack.append(neighbor)
+                    queue.append(neighbor)
                     
         return len(visited)
     
@@ -30,6 +30,6 @@ class Solution:
         ans = 0
         for i in range(n):
             visited = set()
-            ans = max(ans, self.dfs(i, visited, graph))
+            ans = max(ans, self.bfs(i, visited, graph))
             
         return ans
