@@ -7,7 +7,7 @@ public:
         
         while (left <= right){
             ll mid = left + (right - left) / 2, time = 0;
-            for (int pile : piles) time += ceil((double)pile / mid);
+            for (double pile : piles) time += ceil(pile / mid);
             if (time <= h) right = mid - 1;
             else left = mid + 1;
         }
