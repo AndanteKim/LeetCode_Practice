@@ -1,15 +1,14 @@
+typedef long long ll;
+
 class Solution {
 public:
     int minEatingSpeed(vector<int>& piles, int h) {
-        int left = 1, right = *max_element(piles.begin(), piles.end()), mid, hours_spent;
+        ll left = 1, right = *max_element(piles.begin(), piles.end());
         
-        while (left < right){
-            mid = left + (right - left) / 2;
-            hours_spent = 0;
-            
-            for (int pile : piles) hours_spent += ceil((double)pile / mid);
-            
-            if (hours_spent <= h) right = mid;
+        while (left <= right){
+            ll mid = left + (right - left) / 2, time = 0;
+            for (int pile : piles) time += ceil((double)pile / mid);
+            if (time <= h) right = mid - 1;
             else left = mid + 1;
         }
         
