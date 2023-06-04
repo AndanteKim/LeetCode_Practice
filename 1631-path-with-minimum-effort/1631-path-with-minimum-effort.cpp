@@ -1,50 +1,55 @@
+class Cell{
+public:
+    int x, y;
+    int diff;
+    Cell(int x, int y, int diff){
+        this -> x = x;
+        this -> y = y;
+        this -> diff = diff;
+    }
+};
+
+struct Comparator{
+    bool operator()(Cell const &p1, Cell const &p2){
+        return p2.diff < p1.diff;
+    }
+};
+
 class Solution {
 private:
-    int m, n;
-    bool valid(int x, int y){
-        return 0 <= x && x < m && 0 <= y && y < n;
+    bool isValidCell(int x, int y, int row, int col){
+        return x >= 0 && x < row && y >= 0 && y < col;
     }
     
-    bool dfs(int k, vector<vector<int>>& heights){
-        vector<vector<bool>> visited(m, vector<bool>(n, false));
-        stack<pair<int, int>> stack;
-        stack.push({0, 0});
+public:
+    int minimumEffortPath(vector<vector<int>>& heights) {
+        int row = heights.size(), col = heights[0].size();
+        vector<vector<int>> diffMat(row, vector<int>(col, INT_MAX));
+        diffMat[0][0] = 0;
+        vector<vector<bool>> visited(row, vector<bool>(col));
+        priority_queue<Cell, vector<Cell>, Comparator> queue;
+        queue.push(Cell(0, 0, diffMat[0][0]));
         
-        
-        while (!stack.empty()){
-            auto [r, c] = stack.top();
-            stack.pop();
-            if (r == m - 1 && c == n - 1) return true;
-            
-            for (auto& [dr, dc] : vector<pair<int, int>>{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}){
-                int new_r = r + dr, new_c = c + dc;
-                if (valid(new_r, new_c) && !visited[new_r][new_c]){
-                    if (abs(heights[new_r][new_c] - heights[r][c]) <= k){
-                        visited[new_r][new_c] = true;
-                        stack.push({new_r, new_c});
+        while (!queue.empty()){
+            Cell curr = queue.top();
+            queue.pop();
+            visited[curr.x][curr.y] = true;
+            if (curr.x == row - 1 && curr.y == col - 1) return curr.diff;
+            for (auto& [dx, dy] : vector<pair<int, int>>{{1, 0}, {0, 1}, {-1, 0}, {0, -1}}){
+                int adjX = curr.x + dx, adjY = curr.y + dy;
+                if (isValidCell(adjX, adjY, row, col) && !visited[adjX][adjY]){
+                    int currDiff = abs(heights[adjX][adjY] - heights[curr.x][curr.y]);
+                    int maxDiff = max(currDiff, diffMat[curr.x][curr.y]);
+                    
+                    if (diffMat[adjX][adjY] > maxDiff){
+                        diffMat[adjX][adjY] = maxDiff;
+                        queue.push(Cell(adjX, adjY, maxDiff));
                     }
                 }
             }
         }
         
-        return false;
-    }
-    
-public:
-    int minimumEffortPath(vector<vector<int>>& heights) {
-        m = heights.size(), n = heights[0].size();
-        
-        int left = 0, right = 0;
-        for (int i = 0; i < m; ++i) for(int j = 0; j < n; ++j) right = max(right, heights[i][j]);
-        
-        
-        while (left <= right){
-            int mid = left + (right - left) / 2;
-    
-            if (dfs(mid, heights)) right = mid - 1;
-            else left = mid + 1;
-        }
-        
-        return left;
+        return diffMat[row - 1][col - 1];
     }
 };
+
