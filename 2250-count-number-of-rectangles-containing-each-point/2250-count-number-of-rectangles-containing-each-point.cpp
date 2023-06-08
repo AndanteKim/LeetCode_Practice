@@ -2,7 +2,6 @@ class Solution {
 public:
     vector<int> countRectangles(vector<vector<int>>& rectangles, vector<vector<int>>& points) {
         vector<int> ans;
-        int m = rectangles.size(), n = rectangles[0].size();
         unordered_map<int, vector<int>> rects;
         
         for (vector<int>& rectangle : rectangles){
