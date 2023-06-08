@@ -19,27 +19,17 @@ class Solution:
                 arr.append(tree.val)
                 tree = tree.right            
         
+        n = len(arr)
         for query in queries:
-            curr_pair = [float('-inf'), float('inf')] 
-            
             pos = bisect_left(arr, query)
             
-            if 0 < pos < len(arr):
-                if arr[pos] == query:
-                    curr_pair[0], curr_pair[1] = query, query
-                else:
-                    curr_pair[0] = arr[pos - 1]
-                    curr_pair[1] = arr[pos]
-                
+            if pos == n:
+                ans.append([arr[pos - 1], -1])
+            elif arr[pos] == query:
+                ans.append([query, query])
+            elif pos == 0:
+                ans.append([-1, arr[pos]])
             else:
-                if pos == 0 or pos == len(arr) - 1:
-                    if arr[pos] == query:
-                        curr_pair[0], curr_pair[1] = query, query
-                    else:
-                        curr_pair[0], curr_pair[1] = -1, arr[pos]
-                else:
-                    curr_pair[0], curr_pair[1] = arr[pos - 1], -1
-            
-            ans.append(curr_pair)
+                ans.append([arr[pos - 1], arr[pos]])
         
         return ans
