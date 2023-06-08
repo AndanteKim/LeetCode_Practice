@@ -2,9 +2,7 @@ class Solution:
     def isMajorityElement(self, nums: List[int], target: int) -> bool:
         
         half = len(nums) / 2
-        freq = defaultdict(int)
+        right = bisect_right(nums, target)
+        left = bisect_left(nums, target)
         
-        for num in nums:
-            freq[num] += 1
-        
-        return True if freq[target] > half else False
+        return True if right - left > half else False
