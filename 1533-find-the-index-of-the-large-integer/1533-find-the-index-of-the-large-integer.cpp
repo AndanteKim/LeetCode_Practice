@@ -17,14 +17,24 @@
 class Solution {
 public:
     int getIndex(ArrayReader &reader) {
-        int left = 0, right= reader.length() - 1;
+        int left = 0, y = reader.length() - 1;
         
-        while (left < right){
-            int mid = left + (right - left) / 2;
-            int mid2 = left + (right - left + 1) / 2;
+        while (left < y){
+            int third = (y - left) / 3;
+            int right = left + third, x = y - third;
             
-            if (reader.compareSub(left, mid, mid2, right) < 0) left = mid2;
-            else right = mid;
+            switch (reader.compareSub(left, right, x, y)){
+                case 0:
+                    left = right + 1;
+                    y = x - 1;
+                    break;
+                case 1:
+                    y = right;
+                    break;
+                case -1:
+                    left = x;
+                    break;
+            }
         }
         
         return left;
