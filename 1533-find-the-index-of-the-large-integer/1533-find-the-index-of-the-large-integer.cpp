@@ -17,13 +17,14 @@
 class Solution {
 public:
     int getIndex(ArrayReader &reader) {
-        int left = 0, len = reader.length();
+        int left = 0, right= reader.length() - 1;
         
-        while (len > 1){
-            len /= 2;
-            int cmp = reader.compareSub(left, left + len - 1, left + len, left + 2 * len - 1);
-            if (cmp == 0) return left + 2 * len;
-            if (cmp < 0) left += len;
+        while (left < right){
+            int mid = left + (right - left) / 2;
+            int mid2 = left + (right - left + 1) / 2;
+            
+            if (reader.compareSub(left, mid, mid2, right) < 0) left = mid2;
+            else right = mid;
         }
         
         return left;
