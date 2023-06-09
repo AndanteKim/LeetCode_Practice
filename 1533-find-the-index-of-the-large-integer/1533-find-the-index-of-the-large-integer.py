@@ -16,15 +16,17 @@
 
 class Solution:
     def getIndex(self, reader: 'ArrayReader') -> int:
-        left = 0
-        length = reader.length()
+        left, length = 0, reader.length()     
         
         while length > 1:
             length //= 2
-            cmp = reader.compareSub(left, left + length - 1, left + length, left + length + length - 1)
+            
+            cmp = reader.compareSub(left, left + length - 1, left + length, left + 2 * length - 1)
             
             if cmp == 0:
-                return left + length + length
+                return left + 2 * length
+            
             if cmp < 0:
                 left += length
+        
         return left
