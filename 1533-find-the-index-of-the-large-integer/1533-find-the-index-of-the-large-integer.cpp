@@ -17,13 +17,12 @@
 class Solution {
 public:
     int getIndex(ArrayReader &reader) {
-        int left = 0, cmp;
-        int len = reader.length();
+        int left = 0, len = reader.length();
+        
         while (len > 1){
             len /= 2;
-            cmp = reader.compareSub(left, left + len - 1, left + len, left + len + len - 1);
-            
-            if (cmp == 0) return left + len + len;
+            int cmp = reader.compareSub(left, left + len - 1, left + len, left + 2 * len - 1);
+            if (cmp == 0) return left + 2 * len;
             if (cmp < 0) left += len;
         }
         
