@@ -3,7 +3,7 @@ class Solution:
         left, right = 1, max(time) * totalTrips
         
         while left < right:
-            mid, trips = (left + right) // 2, 0
+            mid, trips = (left + right) >> 1, 0
             
             for t in time:
                 trips += mid // t
