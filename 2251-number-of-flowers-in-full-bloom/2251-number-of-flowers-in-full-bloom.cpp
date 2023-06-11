@@ -1,21 +1,27 @@
 class Solution {
 public:
     vector<int> fullBloomFlowers(vector<vector<int>>& flowers, vector<int>& people) {
-        vector<int> bloomStart, bloomEnd;
+        map<int, int> m;
         for (vector<int>& flower : flowers){
-            bloomStart.push_back(flower[0]);
-            bloomEnd.push_back(flower[1]);
+            ++m[flower[0]];
+            --m[flower[1] + 1];
         }
         
-        sort(bloomStart.begin(), bloomStart.end());
-        sort(bloomEnd.begin(), bloomEnd.end());
+        int sum = 0;
+        for (auto& [key, value] : m){
+            sum += value;
+            value = sum;
+        }
         
-        vector<int> ans(people.size(), 0);
+        int n = people.size();
+        vector<int> ans(n, 0);
         
-        for (int i = 0; i < people.size(); ++i){
-            int startIndex = upper_bound(bloomStart.begin(), bloomStart.end(), people[i]) - bloomStart.begin();
-            int endIndex = lower_bound(bloomEnd.begin(), bloomEnd.end(), people[i]) - bloomEnd.begin();
-            ans[i] = startIndex - endIndex;
+        for (int i = 0; i < n; ++i){
+            auto it = m.upper_bound(people[i]);
+            if (it != m.begin()){
+                --it;
+                ans[i] = it -> second;
+            }
         }
         
         return ans;
