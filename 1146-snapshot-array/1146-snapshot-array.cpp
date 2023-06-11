@@ -20,8 +20,15 @@ public:
     }
     
     int get(int index, int snap_id) {
-        auto it = upper_bound(snapshot[index].begin(), snapshot[index].end(), make_pair(snap_id, INT_MAX));
-        return prev(it) -> second;
+        int left = 0, right = snapshot[index].size();
+        
+        while (left < right){
+            int mid = left + (right - left) / 2;
+            if (snap_id < snapshot[index][mid].first) right = mid;
+            else left = mid + 1;
+        }
+        
+        return snapshot[index][left - 1].second;
     }
 };
 
