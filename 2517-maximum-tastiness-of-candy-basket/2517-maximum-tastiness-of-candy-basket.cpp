@@ -1,29 +1,22 @@
 class Solution {
-private:
-    bool check(int x, vector<int>& price, int k, int n){
-        int last = price[0], cnt = 1, i = 1;
-        while (i < n && cnt < k){
-            if (price[i] - last >= x){
-                last = price[i];
-                ++cnt;
-            }
-            ++i;
-        }
-        
-        return cnt == k;
-    }
-        
 public:
     int maximumTastiness(vector<int>& price, int k) {
-        int left = 0, right = pow(10, 9), n = price.size();
         sort(price.begin(), price.end());
+        int left = 0, right = price.back() - price[0], n = price.size();
         
         while (left < right){
-            int mid = left + ((right - left) >> 1);
-            if (check(mid, price, k, n)) left = mid + 1;
-            else right = mid;
+            int mid = left + ((right - left + 1) >> 1), cnt = 1;
+            for (int i = 1, j = 0; i < n; ++i){
+                if (price[i] - price[j] >= mid){
+                    ++cnt;
+                    j = i;
+                }
+            }
+            
+            if (cnt >= k) left = mid;
+            else right = mid - 1;
         }
         
-        return left - 1;
+        return left;
     }
 };
