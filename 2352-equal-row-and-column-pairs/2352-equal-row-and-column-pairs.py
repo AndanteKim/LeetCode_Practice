@@ -1,7 +1,7 @@
 class TrieNode:
     def __init__(self):
         self.count = 0
-        self.children = defaultdict(dict)
+        self.children = defaultdict(TrieNode)
         
 class Trie:
     def __init__(self):
