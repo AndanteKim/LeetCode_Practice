@@ -10,20 +10,25 @@
  * };
  */
 class Solution {
-private:
-    void dfs(TreeNode* root, vector<int>& arr){
-        if (!root) return;
-        dfs(root -> left, arr);
-        arr.push_back(root -> val);
-        dfs(root -> right, arr);
-    }
-    
 public:
     int getMinimumDifference(TreeNode* root) {
-        vector<int> arr;
-        dfs(root, arr);
+        TreeNode *prevNode = NULL, *currNode = root;
         int ans = INT_MAX;
-        for (int i = 0; i < arr.size() - 1; ++i) ans = min(ans, arr[i + 1] - arr[i]);
+        stack<TreeNode*> stack;
+        
+        while(currNode || !stack.empty()){
+            if (currNode){
+                stack.push(currNode);
+                currNode = currNode -> left;
+            }
+            else{
+                currNode = stack.top();
+                stack.pop();
+                if (prevNode != nullptr) ans = min(ans, abs(prevNode -> val - currNode -> val));
+                prevNode = currNode;
+                currNode = currNode -> right;
+            }
+        }
         return ans;
     }
 };
