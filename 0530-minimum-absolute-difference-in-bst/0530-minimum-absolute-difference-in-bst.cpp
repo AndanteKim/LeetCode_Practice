@@ -10,32 +10,24 @@
  * };
  */
 class Solution {
-    vector<int> IterativeInorder(TreeNode* node){
-        stack<TreeNode*> *st = new stack<TreeNode*>;
-        vector<int> values;
-        TreeNode* curr = node;
-        
-        while (!st -> empty() || curr){
-            if (curr){
-                st -> push(curr);
-                curr = curr -> left;
-            }
-            else{
-                curr = st -> top();
-                st -> pop();
-                values.push_back(curr -> val);
-                curr = curr -> right;
-            }
-        }
-        return values;
-    } 
 public:
     int getMinimumDifference(TreeNode* root) {
-        vector<int> values = IterativeInorder(root);
+        queue<TreeNode*> queue;
+        vector<int> arr;
+        queue.push(root);
         int ans = INT_MAX;
-        for (int i = 1; i < values.size(); ++i){
-            ans = min(ans, values[i] - values[i - 1]);
+        while (!queue.empty()){
+            TreeNode* curr = queue.front();
+            queue.pop();
+            
+            arr.push_back(curr -> val);
+            if (curr -> left) queue.push(curr -> left);
+            if (curr -> right) queue.push(curr -> right);
         }
+        
+        sort(arr.begin(), arr.end());
+        for (int i = 0; i < arr.size() - 1; ++i) ans = min(ans, arr[i + 1] - arr[i]);
+        
         return ans;
     }
 };
