@@ -5,16 +5,20 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def dfs(self, root: Optional[TreeNode]) -> List[int]:
-        if not root:
-            return []
-        return self.dfs(root.left) + [root.val] + self.dfs(root.right)
-    
     def getMinimumDifference(self, root: Optional[TreeNode]) -> int:
-        arr, ans = self.dfs(root), float('inf')
+        stack = []
+        prev_node, curr_node = None, root
+        ans = float('inf')
         
-        for i in range(len(arr) - 1):
-            ans = min(ans, arr[i + 1] - arr[i])
+        while stack or curr_node:
+            if curr_node:
+                stack.append(curr_node)
+                curr_node = curr_node.left
+            else:
+                curr_node = stack.pop()
+                if prev_node:
+                    ans = min(ans, abs(curr_node.val - prev_node.val))
+                prev_node = curr_node
+                curr_node = curr_node.right
         
         return ans
-        
