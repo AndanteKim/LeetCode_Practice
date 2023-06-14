@@ -10,24 +10,20 @@
  * };
  */
 class Solution {
+private:
+    void dfs(TreeNode* root, vector<int>& arr){
+        if (!root) return;
+        dfs(root -> left, arr);
+        arr.push_back(root -> val);
+        dfs(root -> right, arr);
+    }
+    
 public:
     int getMinimumDifference(TreeNode* root) {
-        queue<TreeNode*> queue;
         vector<int> arr;
-        queue.push(root);
+        dfs(root, arr);
         int ans = INT_MAX;
-        while (!queue.empty()){
-            TreeNode* curr = queue.front();
-            queue.pop();
-            
-            arr.push_back(curr -> val);
-            if (curr -> left) queue.push(curr -> left);
-            if (curr -> right) queue.push(curr -> right);
-        }
-        
-        sort(arr.begin(), arr.end());
         for (int i = 0; i < arr.size() - 1; ++i) ans = min(ans, arr[i + 1] - arr[i]);
-        
         return ans;
     }
 };
