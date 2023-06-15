@@ -39,13 +39,13 @@ public:
                 positions.push_back(make_pair(i, j));
         }
         sort(positions.begin(), positions.end(), [grid](pair<int, int> &p1, pair<int, int> &p2){return grid[p1.first][p1.second] < grid[p2.first][p2.second];});
-        UnionFind uf = UnionFind(n);
+        UnionFind *uf = new UnionFind(n);
         
         for (auto& [i, j] : positions){
             for (auto& [x, y] : vector<pair<int, int>>{make_pair(i + 1, j), make_pair(i - 1, j), make_pair(i, j + 1), make_pair(i, j - 1)}){
-                if (0 <= x && x < n && 0 <= y && y < n && visited[x][y]) uf.unionSet(i * n + j, x * n + y);
+                if (0 <= x && x < n && 0 <= y && y < n && visited[x][y]) uf -> unionSet(i * n + j, x * n + y);
             }
-            if (uf.find(0) == uf.find(n * n - 1)) return grid[i][j];
+            if (uf -> find(0) == uf -> find(n * n - 1)) return grid[i][j];
             visited[i][j] = true;
         }
         return -1;
