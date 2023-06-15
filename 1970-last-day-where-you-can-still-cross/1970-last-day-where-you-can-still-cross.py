@@ -1,39 +1,43 @@
+class DSU:
+    def __init__(self, n: int):
+        self.parents = list(range(n))
+        self.rank = [1] * n
+        
+    def find(self, x: int) -> int:
+        if self.parents[x] != x:
+            self.parents[x] = self.find(self.parents[x])
+        return self.parents[x]
+    
+    def union(self, x: int, y: int) -> None:
+        xset, yset = self.find(x), self.find(y)
+        
+        if xset == yset:
+            return
+        if self.rank[xset] > self.rank[yset]:
+            xset, yset = yset, xset
+        self.parents[xset] = yset
+        self.rank[yset] = self.rank[xset]
+
 class Solution:
-    def valid(self, x: int, y: int, visited: List[List[bool]]) -> bool:
-        return 0 <= x < self.r and 0 <= y < self.c and not visited[x][y]
-    
-    def possible(self, days: int, cells: List[List[int]]) -> bool:
-        visited = [[False] * self.c for _ in range(self.r)]
-        for i in range(days + 1):
-            visited[cells[i][0] - 1][cells[i][1] - 1] = True
-        
-        queue = deque()
-        for i in range(self.c):
-            if not visited[0][i]:
-                queue.append((0, i))
-        
-        while queue:
-            x, y = queue.popleft()
-            if x == self.r - 1:
-                return True
-            for new_x, new_y in (x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1):
-                if self.valid(new_x, new_y, visited):
-                    visited[new_x][new_y] = True
-                    queue.append((new_x, new_y))
-        
-        return False
-        
-    
     def latestDayToCross(self, row: int, col: int, cells: List[List[int]]) -> int:
-        self.r, self.c = row, col
-        left, right = 0, len(cells)
+        dsu = DSU(row * col + 2)
+        grid = [[1] * col for _ in range(row)]
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
         
-        while left < right:
-            mid = (left + right) >> 1
+        for i in range(len(cells) - 1, -1, -1):
+            r, c = cells[i][0] - 1, cells[i][1] - 1
+            grid[r][c] = 0
+            idx1 = r * col + c + 1
+            for dr, dc in directions:
+                new_r, new_c = r + dr, c + dc
+                idx2 = new_r * col + new_c + 1
+                if 0 <= new_r < row and 0 <= new_c < col and grid[new_r][new_c] == 0:
+                    dsu.union(idx1, idx2)
             
-            if self.possible(mid, cells):
-                left = mid + 1
-            else:
-                right = mid
-                
-        return left
+            if r == 0:
+                dsu.union(0, idx1)
+            if r == row - 1:
+                dsu.union(row * col + 1, idx1)
+            if dsu.find(0) == dsu.find(row * col + 1):
+                return i
+        return -1
