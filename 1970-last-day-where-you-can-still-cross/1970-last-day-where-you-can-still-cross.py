@@ -21,22 +21,22 @@ class DSU:
 class Solution:
     def latestDayToCross(self, row: int, col: int, cells: List[List[int]]) -> int:
         dsu = DSU(row * col + 2)
-        grid = [[1] * col for _ in range(row)]
-        directions = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+        grid = [[0] * col for _ in range(row)]
+        directions = [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
         
-        for i in range(len(cells) - 1, -1, -1):
+        for i in range(row * col):
             r, c = cells[i][0] - 1, cells[i][1] - 1
-            grid[r][c] = 0
+            grid[r][c] = 1
             idx1 = r * col + c + 1
             for dr, dc in directions:
                 new_r, new_c = r + dr, c + dc
                 idx2 = new_r * col + new_c + 1
-                if 0 <= new_r < row and 0 <= new_c < col and grid[new_r][new_c] == 0:
+                if 0 <= new_r < row and 0 <= new_c < col and grid[new_r][new_c] == 1:
                     dsu.union(idx1, idx2)
             
-            if r == 0:
+            if c == 0:
                 dsu.union(0, idx1)
-            if r == row - 1:
+            if c == col - 1:
                 dsu.union(row * col + 1, idx1)
             if dsu.find(0) == dsu.find(row * col + 1):
                 return i
