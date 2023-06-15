@@ -27,19 +27,19 @@ class Solution {
 public:
     int latestDayToCross(int row, int col, vector<vector<int>>& cells) {
         DSU dsu = DSU(row * col + 2);
-        vector<vector<int>> grid(row, vector<int>(col, 1));
-        vector<pair<int, int>> directions{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-        for (int i = cells.size() - 1; i >= 0; --i){
+        vector<vector<int>> grid(row, vector<int>(col, 0));
+        vector<pair<int, int>> directions{{1, 0}, {-1, 0}, {0, 1}, {0, -1}, {1, 1}, {-1, 1}, {1, -1}, {-1, -1}};
+        for (int i = 0; i < row * col; ++i){
             int r = cells[i][0] - 1, c = cells[i][1] - 1;
-            grid[r][c] = 0;
+            grid[r][c] = 1;
             int idx1 = r * col + c + 1;
             for (auto& [dr, dc] : directions){
                 int newR = r + dr, newC = c + dc;
                 int idx2 = newR * col + newC + 1;
-                if (0 <= newR && newR < row && 0 <= newC && newC < col && grid[newR][newC] == 0) dsu.UnionSet(idx1, idx2);
+                if (0 <= newR && newR < row && 0 <= newC && newC < col && grid[newR][newC] == 1) dsu.UnionSet(idx1, idx2);
             }
-            if (r == 0) dsu.UnionSet(0, idx1);
-            if (r == row - 1) dsu.UnionSet(row * col + 1, idx1);
+            if (c == 0) dsu.UnionSet(0, idx1);
+            if (c == col - 1) dsu.UnionSet(row * col + 1, idx1);
             if (dsu.find(0) == dsu.find(row * col + 1)) return i;
         }
         
