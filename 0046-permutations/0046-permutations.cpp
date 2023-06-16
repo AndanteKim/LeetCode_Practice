@@ -18,7 +18,7 @@ private:
 public:
     vector<vector<int>> permute(vector<int>& nums) {
         vector<vector<int>> ans;
-        vector<int> curr = {};
+        vector<int> curr;
         backtrack(curr, ans, nums);
         return ans;
     }
