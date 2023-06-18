@@ -1,17 +1,15 @@
 class Solution {
 public:
     vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ans;
         int n = nums.size();
-        vector<vector<int>> ans{{}};
-        if (n == 0) return ans;
         
-        for (int i = 0; i < n; ++i){
-            int sz = ans.size();
-            for (int j = 0; j < sz; ++j){
-                vector<int> s(ans[j]);
-                s.push_back(nums[i]);
-                ans.push_back(s);
+        for (int i = 0; i < (1 << n); ++i){
+            vector<int> curr;
+            for (int j = 0; j < n; ++j){
+                if (i & (1 << j)) curr.push_back(nums[j]);
             }
+            ans.push_back(curr);
         }
         
         return ans;
