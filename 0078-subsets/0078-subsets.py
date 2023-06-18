@@ -3,8 +3,11 @@ class Solution:
         n = len(nums)
         ans = []
         
-        for i in range(2 ** n, 2 ** (n + 1)):
-            bitmask = bin(i)[3:]
-            ans.append([nums[j] for j in range(n) if bitmask[j] == '1'])
+        for i in range(0, 1 << n):
+            curr = []
+            for j in range(n):
+                if i & (1 << j):
+                    curr.append(nums[j])
+            ans.append(curr[:])
         
         return ans
