@@ -1,15 +1,16 @@
 class Solution:
-    def backtrack(self, start: int, curr: List[int], graph: List[List[int]], ans: List[List[int]]) -> None:
-        if start == len(graph) - 1:
-            ans.append(curr[:])
-            return
-        
-        for n1 in graph[start]:
-            curr.append(n1)
-            self.backtrack(n1, curr, graph, ans)
-            curr.pop()
-    
     def allPathsSourceTarget(self, graph: List[List[int]]) -> List[List[int]]:
-        ans = []
-        self.backtrack(0, [0], graph, ans)
-        return ans
+        target = len(graph) - 1
+        
+        @lru_cache(maxsize = None)
+        def all_paths_to_target(curr_node: int) -> List[List[int]]:
+            if curr_node == target:
+                return [[target]]
+            
+            results = []
+            for next_node in graph[curr_node]:
+                for path in all_paths_to_target(next_node):
+                    results.append([curr_node] + path)
+            
+            return results
+        return all_paths_to_target(0)
