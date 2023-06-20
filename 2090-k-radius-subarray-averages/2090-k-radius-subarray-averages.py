@@ -6,9 +6,8 @@ class Solution:
         for right in range(n):
             total += nums[right]
             
-            if right - left + 1 == radius:
-                ans[k + left] = total // radius
             while right - left + 1 >= radius:
+                ans[k + left] = total // radius
                 total -= nums[left]
                 left += 1
         
