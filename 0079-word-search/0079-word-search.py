@@ -1,24 +1,39 @@
 class Solution:
     def exist(self, board: List[List[str]], word: str) -> bool:
-        def valid(row: int, col: int) -> bool:
-            return 0 <= row < m and 0 <= col < n
+        R, C = len(board), len(board[0])
         
-        def backtrack(row: int, col: int, i: int, seen: Set[Tuple[int]]) -> bool:
-            if i == len(word):
-                return True
-            
-            for n_r, n_c in (row + 1, col), (row - 1, col), (row, col + 1), (row, col - 1):
-                if valid(n_r, n_c) and (n_r, n_c) not in seen:
-                    if board[n_r][n_c] == word[i]:
-                        seen.add((n_r, n_c))
-                        if backtrack(n_r, n_c, i + 1, seen):
-                            return True
-                        seen.remove((n_r, n_c))
+        if len(word) > R * C:
             return False
         
-        m, n = len(board), len(board[0])
-        for row in range(m):
-            for col in range(n):
-                if board[row][col] == word[0] and backtrack(row, col, 1, {(row, col)}):
+        count = Counter(sum(board, []))
+        
+        for c, countWord in Counter(word).items():
+            if count[c] < countWord:
+                return False
+        
+        if count[word[0]] > count[word[-1]]:
+            word = word[::-1]
+        
+        seen = set()
+        
+        def dfs(r: int, c: int, i: int) -> bool:
+            if len(word) == i:
+                return True
+            
+            if r < 0 or c < 0 or r >= R or c >= C or word[i] != board[r][c] or (r, c) in seen:
+                return False
+            
+            seen.add((r, c))
+            res = (dfs(r + 1, c, i + 1) or dfs(r - 1, c, i + 1) or dfs(r, c + 1, i + 1) or dfs(r, c - 1, i + 1))
+            seen.remove((r, c))
+            
+            return res
+        
+        for i in range(R):
+            for j in range(C):
+                if dfs(i, j, 0):
                     return True
         return False
+            
+            
+            
