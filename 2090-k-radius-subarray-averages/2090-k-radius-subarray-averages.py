@@ -1,14 +1,19 @@
 class Solution:
     def getAverages(self, nums: List[int], k: int) -> List[int]:
-        radius, n = 2 * k + 1, len(nums)
-        ans, left, total = [-1] * n, 0, 0
+        ans = [-1] * len(nums)
         
-        for right in range(n):
-            total += nums[right]
-            
-            while right - left + 1 >= radius:
-                ans[k + left] = total // radius
-                total -= nums[left]
-                left += 1
+        if k == 0:
+            return nums
         
+        n = len(nums)
+        if 2 * k + 1 > n:
+            return ans
+        
+        window_sum = sum(nums[: 2 * k + 1])
+        ans[k] = window_sum // (2 * k + 1)
+        
+        for i in range(2 * k + 1, n):
+            window_sum = window_sum - nums[i - (2 * k + 1)] + nums[i]
+            ans[i - k] = window_sum // (2 * k + 1)
+    
         return ans
