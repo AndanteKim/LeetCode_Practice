@@ -1,31 +1,31 @@
 typedef long long ll;
 
 class Solution {
+private:
+    ll getCost(int base, vector<int>& nums, vector<int>& cost){
+        ll total = 0;
+        for (int i = 0; i < nums.size(); ++i){
+            total += (ll)abs(nums[i] - base) * cost[i];
+        }
+        return total;
+    }
+    
 public:
     long long minCost(vector<int>& nums, vector<int>& cost) {
-        int n = nums.size();
-        vector<pair<int, int>> numAndCost;
-        for (int i = 0; i < n; ++i){
-            numAndCost.push_back({nums[i], cost[i]});
+        int left = *min_element(nums.begin(), nums.end()), right = *max_element(nums.begin(), nums.end());
+        ll ans = getCost(nums[0], nums, cost);
+        
+        while (left < right){
+            int mid = left + ((right - left) >> 1);
+            ll cost1 = getCost(mid, nums, cost);
+            ll cost2 = getCost(mid + 1, nums, cost);
+            
+            ans = min(cost1, cost2);
+            
+            if (cost1 > cost2) left = mid + 1;
+            else right = mid;
         }
         
-        sort(numAndCost.begin(), numAndCost.end());
-        vector<ll> prefixCost(n, 0);
-        prefixCost[0] = numAndCost[0].second;
-        for (int i = 1; i < n; ++i) prefixCost[i] = prefixCost[i - 1] + numAndCost[i].second;
-        
-        ll totalCost = 0;
-        for (int i = 1; i < n; ++i){
-            totalCost += (ll) numAndCost[i].second * (numAndCost[i].first - numAndCost[0].first);
-        }
-        
-        ll ans = totalCost;
-        for (int i = 1; i < n; ++i){
-            ll gap = numAndCost[i].first - numAndCost[i - 1].first;
-            totalCost += prefixCost[i - 1] * gap;
-            totalCost -= gap * (prefixCost[n - 1] - prefixCost[i - 1]);
-            ans = min(ans, totalCost);
-        }
         return ans;
     }
 };
