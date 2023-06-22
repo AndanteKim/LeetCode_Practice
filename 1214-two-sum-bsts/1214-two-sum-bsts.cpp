@@ -11,21 +11,21 @@
  */
 class Solution {
 private:
-    void inorder(unordered_set<int>& seen, TreeNode* root){
-        if (!root) return;
-        inorder(seen, root -> left);
-        seen.insert(root -> val);
-        inorder(seen, root -> right);
+    bool binarySearch(TreeNode* root2, int target){
+        if (!root2) return false;
+        if (root2 -> val == target) return true;
+        else if (root2 -> val > target) return binarySearch(root2 -> left, target);
+        else return binarySearch(root2 -> right, target);
+    }
+    
+    bool dfs(TreeNode* root1, TreeNode* root2, int target){
+        if (!root1) return false;
+        if (binarySearch(root2, target - root1 -> val)) return true;
+        return dfs(root1 -> left, root2, target) || dfs(root1 -> right, root2, target);
     }
     
 public:
     bool twoSumBSTs(TreeNode* root1, TreeNode* root2, int target) {
-        unordered_set<int> seen1, seen2;
-        inorder(seen1, root1);
-        inorder(seen2, root2);
-        for (int n1: seen1){
-            if (seen2.find(target - n1) != seen2.end()) return true;
-        }
-        return false;
+        return dfs(root1, root2, target);
     }
 };
