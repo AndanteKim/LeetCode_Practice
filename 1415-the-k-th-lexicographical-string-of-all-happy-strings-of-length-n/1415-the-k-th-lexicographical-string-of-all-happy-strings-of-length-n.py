@@ -1,20 +1,30 @@
-class Solution:
-    def backtrack(self, start: int, word: List[str], n: int, k: int, ans_list: List[str]) -> None:
-        if start == n:
-            ans_list.append("".join(word))
-            return
+class Solution {
+private:
+    int n, k;
+    void backtrack(int start, string& word, vector<string>& ansList){
+        if (start == n){
+            ansList.push_back(word);
+            return;
+        }
         
-        for c in "abc":
-            if word and word[-1] == c:
-                continue
-            else:
-                word.append(c)
-                self.backtrack(start + 1, word, n, k, ans_list)
-                word.pop()
+        for (const char& c: vector<char>{'a','b','c'}){
+            if (!word.empty() && word.back() == c) continue;
+            else{
+                word.push_back(c);
+                backtrack(start + 1, word, ansList);
+                word.pop_back();
+            }
+        }
+        
+    }
     
-    def getHappyString(self, n: int, k: int) -> str:
-        ans_list = []
+public:
+    string getHappyString(int n, int k) {
+        vector<string> ansList;
+        string word = "";
+        this -> n = n, this -> k = k;
+        backtrack(0, word, ansList);
         
-        self.backtrack(0, [], n, k, ans_list)
-        
-        return "" if len(ans_list) < k else ans_list[k - 1]
+        return ansList.size() < k? "" : ansList[k - 1];
+    }
+};
