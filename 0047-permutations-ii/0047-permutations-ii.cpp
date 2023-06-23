@@ -1,33 +1,27 @@
 class Solution {
 private:
-    int n;
-    void backtrack(vector<int>& curr, unordered_map<int, int>& counter, vector<vector<int>>& ans){
-        if (curr.size() == n){
-            ans.push_back(curr);
+    void backtrack(int start, vector<int>& nums, vector<vector<int>>& ans){
+        if (start == nums.size()){
+            ans.push_back(nums);
             return;
         }
         
-        for (auto& [key, val] : counter){
-            if (val > 0){
-                curr.push_back(key);
-                --val;
-                backtrack(curr, counter, ans);
-                curr.pop_back();
-                ++val;
+        unordered_set<int> lookup;
+        
+        for (int i = start; i < nums.size(); ++i){
+            if (lookup.find(nums[i]) == lookup.end()){
+                swap(nums[start], nums[i]);
+                backtrack(start + 1, nums, ans);
+                swap(nums[start], nums[i]);
+                lookup.insert(nums[i]);
             }
         }
     }
     
 public:
     vector<vector<int>> permuteUnique(vector<int>& nums) {
-        n = nums.size();
-        unordered_map<int, int> counter;
-        vector<int> curr;
         vector<vector<int>> ans;
-        for (int num : nums) ++counter[num];
-        
-        backtrack(curr, counter, ans);
-        
+        backtrack(0, nums, ans);
         return ans;
     }
 };
