@@ -1,6 +1,6 @@
 class Solution {
 private:
-    unordered_map<int, int> helper(vector<int>& rods, int left, int right){
+    map<int, int> helper(vector<int>& rods, int left, int right){
         set<pair<int, int>> states;
         states.insert({0, 0});
         for (int i = left; i < right; ++i){
@@ -16,7 +16,7 @@ private:
             
         }
         
-        unordered_map<int, int> dp;
+        map<int, int> dp;
         for (auto& [l, r] : states) dp[l - r] = max(dp[l - r], l);
         return dp;
     }
@@ -25,7 +25,7 @@ public:
     int tallestBillboard(vector<int>& rods) {
         int n = rods.size();
         
-        unordered_map<int, int> firstHalf = helper(rods, 0, n / 2), secondHalf = helper(rods, n / 2, n);
+        map<int, int> firstHalf = helper(rods, 0, n / 2), secondHalf = helper(rods, n / 2, n);
         int answer = 0;
         for (auto& [key, diff] : firstHalf){
             if (secondHalf.find(-key) != secondHalf.end())
