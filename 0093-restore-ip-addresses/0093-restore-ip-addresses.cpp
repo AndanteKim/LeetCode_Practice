@@ -1,24 +1,35 @@
 class Solution {
-public:
-    bool valid(const string& s, int start, int length){
-        return length == 1 || (s[start] != '0' && (length < 3 || s.substr(start, length) <= "255"));
+private:
+    void backtrack(int start, string& addr, int boundary, string& s, vector<string>& ans){
+        if (boundary == 0){
+            if (start == s.size()) ans.push_back(addr.substr(0, addr.size() - 1));
+            return;
+        }
+        
+        if (start + 1 <= s.size()){
+            addr = addr + s[start] + '.';
+            backtrack(start + 1, addr, boundary - 1, s, ans);
+            for (int i = 0; i < 2; ++i) addr.pop_back();
+        }
+    
+        if (start + 2 <= s.size() && s[start] != '0'){
+            addr = addr + s[start] + s[start + 1] + '.';
+            backtrack(start + 2, addr, boundary - 1, s, ans);
+            for (int i = 0; i < 3; ++i) addr.pop_back();
+        }
+        if (start + 3 <= s.size() && s[start] != '0' && stoi(s.substr(start, 3)) >= 0 && stoi(s.substr(start, 3)) <= 255){
+            addr = addr + s[start] + s[start + 1] + s[start + 2] + '.';
+            backtrack(start + 3, addr, boundary - 1, s, ans);
+            for (int i = 0; i < 4; ++i) addr.pop_back();
+        }
+            
     }
     
+public:
     vector<string> restoreIpAddresses(string s) {
         vector<string> ans;
-        int length = s.size();
-        for (int len1 = max(1, length - 9); len1 <= 3 && len1 <= length - 3; ++len1){
-            if (!valid(s, 0, len1)) continue;
-            
-            for (int len2 = max(1, length - len1 - 6); len2 <= 3 && len2 <= length - len1 - 2; ++len2){
-                if (!valid(s, len1, len2)) continue;
-                for(int len3 = max(1, length - len1 - len2 - 3); len3 <= 3 && len3 <= length - len1 - len2 - 1; ++len3){
-                    if (valid(s, len1 + len2, len3) && valid(s, len1 + len2 + len3, length - len1 - len2 - len3)) 
-                        ans.push_back(s.substr(0, len1) + "." + s.substr(len1, len2) + "." + s.substr(len1 + len2, len3) + \
-                                     "." + s.substr(len1 + len2 + len3));
-                }
-            }
-        }
+        string addr = "";
+        backtrack(0, addr, 4, s, ans);
         return ans;
     }
 };
