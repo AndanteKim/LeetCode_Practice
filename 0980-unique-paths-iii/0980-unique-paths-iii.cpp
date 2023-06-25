@@ -1,23 +1,24 @@
 class Solution {
 private:
-    int ans = 0, m, n;
+    int m, n;
     
-    void backtrack(int row, int col, int remain, vector<vector<int>>& grid){
+    int backtrack(int row, int col, int remain, vector<vector<int>>& grid){
         if (grid[row][col] == 2){
-            remain == 1? ++ans: ans;
-            return;
+            return remain == 1? 1: 0;
         }
         
         int temp = grid[row][col];
         grid[row][col] = -4;
         --remain;
+        int ans = 0;
         
         for (auto& [r, c] : vector<pair<int, int>>{{row + 1, col}, {row - 1, col}, {row, col + 1}, {row, col - 1}}){
             if (r < 0 || c < 0 || r >= m || c >= n) continue;
             if (grid[r][c] < 0) continue;
-            backtrack(r, c, remain, grid);
+            ans += backtrack(r, c, remain, grid);
         }
         grid[row][col] = temp;
+        return ans;
     }
     
 public:
@@ -33,8 +34,6 @@ public:
             }
         }
         
-        backtrack(startRow, startCol, nonObstacles, grid);
-        
-        return ans;
+        return backtrack(startRow, startCol, nonObstacles, grid);
     }
 };
