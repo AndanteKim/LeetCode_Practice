@@ -4,6 +4,9 @@ class Solution:
             self.ans += 1
             return
         
+        if grid[row][col] == 2:
+            return
+        
         temp = grid[row][col]
         grid[row][col] = -4
         remain -= 1
