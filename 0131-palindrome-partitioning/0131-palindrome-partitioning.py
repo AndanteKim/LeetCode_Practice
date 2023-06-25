@@ -1,18 +1,25 @@
 class Solution:
-    def dfs(self, ans: List[List[str]], s: str, start: int, currentList: List[str], dp: List[List[bool]]) -> None:
-        if start >= len(s): ans.append(currentList.copy())
+    def is_palindrome(self, word: str, start: int, end: int) -> bool:
+        i, j = start, end
+        while i < j:
+            if word[i] != word[j]:
+                return False
+            i += 1
+            j -= 1
+        return True
+    
+    def backtrack(self, start: int, curr: List[str], s: str, ans: List[List[str]]) -> None:
+        if start >= len(s):
+            ans.append(curr[:])
         
         for end in range(start, len(s)):
-            if s[start] == s[end] and (end - start <= 2 or dp[start + 1][end - 1]):
-                dp[start][end] = True
-                currentList.append(s[start : end + 1])
-                self.dfs(ans, s, end + 1, currentList, dp)
-                currentList.pop()
-    
+            if self.is_palindrome(s, start, end):
+                curr.append(s[start: end + 1])
+                self.backtrack(end + 1, curr, s, ans)
+                curr.pop()
     
     def partition(self, s: str) -> List[List[str]]:
-        length = len(s)
-        dp = [[False] * length for _ in range(length)]
-        answer, currentList = [], []
-        self.dfs(answer, s, 0, currentList, dp)
-        return answer
+        ans = []
+        self.backtrack(0, [], s, ans)
+        
+        return ans
