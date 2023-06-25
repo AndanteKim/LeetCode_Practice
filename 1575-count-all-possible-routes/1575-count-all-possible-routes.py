@@ -1,25 +1,16 @@
 class Solution:
-    def solve(self, curr_city: int, remain_fuel: int, finish: int, memo: Dict[Tuple[int], int], locations: List[int]) -> int:
-        if remain_fuel < 0:
-            return 0
-        if (curr_city, remain_fuel) in memo:
-            return memo[(curr_city, remain_fuel)]
-        
-        ans = 0
-        if curr_city == finish:
-            ans = 1
-        
-        for next_city in range(self.n):
-            if next_city != curr_city:
-                ans = (ans + self.solve(next_city, remain_fuel - abs(locations[curr_city] - locations[next_city]), finish, memo, locations)) % 1000000007
-        
-        memo[(curr_city, remain_fuel)] = ans
-        return ans
-    
     def countRoutes(self, locations: List[int], start: int, finish: int, fuel: int) -> int:
-        ans, self.n = 0, len(locations)
+        n = len(locations)
+        dp = [[0] * (fuel + 1) for _ in range(n)]
         
-        memo = dict()
-        return self.solve(start, fuel, finish, memo, locations)
+        for i in range(fuel + 1):
+            dp[finish][i] = 1
         
-        
+        for j in range(fuel + 1):
+            for i in range(n):
+                for k in range(n):
+                    if k == i:
+                        continue
+                    if abs(locations[i] - locations[k]) <= j:
+                        dp[i][j] = (dp[i][j] + dp[k][j - abs(locations[i] - locations[k])]) % 1000000007
+        return dp[start][fuel]
