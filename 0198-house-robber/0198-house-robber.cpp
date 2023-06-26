@@ -1,16 +1,10 @@
 class Solution {
-private:
-    int robFrom(int start, vector<int>& nums, unordered_map<int, int>& memo){
-        if (start >= nums.size()) return 0;
-        if (memo.find(start) != memo.end()) return memo[start];
-        
-        int ans = max(robFrom(start + 1, nums, memo), robFrom(start + 2, nums, memo) + nums[start]);
-        return memo[start] = ans;
-    }
-    
 public:
     int rob(vector<int>& nums) {
-        unordered_map<int, int> memo;
-        return robFrom(0, nums, memo);
+        int n = nums.size();
+        vector<int> dp(n + 1, 0);
+        dp[n] = 0, dp[n - 1] = nums[n - 1];
+        for (int i = n - 2; i >= 0; --i) dp[i] = max(dp[i + 1], dp[i + 2] + nums[i]);
+        return dp[0];
     }
 };
