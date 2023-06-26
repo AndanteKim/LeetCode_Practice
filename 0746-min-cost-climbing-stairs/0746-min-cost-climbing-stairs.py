@@ -1,10 +1,14 @@
 class Solution:
-    def minCostClimbingStairs(self, cost: List[int]) -> int:
-        n = len(cost)
-        @lru_cache(maxsize = None)
-        def dfs(i: int, n: int) -> int:
-            if i >= n - 1:
-                return 0
-            return min(cost[i] + dfs(i + 1, n), cost[i + 1] + dfs(i + 2, n))
+    def dp(self, i: int, memo: Dict[int, int], cost: List[int]) -> int:
+        if i <= 1:
+            return 0
         
-        return dfs(0, n)
+        if i in memo:
+            return memo[i]
+        
+        memo[i] = min(self.dp(i - 1, memo, cost) + cost[i - 1], self.dp(i - 2, memo, cost) + cost[i - 2])
+        return memo[i]
+    
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        memo = dict()
+        return self.dp(len(cost), memo, cost)
