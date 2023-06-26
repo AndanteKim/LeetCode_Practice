@@ -1,15 +1,10 @@
 class Solution:
-    def robFrom(self, i: int, nums: List[int], memo: Dict[int, int]) -> int:
-        if i >= len(nums):
-            return 0
-        
-        if i in memo:
-            return memo[i]
-        
-        ans = max(self.robFrom(i + 1, nums, memo), self.robFrom(i + 2, nums, memo) + nums[i])
-        memo[i] = ans
-        return ans
-    
     def rob(self, nums: List[int]) -> int:
-        memo = dict()
-        return self.robFrom(0, nums, memo)
+        n = len(nums)
+        max_rob = [0] * (n + 1)
+        
+        max_rob[n], max_rob[n - 1] = 0, nums[n - 1]
+        
+        for i in range(n - 2, -1, -1):
+            max_rob[i] = max(max_rob[i + 1], max_rob[i + 2] + nums[i])
+        return max_rob[0]
