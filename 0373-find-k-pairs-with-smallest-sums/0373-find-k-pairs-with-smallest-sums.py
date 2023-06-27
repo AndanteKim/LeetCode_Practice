@@ -1,12 +1,11 @@
 class Solution:
     def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:
         m, n = len(nums1), len(nums2)
+        ans, visited = [], set()
         
-        ans = []
-        visited = set()
         minHeap = [(nums1[0] + nums2[0], (0, 0))]
         visited.add((0, 0))
-        cnt = 0
+        count = 0
         
         while k > 0 and minHeap:
             val, (i, j) = heappop(minHeap)
@@ -20,4 +19,5 @@ class Solution:
                 heappush(minHeap, (nums1[i] + nums2[j + 1], (i, j + 1)))
                 visited.add((i, j + 1))
             k -= 1
+            
         return ans
