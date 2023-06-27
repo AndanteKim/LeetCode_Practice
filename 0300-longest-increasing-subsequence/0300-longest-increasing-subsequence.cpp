@@ -1,25 +1,14 @@
 class Solution {
-private:
-    int dp(int i, vector<int>& nums, vector<int>& memo){
-        if (memo[i] != -1) return memo[i];
-        
-        int ans = 1;
-        for (int j = 0; j < i; ++j){
-            if (nums[i] > nums[j])
-                ans = max(ans, dp(j, nums, memo) + 1);
-        }
-        return memo[i] = ans;
-    }
 public:
     int lengthOfLIS(vector<int>& nums) {
         int n = nums.size();
-        vector<int> memo(n, -1);
-        int ans = 0;
-        
+        vector<int> dp(n, 1);
         for (int i = 0; i < n; ++i){
-            ans = max(ans, dp(i, nums, memo));
+            for (int j = 0; j < i; ++j){
+                if (nums[i] > nums[j]) dp[i] = max(dp[i], dp[j] + 1);
+            }
         }
         
-        return ans;
+        return *max_element(dp.begin(), dp.end());
     }
 };
