@@ -1,26 +1,26 @@
 class Solution {
 public:
     double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end) {
+        vector<vector<pair<int, double>>> graph(n);
+        for (int i = 0; i < edges.size(); ++i){
+            graph[edges[i][0]].push_back({edges[i][1], succProb[i]});
+            graph[edges[i][1]].push_back({edges[i][0], succProb[i]});
+        }
+        
         vector<double> maxProb(n, 0.0);
         maxProb[start] = 1.0;
+        queue<int> queue{{start}};
         
-        for (int i = 0; i < n - 1; ++i){
-            bool hasUpdate = false;
-            for (int j = 0; j < edges.size(); ++j){
-                int u = edges[j][0], v = edges[j][1];
-                double currProb = succProb[j];
-                if (maxProb[u] * currProb > maxProb[v]){
-                    maxProb[v] = maxProb[u] * currProb;
-                    hasUpdate = true;
-                }
-                
-                if (maxProb[v] * currProb > maxProb[u]){
-                    maxProb[u] = maxProb[v] * currProb;
-                    hasUpdate = true;
+        while (!queue.empty()){
+            int currNode = queue.front();
+            queue.pop();
+            
+            for (auto& [nextNode, currProb] : graph[currNode]){
+                if (maxProb[currNode] * currProb > maxProb[nextNode]){
+                    maxProb[nextNode] = maxProb[currNode] * currProb;
+                    queue.push(nextNode);
                 }
             }
-            
-            if (!hasUpdate) break;
         }
         
         return maxProb[end];
