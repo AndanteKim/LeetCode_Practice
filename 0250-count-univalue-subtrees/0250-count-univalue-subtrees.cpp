@@ -11,26 +11,25 @@
  */
 class Solution {
 private:
-    int count = 0;
-    bool dfs(TreeNode* node){
-        if (!node) return true;
+    pair<bool, int> dfs(TreeNode* node){
+        if (!node) return {true, 0};
         
-        bool isLeftUniValue = dfs(node -> left);
-        bool isRightUniValue = dfs(node -> right);
+        pair<bool, int> left = dfs(node -> left);
+        pair<bool, int> right = dfs(node -> right);
         
+        bool isLeftUniValue = left.first;
+        bool isRightUniValue = right.first;
+        int count = left.second + right.second;
         if (isLeftUniValue && isRightUniValue){
-            if (node -> left && node -> val != node -> left -> val) return false;
-            if (node -> right && node -> val != node -> right -> val) return false;
-            ++count;
-            return true;
+            if (node -> left && node -> left -> val != node -> val) return {false, count};
+            if (node -> right && node -> right -> val != node -> val) return {false, count};
+            return {true, count + 1};
         }
-        
-        return false;
+        return {false, count};
     }
     
 public:
     int countUnivalSubtrees(TreeNode* root) {
-        dfs(root);
-        return count;
+        return dfs(root).second;
     }
 };
