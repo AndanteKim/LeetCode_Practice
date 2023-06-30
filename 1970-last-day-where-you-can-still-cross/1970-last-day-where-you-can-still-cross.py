@@ -1,43 +1,40 @@
-class DSU:
-    def __init__(self, n: int):
-        self.parents = list(range(n))
-        self.rank = [1] * n
-        
-    def find(self, x: int) -> int:
-        if self.parents[x] != x:
-            self.parents[x] = self.find(self.parents[x])
-        return self.parents[x]
-    
-    def union(self, x: int, y: int) -> None:
-        xset, yset = self.find(x), self.find(y)
-        
-        if xset == yset:
-            return
-        if self.rank[xset] > self.rank[yset]:
-            xset, yset = yset, xset
-        self.parents[xset] = yset
-        self.rank[yset] = self.rank[xset]
-
 class Solution:
-    def latestDayToCross(self, row: int, col: int, cells: List[List[int]]) -> int:
-        dsu = DSU(row * col + 2)
-        grid = [[0] * col for _ in range(row)]
-        directions = [(0, 1), (0, -1), (1, 0), (-1, 0), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+    def valid(self, row: int, col: int, visited: List[List[bool]], status: List[List[int]]) -> bool:
+        return 0 <= row < self.row and 0 <= col < self.col and not visited[row][col] and not status[row][col]
+    
+    def isAvailable(self, days: int, status: List[List[int]], cells: List[List[int]]) -> bool:
+        for i in range(days):
+            status[cells[i][0] - 1][cells[i][1] - 1] = 1
         
-        for i in range(row * col):
-            r, c = cells[i][0] - 1, cells[i][1] - 1
-            grid[r][c] = 1
-            idx1 = r * col + c + 1
-            for dr, dc in directions:
-                new_r, new_c = r + dr, c + dc
-                idx2 = new_r * col + new_c + 1
-                if 0 <= new_r < row and 0 <= new_c < col and grid[new_r][new_c] == 1:
-                    dsu.union(idx1, idx2)
+        visited = [[False] * self.col for _ in range(self.row)]
+        queue = deque([])
+        for i in range(self.col):
+            if status[0][i] == 0:
+                queue.append((0, i))
+        
+        while queue:
+            r, c = queue.popleft()
+            if r == self.row - 1:
+                return True
             
-            if c == 0:
-                dsu.union(0, idx1)
-            if c == col - 1:
-                dsu.union(row * col + 1, idx1)
-            if dsu.find(0) == dsu.find(row * col + 1):
-                return i
-        return -1
+            for nr, nc in (r + 1, c), (r - 1, c), (r, c + 1), (r, c - 1):
+                if self.valid(nr, nc, visited, status):
+                    visited[nr][nc] = True
+                    queue.append((nr, nc))
+        
+        return False
+    
+    def latestDayToCross(self, row: int, col: int, cells: List[List[int]]) -> int:
+        self.row, self.col = row, col
+        left, right = 0, row * col
+    
+        while left < right:
+            mid = (left + right) >> 1
+            status = [[0] * col for _ in range(row)]
+            if self.isAvailable(mid, status, cells):
+                left = mid + 1
+            else:
+                right = mid
+            
+        return left - 1
+            
