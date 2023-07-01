@@ -1,23 +1,22 @@
 class Solution:
-    def backtrack(self, i: int, zero_count: int, curr: List[int], cookies: List[int]) -> int:
-        if self.n - i < zero_count:
-            return float('inf')
-        
-        if i == self.n:
-            return max(curr)
-        
-        ans = float('inf')
-        for j in range(self.k):
-            zero_count -= int(curr[j] == 0)
-            curr[j] += cookies[i]
-            
-            ans = min(ans, self.backtrack(i + 1, zero_count, curr, cookies))
-            curr[j] -= cookies[i]
-            zero_count += int(curr[j] == 0)
-        
-        return ans
-    
     def distributeCookies(self, cookies: List[int], k: int) -> int:
-        self.n, curr, self.k = len(cookies), [0] * k, k
+        n = len(cookies)
+        dp = [[float('inf')] * (1 << n) for _ in range(k + 1)]
+        total = [0] * (1 << n)
         
-        return self.backtrack(0, k, curr, cookies)
+        for mask in range(1 << n):
+            accumulation = 0
+            for i in range(n):
+                if mask & (1 << i):
+                    accumulation += cookies[i]
+            total[mask] = accumulation
+        
+        dp[0][0] = 0
+        for person in range(1, k + 1):
+            for mask in range(1 << n):
+                submask = mask
+                while submask > 0:
+                    dp[person][mask] = min(dp[person][mask], max(total[submask], dp[person - 1][mask ^ submask]))
+                    submask = (submask - 1) & mask
+        
+        return dp[k][(1 << n) - 1]
