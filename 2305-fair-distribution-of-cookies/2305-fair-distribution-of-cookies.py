@@ -14,10 +14,10 @@ class Solution:
             ans = min(ans, self.backtrack(i + 1, zero_count, curr, cookies))
             curr[j] -= cookies[i]
             zero_count += int(curr[j] == 0)
+        
         return ans
     
     def distributeCookies(self, cookies: List[int], k: int) -> int:
-        self.n, self.k = len(cookies), k
-        curr = [0] * k
+        self.n, curr, self.k = len(cookies), [0] * k, k
         
         return self.backtrack(0, k, curr, cookies)
