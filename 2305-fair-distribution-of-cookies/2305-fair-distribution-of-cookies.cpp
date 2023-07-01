@@ -1,28 +1,30 @@
+typedef long long ll;
 class Solution {
-private:
-    int n, k;
-    int backtrack(int i, int zeroCount, vector<int>& curr, vector<int>& cookies){
-        if (n - i < zeroCount) return INT_MAX;
-        
-        if (i == n) return *max_element(curr.begin(), curr.end());
-        
-        int ans = INT_MAX;
-        for (int j = 0; j < k; ++j){
-            zeroCount -= int(curr[j] == 0);
-            curr[j] += cookies[i];
-            ans = min(ans, backtrack(i + 1, zeroCount, curr, cookies));
-            curr[j] -= cookies[i];
-            zeroCount += int(curr[j] == 0);
-        }
-        
-        return ans;
-    }
-    
 public:
     int distributeCookies(vector<int>& cookies, int k) {
-        this -> n = cookies.size();
-        this -> k = k;
-        vector<int> curr(k, 0);
-        return backtrack(0, k, curr, cookies);
+        int n = cookies.size();
+        vector<vector<int>> dp(k + 1, vector<int>(1ll << n, INT_MAX));
+        vector<int> sum(1ll << n);
+        
+        for (int mask = 0; mask < (1ll << n); ++mask){
+            int total = 0;
+            for (int i = 0; i < n; ++i){
+                if (mask & (1ll << i)){
+                    total += cookies[i];
+                }
+            }
+            sum[mask] = total;
+        }
+        
+        dp[0][0] = 0;
+        for (int person = 1; person <= k; ++person){
+            for (int mask = 0; mask < (1ll << n); ++mask){
+                for (int submask = mask; submask; submask = (submask - 1) & mask){
+                    dp[person][mask] = min(dp[person][mask], max(sum[submask], dp[person - 1][mask ^ submask]));
+                }
+            }
+        }
+        
+        return dp[k][(1ll << n) - 1];
     }
 };
