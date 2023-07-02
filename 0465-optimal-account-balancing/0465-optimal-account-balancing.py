@@ -1,24 +1,24 @@
 class Solution:
+    def dfs(self, total_mask: int, memo: List[int], balance_list: List[int]) -> int:
+        if memo[total_mask] != -1:
+            return memo[total_mask]
+        balance_sum, ans = 0, 0
+        
+        for i in range(12):
+            curr_bit = 1 << i
+            if total_mask & curr_bit:
+                balance_sum += balance_list[i]
+                ans = max(ans, self.dfs(total_mask ^ curr_bit, memo, balance_list))
+        memo[total_mask] = ans + (balance_sum == 0)
+        return memo[total_mask]
+    
     def minTransfers(self, transactions: List[List[int]]) -> int:
-        balance_map = defaultdict(int)
-        
+        balance_list = [0] * 12
         for start, end, amount in transactions:
-            balance_map[start] += amount
-            balance_map[end] -= amount
+            balance_list[start] += amount
+            balance_list[end] -= amount
         
-        balance_list = [amount for amount in balance_map.values() if amount]
-        n = len(balance_list)
+        memo = [-1] * (1 << 12)
+        memo[0] = 0
         
-        def dfs(curr: int) -> int:
-            while curr < n and not balance_list[curr]:
-                curr += 1
-            if curr == n:
-                return 0
-            cost = float('inf')
-            for nxt in range(curr + 1, n):
-                if balance_list[nxt] * balance_list[curr] < 0:
-                    balance_list[nxt] += balance_list[curr]
-                    cost = min(cost, 1 + dfs(curr + 1))
-                    balance_list[nxt] -= balance_list[curr]
-            return cost
-        return dfs(0)
+        return 12 - self.dfs((1 << 12) - 1, memo, balance_list)
