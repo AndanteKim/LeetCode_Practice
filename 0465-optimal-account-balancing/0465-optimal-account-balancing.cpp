@@ -1,29 +1,31 @@
+typedef long long ll;
+
 class Solution {
 private:
-    int n = 12;
-    int dfs(int curr, vector<int>& balanceMap){
-        while (curr < n && !balanceMap[curr]) ++curr;
-        if (curr == n) return 0;
+    int dfs(int totalMask, vector<int>& balanceList, vector<int>& memo){
+        if (memo[totalMask] != -1) return memo[totalMask];
         
-        int cost = INT_MAX;
-        for (int next = curr + 1; next < n; ++next){
-            if (balanceMap[next] * balanceMap[curr] < 0){
-                balanceMap[next] += balanceMap[curr];
-                cost = min(cost, 1 + dfs(curr + 1, balanceMap));
-                balanceMap[next] -= balanceMap[curr];
+        ll balanceSum = 0;
+        int ans = 0;
+        for (int i = 0; i < 12; ++i){
+            int currBit = 1 << i;
+            if (totalMask & currBit){
+                balanceSum += balanceList[i];
+                ans = max(ans, dfs(totalMask ^ currBit, balanceList, memo));
             }
         }
-        return cost;
+        memo[totalMask] = ans + (balanceSum == 0);
+        return memo[totalMask];
     }
     
 public:
     int minTransfers(vector<vector<int>>& transactions) {
-        vector<int> balanceMap(12);
+        vector<int> balanceList(12), memo(1 << 12, -1);
         for (vector<int>& transaction : transactions){
-            balanceMap[transaction[0]] += transaction[2];
-            balanceMap[transaction[1]] -= transaction[2];
+            balanceList[transaction[0]] += transaction[2];
+            balanceList[transaction[1]] -= transaction[2];
         }
-        
-        return dfs(0, balanceMap);
+        memo[0] = 0;
+        return 12 - dfs((1 << 12) - 1, balanceList, memo);
     }
 };
