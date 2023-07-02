@@ -1,26 +1,29 @@
 class Solution:
-    ans = 0
-    def maxRequest(self, requests: List[List[int]], indegree: List[int], n: int, start: int, count: int) -> None:
-        if (start == len(requests)):
+    def maximumRequests(self, n: int, requests: List[List[int]]) -> int:
+        ans = 0
+        
+        for mask in range(1 << len(requests)):
+            indegree = [0] * n
+            pos = len(requests) - 1
+            bit_count = bin(mask).count('1')
+            
+            if bit_count <= ans:
+                continue
+            
+            curr = mask
+            while curr > 0 and pos >= 0:
+                if curr & 1:
+                    indegree[requests[pos][0]] -= 1
+                    indegree[requests[pos][1]] += 1
+                curr >>= 1
+                pos -= 1
+            
+            flag = 1
             for i in range(n):
                 if indegree[i]:
-                    return
+                    flag = 0
+                    break
             
-            self.ans = max(self.ans, count)
-            return
-        
-        indegree[requests[start][0]] -= 1
-        indegree[requests[start][1]] += 1
-        
-        self.maxRequest(requests, indegree, n, start + 1, count + 1)
-        
-        indegree[requests[start][0]] += 1
-        indegree[requests[start][1]] -= 1
-        
-        self.maxRequest(requests, indegree, n, start + 1, count)
-    
-    def maximumRequests(self, n: int, requests: List[List[int]]) -> int:
-        indegree = [0] * n
-        self.maxRequest(requests, indegree, n, 0, 0)
-        
-        return self.ans  
+            if flag:
+                ans = bit_count
+        return ans
