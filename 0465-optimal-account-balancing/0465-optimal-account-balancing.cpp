@@ -1,11 +1,9 @@
-typedef long long ll;
-
 class Solution {
 private:
     int dfs(int totalMask, vector<int>& balanceList, vector<int>& memo){
         if (memo[totalMask] != -1) return memo[totalMask];
         
-        ll balanceSum = 0;
+        int balanceSum = 0;
         int ans = 0;
         for (int i = 0; i < 12; ++i){
             int currBit = 1 << i;
