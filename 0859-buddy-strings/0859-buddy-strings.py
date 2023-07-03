@@ -1,28 +1,18 @@
 class Solution:
     def buddyStrings(self, s: str, goal: str) -> bool:
-        if len(s) != len(goal):
-            return False
+        if goal == s:
+            return len(set(s)) < len(s)
         
-        if s == goal:
-            freq = [0] * 26
-            for c in s:
-                freq[ord(c) - ord('a')] += 1
-                if freq[ord(c) - ord('a')] == 2:
-                    return True
-            return False
+        n = len(s)
+        l, r = 0, n - 1
+        while l < n and s[l] == goal[l]:
+            l += 1
         
-        firstIdx, secondIdx = -1, -1
+        while r >= 0 and s[r] == goal[r]:
+            r -= 1
         
-        for i in range(len(s)):
-            if s[i] != goal[i]:
-                if firstIdx == -1:
-                    firstIdx = i
-                elif secondIdx == -1:
-                    secondIdx = i
-                else:
-                    return False
+        if l < r:
+            s = list(s)
+            s[l], s[r] = s[r], s[l]
         
-        if secondIdx == -1:
-            return False
-        
-        return s[firstIdx] == goal[secondIdx] and s[secondIdx] == goal[firstIdx]
+        return "".join(s) == goal
