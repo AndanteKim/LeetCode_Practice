@@ -1,26 +1,26 @@
 class Solution {
 public:
     bool buddyStrings(string s, string goal) {
-        if (s.size() != goal.size()) return false;
-        
-        if (s == goal){
-            vector<int> freq(26);
-            for (char& c : s){
-                ++freq[c - 'a'];
-                if (freq[c - 'a'] == 2) return true;
-            }
-            return false;
+        if (goal == s){
+            unordered_set<char> l_s;
+            for (char& c : s) l_s.insert(c);
+            return l_s.size() < s.size();
         }
         
-        int firstIdx = -1, secondIdx = -1;
-        for (int i = 0; i < s.size(); ++i){
-            if (s[i] != goal[i]){
-                if (firstIdx == -1) firstIdx = i;
-                else if (secondIdx == -1) secondIdx = i;
-                else return false;
-            }
+        int n = s.size();
+        int l = 0, r = n - 1;
+        while (l < n && s[l] == goal[l]) ++l;
+        while (r >= 0 && s[r] == goal[r]) --r;
+        
+        if (l < r){
+            vector<char> l_s;
+            for (char& c : s) l_s.push_back(c);
+            swap(l_s[l], l_s[r]);
+        
+            string swap_s = "";
+            for (char& c: l_s) swap_s += c;
+            return swap_s == goal;
         }
-        if (secondIdx == -1) return false;
-        return s[firstIdx] == goal[secondIdx] && s[secondIdx] == goal[firstIdx];
+        return s == goal;
     }
 };
