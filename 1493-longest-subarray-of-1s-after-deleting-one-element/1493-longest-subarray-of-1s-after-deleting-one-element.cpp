@@ -1,25 +1,21 @@
 class Solution {
 public:
     int longestSubarray(vector<int>& nums) {
-        int n = nums.size(), ans = 0;
+        int n = nums.size(), allOnes = 0, oneZero = 0, ans = 0;
         
-        if (accumulate(nums.begin(), nums.end(), 0) == n) return n - 1;
-        
-        vector<pair<int, int>> dp(n);
-        dp[0].first = nums[0];
-        
-        for (int i = 1; i < n; ++i){
-            if (nums[i] == 1){
-                dp[i].first = dp[i - 1].first + 1;
-                dp[i].second = dp[i - 1].second + 1;
+        for (int num : nums){
+            if (num == 1){
+                ++allOnes;
+                ++oneZero;
             }
             else{
-                dp[i].first = 0;
-                dp[i].second = dp[i - 1].first;
+                oneZero = allOnes;
+                allOnes = 0;
             }
-            ans = max(ans, max(dp[i].first, dp[i].second));
+            
+            ans = max(ans, max(allOnes, oneZero));
         }
         
-        return ans;
+        return allOnes == n? n - 1 : ans;
     }
 };
