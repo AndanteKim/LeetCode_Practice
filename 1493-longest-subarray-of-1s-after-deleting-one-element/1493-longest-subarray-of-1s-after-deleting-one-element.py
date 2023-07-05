@@ -1,13 +1,16 @@
 class Solution:
     def longestSubarray(self, nums: List[int]) -> int:
-        ans, zero_count, left = 0, 0, 0
+        n = len(nums)
+        if sum(nums) == n:
+            return n - 1
         
-        for right in range(len(nums)):
-            zero_count += (nums[right] == 0)
-            
-            while zero_count > 1:
-                zero_count -= (nums[left] == 0)
-                left += 1
-            
-            ans = max(ans, right - left)
-        return ans
+        dp = [[0] * 2 for _ in range(n)]
+        dp[0][0] = nums[0]
+        
+        for i in range(1, n):
+            if nums[i] == 1:
+                dp[i][0], dp[i][1] = dp[i - 1][0] + 1, dp[i - 1][1] + 1
+            else:
+                dp[i][0], dp[i][1] = 0, dp[i - 1][0]
+        
+        return max(i for j in dp for i in j)
