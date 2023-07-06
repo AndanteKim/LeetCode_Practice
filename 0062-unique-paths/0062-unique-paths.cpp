@@ -1,13 +1,21 @@
-typedef long long ll;
 class Solution {
+private:
+    int dp(int row, int col, vector<vector<int>>& memo){
+        if (row + col == 0) return 1;
+        
+        if (memo[row][col] != -1) return memo[row][col];
+        
+        int ways = 0;
+        if (row > 0) ways += dp(row - 1, col, memo);
+        if (col > 0) ways += dp(row, col - 1, memo);
+        
+        return memo[row][col] = ways;
+    }
+    
 public:
     int uniquePaths(int m, int n) {
-        int C = m + n - 2, r = m - 1;
-        ll ans = 1;
+        vector<vector<int>> memo(m, vector<int>(n, -1));
         
-        for (int i = 1; i <= r; ++i){
-            ans = ans * (C - r + i) / i;
-        }
-        return ans;
+        return dp(m - 1, n - 1, memo);
     }
 };
