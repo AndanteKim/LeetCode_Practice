@@ -1,18 +1,17 @@
 class Solution:
     def minPathSum(self, grid: List[List[int]]) -> int:
+        m, n = len(grid), len(grid[0])
+        dp = [float('inf')] * n
+        dp[0] = 0
         
-        @lru_cache(maxsize = None)
-        def dp(row: int, col: int) -> int:
-            if row + col == 0:
-                return grid[0][0]
-            
-            ans = float('inf')
-            if row > 0:
-                ans = min(ans, dp(row - 1, col))
-            
-            if col > 0:
-                ans = min(ans, dp(row, col - 1))
-                
-            return ans + grid[row][col]
+        for row in range(m):
+            next_row = [0] * n
+            for col in range(n):
+                next_row[col] = dp[col]
+                if col > 0:
+                    next_row[col] = min(next_row[col], next_row[col - 1])
+                next_row[col] += grid[row][col]
+            dp = next_row
         
-        return dp(len(grid) - 1, len(grid[0]) - 1)
+        return dp[n - 1]
+        
