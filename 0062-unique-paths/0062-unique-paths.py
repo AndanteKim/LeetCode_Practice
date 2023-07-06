@@ -1,9 +1,19 @@
 class Solution:
-    @lru_cache(maxsize = None)
-    def permutation(self, i: int) -> int:
-        if i <= 1:
-            return 1
-        return i * self.permutation(i - 1)
-    
     def uniquePaths(self, m: int, n: int) -> int:
-        return self.permutation(m + n - 2)//(self.permutation(m - 1) * (self.permutation(n - 1)))
+        
+        @lru_cache(maxsize = None)
+        def dp(i: int, j: int) -> int:
+            if i + j == 0:
+                return 1
+            
+            ways = 0
+            if i > 0:
+                ways += dp(i - 1, j)
+            
+            if j > 0:
+                ways += dp(i, j - 1)
+            
+            return ways
+        
+        return dp(m - 1, n - 1)
+        
