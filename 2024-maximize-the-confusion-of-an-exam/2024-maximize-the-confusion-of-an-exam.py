@@ -1,15 +1,14 @@
 class Solution:
     def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
-        max_size = k
-        count = Counter(answerKey[:k])
+        max_size = 0
+        count = {'T': 0, 'F': 0}
         
-        left = 0
-        for right in range(k, len(answerKey)):
+        for right in range(len(answerKey)):
             count[answerKey[right]] += 1
+            minor = min(count['T'], count['F'])
             
-            while min(count['T'], count['F']) > k:
-                count[answerKey[left]] -= 1
-                left += 1
-            max_size = max(max_size, right - left + 1)
-        
+            if minor <= k:
+                max_size += 1
+            else:
+                count[answerKey[right - max_size]] -= 1
         return max_size
