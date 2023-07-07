@@ -1,14 +1,25 @@
 class Solution:
+    def isValid(self, size: int, answerKey: str, k: int) -> bool:
+        counter = Counter(answerKey[:size])
+        if min(counter['T'], counter['F']) <= k:
+            return True
+        for i in range(size, self.n):
+            counter[answerKey[i]] += 1
+            counter[answerKey[i - size]] -= 1
+            if min(counter['T'], counter['F']) <= k:
+                return True
+        return False
+    
     def maxConsecutiveAnswers(self, answerKey: str, k: int) -> int:
-        max_size = 0
-        count = {'T': 0, 'F': 0}
+        self.n = len(answerKey)
+        left, right = k, self.n
         
-        for right in range(len(answerKey)):
-            count[answerKey[right]] += 1
-            minor = min(count['T'], count['F'])
+        while left < right:
+            mid = (left + right + 1) >> 1
             
-            if minor <= k:
-                max_size += 1
+            if self.isValid(mid, answerKey, k):
+                left = mid
             else:
-                count[answerKey[right - max_size]] -= 1
-        return max_size
+                right = mid - 1
+        
+        return left
