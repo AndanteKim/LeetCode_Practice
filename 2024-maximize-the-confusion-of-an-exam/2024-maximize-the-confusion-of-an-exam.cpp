@@ -1,20 +1,20 @@
 class Solution {
 public:
     int maxConsecutiveAnswers(string answerKey, int k) {
-        int ans = k, n = answerKey.size();
+        int maxSize = 0, n = answerKey.size();
         unordered_map<char, int> count;
-        for (int i = 0; i < k; ++i) ++count[answerKey[i]];
         
-        int left = 0;
-        for (int right = k; right < n; ++right){
+        for (int right = 0; right < n; ++right){
             ++count[answerKey[right]];
-            while (min(count['T'], count['F']) > k){
-                --count[answerKey[left]];
-                ++left;
+            int minor = min(count['T'], count['F']);
+            if (minor <= k) {
+                ++maxSize;
             }
-            ans = max(ans, right - left + 1);
+            else{
+                --count[answerKey[right - maxSize]];
+            }
         }
         
-        return ans;
+        return maxSize;
     }
 };
