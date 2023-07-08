@@ -1,20 +1,29 @@
 class Solution:
-    def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
-        ans, chars, left, n, curr = 0, dict(), 0, len(s), 0
+    def isValid(self, size: int, s: str) -> bool:
+        counter = Counter(s[:size])
+        if len(counter) <= self.k:
+            return True
         
-        for right in range(n):
-            add = s[right]
-            if add not in chars:
-                curr += 1
-            chars[add] = chars.get(add, 0) + 1
-            
-            while len(chars) > k:
-                chars[s[left]] -= 1
-                if chars[s[left]] == 0:
-                    del chars[s[left]]
-                
-                left += 1
-                    
-            ans = max(ans, right - left + 1)
-        return ans
-            
+        for i in range(size, self.n):
+            counter[s[i]] += 1
+            counter[s[i - size]] -= 1
+            if counter[s[i - size]] == 0:
+                del counter[s[i - size]]
+            if len(counter) <= self.k:
+                return True
+        return False
+    
+    def lengthOfLongestSubstringKDistinct(self, s: str, k: int) -> int:
+        self.n, self.k = len(s), k
+        if k >= self.n:
+            return self.n
+        left, right = k, self.n
+        
+        while left < right:
+            mid = left + ((right - left + 1) >> 1)
+            if self.isValid(mid, s):
+                left = mid
+            else:
+                right = mid - 1
+        
+        return left
