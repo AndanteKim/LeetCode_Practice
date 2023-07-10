@@ -1,15 +1,17 @@
 class Solution:
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
-        total, n = sum(nums), len(nums)
-        dp = [[0] * (2 * total + 1) for _ in range(n)]
-        dp[0][nums[0] + total] = 1
-        dp[0][-nums[0] + total] += 1
+        total = sum(nums)
+        dp = [0] * (2 * total + 1)
+        dp[nums[0] + total] = 1
+        dp[-nums[0] + total] += 1
         
-        for i in range(1, n):
+        for i in range(1, len(nums)):
+            nxt = [0] * (2 * total + 1)
             for s in range(-total, total + 1):
-                if dp[i - 1][s + total] > 0:
-                    dp[i][s + total + nums[i]] += dp[i - 1][s + total]
-                    dp[i][s + total - nums[i]] += dp[i - 1][s + total]
+                if dp[s + total] > 0:
+                    nxt[s + total + nums[i]] += dp[s + total]
+                    nxt[s + total - nums[i]] += dp[s + total]
+            dp = nxt
         
-        return 0 if abs(target) > total else dp[n - 1][target + total]
-                
+        return 0 if abs(target) > total else dp[target + total]
+        
