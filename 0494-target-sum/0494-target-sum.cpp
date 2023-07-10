@@ -1,20 +1,22 @@
 class Solution {
 public:
     int findTargetSumWays(vector<int>& nums, int target) {
-        int total = accumulate(nums.begin(), nums.end(), 0), n = nums.size();
-        vector<vector<int>> dp(n, vector<int>(2 * total + 1));
-        dp[0][nums[0] + total] = 1;
-        ++dp[0][-nums[0] + total];
+        int total = accumulate(nums.begin(), nums.end(), 0);
+        vector<int> dp(2 * total + 1);
+        dp[nums[0] + total] = 1;
+        ++dp[-nums[0] + total];
         
-        for (int i = 1; i < n; ++i){
+        for (int i = 1; i < nums.size(); ++i){
+            vector<int> nxt(2 * total + 1);
             for (int sum = -total; sum <= total; ++sum){
-                if (dp[i - 1][sum + total] > 0){
-                    dp[i][sum + total + nums[i]] += dp[i - 1][sum + total];
-                    dp[i][sum + total - nums[i]] += dp[i - 1][sum + total];
+                if (dp[sum + total] > 0){
+                    nxt[sum + total + nums[i]] += dp[sum + total];
+                    nxt[sum + total - nums[i]] += dp[sum + total];
                 }
             }
+            dp = nxt;
         }
         
-        return abs(target) > total? 0 : dp[n - 1][target + total];
+        return (abs(target) > total)? 0 : dp[target + total];
     }
 };
