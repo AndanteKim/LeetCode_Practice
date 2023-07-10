@@ -10,24 +10,20 @@
  * };
  */
 class Solution {
+private:
+    int dfs(TreeNode* node, int height){
+        if (!node -> left && !node -> right) return height;
+        int ans = INT_MAX;
+        
+        if (node -> left) ans = min(ans, dfs(node -> left, height + 1));
+        if (node -> right) ans = min(ans, dfs(node -> right, height + 1));
+        return ans;
+    }
+    
 public:
     int minDepth(TreeNode* root) {
         if (!root) return 0;
         
-        queue<pair<TreeNode*, int>> queue;
-        queue.push({root, 1});
-        int ans = INT_MAX;
-        
-        while (!queue.empty()){
-            auto [node, height] = queue.front();
-            queue.pop();
-            
-            if (!node -> left && !node -> right) ans = min(ans, height);
-            
-            if (node -> left) queue.push({node -> left, height + 1});
-            if (node -> right) queue.push({node -> right, height + 1});
-        }
-        
-        return ans;
+        return dfs(root, 1);
     }
 };
