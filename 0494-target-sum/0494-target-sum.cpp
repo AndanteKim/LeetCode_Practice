@@ -1,23 +1,22 @@
 class Solution {
 private:
-    int n, target;
-    int dfs(int idx, int total, vector<int>& nums){
-        if (idx == n && total == target) return 1;
-        if (idx >= n && total != target) return 0;
+    int n, target, total;
+    int calculate(vector<int>& nums, int idx, int sum, vector<vector<int>>& memo){
+        if (idx == n){
+            if (sum == target) return 1;
+            return 0;
+        }
         
-        int ways = 0;
-        total += nums[idx];
-        ways += dfs(idx + 1, total, nums);
-        total -= nums[idx];
-        total -= nums[idx];
-        ways += dfs(idx + 1, total, nums);
-        
-        return ways;
+        if (memo[idx][sum + total] != INT_MIN) return memo[idx][sum + total];
+        int add = calculate(nums, idx + 1, sum + nums[idx], memo);
+        int subtract = calculate(nums, idx + 1, sum - nums[idx], memo);
+        return memo[idx][sum + total] = add + subtract;
     }
     
 public:
     int findTargetSumWays(vector<int>& nums, int target) {
-        n = nums.size(), this -> target = target;
-        return dfs(0, 0, nums);
+        this -> n = nums.size(), this -> total = accumulate(nums.begin(), nums.end(), 0), this -> target = target;
+        vector<vector<int>> memo(this -> n, vector<int>(2 * this -> total + 1, INT_MIN));
+        return calculate(nums, 0, 0, memo);
     }
 };
