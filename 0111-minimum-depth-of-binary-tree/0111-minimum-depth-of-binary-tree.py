@@ -5,18 +5,18 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def dfs(self, node: Optional[TreeNode], height: int) -> int:
+        if not node.left and not node.right:
+            return height
+        ans = float('inf')
+        if node.left:
+            ans = min(ans, self.dfs(node.left, height + 1))
+        if node.right:
+            ans = min(ans, self.dfs(node.right, height + 1))
+        return ans
+    
     def minDepth(self, root: Optional[TreeNode]) -> int:
-        queue, ans = deque([(root, 1)]), float('inf')
         if not root:
             return 0
-        while queue:
-            node, height = queue.popleft()
-            if not node.left and not node.right:
-                ans = min(ans, height)
-            
-            if node.left:
-                queue.append((node.left, height + 1))
-            
-            if node.right:
-                queue.append((node.right, height + 1))
-        return ans
+        
+        return self.dfs(root, 1)
