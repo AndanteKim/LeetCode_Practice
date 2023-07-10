@@ -1,19 +1,15 @@
 class Solution:
     def findTargetSumWays(self, nums: List[int], target: int) -> int:
-        n = len(nums)
-        @lru_cache(maxsize = None)
-        def dfs(idx: int, total: int) -> int:
-            if idx == n and total == target:
-                return 1
-            if idx >= n and total != target:
-                return 0
-            
-            ways = 0
-            total += nums[idx]
-            ways += dfs(idx + 1, total)
-            total -= nums[idx]
-            total -= nums[idx]
-            ways += dfs(idx + 1, total)
-            return ways        
+        total, n = sum(nums), len(nums)
+        dp = [[0] * (2 * total + 1) for _ in range(n)]
+        dp[0][nums[0] + total] = 1
+        dp[0][-nums[0] + total] += 1
         
-        return dfs(0, 0)
+        for i in range(1, n):
+            for s in range(-total, total + 1):
+                if dp[i - 1][s + total] > 0:
+                    dp[i][s + total + nums[i]] += dp[i - 1][s + total]
+                    dp[i][s + total - nums[i]] += dp[i - 1][s + total]
+        
+        return 0 if abs(target) > total else dp[n - 1][target + total]
+                
