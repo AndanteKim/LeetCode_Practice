@@ -1,22 +1,20 @@
 class Solution {
-private:
-    int n, target, total;
-    int calculate(vector<int>& nums, int idx, int sum, vector<vector<int>>& memo){
-        if (idx == n){
-            if (sum == target) return 1;
-            return 0;
-        }
-        
-        if (memo[idx][sum + total] != INT_MIN) return memo[idx][sum + total];
-        int add = calculate(nums, idx + 1, sum + nums[idx], memo);
-        int subtract = calculate(nums, idx + 1, sum - nums[idx], memo);
-        return memo[idx][sum + total] = add + subtract;
-    }
-    
 public:
     int findTargetSumWays(vector<int>& nums, int target) {
-        this -> n = nums.size(), this -> total = accumulate(nums.begin(), nums.end(), 0), this -> target = target;
-        vector<vector<int>> memo(this -> n, vector<int>(2 * this -> total + 1, INT_MIN));
-        return calculate(nums, 0, 0, memo);
+        int total = accumulate(nums.begin(), nums.end(), 0), n = nums.size();
+        vector<vector<int>> dp(n, vector<int>(2 * total + 1));
+        dp[0][nums[0] + total] = 1;
+        ++dp[0][-nums[0] + total];
+        
+        for (int i = 1; i < n; ++i){
+            for (int sum = -total; sum <= total; ++sum){
+                if (dp[i - 1][sum + total] > 0){
+                    dp[i][sum + total + nums[i]] += dp[i - 1][sum + total];
+                    dp[i][sum + total - nums[i]] += dp[i - 1][sum + total];
+                }
+            }
+        }
+        
+        return abs(target) > total? 0 : dp[n - 1][target + total];
     }
 };
