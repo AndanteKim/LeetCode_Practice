@@ -7,34 +7,25 @@
 
 class Solution:
     def distanceK(self, root: TreeNode, target: TreeNode, k: int) -> List[int]:
-        if k == 0:
-            return [target.val]
         
-        graph, ans = defaultdict(list), []
-        
-        queue = deque([(root, None)])
-        while queue:
-            node, parent = queue.popleft()
-            graph[node].append(parent)
-            graph[parent].append(node)
+        def add_parent(curr: TreeNode, parent: Optional[TreeNode]) -> None:
+            if curr:
+                curr.parent = parent
+                add_parent(curr.left, curr)
+                add_parent(curr.right, curr)
             
-            if node.left:
-                queue.append((node.left, node))
-            if node.right:
-                queue.append((node.right, node))
-        
-        queue, visited = deque([(target, 0)]), set([target.val])
-        while queue:
-            node, level = queue.popleft()
-            if level == k:
-                ans.append(node.val)
-                continue
+        add_parent(root, None)
+        ans, visited = [], set()
+        def dfs(curr: Optional[TreeNode], dist: int) -> None:
+            if not curr or curr in visited:
+                return
+            visited.add(curr)
+            if dist == 0:
+                ans.append(curr.val)
+                return
+            dfs(curr.parent, dist - 1)
+            dfs(curr.left, dist - 1)
+            dfs(curr.right, dist - 1)
             
-            for neighbor in graph[node]:
-                if neighbor and neighbor.val not in visited:
-                    visited.add(neighbor.val)
-                    queue.append((neighbor, level + 1))
-        
+        dfs(target, k)
         return ans
-        
-        
