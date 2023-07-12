@@ -15,16 +15,11 @@ class Solution:
     
     def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
         n = len(graph)
-        adj = [[] for _ in range(n)]
-        
-        for i in range(n):
-            for node in graph[i]:
-                adj[i].append(node)
         
         visited, inStack = [False] * n, [False] * n
         
         for i in range(n):
-            self.dfs(i, adj, visited, inStack)
+            self.dfs(i, graph, visited, inStack)
         
         ans = []
         for i in range(n):
