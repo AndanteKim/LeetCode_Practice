@@ -1,32 +1,34 @@
 class Solution:
+    def dfs(self, node: int, adj: List[List[int]], visited: List[bool], inStack: List[bool]) -> bool:
+        if inStack[node]:
+            return True
+        
+        if visited[node]:
+            return False
+        visited[node] = True
+        inStack[node] = True
+        for neighbor in adj[node]:
+            if self.dfs(neighbor, adj, visited, inStack):
+                return True
+        inStack[node] = False
+        return False
+    
     def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
         n = len(graph)
-        indegree = [0] * n
         adj = [[] for _ in range(n)]
         
         for i in range(n):
             for node in graph[i]:
-                adj[node].append(i)
-                indegree[i] += 1
-    
-        queue = deque()
+                adj[i].append(node)
+        
+        visited, inStack = [False] * n, [False] * n
         
         for i in range(n):
-            if indegree[i] == 0:
-                queue.append(i)
-        
-        safe = [False] * n
-        while queue:
-            node = queue.popleft()
-            safe[node] = True
-            
-            for neighbor in adj[node]:
-                indegree[neighbor] -= 1
-                if indegree[neighbor] == 0:
-                    queue.append(neighbor)
+            self.dfs(i, adj, visited, inStack)
         
         ans = []
         for i in range(n):
-            if safe[i]:
+            if not inStack[i]:
                 ans.append(i)
+        
         return ans
