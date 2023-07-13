@@ -1,28 +1,30 @@
 class Solution {
+private:
+    bool dfs(int node, vector<vector<int>>& adj, vector<bool>& visited, vector<bool>& inStack){
+        if (inStack[node]) return true;
+        if (visited[node]) return false;
+        
+        visited[node] = true, inStack[node] = true;
+        for (int neighbor : adj[node]){
+            if (dfs(neighbor, adj, visited, inStack)) return true;
+        }
+        inStack[node] = false;
+        return false;
+    }
+    
 public:
     bool canFinish(int numCourses, vector<vector<int>>& prerequisites) {
+        vector<bool> visited(numCourses, false), inStack(numCourses, false);
         vector<vector<int>> adj(numCourses);
-        vector<int> indegree(numCourses);
         
         for (vector<int>& prerequisite : prerequisites){
             adj[prerequisite[1]].push_back(prerequisite[0]);
-            ++indegree[prerequisite[0]];
         }
         
-        queue<int> queue;
-        for (int i = 0; i < numCourses; ++i) if (indegree[i] == 0) queue.push(i);
-        
-        int nodesVisited = 0;
-        while (!queue.empty()){
-            int curr = queue.front();
-            queue.pop();
-            ++nodesVisited;
-            for (int neighbor : adj[curr]){
-                --indegree[neighbor];
-                if (!indegree[neighbor]) queue.push(neighbor);
-            }
+        for (int i = 0; i < numCourses; ++i){
+            if (dfs(i, adj, visited, inStack)) return false;
         }
         
-        return nodesVisited == numCourses;
+        return true;
     }
 };
