@@ -1,28 +1,25 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        adj, required, finished = [[] for _ in range(numCourses)], [[] for _ in range(numCourses)], [False] * numCourses
+        indegree = [0] * numCourses
+        adj = [[] for _ in range(numCourses)]
         
-        for seq, need in prerequisites:
-            adj[need].append(seq)
-            required[seq].append(need)
+        for nxt, need in prerequisites:
+            adj[need].append(nxt)
+            indegree[nxt] += 1
         
-        for numCourse in range(numCourses):
-            if not finished[numCourse]:
-                queue = deque([numCourse])
+        queue = deque()
+        for i in range(numCourses):
+            if indegree[i] == 0:
+                queue.append(i)
                 
-                while queue:
-                    curr = queue.popleft()
-                    flag = True
-                    for course in required[curr]:
-                        if not finished[course]:
-                            flag = False
-                    if flag:
-                        finished[curr] = True
-                        for next_sub in adj[curr]:
-                            if not finished[next_sub]:
-                                queue.append(next_sub)
+        nodesVisited = 0
+        while queue:
+            node = queue.popleft()
+            nodesVisited += 1
             
-        return True if all(finished) else False
-                
-                    
+            for neighbor in adj[node]:
+                indegree[neighbor] -= 1
+                if indegree[neighbor] == 0:
+                    queue.append(neighbor)
         
+        return nodesVisited == numCourses
