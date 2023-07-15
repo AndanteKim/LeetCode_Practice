@@ -9,27 +9,22 @@
  */
 class Solution {
 private:
-    bool dfs(TreeNode* node, TreeNode* target){
-        if (node == target) return true;
-        if (!node) return false;
-        return dfs(node -> left, target) || dfs(node -> right, target);
-    }
-    
-    TreeNode* LCA(TreeNode* node, TreeNode* p, TreeNode* q){
-        if (!node || node == p || node == q) return node;
-        TreeNode* left = LCA(node -> left, p, q);
-        TreeNode* right = LCA(node -> right, p, q);
-        if (left && right) return node;
-        else if (left) return left;
-        return right;
+    bool nodesFound = false;
+    TreeNode* dfs(TreeNode* node, TreeNode* p, TreeNode* q){
+        if (!node) return node;
+        TreeNode* left = dfs(node -> left, p, q), * right = dfs(node -> right, p, q);
+        int conditions = 0;
+        if (node == p || node == q) ++conditions;
+        if (left) ++conditions;
+        if (right) ++conditions;
+        if (conditions == 2) nodesFound = true;
+        if ((left && right) || node == p || node == q) return node;
+        return left? left : right;
     }
     
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        TreeNode* ans = LCA(root, p, q);
-        
-        if (ans == p) return dfs(p, q)? p : nullptr;
-        else if (ans == q) return dfs(q, p)? q: nullptr;
-        return ans;
+        TreeNode* ans = dfs(root, p, q);
+        return nodesFound? ans : nullptr; 
     }
 };
