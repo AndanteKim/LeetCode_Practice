@@ -8,52 +8,28 @@
  * };
  */
 class Solution {
+private:
+    bool dfs(TreeNode* node, TreeNode* target){
+        if (node == target) return true;
+        if (!node) return false;
+        return dfs(node -> left, target) || dfs(node -> right, target);
+    }
+    
+    TreeNode* LCA(TreeNode* node, TreeNode* p, TreeNode* q){
+        if (!node || node == p || node == q) return node;
+        TreeNode* left = LCA(node -> left, p, q);
+        TreeNode* right = LCA(node -> right, p, q);
+        if (left && right) return node;
+        else if (left) return left;
+        return right;
+    }
+    
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        unordered_map<TreeNode*, TreeNode*> parents;
+        TreeNode* ans = LCA(root, p, q);
         
-        queue<pair<TreeNode*, TreeNode*>> queue;
-        queue.push({root, nullptr});
-        
-        while (!queue.empty()){
-            auto [child, parent] = queue.front();
-            queue.pop();
-            parents[child] = parent;
-            
-            if (child -> left) queue.push({child -> left, child});
-            if (child -> right) queue.push({child -> right, child});
-        }
-        
-        stack<TreeNode*> stack;
-        stack.push(q);
-        while (!stack.empty()){
-            TreeNode* descendant = stack.top();
-            stack.pop();
-            if (descendant == p) return q;
-            if (descendant -> left) stack.push(descendant -> left);
-            if (descendant -> right) stack.push(descendant -> right);
-        }
-        stack.push(p);
-        while (!stack.empty()){
-            TreeNode* descendant = stack.top();
-            stack.pop();
-            if (descendant == q) return p;
-            if (descendant -> left) stack.push(descendant -> left);
-            if (descendant -> right) stack.push(descendant -> right);
-        }
-        
-        TreeNode *pCopy = parents[p];
-        
-        while (pCopy){
-            TreeNode *qCopy = parents[q];
-            
-            while (qCopy && pCopy != qCopy){
-                qCopy = parents[qCopy];
-            }
-            if (pCopy == qCopy) return pCopy;
-            pCopy = parents[pCopy];
-        }
-        
-        return nullptr;
+        if (ans == p) return dfs(p, q)? p : nullptr;
+        else if (ans == q) return dfs(q, p)? q: nullptr;
+        return ans;
     }
 };
