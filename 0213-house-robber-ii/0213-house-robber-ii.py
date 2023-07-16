@@ -1,14 +1,16 @@
 class Solution:
-    def rob_simple(self, nums: List[int]) -> int:
-        t1, t2 = 0, 0
-        for current in nums:
-            temp = t1
-            t1 = max(current + t2, t1)
-            t2 = temp
-        return t1
-    
     def rob(self, nums: List[int]) -> int:
         if len(nums) == 1:
             return nums[0]
+        if len(nums) == 2:
+            return max(nums[0], nums[1])
+        return max(self.robSimple(nums, 0, len(nums) - 1), self.robSimple(nums, 1, len(nums)))
+    
+    def robSimple(self, nums: List[int], start: int, end: int) -> int:
+        dp = [0] * (end - start)
         
-        return max(self.rob_simple(nums[:-1]), self.rob_simple(nums[1:]))
+        dp[0] = nums[start]
+        dp[1] = max(dp[0], nums[start + 1])
+        for i in range(start + 2, end):
+            dp[i - start] = max(nums[i] + dp[i - start - 2], dp[i - start - 1])
+        return dp[-1]
