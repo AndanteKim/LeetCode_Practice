@@ -1,38 +1,40 @@
 typedef long long ll;
+
 class Solution {
 public:
     vector<int> smallestSufficientTeam(vector<string>& req_skills, vector<vector<string>>& people) {
         int n = people.size(), m = req_skills.size();
         unordered_map<string, int> skillId;
-        for (int i = 0; i < req_skills.size(); ++i) skillId[req_skills[i]] = i;
+        for (int i = 0; i < m; ++i) skillId[req_skills[i]] = i;
         
         vector<int> skillsMaskOfPerson(n);
+        vector<ll> dp(1 << m, - 1);
         for (int i = 0; i < n; ++i){
             for (string& skill : people[i]){
                 skillsMaskOfPerson[i] |= 1 << skillId[skill];
             }
         }
         
-        vector<ll> dp(1 << m, (1LL << n) - 1);
-        dp[0] = 0;
-        
-        for (int skillsMask = 1; skillsMask < (1 << m); ++skillsMask){
+        function<ll(int)> f = [&](int skillsMask) -> ll {
+            if (skillsMask == 0) return 0;
+            if (dp[skillsMask] != -1) return dp[skillsMask];
             for (int i = 0; i < n; ++i){
                 int smallerSkillsMask = skillsMask & ~skillsMaskOfPerson[i];
                 if (smallerSkillsMask != skillsMask){
-                    ll peopleMask = dp[smallerSkillsMask] | (1LL << i);
-                    if (__builtin_popcountll(peopleMask) < __builtin_popcountll(dp[skillsMask])){
-                        dp[skillsMask] = peopleMask;
-                    }
+                    ll peopleMask = f(smallerSkillsMask) | (1LL << i);
+                    if (dp[skillsMask] == -1 || __builtin_popcountll(peopleMask) < __builtin_popcountll(dp[skillsMask])) dp[skillsMask] = peopleMask;
                 }
             }
-        }
+            
+            return dp[skillsMask];
+        };
         
-        ll answerMask = dp[(1 << m) - 1];
+        ll answerMask = f((1 << m) - 1);
         vector<int> ans;
         for (int i = 0; i < n; ++i){
             if ((answerMask >> i) & 1) ans.push_back(i);
         }
+        
         return ans;
     }
 };
