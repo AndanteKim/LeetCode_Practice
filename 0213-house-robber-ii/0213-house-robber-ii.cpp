@@ -1,23 +1,22 @@
 class Solution {
 private:
-    int robSimple(vector<int>& nums){
-        int t1 = 0, t2 = 0;
-        for (int current : nums){
-            int temp = t1;
-            t1 = max(current + t2, t1);
-            t2 = temp;
+    int robSimple(vector<int>& nums, int start, int end){
+        vector<int> dp(end - start);
+        dp[0] = nums[start];
+        dp[1] = max(dp[0], nums[start + 1]);
+        for (int i = start + 2; i < end; ++i){
+            dp[i - start] = max(dp[i - start - 2] + nums[i], dp[i - start - 1]);
         }
         
-        return t1;
+        return dp.back();
     }
     
 public:
     int rob(vector<int>& nums) {
         int n = nums.size();
         if (n == 1) return nums[0];
+        if (n == 2) return max(nums[0], nums[1]);
         
-        vector<int> v1 = {nums.begin(), nums.end() - 1}, v2 = {nums.begin() + 1, nums.end()};
-        
-        return max(robSimple(v1), robSimple(v2));
+        return max(robSimple(nums, 0, n - 1), robSimple(nums, 1, n));
     }
 };
