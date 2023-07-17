@@ -24,42 +24,24 @@ public:
         }
         
         int digit = 0, carry = 0;
-        stack<int> l;
-        
+        ListNode *ans = new ListNode();
         while (!s1.empty() || !s2.empty()){
-            int v1 = 0, v2 = 0;
             if (!s1.empty()){
-                v1 = s1.top();
+                digit += s1.top();
                 s1.pop();
             }
             if (!s2.empty()){
-                v2 = s2.top();
+                digit += s2.top();
                 s2.pop();
             }
-            if (carry){
-                digit = (v1 + v2 + carry) % 10;
-                carry = (v1 + v2 + carry) / 10;
-            }
-            else{
-                digit = (v1 + v2) % 10;
-                carry = (v1 + v2) / 10;
-            }
             
-            l.push(digit);
+            ans -> val = digit % 10;
+            carry = digit / 10;
+            ListNode* head = new ListNode(carry);
+            head -> next = ans;
+            ans = head;
+            digit = carry;
         }
-        if (carry) l.push(carry);
-        ListNode *root = new ListNode(), *sentinel = new ListNode();
-        sentinel -> next = root;
-        
-        while(!l.empty()){
-            root -> val = l.top();
-            l.pop();
-            if (!l.empty()){
-                root -> next = new ListNode();
-                root = root -> next;
-            }
-        }
-        
-        return sentinel -> next;
+        return carry == 0? ans -> next : ans;
     }
 };
