@@ -1,17 +1,19 @@
 class Solution:
     def maxUncrossedLines(self, nums1: List[int], nums2: List[int]) -> int:
+        n1, n2 = len(nums1), len(nums2)
+        memo = dict()
         
-        @lru_cache(maxsize = None)
-        def dp(i: int, j: int) -> int:
-            if i >= len(nums1) or j >= len(nums2):
+        def solve(i: int, j: int) -> int:
+            if i <= 0 or j <= 0:
                 return 0
             
-            ans = 0
-            if nums1[i] == nums2[j]:
-                ans += max(1 + dp(i + 1, j + 1), dp(i, j + 1), dp(i + 1, j))
-            else:
-                ans += max(dp(i, j + 1), dp(i + 1, j))
+            if (i, j) in memo:
+                return memo[(i, j)]
             
-            return ans
+            if nums1[i - 1] == nums2[j - 1]:
+                memo[(i, j)] = 1 + solve(i - 1, j - 1)
+            else:
+                memo[(i, j)] = max(solve(i - 1, j), solve(i, j - 1))
+            return memo[(i, j)]
         
-        return dp(0, 0)
+        return solve(n1, n2)
