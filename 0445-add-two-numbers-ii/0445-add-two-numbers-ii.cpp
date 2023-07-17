@@ -9,39 +9,43 @@
  * };
  */
 class Solution {
+private:
+    ListNode* reverseList(ListNode* head){
+        ListNode *prev = nullptr, *temp = nullptr;
+        
+        while (head){
+            temp = head -> next;
+            head -> next = prev;
+            prev = head;
+            head = temp;
+        }
+        
+        return prev;
+    }
+    
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        stack<int> s1, s2;
-        
-        while (l1){
-            s1.push(l1 -> val);
-            l1 = l1 -> next;
-        }
-        
-        while (l2){
-            s2.push(l2 -> val);
-            l2 = l2 -> next;
-        }
-        
+        ListNode *r1 = reverseList(l1), *r2 = reverseList(l2);
         int digit = 0, carry = 0;
         ListNode *ans = new ListNode();
-        while (!s1.empty() || !s2.empty()){
-            if (!s1.empty()){
-                digit += s1.top();
-                s1.pop();
+        while (r1 || r2){
+            if (r1){
+                digit += r1 -> val;
+                r1 = r1 -> next;
             }
-            if (!s2.empty()){
-                digit += s2.top();
-                s2.pop();
+            if (r2){
+                digit += r2 -> val;
+                r2 = r2 -> next;
             }
             
             ans -> val = digit % 10;
             carry = digit / 10;
-            ListNode* head = new ListNode(carry);
+            ListNode *head = new ListNode(carry);
             head -> next = ans;
             ans = head;
             digit = carry;
         }
+        
         return carry == 0? ans -> next : ans;
     }
 };
