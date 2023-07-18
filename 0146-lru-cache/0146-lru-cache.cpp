@@ -25,7 +25,7 @@ public:
     void put(int key, int value) {
         auto it = dic.find(key);
         
-        if (dic.find(key) != dic.end()){
+        if (it != dic.end()){
             lru.erase(it -> second);
             dic.erase(it);
         }
