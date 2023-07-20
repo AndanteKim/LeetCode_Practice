@@ -5,24 +5,31 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def dfs(self, node: Optional[TreeNode], parent_robbed: bool, memo: [Optional[TreeNode], int], not_memo: [Optional[TreeNode], int]) -> int:
-        if not node:
-            return 0
-        if parent_robbed:
-            if node in memo:
-                return memo[node]
-            result = self.dfs(node.left, False, memo, not_memo) + self.dfs(node.right, False, memo, not_memo)
-            memo[node] = result
-        else:
-            if node in not_memo:
-                return not_memo[node]
-            rob = node.val + self.dfs(node.left, True, memo, not_memo) + self.dfs(node.right, True, memo, not_memo)
-            not_rob = self.dfs(node.left, False, memo, not_memo) + self.dfs(node.right, False, memo, not_memo)
-            result = max(rob, not_rob)
-            not_memo[node] = result
-            
-        return result
-    
     def rob(self, root: Optional[TreeNode]) -> int:
-        memo, not_memo = dict(), dict()
-        return self.dfs(root, False, memo, not_memo)
+        if not root:
+            return 0
+        
+        tree = []
+        graph, index = {-1: []}, -1
+        queue = deque([(root, -1)])
+        while queue:
+            node, parent_idx = queue.popleft()
+            if node:
+                index += 1
+                tree.append(node.val)
+                graph[index] = []
+                graph[parent_idx].append(index)
+                queue.append((node.left, index))
+                queue.append((node.right, index))
+        
+        dp_rob, dp_not_rob = [0] * (index + 1), [0] * (index + 1)
+        for i in range(index, -1, -1):
+            if not graph[i]:
+                dp_rob[i] = tree[i]
+                dp_not_rob[i] = 0
+            else:
+                dp_rob[i] = tree[i] + sum(dp_not_rob[child] for child in graph[i])
+                dp_not_rob[i] = sum(max(dp_rob[child], dp_not_rob[child]) for child in graph[i])
+        return max(dp_rob[0], dp_not_rob[0])
+        
+        
