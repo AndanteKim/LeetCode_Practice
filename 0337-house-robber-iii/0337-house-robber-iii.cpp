@@ -11,16 +11,28 @@
  */
 class Solution {
 private:
-    pair<int, int> dfs(TreeNode* node){
-        if (!node) return make_pair(0, 0);
-        pair<int, int> left = dfs(node -> left), right = dfs(node -> right);
-        int rob = node -> val + left.second + right.second, notRob = max(left.first, left.second) + max(right.first, right.second);
-        return make_pair(rob, notRob);
+    int dfs(TreeNode* node, bool parentRobbed, unordered_map<TreeNode*, int>& memo, unordered_map<TreeNode*, int>& notMemo){
+        if(!node) return 0;
+        int result = 0;
+        if (parentRobbed){
+            if (memo.find(node) != memo.end()) return memo[node];
+            result = dfs(node -> left, false, memo, notMemo) + dfs(node -> right, false, memo, notMemo);
+            memo[node] = result;
+        }
+        else{
+            if (notMemo.find(node) != notMemo.end()) return notMemo[node];
+            int rob = node -> val + dfs(node -> left, true, memo, notMemo) + dfs(node -> right, true, memo, notMemo);
+            int notRob = dfs(node -> left, false, memo, notMemo) + dfs(node -> right, false, memo, notMemo);
+            result = max(rob, notRob);
+            notMemo[node] = result;
+        }
+        
+        return result;
     }
     
 public:
     int rob(TreeNode* root) {
-        pair<int, int> p = dfs(root);
-        return max(p.first, p.second);
+        unordered_map<TreeNode*, int> memo, notMemo;
+        return dfs(root, false, memo, notMemo);
     }
 };
