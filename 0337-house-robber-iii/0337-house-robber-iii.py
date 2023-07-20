@@ -7,20 +7,14 @@
 class Solution:
     def rob(self, root: Optional[TreeNode]) -> int:
         
-        @lru_cache(maxsize = None)
-        def dfs(node: Optional[TreeNode], stolen: bool):
+        def dfs(node: Optional[TreeNode]) -> Tuple[int]:
             if not node:
-                return 0
+                return (0, 0)
+            left = dfs(node.left)
+            right = dfs(node.right)
             
-            curr = 0
-            if stolen:
-                curr = dfs(node.left, False) + dfs(node.right, False)
-            else:
-                curr = max(node.val + dfs(node.left, True) + dfs(node.right, True), dfs(node.left, False) + dfs(node.right, False))
-            
-            return curr
-            
-            
-            
-        return dfs(root, False)
+            rob = node.val + left[1] + right[1]
+            not_rob = max(left) + max(right)
+            return [rob, not_rob]
         
+        return max(dfs(root))
