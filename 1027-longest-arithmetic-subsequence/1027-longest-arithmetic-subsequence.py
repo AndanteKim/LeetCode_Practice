@@ -1,9 +1,12 @@
 class Solution:
     def longestArithSeqLength(self, nums: List[int]) -> int:
-        dp = dict()
+        ans, n = 2, len(nums)
         
-        for right in range(len(nums)):
-            for left in range(0, right):
-                dp[(right, nums[right] - nums[left])] = dp.get((left, nums[right] - nums[left]), 1) + 1
+        dp = [[0] * 2000 for _ in range(n)]
+        for i in range(n):
+            for j in range(i):
+                diff = nums[i] - nums[j] + 1000
+                dp[i][diff] = max(2, dp[j][diff] + 1)
+                ans = max(ans, dp[i][diff])
         
-        return max(dp.values())
+        return ans
