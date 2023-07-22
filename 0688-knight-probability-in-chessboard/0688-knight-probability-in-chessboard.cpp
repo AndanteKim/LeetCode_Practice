@@ -1,24 +1,30 @@
 class Solution {
-private:
-    vector<pair<int, int>> moves{{2, 1}, {1, 2}, {-2, 1}, {2, -1}, {1, -2}, {-1, 2}, {-1, -2}, {-2, -1}};
-    int n;
-    double dp(int r, int c, int k, vector<vector<vector<double>>>& memo){
-        if (r < 0 || r >= n || c < 0 || c >= n) return 0;
-        if (k == 0) return 1;
-        
-        if (memo[k][r][c] != -1.0) return memo[k][r][c];
-        double prob = 0;
-        for (auto &[dr, dc] : moves){
-            prob += dp(r + dr, c + dc, k - 1, memo);
-        }
-        
-        return memo[k][r][c] = prob / 8;
-    }
-    
 public:
     double knightProbability(int n, int k, int row, int column) {
-        this -> n = n;
-        vector memo(k + 1, vector(n, vector<double>(n, -1)));
-        return dp(row, column, k, memo);
+        vector<pair<int, int>> dirs{{2, 1}, {1, 2}, {2, -1}, {-2, 1}, {-2, -1}, {1, -2}, {-1, 2}, {-1, -2}};
+        vector dp(k + 1, vector(n, vector<double>(n, 0)));
+        dp[0][row][column] = 1.0;
+        
+        for (int moves = 1; moves <= k; ++moves){
+            for (int r = 0; r < n; ++r){
+                for (int c = 0; c < n; ++c){
+                    for (auto& [dr, dc] : dirs){
+                        int prevR = r + dr, prevC = c + dc;
+                        if (prevR < 0 || prevR >= n || prevC < 0 || prevC >= n) continue;
+                        dp[moves][r][c] += dp[moves - 1][prevR][prevC];
+                    }
+                    dp[moves][r][c] /= 8;
+                }
+            }
+        }
+        
+        double prob = 0.0;
+        for (int i = 0; i < n; ++i){
+            for (int j = 0; j < n; ++j){
+                prob += dp[k][i][j];
+            }
+        }
+        
+        return prob;
     }
 };
