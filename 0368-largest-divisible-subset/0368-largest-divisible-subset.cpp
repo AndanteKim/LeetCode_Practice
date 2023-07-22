@@ -1,37 +1,34 @@
 class Solution {
+private:
+    int n;
+    vector<int> EDS(int i, vector<vector<int>>& memo, vector<int>& nums){
+        if (!memo[i].empty()) return memo[i];
+        int tail = nums[i];
+        vector<int> maxSubset;
+        
+        for (int p = 0; p < i; ++p){
+            if (tail % nums[p] == 0){
+                vector<int> subset = EDS(p, memo, nums);
+                if (maxSubset.size() < subset.size()) maxSubset = subset;
+            }
+        }
+        
+        maxSubset.push_back(tail);
+        return memo[i] = maxSubset;
+    }
+    
 public:
     vector<int> largestDivisibleSubset(vector<int>& nums) {
         sort(nums.begin(), nums.end());
-        int n = nums.size();
-        vector<int> dp(n);
-        for (int i = 0; i < n; ++i){
-            int maxSubsetSize = 0;
-            for (int k = 0; k < i; ++k){
-                if (nums[i] % nums[k] == 0) maxSubsetSize = max(maxSubsetSize, dp[k]);
-            }
-            ++maxSubsetSize;
-            dp[i] = maxSubsetSize;
-        }
-        
-        int maxSize = 0, maxSizeIndex = 0;
-        for (int i = 0; i < n; ++i) {
-            if (dp[i] > maxSize){
-                maxSize = max(maxSize, dp[i]);
-                maxSizeIndex = i;
-            }
-        }
-        
+        this -> n = nums.size();
+        vector<vector<int>> memo(this -> n);
         vector<int> ans;
-        int currSize = maxSize, currTail = nums[maxSizeIndex];
-        for (int i = maxSizeIndex; i >= 0; --i){
-            if (currSize == dp[i] && currTail % nums[i] == 0){
-                ans.push_back(nums[i]);
-                --currSize;
-                currTail = nums[i];
-            }
+        
+        for (int i = 0; i < n; ++i){
+            vector<int> curr = EDS(i, memo, nums);
+            if (curr.size() > ans.size()) ans = curr;
         }
         
-        reverse(ans.begin(), ans.end());
         return ans;
     }
 };
