@@ -1,14 +1,20 @@
 class Solution:
     def knightProbability(self, n: int, k: int, row: int, column: int) -> float:
-        moves = [(2, 1), (1, 2), (-2, 1), (-1, 2), (2, -1), (1, -2), (-2, -1), (-1, -2)]
+        directions = [(1, 2), (1, -2), (-1, 2), (-1, -2),
+                      (2, 1), (2, -1), (-2, 1), (-2, -1)]
         
-        @lru_cache(maxsize = None)
-        def dp(r: int, c: int, k: int) -> int:
-            if r < 0 or r >= n or c < 0 or c >= n:
-                return 0
-            if k == 0:
-                return 1
-            
-            return sum(dp(r + dr, c + dc, k - 1) for dr, dc in moves) / 8
-            
-        return dp(row, column, k)
+        dp = [[[0] * n for _ in range(n)] for _ in range(k + 1)]
+        dp[0][row][column] = 1
+        
+        for moves in range(1, k + 1):
+            for r in range(n):
+                for c in range(n):
+                    for dr, dc in directions:
+                        prev_r, prev_c = r - dr, c - dc
+                        if 0 <= prev_r < n and 0 <= prev_c < n:
+                            dp[moves][r][c] += dp[moves - 1][prev_r][prev_c]
+                    dp[moves][r][c] /= 8
+        
+        prob = sum(dp[k][i][j] for i in range(n) for j in range(n))
+        
+        return prob
