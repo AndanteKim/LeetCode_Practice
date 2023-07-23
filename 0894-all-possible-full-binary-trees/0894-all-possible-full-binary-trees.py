@@ -9,18 +9,15 @@ class Solution:
         if n % 2 == 0:
             return []
         
-        if n == 1:
-            return [TreeNode()]
+        dp = [[] for _ in range(n + 1)]
+        dp[1].append(TreeNode(0))
         
-        ans = []
-        
-        for i in range(1, n, 2):
-            left = self.allPossibleFBT(i)
-            right = self.allPossibleFBT(n - i - 1)
-            
-            for l in left:
-                for r in right:
-                    root = TreeNode(0, l, r)
-                    ans.append(root)
-                    
-        return ans
+        for count in range(3, n + 1, 2):
+            for i in range(1, count - 1, 2):
+                j = count - 1 - i
+                for left in dp[i]:
+                    for right in dp[j]:
+                        root = TreeNode(0, left, right)
+                        dp[count].append(root)
+                        
+        return dp[n]
