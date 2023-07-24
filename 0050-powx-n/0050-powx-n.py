@@ -9,4 +9,3 @@ class Solution:
             return x * self.myPow(x * x, (n - 1) // 2)
         else:
             return self.myPow(x * x, n // 2)
-        return x * self.myPow(x, n - 1)
