@@ -3,17 +3,17 @@ typedef long long ll;
 class Solution {
 public:
     long long maxRunTime(int n, vector<int>& batteries) {
-        sort(batteries.begin(), batteries.end());
-        ll extra = accumulate(batteries.begin(), batteries.end() - n, 0ll);
-        vector<int> live(batteries.end() - n, batteries.end());
+        ll left = 1, right = accumulate(batteries.begin(), batteries.end(), 0ll) / n;
         
-        for (int i = 0; i < n - 1; ++i){
-            if (extra / (i + 1) < live[i + 1] - live[i])
-                return live[i] + extra / (i + 1);
+        while (left < right){
+            ll target = right - ((right - left) >> 1), extra = 0;
             
-            extra -= (i + 1) * (live[i + 1] - live[i]);
+            for (int power : batteries) extra += min((ll)power, target);
+            
+            if (extra / n >= target) left = target;
+            else right = target - 1;
         }
         
-        return live.back() + extra / n;
+        return left;
     }
 };
