@@ -1,19 +1,17 @@
 class Solution {
-private:
-    int n;
-    int maxDiff(int left, int right, vector<vector<int>>& memo, vector<int>& nums){
-        if (left == right) return nums[left];
-        if (memo[left][right] != -1) return memo[left][right];
-        
-        int scoreByLeft = nums[left] - maxDiff(left + 1, right, memo, nums);
-        int scoreByRight = nums[right] - maxDiff(left, right - 1, memo, nums);
-        return memo[left][right] = max(scoreByLeft, scoreByRight);
-    }
-    
 public:
     bool PredictTheWinner(vector<int>& nums) {
-        this -> n = nums.size();
-        vector<vector<int>> memo(this -> n, vector<int>(this -> n, -1));
-        return maxDiff(0, this -> n - 1, memo, nums) >= 0;
+        int n = nums.size();
+        vector<vector<int>> dp(n, vector<int>(n));
+        for (int i = 0; i < n; ++i) dp[i][i] = nums[i];
+        
+        for (int diff = 1; diff < n; ++diff){
+            for (int left = 0; left < n - diff; ++left){
+                int right = left + diff;
+                dp[left][right] = max(nums[left] - dp[left + 1][right], nums[right] - dp[left][right - 1]);
+            }
+        }
+        
+        return dp[0][n - 1] >= 0;
     }
 };
