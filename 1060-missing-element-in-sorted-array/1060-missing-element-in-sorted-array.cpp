@@ -2,13 +2,14 @@ class Solution {
 public:
     int missingElement(vector<int>& nums, int k) {
         int n = nums.size();
+        int left = 0, right = n - 1;
         
-        for (int i = 1; i < n; ++i){
-            int gap = nums[i] - nums[i - 1] - 1;
-            if (gap >= k) return nums[i - 1] + k;
-            k -= gap;
+        while (left < right){
+            int mid = (right - ((right - left) >> 1));
+            if (nums[mid] - nums[0] - mid < k) left = mid;
+            else right = mid - 1;
         }
         
-        return nums[n - 1] + k;
+        return nums[0] + left + k;
     }
 };
