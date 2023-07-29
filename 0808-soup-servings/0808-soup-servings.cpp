@@ -4,17 +4,21 @@ public:
         int m = ceil(n / 25.0);
         unordered_map<int, unordered_map<int, double>> dp;
         
-        function<double(int, int)> calculateDP = [&](int i, int j) -> double {
-            if (i <= 0 && j <= 0) return 0.5;
-            if (i <= 0) return 1;
-            if (j <= 0) return 0;
-            if (dp[i].count(j)) return dp[i][j];
-            return dp[i][j] = 0.25 * (calculateDP(i - 4, j) + calculateDP(i - 3, j - 1) + calculateDP(i - 2, j - 2) + calculateDP(i - 1, j - 3));
+        function<double(int, int)> calculateDP = [&](int i, int j) -> double{
+            return 0.25 * (dp[max(0, i - 4)][j] + dp[max(0, i - 3)][j - 1] + dp[max(0, i - 2)][max(0, j - 2)] + dp[i - 1][max(0, j - 3)]);
         };
         
+        dp[0][0] = 0.5;
         for (int k = 1; k <= m; ++k){
-            if (calculateDP(k, k) > 1 - 1e-5) return 1.0;
+            dp[0][k] = 1.0;
+            dp[k][0] = 0;
+            for (int j = 1; j <= k; ++j){
+                dp[j][k] = calculateDP(j, k);
+                dp[k][j] = calculateDP(k, j);
+            }
+            if (dp[k][k] > 1 - 1e-5) return 1.0;
         }
-        return calculateDP(m, m);
+        
+        return dp[m][m];
     }
 };
