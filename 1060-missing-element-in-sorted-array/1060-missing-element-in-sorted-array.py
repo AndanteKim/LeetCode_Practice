@@ -1,20 +1,11 @@
 class Solution:
     def missingElement(self, nums: List[int], k: int) -> int:
-        ans = nums[0]
+        n = len(nums)
         
-        for i in range(len(nums) - 1): 
-            if (nums[i + 1] - nums[i] - 1) < k:
-                k -= (nums[i + 1] - nums[i] - 1)
-                ans = nums[i + 1]
-            else:
-                while k > 0:
-                    ans += 1
-                    k -= 1
-                break
+        for i in range(1, n):
+            gap = nums[i] - nums[i - 1] - 1
+            if gap >= k:
+                return nums[i - 1] + k
+            k -= gap
         
-        return ans if k == 0 else ans + k
-            
-             
-                
-        
-            
+        return nums[n - 1] + k
