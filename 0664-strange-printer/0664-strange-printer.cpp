@@ -1,20 +1,23 @@
 class Solution {
+private:
+    int n;
+    int solve(int left, int right, string& s, vector<vector<int>>& memo){
+        if (memo[left][right] != -1) return memo[left][right];
+        
+        memo[left][right] = n;
+        int j = -1;
+        for (int i = left; i < right; ++i){
+            if (s[i] != s[right] && j == -1) j = i;
+            if (j != -1) memo[left][right] = min(memo[left][right], 1 + solve(j, i, s, memo) + solve(i + 1, right, s, memo));
+        }
+        if (j == -1) memo[left][right] = 0;
+        return memo[left][right];
+    }
+    
 public:
     int strangePrinter(string s) {
-        int n = s.size();
-        vector dp(n, vector<int>(n, n));
-        
-        for (int length = 1; length <= n; ++length){
-            for (int left = 0; left <= n - length; ++left){
-                int right = left + length - 1, j = -1;
-                for (int i = left; i < right; ++i){
-                    if (s[i] != s[right] && j == -1) j = i;
-                    if (j != -1) dp[left][right] = min(dp[left][right], 1 + dp[j][i] + dp[i + 1][right]);
-                }
-                if (j == -1) dp[left][right] = 0;
-            }
-        }
-        
-        return dp[0][n - 1] + 1;
+        this -> n = s.size();
+        vector memo(n, vector<int>(n, -1));
+        return solve(0, n - 1, s, memo) + 1;
     }
 };
