@@ -1,24 +1,15 @@
 class Solution:
-    def solve(self, i: int, lane: int, dp: List[List[int]], regular: List[int], express: List[int], expressCost: int) -> int:
-        if i < 0:
-            return 0
-        
-        if dp[i][lane] != -1:
-            return dp[i][lane]
-        
-        regularLane = regular[i] + self.solve(i - 1, 1, dp, regular, express, expressCost)
-        expressLane = expressCost + express[i] + self.solve(i - 1, 0, dp, regular, express, expressCost) if lane else express[i] + self.solve(i - 1, 0, dp, regular, express, expressCost)
-        
-        dp[i][lane] = min(regularLane, expressLane)
-        return dp[i][lane]
-    
     def minimumCosts(self, regular: List[int], express: List[int], expressCost: int) -> List[int]:
-        n = len(regular)
-        dp = [[-1] * 2 for _ in range(n)]
+        n, ans = len(regular), []
+        dp = [[0] * 2 for _ in range(n + 1)]
         
-        self.solve(n - 1, 1, dp, regular, express, expressCost)
-        ans = []
-        for i in range(n):
-            ans.append(dp[i][1])
+        dp[0][1] = 0
+        dp[0][0] = expressCost
+        
+        # 1: regular lane, 0: express lane
+        for i in range(1, n + 1):
+            dp[i][1] = regular[i - 1] + min(dp[i - 1][1], dp[i - 1][0])
+            dp[i][0] = express[i - 1] + min(expressCost + dp[i - 1][1], dp[i - 1][0])
+            ans.append(min(dp[i][0], dp[i][1]))
         
         return ans
