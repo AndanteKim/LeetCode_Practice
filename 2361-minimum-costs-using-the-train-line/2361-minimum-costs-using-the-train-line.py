@@ -1,15 +1,17 @@
 class Solution:
     def minimumCosts(self, regular: List[int], express: List[int], expressCost: int) -> List[int]:
-        n, ans = len(regular), []
-        dp = [[0] * 2 for _ in range(n + 1)]
+        n = len(regular)
+        prev_regular_lane = 0
+        prev_express_lane = expressCost
         
-        dp[0][1] = 0
-        dp[0][0] = expressCost
+        ans = []
         
-        # 1: regular lane, 0: express lane
         for i in range(1, n + 1):
-            dp[i][1] = regular[i - 1] + min(dp[i - 1][1], dp[i - 1][0])
-            dp[i][0] = express[i - 1] + min(expressCost + dp[i - 1][1], dp[i - 1][0])
-            ans.append(min(dp[i][0], dp[i][1]))
+            regular_lane_cost = regular[i - 1] + min(prev_regular_lane, prev_express_lane)
+            express_lane_cost = express[i - 1] + min(prev_regular_lane + expressCost, prev_express_lane)
+            ans.append(min(regular_lane_cost, express_lane_cost))
+            
+            prev_regular_lane = regular_lane_cost
+            prev_express_lane = express_lane_cost
         
         return ans
