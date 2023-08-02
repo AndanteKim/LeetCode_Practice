@@ -1,24 +1,28 @@
 class Solution {
 private:
     int n;
-    void backtrack(int start, vector<int>& nums, vector<vector<int>>& ans){
-        if (start == n){
-            ans.push_back(nums);
+    void backtrack(int start, vector<int>& nums, vector<int>& curr, vector<vector<int>>& ans){
+        if (curr.size() == n){
+            ans.push_back(curr);
             return;
         }
         
-        for (int i = start; i < n; ++i){
-            swap(nums[i], nums[start]);
-            backtrack(start + 1, nums, ans);
-            swap(nums[i], nums[start]);
+        for (int i = 0; i < n; ++i){
+            if (find(curr.begin(), curr.end(), nums[i]) == curr.end()){
+                curr.push_back(nums[i]);
+                backtrack(i + 1, nums, curr, ans);
+                curr.pop_back();
+            }
         }
+        
     }
     
 public:
     vector<vector<int>> permute(vector<int>& nums) {
-        n = nums.size();
+        this -> n = nums.size();
         vector<vector<int>> ans;
-        backtrack(0, nums, ans);
+        vector<int> curr;
+        backtrack(0, nums, curr, ans);
         return ans;
     }
 };
