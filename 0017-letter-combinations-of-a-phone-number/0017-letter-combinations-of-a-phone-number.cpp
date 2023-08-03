@@ -7,12 +7,10 @@ private:
             return;
         }
         
-        for (int i = start; i < this -> n; ++i){
-            for (char& letter : letters[digits[i]]){
-                curr.push_back(letter);
-                backtrack(ans, i + 1, curr, digits, letters);
-                curr.pop_back();
-            }
+        for (char& letter : letters[digits[start]]){
+            curr.push_back(letter);
+            backtrack(ans, start + 1, curr, digits, letters);
+            curr.pop_back();
         }
         
     }
