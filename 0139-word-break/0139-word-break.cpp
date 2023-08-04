@@ -1,37 +1,27 @@
-struct TrieNode{
-    bool isWord;
-    unordered_map<char, TrieNode*> children;
-    TrieNode() : isWord(false), children(unordered_map<char, TrieNode*>()) {}
-};
-
-
 class Solution {
+private:
+    bool dp(int i, string& s, vector<string>& wordDict, vector<int>& memo){
+        if (i < 0) return true;
+        
+        if (memo[i] != -1) return memo[i] == 1;
+        
+        for (string& word: wordDict){
+            int currSize = word.size();
+            if (i - currSize + 1 < 0) continue;
+            
+            if (s.substr(i - currSize + 1, currSize) == word && dp(i - currSize, s, wordDict, memo)){
+                memo[i] = 1;
+                return true;
+            }
+        }
+        
+        memo[i] = 0;
+        return false;
+    }
+    
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
-        TrieNode* root = new TrieNode();
-        for (string& word : wordDict){
-            TrieNode* curr = root;
-            for (char& c : word){
-                if (curr -> children.find(c) == curr -> children.end()) curr -> children[c] = new TrieNode();
-                curr = curr -> children[c];
-            }
-            curr -> isWord = true;
-        }
-        
-        vector<bool> dp(s.size());
-        for (int i = 0; i < s.size(); ++i){
-            if (i == 0 || dp[i - 1]){
-                TrieNode* curr = root;
-                for (int j = i; j < s.size(); ++j){
-                    char c = s[j];
-                    if (curr -> children.find(c) == curr -> children.end()) break;
-                
-                    curr = curr -> children[c];
-                    if (curr -> isWord) dp[j] = true;
-                }
-            }
-        }
-        
-        return dp.back();
+        vector<int> memo(s.size(), - 1);
+        return dp(s.size() - 1, s, wordDict, memo);
     }
 };
