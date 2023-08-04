@@ -1,16 +1,20 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        words = set(wordDict)
+        queue = deque([0])
+        seen = set()
         
-        @lru_cache(maxsize = None)
-        def dp(i: int) -> bool:
-            if i < 0:
+        while queue:
+            start = queue.popleft()
+            if start == len(s):
                 return True
             
-            for word in wordDict:
-                if s[i - len(word) + 1: i + 1] == word and dp(i - len(word)):
-                    return True
-            
-            return False
-        n = len(s)
-        return dp(n - 1)
+            for end in range(start + 1, len(s) + 1):
+                if end in seen:
+                    continue
+                
+                if s[start:end] in words:
+                    queue.append(end)
+                    seen.add(end)
         
+        return False
