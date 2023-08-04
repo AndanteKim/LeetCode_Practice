@@ -1,20 +1,14 @@
 class Solution:
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        words = set(wordDict)
-        queue = deque([0])
-        seen = set()
-        
-        while queue:
-            start = queue.popleft()
-            if start == len(s):
-                return True
-            
-            for end in range(start + 1, len(s) + 1):
-                if end in seen:
+        n = len(s)
+        dp = [False] * n
+        for i in range(n):
+            for word in wordDict:
+                if i < len(word) - 1:
                     continue
                 
-                if s[start:end] in words:
-                    queue.append(end)
-                    seen.add(end)
-        
-        return False
+                if i == len(word) - 1 or dp[i - len(word)]:
+                    if s[i - len(word) + 1: i + 1] == word:
+                        dp[i] = True
+                        break
+        return dp[-1]
