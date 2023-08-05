@@ -5,28 +5,24 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def allPossibleBST(self, start: int, end: int, memo: Dict[Tuple[int], int]) -> List[Optional[TreeNode]]:
-        ans = []
-        if start > end:
-            ans.append(None)
-            return ans
-        
-        if (start, end) in memo:
-            return memo[(start, end)]
-        
-        # Iterate through all values from start to end to construct left and right subtree recursively
-        for i in range(start, end + 1):
-            leftSubTrees = self.allPossibleBST(start, i - 1, memo)
-            rightSubTrees = self.allPossibleBST(i + 1, end, memo)
-            
-            for left in leftSubTrees:
-                for right in rightSubTrees:
-                    root = TreeNode(i, left, right)
-                    ans.append(root)
-        
-        memo[(start, end)] = ans
-        return ans
-    
     def generateTrees(self, n: int) -> List[Optional[TreeNode]]:
-        memo = dict()
-        return self.allPossibleBST(1, n, memo)
+        dp = [[[] for _ in range(n + 1)] for _ in range(n + 1)]
+        
+        for i in range(1, n + 1):
+            dp[i][i] = [TreeNode(i)]
+            
+        for numberOfNodes in range(2, n + 1):
+            for start in range(1, n - numberOfNodes + 2):
+                end = start + numberOfNodes - 1
+                for i in range(start, end + 1):
+                    left_subtrees = dp[start][i - 1] if i != start else [None]
+                    right_subtrees = dp[i + 1][end] if i != end else [None]
+                    
+                    for left in left_subtrees:
+                        for right in right_subtrees:
+                            root = TreeNode(i, left, right)
+                            dp[start][end].append(root)
+        
+        return dp[1][n]
+        
+    
