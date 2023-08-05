@@ -10,33 +10,29 @@
  * };
  */
 class Solution {
-private:
-    vector<TreeNode*> allPossibleBST(int start, int end, map<pair<int, int>, vector<TreeNode*>>& memo){
-        vector<TreeNode*> ans;
-        if (start > end){
-            ans.push_back(nullptr);
-            return ans;
-        }
+public:
+    vector<TreeNode*> generateTrees(int n) {
+        vector<vector<vector<TreeNode*>>> dp(n + 1, vector(n + 1, vector<TreeNode*>(0)));
         
-        if (memo.find(make_pair(start, end)) != memo.end()) return memo[make_pair(start, end)];
+        for (int i = 1; i <= n; ++i) dp[i][i].push_back(new TreeNode(i));
         
-        for (int i = start; i <= end; ++i){
-            vector<TreeNode*> leftSubTrees = allPossibleBST(start, i - 1, memo);
-            vector<TreeNode*> rightSubTrees = allPossibleBST(i + 1, end, memo);
-            
-            for (TreeNode* left : leftSubTrees){
-                for (TreeNode* right : rightSubTrees){
-                    TreeNode* root = new TreeNode(i, left, right);
-                    ans.push_back(root);
+        for (int numberOfNodes = 2; numberOfNodes <= n; ++numberOfNodes){
+            for (int start = 1; start <= n - numberOfNodes + 1; ++start){
+                int end = start + numberOfNodes - 1;
+                for (int i = start; i <= end; ++i){
+                    vector<TreeNode*> leftSubTrees = i != start? dp[start][i - 1] : vector<TreeNode*>({nullptr});
+                    vector<TreeNode*> rightSubTrees = i != end? dp[i + 1][end] : vector<TreeNode*>({nullptr});
+                    
+                    for (TreeNode* left : leftSubTrees){
+                        for (TreeNode* right : rightSubTrees){
+                            TreeNode* root = new TreeNode(i, left, right);
+                            dp[start][end].push_back(root);
+                        }
+                    }
                 }
             }
         }
-        return memo[make_pair(start, end)] = ans;
-    }
-    
-public:
-    vector<TreeNode*> generateTrees(int n) {
-        map<pair<int, int>, vector<TreeNode*>> memo;
-        return allPossibleBST(1, n, memo);
+        
+        return dp[1][n];
     }
 };
