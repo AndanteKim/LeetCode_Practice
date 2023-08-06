@@ -2,21 +2,46 @@ typedef long long ll;
 
 class Solution {
 private:
-    int MOD = 1'000'000'007, n, k;
-    ll numberOfPlaylists(int i, int j, vector<vector<ll>>& memo){
-        if (i == 0 && j == 0) return 1;
-        if (i == 0 || j == 0) return 0;
-        if (memo[i][j] != -1) return memo[i][j];
+    static const int MOD = 1'000'000'007;
+    vector<ll> factorial, invFactorial;
+    
+    ll power(ll base, int exponent){
+        ll res = 1;
+        while (exponent > 0){
+            if (exponent & 1){
+                res = (res * base) % MOD;
+            }
+            exponent >>= 1;
+            base = (base * base) % MOD;
+        }
         
-        memo[i][j] = (numberOfPlaylists(i - 1, j - 1, memo) * (n - j + 1)) % MOD;
-        if (j > k) memo[i][j] = (memo[i][j] + numberOfPlaylists(i - 1,j, memo) * (j - k)) % MOD; 
-        return memo[i][j];
+        return res;
+    }
+    
+    void precalculateFactorials(int n){
+        factorial.resize(n + 1);
+        invFactorial.resize(n + 1);
+        factorial[0] = invFactorial[0] = 1;
+        for (int i = 1; i <= n; ++i){
+            factorial[i] = (factorial[i - 1] * i) % MOD;
+            invFactorial[i] = power(factorial[i], MOD - 2);
+        }
     }
     
 public:
     int numMusicPlaylists(int n, int goal, int k) {
-        this -> n = n, this -> k = k;
-        vector<vector<ll>> memo(goal + 1, vector<ll>(n + 1, -1));
-        return numberOfPlaylists(goal, n, memo);
+        precalculateFactorials(n);
+        int sign = 1;
+        ll ans = 0;
+        for (int i = n; i >= k; --i){
+            ll temp = power(i - k, goal - k);
+            temp = (temp * invFactorial[n - i]) % MOD;
+            temp = (temp * invFactorial[i - k]) % MOD;
+            
+            ans = (ans + sign * temp + MOD) % MOD;
+            sign *= -1;
+        }
+        
+        return (factorial[n] * ans) % MOD;
     }
 };
