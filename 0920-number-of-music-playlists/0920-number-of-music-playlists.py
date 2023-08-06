@@ -1,18 +1,21 @@
 class Solution:
     def numMusicPlaylists(self, n: int, goal: int, k: int) -> int:
-        MOD = 10 ** 9 + 7
+        MOD = 1_000_000_007
+        dp = [[-1 for _ in range(n + 1)] for _ in range(goal + 1)]
         
-        # init dp table
-        dp = [[0 for _ in range(n + 1)] for _ in range(goal + 1)]
-        dp[0][0] = 1
-        
-        for i in range(1, goal + 1):
-            for j in range(1, min(i, n) + 1):
-                # i-th := new song
-                dp[i][j] = dp[i - 1][j - 1] * (n - j + 1) % MOD
-                
-                # i-th := song we have played before
-                if j > k:
-                    dp[i][j] = (dp[i][j] + dp[i - 1][j] * (j - k)) % MOD
-        
-        return dp[goal][n]
+        def number_of_playlists(i: int, j: int) -> int:
+            if i == 0 and j == 0:\
+                return 1
+            
+            if i == 0 or j == 0:
+                return 0
+            
+            if dp[i][j] != -1:
+                return dp[i][j]
+            
+            dp[i][j] = (number_of_playlists(i - 1, j - 1) * (n - j + 1)) % MOD
+            if j > k:
+                dp[i][j] += (number_of_playlists(i - 1, j) * (j - k)) % MOD
+                dp[i][j] %= MOD
+            return dp[i][j]
+        return number_of_playlists(goal, n)
