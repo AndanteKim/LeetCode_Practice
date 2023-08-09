@@ -4,12 +4,8 @@ public:
     // Encodes a list of strings to a single string.
     string encode(vector<string>& strs) {
         string encodedString = "";
-        for (const string& s : strs){
-            for (const char& c : s) {
-                if (c == '/') encodedString += "//";
-                else encodedString += c;
-            }
-            encodedString += "/:";
+        for (string& s : strs){
+            encodedString += to_string(s.size()) + "/:" + s;
         }
         
         return encodedString;
@@ -18,19 +14,13 @@ public:
     // Decodes a single string to a list of strings.
     vector<string> decode(string s) {
         vector<string> decodedStrings;
-        string currentString;
-        
-        for (size_t i = 0; i < s.size(); ++i){
-            if (i < s.size() - 1 && s[i] == '/' && s[i + 1] == ':'){
-                decodedStrings.push_back(currentString);
-                currentString.clear();
-                ++i;
-            }
-            else if (i < s.size() - 1 && s[i] == '/' && s[i + 1] == '/'){
-                currentString += '/';
-                ++i;
-            }
-            else currentString += s[i];
+        size_t i = 0;
+        while (i < s.size()){
+            size_t delim = s.find("/:", i);
+            int length = stoi(s.substr(i, delim - i));
+            string str = s.substr(delim + 2, length);
+            decodedStrings.push_back(str);
+            i = delim + 2 + length;
         }
         
         return decodedStrings;
