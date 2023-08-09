@@ -3,26 +3,37 @@ public:
 
     // Encodes a list of strings to a single string.
     string encode(vector<string>& strs) {
-        ostringstream outputStringStream;
-        for (string& str: strs){
-            if (str.empty()) outputStringStream << '\0';
-            else outputStringStream << str;
-            outputStringStream << '\n';
+        string encodedString = "";
+        for (const string& s : strs){
+            for (const char& c : s) {
+                if (c == '/') encodedString += "//";
+                else encodedString += c;
+            }
+            encodedString += "/:";
         }
         
-        return outputStringStream.str();
+        return encodedString;
     }
 
     // Decodes a single string to a list of strings.
     vector<string> decode(string s) {
-        istringstream inputStringStream(s);
-        string tempStr;
-        vector<string> ans;
-        while (getline(inputStringStream, tempStr, '\n')){
-            if (tempStr == "\0") ans.push_back("");
-            else ans.push_back(tempStr);
+        vector<string> decodedStrings;
+        string currentString;
+        
+        for (size_t i = 0; i < s.size(); ++i){
+            if (i < s.size() - 1 && s[i] == '/' && s[i + 1] == ':'){
+                decodedStrings.push_back(currentString);
+                currentString.clear();
+                ++i;
+            }
+            else if (i < s.size() - 1 && s[i] == '/' && s[i + 1] == '/'){
+                currentString += '/';
+                ++i;
+            }
+            else currentString += s[i];
         }
-        return ans;
+        
+        return decodedStrings;
     }
 };
 
