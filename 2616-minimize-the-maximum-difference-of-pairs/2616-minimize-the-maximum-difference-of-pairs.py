@@ -1,24 +1,31 @@
-class Solution:
-    def countValidPairs(self, threshold: int, nums: List[int]) -> int:
-        index, count = 0, 0
-        while index < self.n - 1:
-            if nums[index + 1] - nums[index] <= threshold:
-                count += 1
-                index += 1
-            index += 1
-        return count
-            
+class Solution {
+private:
+    int n;
+    int countValidPairs(int threshold, vector<int>& nums){
+        int count = 0, index = 0;
+        while (index < n - 1){
+            if (nums[index + 1] - nums[index] <= threshold){
+                ++count;
+                ++index;
+            }
+            ++index;
+        }
+        return count;
+    }
     
-    def minimizeMax(self, nums: List[int], p: int) -> int:
-        nums.sort()
-        self.n = len(nums)
+public:
+    int minimizeMax(vector<int>& nums, int p) {
+        this -> n = nums.size();
+        sort(nums.begin(), nums.end());
+        int left = 0, right = nums.back();
+        while (left < right){
+            int mid = left + ((right - left) >> 1);
+            if (countValidPairs(mid, nums) >= p)
+                right = mid;
+            else
+                left = mid + 1;
+        }
         
-        left, right = 0, nums[-1] - nums[0]
-        while left < right:
-            mid = left + ((right - left) >> 1)
-            
-            if self.countValidPairs(mid, nums) >= p:
-                right = mid
-            else:
-                left = mid + 1
-        return left
+        return left;
+    }
+};
