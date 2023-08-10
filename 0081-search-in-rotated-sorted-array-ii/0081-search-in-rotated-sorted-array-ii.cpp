@@ -1,4 +1,13 @@
 class Solution {
+private:
+    bool isBinarySearchHelpful(vector<int>& nums, int start, int element){
+        return nums[start] != element;
+    }
+    
+    bool existsInFirst(vector<int>& nums, int start, int element){
+        return nums[start] <= element;
+    }
+    
 public:
     bool search(vector<int>& nums, int target) {
         int n = nums.size();
@@ -7,15 +16,22 @@ public:
         while (left <= right){
             int mid = left + ((right - left) >> 1);
             if (nums[mid] == target) return true;
-            else if (nums[mid] > nums[left]){
-                if (nums[left] <= target && target < nums[mid]) right = mid - 1;
-                else left = mid + 1;
+            if (!isBinarySearchHelpful(nums, left, nums[mid])){
+                ++left;
+                continue;
             }
-            else if (nums[mid] < nums[left]){
-                if (nums[mid] < target && target <= nums[right]) left = mid + 1;
+            
+            bool pivotArray = existsInFirst(nums, left, nums[mid]);
+            bool targetArray = existsInFirst(nums, left, target);
+            
+            if (pivotArray ^ targetArray){
+                if (pivotArray) left = mid + 1;
                 else right = mid - 1;
             }
-            else ++left;
+            else{
+                if (nums[mid] < target) left = mid + 1;
+                else right = mid - 1;
+            }
         }
         
         return false;
