@@ -1,17 +1,19 @@
 class Solution {
 public:
     bool carPooling(vector<vector<int>>& trips, int capacity) {
-        sort(trips.begin(), trips.end(), [](vector<int>& a, vector<int>& b){return a[2] < b[2];});
-        
-        vector<int> status(trips.back()[2] + 1);
-        
+        int farthest = 0;
+        for (vector<int>& trip : trips) farthest = max(farthest, trip[2]);
+        vector<int> arr(farthest + 1);
         for (vector<int>& trip : trips){
-            int n = trip[0], start = trip[1], end = trip[2];
-            
-            for (int day = start; day < end; ++day){
-                if (status[day] + n > capacity) return false;
-                status[day] += n;
-            }
+            int value = trip[0], left = trip[1], right = trip[2];
+            arr[left] += value;
+            arr[right] -= value;
+        }
+        
+        int curr = 0;
+        for (int i = 0; i < arr.size(); ++i){
+            curr += arr[i];
+            if (curr > capacity) return false;
         }
         
         return true;
