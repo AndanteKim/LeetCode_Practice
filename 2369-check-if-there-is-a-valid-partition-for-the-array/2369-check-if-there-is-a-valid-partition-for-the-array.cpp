@@ -1,22 +1,17 @@
 class Solution {
-private:
-    bool dp(int i, unordered_map<int, bool>& memo, vector<int>& nums){
-        if (memo.find(i) != memo.end()) return memo[i];
-        bool ans = false;
-        if (i > 0 && nums[i] == nums[i - 1])
-            ans |= dp(i - 2, memo, nums);
-        if (i > 1 && nums[i] == nums[i - 1] && nums[i - 1] == nums[i - 2])
-            ans |= dp(i - 3, memo, nums);
-        if (i > 1 && nums[i] == nums[i - 1] + 1 && nums[i] == nums[i - 2] + 2)
-            ans |= dp(i - 3, memo, nums);
-        return memo[i] = ans;
-    }
-    
 public:
     bool validPartition(vector<int>& nums) {
-        unordered_map<int, bool> memo{{-1, true}};
         int n = nums.size();
+        vector<bool> dp(n + 1);
+        dp[0] = true;
         
-        return dp(n - 1, memo, nums);
+        for (int i = 0; i < n; ++i){
+            int dpIndex = i + 1;
+            if (i > 0 && nums[i] == nums[i - 1]) dp[dpIndex] = dp[dpIndex] | dp[dpIndex - 2];
+            if (i > 1 && nums[i] == nums[i - 1] && nums[i - 1] == nums[i - 2]) dp[dpIndex] = dp[dpIndex] | dp[dpIndex - 3];
+            if (i > 1 && nums[i] == nums[i - 1] + 1 && nums[i - 1] + 1 == nums[i - 2] + 2) dp[dpIndex] = dp[dpIndex] | dp[dpIndex - 3];
+        }
+        
+        return dp[n];
     }
 };
