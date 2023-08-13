@@ -1,28 +1,25 @@
 class Solution {
 private:
     int n;
-    int backtrack(int row, unordered_set<int>& diagonals, unordered_set<int>& antiDiagonals, unordered_set<int>& cols){
+    int backtrack(int row, int diagonals, int antiDiagonals, int cols){
         if (row == n) return 1;
-        
         int solutions = 0;
         for (int col = 0; col < n; ++col){
-            int currDiagonal = row - col, currAntiDiagonal = row + col;
+            int currDiagonal = 1 << (row - col + n);
+            int currAntiDiagonal = 1 << (row + col);
+            int currCol = 1 << col;
             
-            // If a queen isn't placeable
-            if (cols.find(col) != cols.end() || diagonals.find(currDiagonal) != diagonals.end() || antiDiagonals.find(currAntiDiagonal) != antiDiagonals.end()) continue;
+            if (currCol & cols || currDiagonal & diagonals || currAntiDiagonal & antiDiagonals) continue;
             
-            // deploy a queen
-            cols.insert(col);
-            diagonals.insert(currDiagonal);
-            antiDiagonals.insert(currAntiDiagonal);
+            diagonals ^= currDiagonal;
+            antiDiagonals ^= currAntiDiagonal;
+            cols ^= currCol;
             
-            // keep backtrack until it's iterable
             solutions += backtrack(row + 1, diagonals, antiDiagonals, cols);
             
-            // draw a queen
-            cols.erase(col);
-            diagonals.erase(currDiagonal);
-            antiDiagonals.erase(currAntiDiagonal);
+            diagonals ^= currDiagonal;
+            antiDiagonals ^= currAntiDiagonal;
+            cols ^= currCol;
         }
         
         return solutions;
@@ -31,7 +28,6 @@ private:
 public:
     int totalNQueens(int n) {
         this -> n = n;
-        unordered_set<int> diagonals, antiDiagonals, cols;
-        return backtrack(0, diagonals, antiDiagonals, cols);
+        return backtrack(0, 0, 0, 0);
     }
 };
