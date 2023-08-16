@@ -1,42 +1,30 @@
 class Solution {
 private:
-    int rows, cols;
-    bool isValid(int row, int col, vector<vector<int>>& maze){
-        return 0 <= row && row < rows && 0 <= col && col < cols && maze[row][col] == 0;
+    int m, n;
+    bool dfs(vector<vector<int>>& maze, vector<int> curr, vector<int>& destination, vector<vector<bool>>& visited){
+        if (visited[curr[0]][curr[1]]) return false;
+        if (curr[0] == destination[0] && curr[1] == destination[1]) return true;
+        
+        int dirX[4] = {-1, 0, 1, 0}, dirY[4] = {0, 1, 0, -1};
+        visited[curr[0]][curr[1]] = true;
+        for (int i = 0; i < 4; ++i){
+            int r = curr[0], c = curr[1];
+            
+            while (0 <= r && r < m && 0 <= c && c < n && maze[r][c] == 0){
+                r += dirX[i];
+                c += dirY[i];
+            }
+            
+            if (dfs(maze, {r - dirX[i], c - dirY[i]}, destination, visited)) return true;
+        }
+        
+        return false;
     }
     
 public:
     bool hasPath(vector<vector<int>>& maze, vector<int>& start, vector<int>& destination) {
-        this -> rows = maze.size(), this -> cols = maze[0].size();
-        
-        if (maze[start[0]][start[1]] == 1) return false;
-        
-        queue<pair<int, int>> queue;
-        queue.push(make_pair(start[0], start[1]));
-        vector<vector<bool>> visited(rows, vector<bool>(cols, false));
-        vector<pair<int, int>> directions{{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
-        
-        while (!queue.empty()){
-            auto [x, y] = queue.front();
-            queue.pop();
-            
-            if (x == destination[0] && y == destination[1]) return true;
-            
-            if (visited[x][y]) continue;
-            
-            visited[x][y] = true;
-            for (auto& [dx, dy] : directions){
-                int newX = x, newY = y;
-                
-                while (isValid(newX + dx, newY + dy, maze)){
-                    newX += dx;
-                    newY += dy;
-                }
-                
-                queue.push(make_pair(newX, newY));
-            }
-        }
-        
-        return false;
+        this -> m = maze.size(), this -> n = maze[0].size();
+        vector<vector<bool>> visited(m, vector<bool>(n));
+        return dfs(maze, start, destination, visited);
     }
 };
