@@ -5,29 +5,20 @@
 #         self.next = next
 class Solution:
     def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:
-        # before and after := two pointers with dummy nodes to circulate from each initialization of head pointer
-        before = before_head = ListNode()
-        after = after_head = ListNode()
+        if not head or not head.next:
+            return head
         
-        while head:
-            
-            # set the criterion between less than x and greater or equal to x 
-            if head.val < x:
-                before.next = head
-                before = before.next
-            
-            else:
-                after.next = head
-                after = after.next
-            
-            head = head.next
+        head.next = self.partition(head.next, x)
         
-        # Cut the cycle of ListNodes greater than x
-        after.next = None
+        if head.val < x:
+            return head
+        else:
+            curr = head
+            while curr.next:
+                if curr.val > curr.next.val and curr.next.val < x:
+                    curr.val, curr.next.val = curr.next.val, curr.val
+                    curr = curr.next
+                else:
+                    break
         
-        # merge two pointers: before and head
-        before.next = after_head.next
-        
-        return before_head.next
-        
-        
+        return head
