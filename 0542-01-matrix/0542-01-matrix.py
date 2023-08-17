@@ -1,26 +1,24 @@
 class Solution:
     def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
-        rows = len(mat)
-        if rows == 0:
-            return mat
-        cols = len(mat[0])
-        dist = [[float('inf')] * cols for _ in range(rows)]
+        m, n = len(mat), len(mat[0])
+        ans, queue = [[0] * n for _ in range(m)], deque([])
+        visited = [[False] * n for _ in range(m)]
         
-        for i in range(rows):
-            for j in range(cols):
+        for i in range(m):
+            for j in range(n):
                 if not mat[i][j]:
-                    dist[i][j] = 0
-                else:
-                    if i > 0:
-                        dist[i][j] = min(dist[i][j], dist[i - 1][j] + 1)
-                    if j > 0:
-                        dist[i][j] = min(dist[i][j], dist[i][j - 1] + 1)
+                    queue.append((i, j, 1))
+                    visited[i][j] = True
         
-        for i in range(rows - 1, -1, -1):
-            for j in range(cols - 1, -1, -1):
-                if i < rows - 1:
-                    dist[i][j] = min(dist[i][j], dist[i + 1][j] + 1)
-                if j < cols - 1:
-                    dist[i][j] = min(dist[i][j], dist[i][j + 1] + 1)
+        while queue:
+            x, y, dist = queue.popleft()
+            
+            for new_x, new_y in ((x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1)):
+                if 0 <= new_x < m and 0 <= new_y < n and not visited[new_x][new_y]:
+                    queue.append((new_x, new_y, dist + 1))
+                    ans[new_x][new_y] = dist
+                    visited[new_x][new_y] = True
+                        
+        return ans
         
-        return dist
+        
