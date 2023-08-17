@@ -1,28 +1,34 @@
 class Solution {
 public:
     vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
-        int rows = mat.size();
-        if (rows == 0) return mat;
-        int cols = mat[0].size();
-        vector<vector<int>> dist(rows, vector<int>(cols, INT_MAX - 100000));
+        int m = mat.size(), n = mat[0].size();
+        queue<vector<int>> queue;
+        vector<vector<bool>> visited(m, vector<bool>(n));
+        vector<vector<int>> ans(m, vector<int>(n));
         
-        for (int i = 0; i < rows; ++i){
-            for (int j = 0; j < cols; ++j){
-                if (!mat[i][j]) dist[i][j] = 0;
-                else{
-                    if (i > 0) dist[i][j] = min(dist[i][j], dist[i - 1][j] + 1);
-                    if (j > 0) dist[i][j] = min(dist[i][j], dist[i][j - 1] + 1);
+        for (int i = 0; i < m; ++i){
+            for (int j = 0; j < n; ++j){
+                if (!mat[i][j]){
+                    queue.push({i, j, 1});
+                    visited[i][j] = true;
                 }
             }
         }
         
-        for (int i = rows - 1; i >= 0; --i){
-            for (int j = cols - 1; j >= 0; --j){
-                if (i < rows - 1) dist[i][j] = min(dist[i][j], dist[i + 1][j] + 1);
-                if (j < cols - 1) dist[i][j] = min(dist[i][j], dist[i][j + 1] + 1);
+        while (!queue.empty()){
+            auto it = queue.front();
+            queue.pop();
+            int x = it[0], y = it[1], dist = it[2];
+            
+            for (auto &[newX, newY] : vector<pair<int, int>>{{x + 1, y}, {x - 1, y}, {x, y - 1}, {x, y + 1}}){
+                if (0 <= newX && newX < m && 0 <= newY && newY < n && !visited[newX][newY]){
+                    visited[newX][newY] = true;
+                    queue.push({newX, newY, dist + 1});
+                    ans[newX][newY] = dist;
+                }
             }
         }
         
-        return dist;
+        return ans;
     }
 };
