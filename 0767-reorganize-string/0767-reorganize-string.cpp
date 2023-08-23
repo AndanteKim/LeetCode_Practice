@@ -1,28 +1,32 @@
 class Solution {
 public:
     string reorganizeString(string s) {
-        string ans = "";
-        priority_queue<pair<int, char>, vector<pair<int, char>>> pq;
-        unordered_map<char, int> m;
-        for (char& c : s) ++m[c];
+        vector<int> alphabets(26);
+        for (char& c : s) ++alphabets[c - 'a'];
         
-        for (auto& [key, cnt] : m) pq.push(make_pair(cnt, key));
-            
-        while (!pq.empty()){
-            auto [cntFirst, charFirst] = pq.top();
-            pq.pop();
-            
-            if (ans.empty() || charFirst != ans.back()){
-                ans.push_back(charFirst);
-                if (cntFirst > 1) pq.push(make_pair(cntFirst - 1, charFirst));
+        int maxCount = 0, letter = 0, index = 0;
+        for (int i = 0; i < 26; ++i){
+            if (alphabets[i] > maxCount){
+                maxCount = alphabets[i];
+                letter = i;
             }
-            else{
-                if (pq.empty()) return "";
-                auto [cntSecond, charSecond] = pq.top();
-                pq.pop();
-                ans.push_back(charSecond);
-                if (cntSecond > 1) pq.push(make_pair(cntSecond - 1, charSecond));
-                pq.push(make_pair(cntFirst, charFirst));
+        }
+        
+        if (maxCount > (s.size() + 1) / 2) return "";
+        
+        string ans = s;
+        while (alphabets[letter] != 0){
+            ans[index] = char(letter + 'a');
+            index += 2;
+            --alphabets[letter];
+        }
+        
+        for (int i = 0; i < 26; ++i){
+            while (alphabets[i] != 0){
+                if (index >= s.size()) index = 1;
+                ans[index] = char(i + 'a');
+                index += 2;
+                --alphabets[i];
             }
         }
         
