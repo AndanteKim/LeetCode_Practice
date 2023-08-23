@@ -1,26 +1,29 @@
 class Solution:
     def reorganizeString(self, s: str) -> str:
-        ans, counter, pq = [], dict(), []
-        for c in s:
-            counter[c] = counter.get(c, 0) + 1
+        char_counts = Counter(s)
+        max_cnt, letter = 0, ''
+        for char, cnt in char_counts.items():
+            if cnt > max_cnt:
+                max_cnt = cnt
+                letter = char
         
-        for k, count in counter.items():
-            heappush(pq, (-count, k))
+        if max_cnt > (len(s) + 1) // 2:
+            return ""
+        ans, index = [''] * len(s), 0
         
-        while pq:
-            count_first, char_first = heappop(pq)
-            
-            if not ans or char_first != ans[-1]:
-                ans.append(char_first)
-                if count_first + 1 != 0:
-                    heappush(pq, (count_first + 1, char_first))
-            else:
-                if not pq:
-                    return ""
-                count_second, char_second = heappop(pq)
-                ans.append(char_second)
-                if count_second + 1 != 0:
-                    heappush(pq, (count_second + 1, char_second))
-                heappush(pq, (count_first, char_first))
-            
+        while char_counts[letter] != 0:
+            ans[index] = letter
+            index += 2
+            char_counts[letter] -= 1
+        
+        for char, cnt in char_counts.items():
+            while cnt > 0:
+                if index >= len(s):
+                    index = 1
+                ans[index] = char
+                index += 2
+                cnt -= 1
+        
         return "".join(ans)
+        
+            
