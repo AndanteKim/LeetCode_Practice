@@ -1,11 +1,10 @@
 class Solution:
     def canAttendMeetings(self, intervals: List[List[int]]) -> bool:
-        if len(intervals) == 0:
-            return True
         intervals.sort()
-        prev = intervals[0]
-        for i in range(1, len(intervals)):
-            if prev[1] > intervals[i][0]:
+        current = [0, 0]
+        for start, end in intervals:
+            if current[1] > start:
                 return False
-            prev = intervals[i]
+            current = [start, end]
+        
         return True
