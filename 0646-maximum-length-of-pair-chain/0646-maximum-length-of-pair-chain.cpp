@@ -1,15 +1,15 @@
 class Solution {
 public:
     int findLongestChain(vector<vector<int>>& pairs) {
-        int n = pairs.size(), ans = 1;
-        vector<int> dp(n, 1);
-        sort(pairs.begin(), pairs.end());
+        // sort pairs in ascending order based on the second element.
+        sort(pairs.begin(), pairs.end(), [](const vector<int>& a, const vector<int>& b){return a[1] < b[1];});
+        int ans = 0, curr = INT_MIN;
         
-        for (int i = n - 1; i >= 0; --i){
-            for (int j = i + 1; j < n; ++j){
-                if (pairs[i][1] < pairs[j][0]) dp[i] = max(dp[i], 1 + dp[j]);
+        for (const vector<int>& p : pairs){
+            if (curr < p[0]){
+                ++ans;
+                curr = p[1];
             }
-            ans = max(ans, dp[i]);
         }
         
         return ans;
