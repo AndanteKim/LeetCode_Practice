@@ -6,9 +6,8 @@ public:
         vector<int> ans(n);
         
         for (int i = 0; i < n; ++i){
-            num = (num + word[i] - '0') % m;
+            num = (10 * num + word[i] - '0') % m;
             if (!num) ans[i] = 1;
-            num *= 10;
         }
         
         return ans;
