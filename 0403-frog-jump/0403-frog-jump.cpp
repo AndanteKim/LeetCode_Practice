@@ -1,27 +1,32 @@
 class Solution {
-private:
-    int dp[2001][2001];
-    int n;
-    int solve(vector<int>& stones, int index, int prevJump, unordered_map<int, int>& mark){
-        if (index >= n - 1) return 1;
-        if (dp[index][prevJump] != -1) return dp[index][prevJump];
-        
-        bool ans = false;
-        for (int nextJump = prevJump - 1; nextJump <= prevJump + 1; ++nextJump){
-            if (nextJump > 0 && mark.find(stones[index] + nextJump) != mark.end())
-                ans = ans || solve(stones, mark[stones[index] + nextJump], nextJump, mark);
-        }
-        
-        return dp[index][prevJump] = ans;
-    }
-    
 public:
     bool canCross(vector<int>& stones) {
-        this -> n = stones.size();
-        memset(dp, -1, sizeof(dp));
         unordered_map<int, int> mark;
+        int n = stones.size();
+        int dp[2001][2001];
+        memset(dp, 0, sizeof(dp));
         
         for (int i = 0; i < n; ++i) mark[stones[i]] = i;
-        return solve(stones, 0, 0, mark);
+        
+        dp[0][0] = 1;
+        for (int index = 0; index < n; ++index){
+            for (int prevJump = 0; prevJump <= n; ++prevJump){
+                if (dp[index][prevJump]){
+                    if (mark[stones[index] + prevJump])
+                        dp[mark[stones[index] + prevJump]][prevJump] = 1;
+                    if (mark[stones[index] + prevJump + 1])
+                        dp[mark[stones[index] + prevJump + 1]][prevJump + 1] = 1;
+                    if (mark[stones[index] + prevJump - 1])
+                        dp[mark[stones[index] + prevJump - 1]][prevJump - 1] = 1;
+                }
+                
+            }
+        }
+        
+        for (int prevJump = 0; prevJump <= n; ++prevJump){
+            if (dp[n - 1][prevJump]) return true;
+        }
+        
+        return false;
     }
 };
