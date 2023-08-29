@@ -1,21 +1,22 @@
 class Solution:
     def bestClosingTime(self, customers: str) -> int:
-        n = len(customers)
-        no_cnt, yes_cnt = [0] * (n + 1), [0] * (n + 1)
-        no_sum, yes_sum = 0, 0
+        # start with closing at hour 0, the penalty equals all 'Y' in closed hours
+        curr_penalty = min_penalty = customers.count('Y')
+        earliest_hour = 0
         
-        for i in range(n):
-            no_sum += customers[i] == 'N'
-            no_cnt[i + 1] = no_sum
+        for i, ch in enumerate(customers):
+            # If status in hour i is 'Y', moving to open hours decrement
+            # penalty by 1. Otherwise, moving 'N' to open hours increment
+            # penalty by 1.
             
-        for i in range(n - 1, -1, -1):
-            yes_sum += customers[i] == 'Y'
-            yes_cnt[i] = yes_sum
+            if ch == 'Y':
+                curr_penalty -= 1
+            else:
+                curr_penalty += 1
+            
+            # Update earliest_hour if a smaller penalty is encountered
+            if curr_penalty < min_penalty:
+                earliest_hour = i + 1
+                min_penalty = curr_penalty
         
-        ans, current = float('inf'), float('inf')
-        for i in range(n + 1):
-            if current > no_cnt[i] + yes_cnt[i]:
-                ans = i
-                current = no_cnt[i] + yes_cnt[i]
-        
-        return ans
+        return earliest_hour
