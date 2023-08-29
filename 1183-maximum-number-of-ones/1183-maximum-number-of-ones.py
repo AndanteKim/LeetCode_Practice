@@ -1,11 +1,26 @@
 class Solution:
     def maximumNumberOfOnes(self, width: int, height: int, sideLength: int, maxOnes: int) -> int:
-        count = []
+        m, n = height, width
+        ans = maxOnes * ((m // sideLength) * (n // sideLength))
+        rest = maxOnes
         
-        for r in range(sideLength):
-            for c in range(sideLength):
-                num = (1 + (width - c - 1) // sideLength) * (1 + (height - r - 1) // sideLength)
-                count.append(num)
+        use1 = min((m % sideLength) * (n % sideLength), rest)
+        ans += ((m // sideLength) + (n // sideLength) + 1) * use1
+        rest -= use1
         
-        count.sort(reverse = True)
-        return sum(count[:maxOnes])
+        if m // sideLength > n // sideLength:
+            use2 = min(((n % sideLength) * sideLength) - ((m % sideLength) * (n % sideLength)), rest)
+            ans += (m // sideLength) * use2
+            rest -= use2
+            use3 = min(((m % sideLength) * sideLength) - ((m % sideLength) * (n % sideLength)), rest)
+            ans += (n // sideLength) * use3
+            rest -= use3
+        else:
+            use2 = min(((m % sideLength) * sideLength) - ((m % sideLength) * (n % sideLength)), rest)
+            ans += (n // sideLength) * use2
+            rest -= use2
+            use3 = min(((n % sideLength) * sideLength) - ((m % sideLength) * (n % sideLength)), rest)
+            ans += (m // sideLength) * use3
+            rest -= use3
+        
+        return ans
