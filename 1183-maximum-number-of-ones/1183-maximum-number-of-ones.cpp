@@ -1,16 +1,26 @@
-class Solution {
-public:
-    int maximumNumberOfOnes(int width, int height, int sideLength, int maxOnes) {
-        vector<int> count;
-        for (int r = 0; r < sideLength; ++r){
-            for (int c = 0; c < sideLength; ++c){
-                int num = (1 + (width - c - 1) / sideLength) * (1 + (height - r - 1) / sideLength);
-                count.push_back(num);
-            }
-        }
+class Solution:
+    def maximumNumberOfOnes(self, width: int, height: int, sideLength: int, maxOnes: int) -> int:
+        m, n = height, width
+        ans = maxOnes * ((m // sideLength) * (n // sideLength))
+        rest = maxOnes
         
-        sort(count.begin(), count.end(), [](int a, int b) {return a > b;});
+        use1 = min((m % sideLength) * (n % sideLength), rest)
+        ans += ((m // sideLength) + (n // sideLength) + 1) * use1
+        rest -= use1
         
-        return accumulate(count.begin(), count.begin() + maxOnes, 0);
-    }
-};
+        if m // sideLength > n // sideLength:
+            use2 = min(((n % sideLength) * sideLength) - ((m % sideLength) * (n % sideLength)), rest)
+            ans += (m // sideLength) * use2
+            rest -= use2
+            use3 = min(((m % sideLength) * sideLength) - ((m % sideLength) * (n % sideLength)), rest)
+            ans += (n // sideLength) * use3
+            rest -= use3
+        else:
+            use2 = min(((m % sideLength) * sideLength) - ((m % sideLength) * (n % sideLength)), rest)
+            ans += (n // sideLength) * use2
+            rest -= use2
+            use3 = min(((n % sideLength) * sideLength) - ((m % sideLength) * (n % sideLength)), rest)
+            ans += (m // sideLength) * use3
+            rest -= use3
+        
+        return ans
