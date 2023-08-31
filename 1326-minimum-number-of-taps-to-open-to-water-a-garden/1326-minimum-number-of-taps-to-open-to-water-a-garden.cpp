@@ -1,36 +1,23 @@
 class Solution {
 public:
     int minTaps(int n, vector<int>& ranges) {
-        // create a list to track the maximum reach for each position
-        vector<int> maxReach(n + 1, 0);
+        // Define infinite values with vector
+        vector<int> dp(n + 1, 1e9);
         
-        // calculate the maximum reach for each tap
-        for (int i = 0; i < ranges.size(); ++i){
-            // calculate the leftmost and rightmost position, so that each tap can be reached
-            int start = max(0, i - ranges[i]), end = min(n, i + ranges[i]);
-            // update the maximum reach for the leftmost position
-            maxReach[start] = max(maxReach[start], end);
-        }
+        // Initialize the starting position of the garden
+        dp[0] = 0;
         
-        // number of taps used
-        int taps = 0;
-        // current rightmost position reached
-        int currEnd = 0;
-        // next rightmost position that can be reached
-        int nextEnd = 0;
-        // Iterate through the garden
         for (int i = 0; i <= n; ++i){
-            if (i > nextEnd) return -1;
-            if (i > currEnd){
-                // increment taps when moving to a new tap
-                ++taps;
-                // move to the rightmost position
-                currEnd = nextEnd;
+            // Calculate the leftmost position and rightmost position reachable by the current tap
+            int start = max(0, i - ranges[i]), end = min(n, i + ranges[i]);
+            
+            for (int j = start; j <= end; ++j){
+                // Update with the minimum number of taps
+                dp[end] = min(dp[end], dp[j] + 1);
             }
-            // Update the next rightmost position can be reached
-            nextEnd = max(nextEnd, maxReach[i]);
         }
         
-        return taps;
+        // check if the water garden can be watered completely
+        return dp[n] == 1e9? -1: dp[n];
     }
 };
