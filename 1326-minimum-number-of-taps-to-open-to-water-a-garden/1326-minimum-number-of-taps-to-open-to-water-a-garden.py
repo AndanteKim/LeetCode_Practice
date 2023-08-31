@@ -1,38 +1,21 @@
 class Solution:
     def minTaps(self, n: int, ranges: List[int]) -> int:
-        # Create a list to track the maximum reach for each position
-        max_reach = [0] * (n + 1)
+        # define an inf value as dp array
+        dp = [float('inf')] * (n + 1)
         
-        # Calculate the maximum reach for each tap
-        for i in range(len(ranges)):
-            # Calculate the leftmost position the tap can reach
-            start = max(0, i - ranges[i])
-            # Calculate the rightmost position the tap can reach
-            end = min(n, i + ranges[i])
-            
-            # Update the maximum reacch for the leftmost position
-            max_reach[start] = max(max_reach[start], end)
-            
-        # Number of taps used
-        taps = 0
-        # Current rightmost position reached
-        curr_end = 0
-        # Next rightmost position that can be reached
-        next_end = 0
+        # Initialize the starting position of the garden
+        dp[0] = 0
         
-        # Iterate through the garden
         for i in range(n + 1):
-            if i > next_end:
-                # Current position cannot be reached
-                return -1
+            # calculate the leftmost position reachable by the current tap
+            tap_start = max(0, i - ranges[i])
+            # calculate the rightmost position reachable by the current tap
+            tap_end = min(n, i + ranges[i])
             
-            if i > curr_end:
-                # Increment taps when moving to a new tap
-                taps += 1
-                # Move to the rightmost position that can be reached
-                curr_end = next_end
-            
-            # Update the next rightmost position that can be reached
-            next_end = max(next_end, max_reach[i])
+            for j in range(tap_start, tap_end + 1):
+                # update with the minimum number of taps
+                dp[tap_end] = min(dp[tap_end], dp[j] + 1)
+                
+        # check if the garden can be watered completely
+        return -1 if dp[n] == float('inf') else dp[n]
         
-        return taps
