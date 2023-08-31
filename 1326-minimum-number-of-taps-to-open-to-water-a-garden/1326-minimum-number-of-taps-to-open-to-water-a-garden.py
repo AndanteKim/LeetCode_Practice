@@ -1,21 +1,22 @@
 class Solution:
     def minTaps(self, n: int, ranges: List[int]) -> int:
-        # define an inf value as dp array
-        dp = [float('inf')] * (n + 1)
+        max_end = n
         
-        # Initialize the starting position of the garden
-        dp[0] = 0
+        intervals = sorted((max(0, i - r), min(n, i + r)) for i, r in enumerate(ranges))
         
-        for i in range(n + 1):
-            # calculate the leftmost position reachable by the current tap
-            tap_start = max(0, i - ranges[i])
-            # calculate the rightmost position reachable by the current tap
-            tap_end = min(n, i + ranges[i])
+        N = len(ranges)
+        current_end = i = count = max_reachable_end = 0
+        
+        while current_end < max_end:
             
-            for j in range(tap_start, tap_end + 1):
-                # update with the minimum number of taps
-                dp[tap_end] = min(dp[tap_end], dp[j] + 1)
-                
-        # check if the garden can be watered completely
-        return -1 if dp[n] == float('inf') else dp[n]
+            while i < N and intervals[i][0] <= current_end:
+                max_reachable_end = max(max_reachable_end, intervals[i][1])
+                i += 1
+            
+            if current_end == max_reachable_end:
+                return -1
+            
+            current_end = max_reachable_end
+            count += 1
         
+        return count
