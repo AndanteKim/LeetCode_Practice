@@ -1,23 +1,27 @@
 class Solution {
 public:
     int minTaps(int n, vector<int>& ranges) {
-        // Define infinite values with vector
-        vector<int> dp(n + 1, 1e9);
+        int maxEnd = n;
+        vector<pair<int, int>> intervals;
         
-        // Initialize the starting position of the garden
-        dp[0] = 0;
+        for (int i = 0; i < ranges.size(); ++i){
+            intervals.push_back(make_pair(max(0, i - ranges[i]), min(n, i + ranges[i])));
+        }
+        sort(intervals.begin(), intervals.end());
         
-        for (int i = 0; i <= n; ++i){
-            // Calculate the leftmost position and rightmost position reachable by the current tap
-            int start = max(0, i - ranges[i]), end = min(n, i + ranges[i]);
-            
-            for (int j = start; j <= end; ++j){
-                // Update with the minimum number of taps
-                dp[end] = min(dp[end], dp[j] + 1);
+        
+        int N = intervals.size(), currentEnd = 0, maxReachableEnd = 0, i = 0, count = 0;
+        while (currentEnd < maxEnd){
+            while (i < N && intervals[i].first <= currentEnd){
+                maxReachableEnd = max(maxReachableEnd, intervals[i].second);
+                ++i;
             }
+            
+            if (currentEnd == maxReachableEnd) return -1;
+            currentEnd = maxReachableEnd;
+            ++count;
         }
         
-        // check if the water garden can be watered completely
-        return dp[n] == 1e9? -1: dp[n];
+        return count;
     }
 };
