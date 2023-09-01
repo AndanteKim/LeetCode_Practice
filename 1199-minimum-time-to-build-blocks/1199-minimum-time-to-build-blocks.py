@@ -1,34 +1,37 @@
 class Solution:
     def minBuildTime(self, blocks: List[int], split: int) -> int:
-        n = len(blocks)
-        
         # sort the blocks in descending order
+        N = len(blocks)
         blocks.sort(reverse = True)
         
-        # dp[i][j] represents the minimum time taken
-        # build blocks[i ~ n - 1] block using j workers
-        dp = [[-1] * (n + 1) for _ in range(n)]
+        # Initialize the dp array
+        dp = [[0] * (N + 1) for _ in range(N + 1)]
         
-        def solve(b: int, w: int) -> int:
-            # Base cases
-            if b == n:
-                return 0
-            if w == 0:
-                return float('inf')
-            if w >= n - b:
-                return blocks[b]
+        # base case 1: If there are no workers, then we can't build any block
+        for b in range(N):
+            dp[b][0] = float('inf')
             
-            # If the sub-problem is already solved, return the result
-            if dp[b][w] != -1:
-                return dp[b][w]
+        # base case 2: If there are no blocks, then we don't need any time.
+        for w in range(N + 1):
+            dp[N][w] = 0
             
-            # 2 choices
-            work_here = max(blocks[b], solve(b + 1, w - 1))
-            split_here = split + solve(b, min(2 * w, n - b))
-            
-            # store the result in the dp array
-            dp[b][w] = min(work_here, split_here)
-            return dp[b][w]
+        # fill the dp array in a bottom-up fashion
+        for b in range(N - 1, -1, -1):
+            # base case 3: If we have more workers than blocks,
+            # then we can build all the blocks
+            for w in range(N, 0, -1):
+                if w >= N - b:
+                    dp[b][w] = blocks[b]
+                    continue
+                
+                # Recurrence relation
+                workHere = max(blocks[b], dp[b + 1][w - 1])
+                splitHere = split + dp[b][min(2 * w, N - b)]
+                
+                # Store the result in the dp array
+                dp[b][w] = min(workHere, splitHere)
         
-        # For block from index 0, with 1 worker
-        return solve(0, 1)
+        # For building all the blocks with initially 1 worker
+        return dp[0][1]
+                
+        
