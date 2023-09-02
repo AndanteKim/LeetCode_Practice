@@ -1,50 +1,43 @@
 class TrieNode{
 public:
-    unordered_map<char, TrieNode*> children;
     bool isWord;
+    unordered_map<char, TrieNode*> children;
 };
+
 
 class Solution {
 private:
     TrieNode* buildTrie(vector<string>& dictionary){
-        TrieNode* root = new TrieNode();
+        TrieNode* node = new TrieNode();
         for (string& word : dictionary){
-            TrieNode* node = root;
+            TrieNode* curr = node;
             for (char& c : word){
-                if (node -> children.find(c) == node -> children.end())
-                    node -> children[c] = new TrieNode();
-                node = node -> children[c];
+                if (curr -> children.find(c) == curr -> children.end()){
+                    curr -> children[c] = new TrieNode();
+                }
+                curr = curr -> children[c];
             }
-            
-            node -> isWord = true;
+            curr -> isWord = true;
         }
-        
-        return root;
+        return node;
     }
     
 public:
     int minExtraChar(string s, vector<string>& dictionary) {
         int n = s.size();
         TrieNode* root = buildTrie(dictionary);
-        unordered_map<int, int> memo;
+        vector<int> dp(n + 1);
         
-        function<int(int)> dp = [&](int start){
-            if (start == n) return 0;
-            if (memo.count(start)) return memo[start];
-            
-            // To count this character as a left over character
-            // move to index 'start + 1'
-            int ans = dp(start + 1) + 1;
+        for (int start = n - 1; start >= 0; --start){
+            dp[start] = dp[start + 1] + 1;
             TrieNode* node = root;
             for (int end = start; end < n; ++end){
-                char c = s[end];
-                if (node -> children.find(c) == node -> children.end()) break;
-                node = node -> children[c];
-                if (node -> isWord) ans = min(ans, dp(end + 1));
+                if (node -> children.find(s[end]) == node -> children.end()) break;
+                node = node -> children[s[end]];
+                if (node -> isWord) dp[start] = min(dp[start], dp[end + 1]);
             }
-            return memo[start] = ans;
-        };
+        }
         
-        return dp(0);
+        return dp[0];
     }
 };
