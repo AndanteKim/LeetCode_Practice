@@ -1,35 +1,36 @@
 class Solution {
 public:
     int minBuildTime(vector<int>& blocks, int split) {
-        // sort the blocks in descending order
         int N = blocks.size();
-        sort(blocks.begin(), blocks.end(), [](int a, int b){return a > b;});
+        sort(blocks.begin(), blocks.end(), greater<int>());
         
-        // Initialize the array
-        vector<vector<int>> dp(N + 1, vector<int>(N + 1));
+        // Initialize the dp array. When all N blocks done,
+        // we need 0 time
+        vector<int> dp(N + 1);
+        // The case when we have no workers
+        dp[0] = INT_MAX;
         
-        // base case 1: If there are no workers, we can't build any block
-        for (int b = 0; b < N; ++b) dp[b][0] = INT_MAX;
-        
-        // base case 2: If there are no blocks, we don't need any time
-        for (int w = 0; w <= N; ++w) dp[N][w] = 0;
-        
-        // fill the array in a bottom-up fashion
+        // Fill the dp array in a bottom-up fashion
         for (int b = N - 1; b >= 0; --b){
-            for (int w = N; w >= 1; --w){
+            for (int w = N; w > 0; --w){
+                // If we have more workers than blocks
+                // Then we can build all the blocks
                 if (w >= N - b){
-                    dp[b][w] = blocks[b];
+                    dp[w] = blocks[b];
                     continue;
                 }
                 
-                // recur relation
-                int workHere = max(blocks[b], dp[b + 1][w - 1]);
-                int splitHere = split + dp[b][min(2 * w, N - b)];
-                dp[b][w] = min(workHere, splitHere);
+                // Recurrence relation
+                int workHere = max(blocks[b], dp[w - 1]);
+                int splitHere = split + dp[min(2 * w, N - b)];
+                
+                // Store the result in the dp array
+                dp[w] = min(workHere, splitHere);
             }
         }
         
-        // For building all the blocks with initially 1 worker
-        return dp[0][1];
+        // For building all the blocks, with
+        // initially 1 worker
+        return dp[1];
     }
 };
