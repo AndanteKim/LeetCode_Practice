@@ -1,20 +1,13 @@
 class Solution:
     def minExtraChar(self, s: str, dictionary: List[str]) -> int:
-        @lru_cache(maxsize = None)
-        def dp(start: int) -> int:
-            if start == n:
-                return 0
-            
-            # To count this character as a left over character
-            # move to index 'start + 1'
-            ans = dp(start + 1) + 1
+        n, dict_set = len(s), set(dictionary)
+        dp = [0] * (len(s) + 1)
+        
+        for start in range(n - 1, -1, -1):
+            dp[start] = 1 + dp[start + 1]
             for end in range(start, n):
                 curr = s[start: end + 1]
                 if curr in dict_set:
-                    ans = min(ans, dp(end + 1))
-            return ans
+                    dp[start] = min(dp[start], dp[end + 1])
         
-        n, dict_set = len(s), set(dictionary)
-        return dp(0)
-        
-        
+        return dp[0]
