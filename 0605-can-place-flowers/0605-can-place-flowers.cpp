@@ -1,18 +1,18 @@
 class Solution {
 public:
     bool canPlaceFlowers(vector<int>& flowerbed, int n) {
-        int count = 0;
+        int count = 0, lastOne = -1;
         
         for (int i = 0; i < flowerbed.size(); ++i){
-            if (!flowerbed[i]){
-                bool emptyLeftPlot = (i == 0) || !flowerbed[i - 1];
-                bool emptyRightPlot = (i == flowerbed.size() - 1) || !flowerbed[i + 1];
-                if (emptyLeftPlot && emptyRightPlot){
-                    flowerbed[i] = 1;
-                    ++count;
-                }
+            if (!flowerbed[i]) ++count;
+            else{
+                n -= (count - (lastOne != -1)) / 2;
+                count = 0;
+                lastOne = i;
             }
         }
-        return count >= n;
+        n -= (count + (lastOne == -1)) / 2;
+        
+        return n <= 0;
     }
 };
