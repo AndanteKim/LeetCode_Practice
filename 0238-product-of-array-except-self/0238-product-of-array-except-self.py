@@ -1,13 +1,22 @@
 class Solution:
     def productExceptSelf(self, nums: List[int]) -> List[int]:
-        n, product, flag = len(nums), 1, False
-        for i in range(n):
-            if not nums[i]:
-                if not flag:
-                    flag = True
-                    continue
-                else:
-                    return [0] * n
-            product *= nums[i]
+        # Time Complexity: O(n)
+        # Space Complexity: O(n) since L, R prefix, suffix product array
+        
+        n = len(nums)
+        
+        L, R, ans = [0] * n, [0] * n, [0] * n
+        
+        L[0], R[n - 1] = 1, 1
+        
+        for i in range(1, n):
+            L[i] = nums[i - 1] * L[i - 1]
             
-        return [product if num == 0 else 0 for num in nums] if flag else [product // num for num in nums]
+        for i in range(n - 2, -1, -1):
+            R[i] = nums[i + 1] * R[i + 1]
+        
+        
+        for i in range(n):
+            ans[i] = L[i] * R[i]
+        
+        return ans
