@@ -1,12 +1,15 @@
 class Solution {
 public:
     bool isSubsequence(string s, string t) {
-        int LEFT_BOUND = s.size(), RIGHT_BOUND = t.size(), i = 0, j = 0;
+        int i = 0, j = 0, len_s = s.size(), len_t = t.size();
         
-        while (i < LEFT_BOUND and j < RIGHT_BOUND){
-            if (s[i] == t[j]) ++i;
-            ++j;
+        while (i < len_s && j < len_t){
+            if (s[i] == t[j]) {
+                ++i; ++j;
+            }
+            else ++j;
         }
-        return i == LEFT_BOUND? true : false; 
+        
+        return i == len_s? true : false;
     }
 };
