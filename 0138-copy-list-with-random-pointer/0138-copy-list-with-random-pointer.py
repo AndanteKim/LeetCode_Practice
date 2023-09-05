@@ -9,28 +9,43 @@ class Node:
 
 class Solution:
     def __init__(self):
-        # Dictionary holding old nodes as keys and new nodes as its values
-        self.visitedHash = dict()
+        # creating a visited dictionary to hold old node reference as key
+        # and new node reference as the "value"
+        self.visited = dict()
+    
+    def getClonedNode(self, node: 'Node') -> 'Node':
+        # if node exists then
+        if node:
+            # check if it's in the visited dictionary
+            if node in self.visited:
+                # If it's in the visited dictionary then return the new node reference
+                # from the dictionary
+                return self.visited[node]
+            else:
+                # Otherwise create a new node, save the reference in the visited dictionary
+                # and return it
+                self.visited[node] = Node(node.val, None, None)
+                return self.visited[node]
         
+        return None
+    
     def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
-        # base case
         if not head:
-            return None
+            return head
         
-        if head in self.visitedHash:
-            return self.visitedHash[head]
+        old_node = head
+        # create the new head node
+        new_node = Node(old_node.val, None, None)
+        self.visited[old_node] = new_node
         
-        # create a new node with the value same as old node
-        node = Node(head.val, None, None)
-        
-        # Save it in the hash map to find loops during traversal due to randomness of
-        # random pointers and to avoid it
-        self.visitedHash[head] = node
-
-        # Recursively copy the remaining linked list starting once from the next pointer
-        # and then from the random pointer
-        # Update two independent recursive calls
-        node.next = self.copyRandomList(head.next)
-        node.random = self.copyRandomList(head.random)
-        
-        return node
+        # Iterate on the linked list until all nodes are cloned
+        while old_node:
+            # get the clones of the nodes referenced by random and next pointers
+            new_node.random = self.getClonedNode(old_node.random)
+            new_node.next = self.getClonedNode(old_node.next)
+            
+            # Move one step ahead in the linked list
+            old_node = old_node.next
+            new_node = new_node.next
+            
+        return self.visited[head]
