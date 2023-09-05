@@ -15,37 +15,34 @@ public:
 */
 
 class Solution {
-private:
-    unordered_map<Node*, Node*> visitedHash;
-    Node* getClonedNode(Node* node){
-        if (node){
-            if (visitedHash.find(node) != visitedHash.end())
-                return visitedHash[node];
-            else{
-                visitedHash[node] = new Node(node -> val, nullptr, nullptr);
-                return visitedHash[node];
-            }
-        }
-        
-        return nullptr;
-    }
-    
 public:
     Node* copyRandomList(Node* head) {
         if (!head) return nullptr;
-        Node* oldOne = head;
-        Node* newOne = new Node(oldOne -> val, nullptr, nullptr);
-        visitedHash[oldOne] = newOne;
+        
+        Node* ptr = head;
+        
+        while (ptr){
+            Node* newOne = new Node(ptr -> val, nullptr, nullptr);
+            newOne -> next = ptr -> next;
+            ptr -> next = newOne;
+            ptr = newOne -> next;
+        }
+        
+        ptr = head;
+        while (ptr){
+            ptr -> next -> random = ptr -> random? ptr -> random -> next : nullptr;
+            ptr = ptr -> next -> next;
+        }
+        
+        Node* oldOne = head, * newOne = head -> next, * headNew = head -> next;
         
         while (oldOne){
-            newOne -> next = getClonedNode(oldOne -> next);
-            newOne -> random = getClonedNode(oldOne -> random);
-            
-            // move to one next step
+            oldOne -> next = oldOne -> next -> next;
+            newOne -> next = newOne -> next? newOne -> next -> next : nullptr;
             oldOne = oldOne -> next;
             newOne = newOne -> next;
         }
         
-        return visitedHash[head];
+        return headNew;
     }
 };
