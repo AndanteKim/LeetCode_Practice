@@ -1,17 +1,16 @@
 class Solution:
     def maxOperations(self, nums: List[int], k: int) -> int:
-        nums.sort()
-        n = len(nums)
-        i, j, ans = 0, n - 1, 0
+        lookup = defaultdict(int)
+        ans = 0
         
-        while i < j:
-            if nums[i] + nums[j] == k:
-                i += 1
-                j -= 1
+        for num in nums:
+            complement = k - num
+            if lookup[complement] > 0:
+                # remove complement from the map
+                lookup[complement] -= 1
                 ans += 1
-            elif nums[i] + nums[j] > k:
-                j -= 1
             else:
-                i += 1
+                # add current element in the map
+                lookup[num] += 1
         
         return ans
