@@ -17,28 +17,35 @@ public:
 class Solution {
 private:
     unordered_map<Node*, Node*> visitedHash;
+    Node* getClonedNode(Node* node){
+        if (node){
+            if (visitedHash.find(node) != visitedHash.end())
+                return visitedHash[node];
+            else{
+                visitedHash[node] = new Node(node -> val, nullptr, nullptr);
+                return visitedHash[node];
+            }
+        }
+        
+        return nullptr;
+    }
     
 public:
     Node* copyRandomList(Node* head) {
-        // base case
         if (!head) return nullptr;
+        Node* oldOne = head;
+        Node* newOne = new Node(oldOne -> val, nullptr, nullptr);
+        visitedHash[oldOne] = newOne;
         
-        
-        if (visitedHash.find(head) != visitedHash.end())
-            return visitedHash[head];
+        while (oldOne){
+            newOne -> next = getClonedNode(oldOne -> next);
+            newOne -> random = getClonedNode(oldOne -> random);
             
-        // create a new node
-        Node* node = new Node(head -> val, nullptr, nullptr);
+            // move to one next step
+            oldOne = oldOne -> next;
+            newOne = newOne -> next;
+        }
         
-        // save it in the hash map
-        visitedHash[head] = node;
-        
-        // recursively copy the remaining linked list starting once from
-        // the next pointer and then from the random pointer
-        // update two independent recursive calls
-        node -> next = copyRandomList(head -> next);
-        node -> random = copyRandomList(head -> random);
-        
-        return node;
+        return visitedHash[head];
     }
 };
