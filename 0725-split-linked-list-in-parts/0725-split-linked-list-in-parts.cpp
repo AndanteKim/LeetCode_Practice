@@ -20,15 +20,19 @@ public:
         }
         
         int width = n / k, rem = n % k;
-        curr = head;
         vector<ListNode*> ans(k);
+        curr = head;
         for (int i = 0; i < k; ++i){
-            ListNode* root = new ListNode(), * write = root;
-            for (int j = 0; j < width + (i < rem ? 1 : 0); ++j){
-                write = write -> next = new ListNode(curr -> val);
+            ListNode* partial = curr;
+            for (int j = 0; j < width + (i < rem? 1 : 0) - 1; ++j){
                 if (curr) curr = curr -> next;
             }
-            ans[i] = root -> next;
+            if (curr){
+                ListNode *temp = curr -> next;
+                curr -> next = nullptr;
+                curr = temp;
+            }
+            ans[i] = partial;
         }
         
         return ans;
