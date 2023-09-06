@@ -10,15 +10,18 @@ class Solution:
         while curr:
             n += 1
             curr = curr.next
-        
-        width, remainder = divmod(n, k)
+            
+        width, rem = divmod(n, k)
         
         ans, curr = [], head
         for i in range(k):
-            head = write = ListNode(None)
-            for j in range(width + (i < remainder)):
-                write.next = write = ListNode(curr.val)
+            head = curr
+            
+            for j in range(width + (i < rem) - 1):
                 if curr:
                     curr = curr.next
-            ans.append(head.next)
+            if curr:
+                curr.next, curr = None, curr.next
+            ans.append(head)
+        
         return ans
