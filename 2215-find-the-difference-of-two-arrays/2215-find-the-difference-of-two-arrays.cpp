@@ -1,19 +1,15 @@
 class Solution {
-    vector<int> getElementsOnlyInFirstList(vector<int>& nums1, vector<int>& nums2){
-        unordered_set<int> onlyInNums1, existsInNums2;
-        for (int num : nums2) existsInNums2.insert(num);
-        
-        for (int num : nums1) {
-            if (existsInNums2.find(num) == existsInNums2.end()){
-                onlyInNums1.insert(num);
-            }
-        }
-        
-        return vector<int> (onlyInNums1.begin(), onlyInNums1.end());
-    }
-    
 public:
     vector<vector<int>> findDifference(vector<int>& nums1, vector<int>& nums2) {
-        return {getElementsOnlyInFirstList(nums1, nums2), getElementsOnlyInFirstList(nums2, nums1)};
+        unordered_set<int> s1(nums1.begin(), nums1.end()), s2(nums2.begin(), nums2.end());
+        vector<int> v1, v2;
+        for (int n1 : s1){
+            if (s2.find(n1) == s2.end()) v1.push_back(n1);
+        }
+        for (int n2 : s2){
+            if (s1.find(n2) == s1.end()) v2.push_back(n2);
+        }
+        
+        return {v1, v2};
     }
-}; 
+};
