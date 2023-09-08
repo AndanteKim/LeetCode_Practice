@@ -1,23 +1,18 @@
 class Solution:
     def closeStrings(self, word1: str, word2: str) -> bool:
-        if len(word1) != len(word2): return False
-        word1Map, word2Map = [0] * 26, [0] * 26
+        count1, count2 = [0] * 26, [0] * 26
         
-        word1Bit, word2Bit = 0, 0
         for c in word1:
-            word1Map[ord(c) - ord('a')] += 1
-            word1Bit = word1Bit | (1 << ord(c) - ord('a'))
-        
+            count1[ord(c) - 97] += 1
         for c in word2:
-            word2Map[ord(c) - ord('a')] += 1
-            word2Bit = word2Bit | (1 << ord(c) - ord('a'))
+            if count1[ord(c) - 97] == 0:
+                return False
+            count2[ord(c) - 97] += 1
         
-        if word1Bit != word2Bit: return False
-        
-        word1Map.sort()
-        word2Map.sort()
+        count1.sort(reverse = True)
+        count2.sort(reverse = True)
         
         for i in range(26):
-            if word1Map[i] != word2Map[i]: return False
-        
+            if count1[i] != count2[i]:
+                return False
         return True
