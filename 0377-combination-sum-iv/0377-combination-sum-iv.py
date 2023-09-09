@@ -1,18 +1,14 @@
 class Solution:
     def combinationSum4(self, nums: List[int], target: int) -> int:
+        nums.sort()
+        dp = [0 for i in range(target + 1)]
+        dp[0] = 1
         
-        @lru_cache(maxsize = None)
-        def backtrack(i: int, curr: int) -> int:
-            if i >= n or curr > target:
-                return 0
-            if curr == target:
-                return 1
-            
-            ways = 0
-            for j in range(n):
-                ways += backtrack(j, curr + nums[j])
-                
-            return ways
-            
-        n = len(nums)
-        return backtrack(0, 0)
+        for comb_sum in range(target + 1):
+            for num in nums:
+                if comb_sum - num >= 0:
+                    dp[comb_sum] += dp[comb_sum - num]
+                else:
+                    break
+        
+        return dp[target]
