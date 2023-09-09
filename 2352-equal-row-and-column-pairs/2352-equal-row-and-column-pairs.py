@@ -1,19 +1,37 @@
+class TrieNode:
+    def __init__(self):
+        self.count = 0
+        self.children = dict()
+
+class Trie:
+    def __init__(self):
+        self.trie = TrieNode()
+    
+    def insert(self, arr: List[int]) -> None:
+        my_trie = self.trie
+        for num in arr:
+            if num not in my_trie.children:
+                my_trie.children[num] = TrieNode()
+            my_trie = my_trie.children[num]
+        my_trie.count += 1
+        
+    def search(self, arr: List[int]) -> int:
+        my_trie = self.trie
+        for num in arr:
+            if num in my_trie.children:
+                my_trie = my_trie.children[num]
+            else:
+                return 0
+        return my_trie.count
+
 class Solution:
     def equalPairs(self, grid: List[List[int]]) -> int:
-        rows, cols = dict(), dict()
-        m, n = len(grid), len(grid[0])
-        
-        for i in range(m):
-            rows[tuple(grid[i])] = rows.get(tuple(grid[i]), 0) + 1
-        for i in range(n):
-            curr = []
-            for j in range(m):
-                curr.append(grid[j][i])
-            cols[tuple(curr[:])] = cols.get(tuple(curr[:]), 0) + 1
-        
+        my_trie = Trie()
         ans = 0
-        for row, freq in rows.items():
-            if row in cols:
-                ans += freq * cols[row]
-                
+        n = len(grid)
+        for row in grid:
+            my_trie.insert(row)
+        
+        for c in range(n):
+            ans += my_trie.search([grid[r][c] for r in range(n)])
         return ans
