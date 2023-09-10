@@ -3,9 +3,9 @@ public:
     int countOrders(int n) {
         const int MOD = 1'000'000'007;
         long ans = 1;
-        for (int i = 1; i <= n; ++i){
+        for (int i = 1; i <= 2 * n; ++i){
             ans *= i;
-            ans *= (2 * i - 1);
+            if (!(i % 2)) ans /= 2;
             ans %= MOD;
         }
         
