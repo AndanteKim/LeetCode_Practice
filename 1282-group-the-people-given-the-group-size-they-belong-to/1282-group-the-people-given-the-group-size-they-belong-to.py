@@ -1,22 +1,10 @@
 class Solution:
     def groupThePeople(self, groupSizes: List[int]) -> List[List[int]]:
-        table, n = defaultdict(list), len(groupSizes)
-        
-        for i in range(n):
-            table[groupSizes[i]].append(i)
-        
+        groups = defaultdict(list)
         ans = []
         
-        for sz, ids in table.items():
-            curr = []
-            for idx in ids:
-                if len(curr) < sz: 
-                    curr.append(idx)
-                else:
-                    ans.append(curr[:])
-                    curr = [idx]
-            if curr:
-                ans.append(curr[:])
-                curr.clear()
-        
+        for pid, group_size in enumerate(groupSizes):
+            groups[group_size].append(pid)
+            if len(groups[group_size]) == group_size:
+                ans.append(groups.pop(group_size));
         return ans
