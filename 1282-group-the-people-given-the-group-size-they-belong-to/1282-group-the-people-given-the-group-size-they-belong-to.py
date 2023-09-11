@@ -1,10 +1,13 @@
 class Solution:
     def groupThePeople(self, groupSizes: List[int]) -> List[List[int]]:
-        groups = defaultdict(list)
-        ans = []
+        ans, n = [], len(groupSizes)
         
-        for pid, group_size in enumerate(groupSizes):
-            groups[group_size].append(pid)
-            if len(groups[group_size]) == group_size:
-                ans.append(groups.pop(group_size));
+        size_to_group = [[] for _ in range(n + 1)]
+        for i in range(0, n):
+            size_to_group[groupSizes[i]].append(i)
+            
+            if len(size_to_group[groupSizes[i]]) == groupSizes[i]:
+                ans.append(size_to_group[groupSizes[i]][:])
+                size_to_group[groupSizes[i]].clear()
+        
         return ans
