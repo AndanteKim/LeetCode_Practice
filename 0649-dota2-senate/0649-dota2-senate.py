@@ -1,20 +1,35 @@
 class Solution:
     def predictPartyVictory(self, senate: str) -> str:
-        # two queues
-        n = len(senate)
-        r_queue, d_queue = deque(), deque()
-        for i in range(n):
-            if senate[i] == 'R':
-                r_queue.append(i)
-            else:
-                d_queue.append(i)
+        # Check senators of each party
+        r_count = senate.count('R')
+        d_count = len(senate) - r_count
         
-        while r_queue and d_queue:
-            r_turn, d_turn = r_queue.popleft(), d_queue.popleft()
+        # Floating ban count
+        d_ban, r_ban = 0, 0
+        
+        # Queue of senators
+        queue = deque(senate)
+        
+        # While any party has eligible Senators
+        while r_count and d_count:
+            # Pop the senator with turn
+            curr = queue.popleft()
             
-            if r_turn < d_turn:
-                r_queue.append(r_turn + n)
+            # If eligible, float the ban on the other party, enqueue again
+            # If not, decrement the floating ban and count of the party
+            if curr == 'D':
+                if d_ban:
+                    d_ban -= 1
+                    d_count -= 1
+                else:
+                    r_ban += 1
+                    queue.append(curr)
             else:
-                d_queue.append(d_turn + n)
-        
-        return "Radiant" if r_queue else "Dire"
+                if r_ban:
+                    r_ban -= 1
+                    r_count -= 1
+                else:
+                    d_ban += 1
+                    queue.append(curr)
+                    
+        return "Radiant" if r_count else "Dire"
