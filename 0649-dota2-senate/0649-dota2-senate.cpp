@@ -1,22 +1,38 @@
 class Solution {
 public:
     string predictPartyVictory(string senate) {
-        // Two queues
-        int n = senate.size();
-        queue<int> rQueue, dQueue;
-        for (int i = 0; i < n; ++i) {
-            if (senate[i] == 'R') rQueue.push(i);
-            else dQueue.push(i);
+        int rCount = count(senate.begin(), senate.end(), 'R');
+        int dCount = senate.size() - rCount, rBan = 0, dBan = 0;
+        
+        queue<char> queue;
+        for (char& c : senate) queue.push(c);
+        
+        while (rCount && dCount){
+            int curr = queue.front();
+            queue.pop();
+            
+            if (curr == 'D'){
+                if (dBan){
+                    --dBan;
+                    --dCount;
+                }
+                else{
+                    ++rBan;
+                    queue.push(curr);
+                }
+            }
+            else{
+                if (rBan){
+                    --rBan;
+                    --rCount;
+                }
+                else{
+                    ++dBan;
+                    queue.push(curr);
+                }
+            }
         }
         
-        while (!rQueue.empty() && !dQueue.empty()){
-            int rTurn = rQueue.front(), dTurn = dQueue.front();
-            rQueue.pop();
-            dQueue.pop();
-            if (rTurn < dTurn) rQueue.push(rTurn + n);
-            else dQueue.push(dTurn + n);
-        }
-        
-        return !rQueue.empty()? "Radiant" : "Dire";
+        return rCount? "Radiant" : "Dire";
     }
 };
