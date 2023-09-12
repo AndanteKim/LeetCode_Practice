@@ -1,31 +1,24 @@
 class Solution:
     def minDeletions(self, s: str) -> int:
+        
         # store the frequency of each character
-        frequency = [0] * 26
+        frequencies = [0] * 26
         for c in s:
-            frequency[ord(c) - 97] += 1
+            frequencies[ord(c) - 97] += 1
         
-        # Add all non-zero frequencies to max priority queue
-        # Create a max priority queue by flipping the sign of each element
-        pq = []
-        
-        for freq in frequency:
-            if freq:
-                heappush(pq, -freq)
-        
+        frequencies.sort(reverse = True)
         ans = 0
-        while len(pq) > 1:
-            # Flip the sign back to positive when removing from the max priority queue
-            top_element = -heappop(pq)
+        # max frequency the current character can have
+        max_freq_allowed = len(s)
+        
+        # Iterate over the frequencies in descending order
+        for freq in frequencies:
+            # Delete characters to make the frequency equal the maximum frequency allowed
+            if freq > max_freq_allowed:
+                ans += freq - max_freq_allowed
+                freq = max_freq_allowed
             
-            # If the top two elements in the priority queue are the same
-            if top_element == -pq[0]:
-                # Decrement the popped value and push it back into the queue
-                if top_element - 1 > 0:
-                    top_element -= 1
-                    heappush(pq, -top_element)
-                
-                ans += 1
+            # Update the maximum allowed frequency
+            max_freq_allowed = max(0, freq - 1)
         
         return ans
-        
