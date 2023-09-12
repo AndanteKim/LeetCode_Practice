@@ -10,7 +10,7 @@ public:
         int ans = 0, maxFreqAllowed = s.size();
         
         // Iterate over the frequencies in descending order
-        for (int i = 0; i < 26; ++i){
+        for (int i = 0; i < 26 && frequencies[i] > 0; ++i){
             // Delete characters to make the frequency equal the maximum frequency allowed
             if (frequencies[i] > maxFreqAllowed){
                 ans += frequencies[i] - maxFreqAllowed;
