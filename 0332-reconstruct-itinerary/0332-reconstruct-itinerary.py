@@ -1,34 +1,21 @@
 class Solution:
-    def backtrack(self, origin: str, route: list, visited: Dict[str, list], graph: Dict[str, list]) -> bool:
-        if len(route) == self.flights + 1:
-            self.ans = route
-            return True
-        
-        for i, nextDst in enumerate(graph[origin]):
-            if not visited[origin][i]:
-                # mark the visit before the next recursion
-                visited[origin][i] = True
-                ret = self.backtrack(nextDst, route + [nextDst], visited, graph)
-                visited[origin][i] = False
-                if ret:
-                    return True
-                
-        return False
+    def dfs(self, origin: str, ans: List[str], graph: Dict[str, list]) -> None:
+        destList = graph[origin]
+        while destList:
+            # while we visit the edge, we trim it off from graph
+            nextDst = destList.pop()
+            self.dfs(nextDst, ans, graph)
+        ans.append(origin)
     
     def findItinerary(self, tickets: List[List[str]]) -> List[str]:
         graph = defaultdict(list)
         
         for origin, dest in tickets:
             graph[origin].append(dest)
-        
-        visited = dict()
-        # sort the itinerary based on the lexical order
+            
         for origin, itinerary in graph.items():
-            itinerary.sort()
-            visited[origin] = [False] * len(itinerary)
+            itinerary.sort(reverse = True)
         
-        self.flights, self.ans = len(tickets), []
-        route = ['JFK']
-        self.backtrack('JFK', route, visited, graph)
-        
-        return self.ans
+        ans = []
+        self.dfs("JFK", ans, graph)
+        return ans[::-1]
