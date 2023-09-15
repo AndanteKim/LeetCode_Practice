@@ -21,7 +21,7 @@ public:
             ++edgesUsed;
             inMST[currNode] = true;
             
-            // updatte adjacent nodes of current node
+            // update adjacent nodes of current node
             for (int nextNode = 0; nextNode < n; ++nextNode){
                 int weight = abs(points[currNode][0] - points[nextNode][0]) + abs(points[currNode][1] - points[nextNode][1]);
                 if(!inMST[nextNode] && minDist[nextNode] > weight)
