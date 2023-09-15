@@ -1,53 +1,30 @@
-class UnionFind:
-    def __init__(self, size: int) -> None:
-        self.group = [i for i in range(size)]
-        self.rank = [0] * size
-        
-    def find(self, node: int) -> int:
-        if self.group[node] != node:
-            self.group[node] = self.find(self.group[node])
-        return self.group[node]
-    
-    def join(self, node1: int, node2: int) -> bool:
-        group1, group2 = self.find(node1), self.find(node2)
-        
-        # node1 and node2 already belong to same group
-        if group1 == group2:
-            return False
-        
-        if self.rank[group1] > self.rank[group2]:
-            self.group[group2] = group1
-        elif self.rank[group1] < self.rank[group2]:
-            self.group[group1] = group2
-        else:
-            self.group[group1] = group2
-            self.rank[group2] += 1
-        
-        return True
-
 class Solution:
     def minCostConnectPoints(self, points: List[List[int]]) -> int:
         n = len(points)
-        all_edges = []
         
-        # store all edges of our complete graph
-        for curr_node in range(n):
-            for next_node in range(curr_node + 1, n):
-                weight = abs(points[curr_node][0] - points[next_node][0]) + abs(points[curr_node][1] - points[next_node][1])
-                all_edges.append((weight, curr_node, next_node))
+        # min-heap to store minimum weight edge at top
+        heap = [(0, 0)]
         
-        # sort all edges in increasing order
-        all_edges.sort()
-            
-        uf = UnionFind(n)
+        # track nodes which are included in MST
+        in_mst = [False] * n
         mst_cost, edges_used = 0, 0
         
-        for weight, node1, node2 in all_edges:
-            if uf.join(node1, node2):
-                mst_cost += weight
-                edges_used += 1
-                if edges_used == n - 1:
-                    break
-                
-        
+        while edges_used < n:
+            weight, curr_node = heappop(heap)
+            
+            # If node was already included in MST we will discard this edge
+            if in_mst[curr_node]:
+                continue
+            
+            in_mst[curr_node] = True
+            mst_cost += weight
+            edges_used += 1
+            
+            for next_node in range(n):
+                # If next node is not in MST, then edge from curr node
+                # to next node can be pushed in the priority queue
+                if not in_mst[next_node]:
+                    next_weight = abs(points[curr_node][0] - points[next_node][0]) + abs(points[curr_node][1] - points[next_node][1])
+                    heappush(heap, (next_weight, next_node))
+                    
         return mst_cost
