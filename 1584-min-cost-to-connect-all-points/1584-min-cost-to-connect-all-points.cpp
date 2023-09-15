@@ -1,33 +1,31 @@
 class Solution {
 public:
     int minCostConnectPoints(vector<vector<int>>& points) {
-        int n = points.size();
-        
-        // min_heap to store minimum edge at top
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-        pq.push({0, 0});
-        int mstCost = 0, edgesUsed = 0;
-        
-        // Track nodes which are included in MST
-        vector<bool> InMST(n);
+        int edgesUsed = 0, mstCost = 0, n = points.size();
+        vector<int> minDist(n, INT_MAX);
+        vector<bool> inMST(n);
+        minDist[0] = 0;
         
         while (edgesUsed < n){
-            auto [weight, currNode] = pq.top();
-            pq.pop();
+            int currMinEdge = INT_MAX, currNode = -1;
             
-            // If node was already include in MST we will discard this edge
-            if (InMST[currNode]) continue;
-            InMST[currNode] = true;
-            ++edgesUsed;
-            mstCost += weight;
-            
-            for (int nextNode = 0; nextNode < n; ++nextNode){
-                // If next node is not in MST, then edge from curr node
-                // to next node can be pushed in the priority queue
-                if (!InMST[nextNode]){
-                    int nextWeight = abs(points[currNode][0] - points[nextNode][0]) + abs(points[currNode][1] - points[nextNode][1]);
-                    pq.push({nextWeight, nextNode});
+            // pick least weight node which is not in MST
+            for (int node = 0; node < n; ++node){
+                if (!inMST[node] && currMinEdge > minDist[node]){
+                    currMinEdge = minDist[node];
+                    currNode = node;
                 }
+            }
+            
+            mstCost += currMinEdge;
+            ++edgesUsed;
+            inMST[currNode] = true;
+            
+            // updatte adjacent nodes of current node
+            for (int nextNode = 0; nextNode < n; ++nextNode){
+                int weight = abs(points[currNode][0] - points[nextNode][0]) + abs(points[currNode][1] - points[nextNode][1]);
+                if(!inMST[nextNode] && minDist[nextNode] > weight)
+                    minDist[nextNode] = weight;
             }
         }
         
