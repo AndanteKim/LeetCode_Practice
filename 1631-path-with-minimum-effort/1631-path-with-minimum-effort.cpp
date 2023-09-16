@@ -1,76 +1,48 @@
-class Edge{
-public:
-    int x, y, diff;
-    
-    Edge(int x, int y, int diff){
-        this -> x = x;
-        this -> y = y;
-        this -> diff = diff;
-    }
-    
-};
-
-class UnionFind{
-public:
-    vector<int> parent, rank;
-    vector<Edge> edgeList;
-
-    UnionFind(vector<vector<int>>& heights){
-        int row = heights.size(), col = heights[0].size();
-        parent.assign(row * col, 0);
-        rank.assign(row * col, 0);
-        
-        for (int currRow = 0; currRow < row; ++currRow){
-            for (int currCol = 0; currCol < col; ++currCol){
-                if (currRow > 0){
-                    edgeList.push_back(Edge(currRow * col + currCol, (currRow - 1) * col + currCol, abs(heights[currRow][currCol] - heights[currRow - 1][currCol])));
-                }
-                if (currCol > 0){
-                    edgeList.push_back(Edge(currRow * col + currCol, currRow * col + currCol - 1, abs(heights[currRow][currCol] - heights[currRow][currCol - 1])));
-                }
-                
-                parent[currRow * col + currCol] = currRow * col + currCol;
-            }
-        }
-    }
-    
-    int find(int i){
-        if (parent[i] != i) parent[i] = find(parent[i]);
-        return parent[i];
-    }
-    
-    void UnionSet(int x, int y){
-        int parentX = find(x), parentY = find(y);
-        if (parentX != parentY){
-            if (rank[parentX] > rank[parentY]) parent[parentY] = parentX;
-            else if (rank[parentX] < rank[parentY]) parent[parentX] = parentY;
-            else{
-                parent[parentY] = parentX;
-                ++rank[parentX];
-            }
-        }
-    }
-};
-
 class Solution {
-    static bool compareInterval(const Edge& p1, const Edge& p2){
-    return (p1.diff < p2.diff);
-}
-
+private:
+    int r, c;
+    bool isValid(int x, int y){
+        return 0 <= x && x < r && 0 <= y && y < c;
+    }
+    
+    bool isPossible(int threshold, vector<vector<int>>& heights){
+        vector<vector<bool>> visited(r, vector<bool>(c));
+        queue<pair<int, int>> queue;
+        queue.push(make_pair(0, 0));
+        visited[0][0] = true;
+        
+        while (!queue.empty()){
+            auto [x, y] = queue.front();
+            queue.pop();
+            
+            if (x == r - 1 && y == c - 1) return true;
+            
+            for (auto& [dx, dy] : vector<pair<int, int>>{make_pair(1, 0), make_pair(-1, 0), make_pair(0, 1), make_pair(0, -1)}){
+                int newX = x + dx, newY = y + dy;
+                if (isValid(newX, newY) && !visited[newX][newY] && abs(heights[newX][newY] - heights[x][y]) <= threshold){
+                    visited[newX][newY] = true;
+                    queue.push({newX, newY});
+                }
+            }
+        }
+        
+        return false;
+    }
+    
 public:
     int minimumEffortPath(vector<vector<int>>& heights) {
-        int row = heights.size(), col = heights[0].size();
-        if (row == 1 && col == 1) return 0;
-        UnionFind unionFind(heights);
-        vector<Edge> edgeList = unionFind.edgeList;
-        sort(edgeList.begin(), edgeList.end(), compareInterval);
+        this -> r = heights.size(), this -> c = heights[0].size();
+        int left = 0, right = 0;
+        for (int i = 0; i < r; ++i) for (int j = 0; j < c; ++j) right = max(right, abs(heights[i][j] - heights[0][0]));
         
-        for (int i = 0; i < edgeList.size(); ++i){
-            int x = edgeList[i].x, y = edgeList[i].y;
-            unionFind.UnionSet(x, y);
-            if (unionFind.find(0) == unionFind.find(row * col - 1)) return edgeList[i].diff;
+        while (left <= right){
+            int mid = left + ((right - left) >> 1);
+            
+            if (isPossible(mid, heights))
+                right = mid - 1;
+            else left = mid + 1;
         }
         
-        return -1;
+        return left;
     }
 };
