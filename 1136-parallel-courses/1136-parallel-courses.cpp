@@ -1,35 +1,40 @@
 class Solution {
+private:
+    int dfs(int node, vector<int>& visited, vector<vector<int>>& graph){
+        if (visited[node])
+            return visited[node];
+        else
+            // mark as visiting
+            visited[node] = -1;
+        
+        int maxLength = 1;
+        for (int endNode : graph[node]){
+            int length = dfs(endNode, visited, graph);
+            // we meet a cycle
+            if (length == -1)
+                return -1;
+            maxLength = max(length + 1, maxLength);
+        }
+        // mark as visited
+        return visited[node] = maxLength;
+    }
+    
+    
+    
 public:
     int minimumSemesters(int n, vector<vector<int>>& relations) {
-        vector<vector<int>> graph(n + 1); // or indegree
-        vector<int> indegree(n + 1);
+        vector<vector<int>> graph(n + 1);
+        vector<int> visited(n + 1);
         
-        for (vector<int>& relation : relations){
-            graph[relation[0]].push_back(relation[1]);
-            ++indegree[relation[1]];
+        for (vector<int>& relation : relations) graph[relation[0]].push_back(relation[1]);
+        
+        int maxLength = -1;
+        for (int node = 1; node <= n; ++node){
+            int length = dfs(node, visited, graph);
+            if (length == -1) return -1;
+            maxLength = max(length, maxLength);
         }
         
-        vector<int> queue;
-        // We use list here since we're not popping from front this code
-        for (int node = 1; node <= n; ++node) if (!indegree[node]) queue.push_back(node);
-        int semesters = 0, steps = 0;
-        
-        // start learning with BFS
-        while (!queue.empty()){
-            vector<int> nextQueue;
-            ++steps;
-            for (int node : queue){
-                ++semesters;
-                for (int endNode : graph[node]){
-                    --indegree[endNode];
-                    // If all preprequisite courses learned
-                    if (!indegree[endNode])
-                        nextQueue.push_back(endNode);
-                }
-            }
-            queue = nextQueue;
-        }
-        
-        return semesters == n? steps : -1;
+        return maxLength;
     }
 };
