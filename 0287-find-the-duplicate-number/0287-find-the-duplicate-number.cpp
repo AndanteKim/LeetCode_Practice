@@ -1,13 +1,24 @@
 class Solution {
 public:
     int findDuplicate(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
         
-        for (int num : nums){
-            if (upper_bound(nums.begin(), nums.end(), num) - lower_bound(nums.begin(), nums.end(), num) > 1)
-                return num;
+        int tortoise = nums[0], hare = nums[0];
+        
+        // find the intersection point of the two runners
+        while (true){
+            tortoise = nums[tortoise];
+            hare = nums[nums[hare]];
+            
+            if (tortoise == hare) break;
         }
         
-        return -1;
+        // find the "entrance" to the cycle
+        tortoise = nums[0];
+        while (tortoise != hare){
+            tortoise = nums[tortoise];
+            hare = nums[hare];
+        }
+        
+        return hare;
     }
 };
