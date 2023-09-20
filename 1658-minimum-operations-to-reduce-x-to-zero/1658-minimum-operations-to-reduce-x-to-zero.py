@@ -1,14 +1,19 @@
 class Solution:
     def minOperations(self, nums: List[int], x: int) -> int:
-        n = len(nums)
-        total, left = sum(nums), 0
-        curr, target, ans = 0, total - x, float('inf')
+        n, suffix = len(nums), defaultdict(int)
+        ans, total = float('inf'), 0
+        for i in range(n - 1, -1, -1):
+            total += nums[i]
+            suffix[total] = i + 1
+            if total == x:
+                ans = min(ans, n - i)
         
-        for right in range(n):
-            curr += nums[right]
-            while left <= right and curr > target:
-                curr -= nums[left]
-                left += 1
-            if curr == target:
-                ans = min(ans, n - 1 - (right - left))
+        total = 0
+        for i in range(n):
+            total += nums[i]
+            
+            if total == x:
+                ans = min(ans, i + 1)
+            if suffix[x - total] != 0 and suffix[x - total] - 1 > i:
+                ans = min(ans, i + n - suffix[x - total] + 2)
         return -1 if ans == float('inf') else ans
