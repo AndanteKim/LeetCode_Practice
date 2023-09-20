@@ -1,18 +1,20 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums, int x) {
-        int n = nums.size(), sum = accumulate(nums.begin(), nums.end(), 0);
-        int target = sum - x, curr = 0, left = 0, ans = INT_MAX;
+        int n = nums.size(), ans = INT_MAX, total = 0;
+        unordered_map<int, int> suffix;
+        for (int i = n - 1; i >= 0; --i){
+            total += nums[i];
+            suffix[total] = i + 1;
+            if (total == x) ans = min(ans, n - i);
+        }
         
-        for (int right = 0; right < n; ++right){
-            curr += nums[right];
-            
-            while (curr > target && left <= right){
-                curr -= nums[left];
-                ++left;
-            }
-            if (curr == target)
-                ans = min(ans, n - 1 - (right - left));
+        total = 0;
+        for (int i = 0; i < n; ++i){
+            total += nums[i];
+            if (total == x) ans = min(ans, i + 1);
+            if (suffix[x - total] != 0 && suffix[x - total] - 1 > i)
+                ans = min(ans, i + 1 + n - suffix[x - total] + 1);
         }
         
         return ans == INT_MAX? -1 : ans;
