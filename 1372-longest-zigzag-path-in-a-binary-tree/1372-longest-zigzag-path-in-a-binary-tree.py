@@ -6,23 +6,26 @@
 #         self.right = right
 class Solution:
     def longestZigZag(self, root: Optional[TreeNode]) -> int:
-        ans, stack = 0, [(root, 0, None)]
         
-        while stack:
-            node, zigzag, direction = stack.pop()
+        ans, queue = 0, deque([(root, None, 0)])
+        
+        # True: right, False: left
+        while queue:
+            node, direction, length = queue.popleft()
             
-            ans = max(ans, zigzag)
+            ans = max(ans, length)
+            length += 1
             
             if node.left:
-                if direction == 'l':
-                    stack.append((node.left, 1, 'l'))
+                if direction == None or direction == True:
+                    queue.append((node.left, False, length))
                 else:
-                    stack.append((node.left, zigzag + 1, 'l'))
-                
+                    queue.append((node.left, False, 1))
+            
             if node.right:
-                if direction == 'r':
-                    stack.append((node.right, 1, 'r'))
+                if direction == None or direction == False:
+                    queue.append((node.right, True, length))
                 else:
-                    stack.append((node.right, zigzag + 1, 'r'))
-        
+                    queue.append((node.right, True, 1))
+            
         return ans
