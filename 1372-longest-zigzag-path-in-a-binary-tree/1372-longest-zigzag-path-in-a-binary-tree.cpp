@@ -12,24 +12,34 @@
 class Solution {
 public:
     int longestZigZag(TreeNode* root) {
-        int ans = 0;
-        stack<pair<TreeNode*, pair<int, char>>> stack;
-        stack.push({root, {0, NULL}});
         
-        while(!stack.empty()){
-            auto [node, others] = stack.top();
-            auto [zigzag, direction] = others;
-            stack.pop();
+        // Time Complexity: O(n), Space Complexity: O(n)
+        // start from root, None := no direction, length := length of longest connected line
+        int ans = 0;
+        queue<pair<TreeNode*, pair<int, int>>> queue;
+        queue.push({root, {-1, 0}});
+        
+        // True:= right, False:= left
+        while (!queue.empty()){
+            auto [node, it] = queue.front();
+            auto [dir, length] = it;
+            queue.pop();
             
-            ans = max(ans, zigzag);
+            ans = max(ans, length);
+            ++length;
+            
             if (node -> left){
-                if (direction == 'l') stack.push({node -> left, {1, 'l'}});
-                else stack.push({node -> left, {zigzag + 1, 'l'}});
+                if (dir == -1 || dir == 1)
+                    queue.push({node -> left, {0, length}});
+                else
+                    queue.push({node -> left, {0, 1}});
             }
             
             if (node -> right){
-                if (direction == 'r') stack.push({node -> right, {1, 'r'}});
-                else stack.push({node -> right, {zigzag + 1, 'r'}});
+                if (dir == -1 || dir == 0)
+                    queue.push({node -> right, {1, length}});
+                else
+                    queue.push({node -> right, {1, 1}});
             }
         }
         
