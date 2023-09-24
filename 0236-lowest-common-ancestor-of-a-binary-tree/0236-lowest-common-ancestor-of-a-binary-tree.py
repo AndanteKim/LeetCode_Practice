@@ -6,29 +6,27 @@
 #         self.right = None
 
 class Solution:
-    
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        stack = [root]
-        parent = {root: None}
+        ancestors = dict()
+        queue = deque([(root, None)])
         
-        while p not in parent or q not in parent:
-            node = stack.pop()
+        while queue:
+            child, parent = queue.popleft()
+            ancestors[child] = parent
             
-            if node.left:
-                parent[node.left] = node
-                stack.append(node.left)
+            if child.left:
+                queue.append((child.left, child))
             
-            if node.right:
-                parent[node.right] = node
-                stack.append(node.right)
+            if child.right:
+                queue.append((child.right, child))
         
-        ancestors = set()
+        p_ancestor = p
+        while p_ancestor:
+            q_ancestor = q
+            while q_ancestor:
+                if p_ancestor == q_ancestor:
+                    return p_ancestor
+                q_ancestor = ancestors[q_ancestor]
+            p_ancestor = ancestors[p_ancestor]
+        return None
         
-        while p:
-            ancestors.add(p)
-            p = parent[p]
-            
-        while q not in ancestors:
-            q = parent[q]
-        
-        return q
