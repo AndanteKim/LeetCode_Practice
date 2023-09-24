@@ -10,33 +10,30 @@
 class Solution {
 public:
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        stack<TreeNode*> *st = new stack<TreeNode*>;
-        st -> push(root);
-        unordered_map<TreeNode*, TreeNode*> parent{{root, nullptr}};
-        while (parent.find(p) == parent.end() || parent.find(q) == parent.end()){
-            TreeNode* node = st -> top();
-            st -> pop();
+        unordered_map<TreeNode*, TreeNode*> ancestors;
+        queue<pair<TreeNode*, TreeNode*>> queue;
+        queue.push({root, nullptr});
+        
+        while (!queue.empty()){
+            auto [child, parent] = queue.front();
+            queue.pop();
+            ancestors[child] = parent;
             
-            if (node -> left){
-                parent[node -> left] = node;
-                st -> push(node -> left);
-            }
-            
-            if (node -> right){
-                parent[node -> right] = node;
-                st -> push(node -> right);
-            }
-        }
-        vector<TreeNode*> ancestors;
-        while (p){
-            ancestors.push_back(p);
-            p = parent[p];
+            if (child -> left) queue.push({child -> left, child});
+            if (child -> right) queue.push({child -> right, child});
         }
         
-        while (find(ancestors.begin(), ancestors.end(), q) == ancestors.end()){
-            q = parent[q];
+        TreeNode *pAncestor = p;
+        while (pAncestor){
+            TreeNode *qAncestor = q;
+            while (qAncestor){
+                if (pAncestor == qAncestor)
+                    return pAncestor;
+                qAncestor = ancestors[qAncestor];
+            }
+            pAncestor = ancestors[pAncestor];
         }
-               
-        return q;
+        
+        return nullptr;
     }
 };
