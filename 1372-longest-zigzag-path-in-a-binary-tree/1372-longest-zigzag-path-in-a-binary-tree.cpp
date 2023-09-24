@@ -10,38 +10,21 @@
  * };
  */
 class Solution {
+private:
+    int ans = 0;
+    
+    void dfs(TreeNode* root, int left, int right){
+        if (!root) return;
+        ans = max(ans, max(left, right));
+        if (root -> left)
+            dfs(root -> left, right + 1, 0);
+        if (root -> right)
+            dfs(root -> right, 0, left + 1);
+    }
+    
 public:
     int longestZigZag(TreeNode* root) {
-        
-        // Time Complexity: O(n), Space Complexity: O(n)
-        // start from root, None := no direction, length := length of longest connected line
-        int ans = 0;
-        queue<pair<TreeNode*, pair<int, int>>> queue;
-        queue.push({root, {-1, 0}});
-        
-        // True:= right, False:= left
-        while (!queue.empty()){
-            auto [node, it] = queue.front();
-            auto [dir, length] = it;
-            queue.pop();
-            
-            ans = max(ans, length);
-            ++length;
-            
-            if (node -> left){
-                if (dir == -1 || dir == 1)
-                    queue.push({node -> left, {0, length}});
-                else
-                    queue.push({node -> left, {0, 1}});
-            }
-            
-            if (node -> right){
-                if (dir == -1 || dir == 0)
-                    queue.push({node -> right, {1, length}});
-                else
-                    queue.push({node -> right, {1, 1}});
-            }
-        }
+        dfs(root, 0, 0);
         
         return ans;
     }
