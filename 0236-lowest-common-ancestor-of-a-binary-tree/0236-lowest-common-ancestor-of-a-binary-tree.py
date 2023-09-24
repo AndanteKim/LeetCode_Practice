@@ -7,26 +7,19 @@
 
 class Solution:
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        ancestors = dict()
-        queue = deque([(root, None)])
+        if not root:
+            return None
         
-        while queue:
-            child, parent = queue.popleft()
-            ancestors[child] = parent
-            
-            if child.left:
-                queue.append((child.left, child))
-            
-            if child.right:
-                queue.append((child.right, child))
+        if root == p or root == q:
+            return root
         
-        p_ancestor = p
-        while p_ancestor:
-            q_ancestor = q
-            while q_ancestor:
-                if p_ancestor == q_ancestor:
-                    return p_ancestor
-                q_ancestor = ancestors[q_ancestor]
-            p_ancestor = ancestors[p_ancestor]
-        return None
+        left = self.lowestCommonAncestor(root.left, p, q)
+        right = self.lowestCommonAncestor(root.right, p, q)
         
+        if left and right:
+            return root
+        
+        if left:
+            return left
+        
+        return right
