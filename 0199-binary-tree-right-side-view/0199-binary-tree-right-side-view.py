@@ -5,18 +5,23 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def helper(self, node: Optional[TreeNode], level: int) -> None:
-        if level == len(self.rightside):
-            self.rightside.append(node.val)
-        for child in [node.right, node.left]:
-            if child:
-                self.helper(child, level + 1)
-    
     def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
         if not root:
             return []
         
-        self.rightside = []
+        queue, ans = deque([root]), []
         
-        self.helper(root, 0)
-        return self.rightside
+        while queue:
+            n = len(queue)
+            for i in range(n):
+                node = queue.popleft()
+                if i == n - 1:
+                    ans.append(node.val)
+                
+                if node.left:
+                    queue.append(node.left)
+                    
+                if node.right:
+                    queue.append(node.right)
+        
+        return ans
