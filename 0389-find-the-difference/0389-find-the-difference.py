@@ -1,4 +1,11 @@
 class Solution:
     def findTheDifference(self, s: str, t: str) -> str:
+        ch = 0
         
-        return "".join(c for c in Counter(t) - Counter(s))
+        for c in s:
+            ch ^= ord(c)
+        
+        for c in t:
+            ch ^= ord(c)
+            
+        return chr(ch)
