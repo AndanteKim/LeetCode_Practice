@@ -5,24 +5,19 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def maxLevelSum(self, root: Optional[TreeNode]) -> int:
-        queue, ans, max_sum = deque([(root, 1)]), 1, float('-inf')
+    def dfs(self, node: Optional[TreeNode], level: int, sum_at_current_level: List[int]) -> None:
+        if not node:
+            return
         
-        while queue:
-            n, total = len(queue), 0
+        if len(sum_at_current_level) == level:
+            sum_at_current_level.append(node.val)
+        else:
+            sum_at_current_level[level] += node.val
             
-            for _ in range(n):
-                node, level = queue.popleft()
-                total += node.val
-                
-                if node.left:
-                    queue.append((node.left, level + 1))
-                
-                if node.right:
-                    queue.append((node.right, level + 1))
-            
-            if total > max_sum:
-                max_sum = total
-                ans = level
-            
-        return ans
+        self.dfs(node.left, level + 1, sum_at_current_level)
+        self.dfs(node.right, level + 1, sum_at_current_level)
+    
+    def maxLevelSum(self, root: Optional[TreeNode]) -> int:
+        sum_at_current_level = []
+        self.dfs(root, 0, sum_at_current_level)
+        return 1 + sum_at_current_level.index(max(sum_at_current_level))
