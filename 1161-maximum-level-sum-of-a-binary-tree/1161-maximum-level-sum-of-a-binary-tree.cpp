@@ -9,30 +9,29 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-typedef long long ll;
-
 class Solution {
 public:
     int maxLevelSum(TreeNode* root) {
         queue<pair<TreeNode*, int>> queue;
         queue.push({root, 1});
-        int ans = 1;
-        ll maxSum = INT_MIN;
+        int ans = 1, maxSum = INT_MIN;
         
-        while (!queue.empty()){
-            int qLength = queue.size(), currLevel = queue.front().second;
-            ll currSum = 0;
-            for (int i = 0; i < qLength; ++i){
+        while(!queue.empty()){
+            int n = queue.size(), sum = 0, lv;
+            
+            for (int i = 0; i < n; ++i){
                 auto [node, level] = queue.front();
                 queue.pop();
-                currSum += node -> val;
+                lv = level;
+                sum += node -> val;
+                
                 if (node -> left) queue.push({node -> left, level + 1});
                 if (node -> right) queue.push({node -> right, level + 1});
             }
             
-            if (maxSum < currSum){
-                maxSum = currSum;
-                ans = currLevel;
+            if (sum > maxSum){
+                maxSum = sum;
+                ans = lv;
             }
         }
         
