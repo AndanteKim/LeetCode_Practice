@@ -6,14 +6,14 @@
 #         self.right = right
 class Solution:
     def maxLevelSum(self, root: Optional[TreeNode]) -> int:
+        queue, ans, max_sum = deque([(root, 1)]), 1, float('-inf')
         
-        queue, max_sum, ans = deque([(root, 1)]), float('-inf'), 1
         while queue:
-            curr_sum, q_length = 0, len(queue)
+            n, total = len(queue), 0
             
-            for _ in range(q_length):
+            for _ in range(n):
                 node, level = queue.popleft()
-                curr_sum += node.val
+                total += node.val
                 
                 if node.left:
                     queue.append((node.left, level + 1))
@@ -21,10 +21,8 @@ class Solution:
                 if node.right:
                     queue.append((node.right, level + 1))
             
-            if max_sum < curr_sum:
-                max_sum = curr_sum
+            if total > max_sum:
+                max_sum = total
                 ans = level
-        
+            
         return ans
-                
-                
