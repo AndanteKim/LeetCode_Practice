@@ -1,18 +1,18 @@
 class Solution:
     def removeDuplicateLetters(self, s: str) -> str:
-        c, pos = Counter(s), 0
+        stack = []
+        seen = set()
+        last_occurrence = {c: i for i,c in enumerate(s)}
         
-        # find pos - the index of the leftmost letter in our solution
-        # we create a counter and end the iteration once the suffix doesn't have each unique character
-        # pos will be the index of the smallest character we encounter before the iteration ends
-        
-        for i in range(len(s)):
-            if s[i] < s[pos]:
-                pos = i
-            c[s[i]] -= 1
-            if c[s[i]] == 0:
-                break
-        
-        # Our answer is the leftmost letter plus the recursive call on the remainder of the string
-        # node we have to get rid of further occurrences of s[pos] to ensure there are no duplicates
-        return s[pos] + self.removeDuplicateLetters(s[pos:].replace(s[pos], "")) if s else ''
+        for i, c in enumerate(s):
+            if c not in seen:
+                # If the last leter in our solution,
+                # 1. exists
+                # 2. > c, so removing it will make the string smaller
+                # 3. it's not the last occurrence
+                while stack and c < stack[-1] and i < last_occurrence[stack[-1]]:
+                    seen.discard(stack.pop())
+                seen.add(c)
+                stack.append(c)
+                
+        return "".join(stack)
