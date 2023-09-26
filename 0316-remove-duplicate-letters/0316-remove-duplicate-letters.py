@@ -13,4 +13,6 @@ class Solution:
             if c[s[i]] == 0:
                 break
         
+        # Our answer is the leftmost letter plus the recursive call on the remainder of the string
+        # node we have to get rid of further occurrences of s[pos] to ensure there are no duplicates
         return s[pos] + self.removeDuplicateLetters(s[pos:].replace(s[pos], "")) if s else ''
