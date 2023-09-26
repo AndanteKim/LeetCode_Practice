@@ -1,27 +1,25 @@
 class Solution {
 public:
     string removeDuplicateLetters(string s) {
-        
-        // find pos - the index of the leftmost letter in our solution
-        // we create a counter and end the iteration once the suffix doesn't have each unique
-        // character pos will be the index of the smallest character we encounter before the iteration ends
-        unordered_map<char, int> m;
-        for (char& c : s)
-            ++m[c];
-        
-        int pos = 0;
+        string ans = "";
+        unordered_set<char> seen;
+        unordered_map<char, int> lastOccurrence;
+        for (int i = 0; i < s.size(); ++i)
+            lastOccurrence[s[i]] = i;
         
         for (int i = 0; i < s.size(); ++i){
-            if (s[i] < s[pos]) pos = i;
-            --m[s[i]];
-            if (m[s[i]] == 0)
-                break;
+            if (seen.find(s[i]) == seen.end()){
+                // If the last letter in our solution,
+                // 1. exists, 2. > s[i], so removing it will make the string smaller, 3. It's not the last occurrence
+                while (!ans.empty() && s[i] < ans.back() && i < lastOccurrence[ans.back()]){
+                    seen.erase(ans.back());
+                    ans.pop_back();
+                }
+                seen.insert(s[i]);
+                ans.push_back(s[i]);
+            }
         }
         
-        // Our answer is the leftmost letter plus the recursive call on the remainder of the string
-        // note we have to get rid of further occurrences of s[pos] to ensure that there are no duplicates
-        string newS = s.substr(pos);
-        newS.erase(remove(newS.begin(), newS.end(), s[pos]), newS.end());
-        return !s.empty()? s[pos] + removeDuplicateLetters(newS) : "";
+        return ans;
     }
 };
