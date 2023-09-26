@@ -6,21 +6,17 @@
 #         self.right = right
 class Solution:
     def searchBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
+        queue = deque([root])
         
-        if not root:
-            return None
-        
-        stack = [root]
-        while stack:
-            node = stack.pop()
-            
+        while queue:
+            node = queue.popleft()
             if node.val == val:
                 return node
             
-            if node.right:
-                stack.append(node.right)
-            
             if node.left:
-                stack.append(node.left)
-            
+                queue.append(node.left)
+                
+            if node.right:
+                queue.append(node.right)
+                
         return None
