@@ -1,22 +1,17 @@
 class Solution:
-    def dfs(self, node: int, adj: List[List[Tuple[int, int]]], visited: List[bool]) -> None:
-        visited[node] = True
-        
-        for neighbor, score in adj[node]:
-            if not visited[neighbor]:
-                self.ans += score
-                self.dfs(neighbor, adj, visited)
+    def dfs(self, node: int, parent: int, adj: List[List[int]]) -> None:
+        for child, sign in adj[node]:
+            if child != parent:
+                self.ans += sign
+                self.dfs(child, node, adj)
     
     def minReorder(self, n: int, connections: List[List[int]]) -> int:
-        adj = [[] for _ in range(n)]
+        adj, self.ans = [[] for _ in range(n)], 0
         
         for start, end in connections:
             adj[start].append((end, 1))
             adj[end].append((start, 0))
         
-        visited, self.ans = [False] * n, 0
+        self.dfs(0, -1, adj)
         
-        for node in range(n):
-            if not visited[node]:
-                self.dfs(node, adj, visited)
         return self.ans
