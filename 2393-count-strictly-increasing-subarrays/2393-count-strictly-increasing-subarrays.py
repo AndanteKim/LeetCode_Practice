@@ -1,16 +1,11 @@
 class Solution:
     def countSubarrays(self, nums: List[int]) -> int:
-        @lru_cache(maxsize = None)
-        def dp(i: int) -> int:
-            # base case
-            if i == n - 1:
-                return 1
-            
-            ways = 1
-            if nums[i] < nums[i + 1]:
-                ways += dp(i + 1)
-            
-            return ways
+        # Kadane's algorithm
+        ans = cnt = 0
         
-        n = len(nums)
-        return sum(dp(i) for i in range(n))
+        for i in range(len(nums)):
+            if i and nums[i - 1] >= nums[i]:
+                cnt = 0
+            cnt += 1
+            ans += cnt
+        return ans
