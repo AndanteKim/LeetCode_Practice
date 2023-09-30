@@ -1,19 +1,14 @@
-typedef long long ll;
-
 class Solution {
 public:
     long long countSubarrays(vector<int>& nums) {
-        // Greedy algorithm
-        int n = nums.size(); 
-        ll ans = 0, count = 0;
-        
-        for (int i = 0; i < n; ++i){
-            count = 1;
-            while (i + 1 < n && nums[i] < nums[i + 1]){
-                ++count;
-                ++i;
-            }
-            ans += ((count + 1) * count) / 2;
+        // sliding window
+        int left = 0, prev = 0;
+        long long ans = 0;
+        for (int right = 0; right < nums.size(); ++right){
+            if (prev >= nums[right])
+                left = right;
+            ans += right - left + 1;
+            prev = nums[right];
         }
         
         return ans;
