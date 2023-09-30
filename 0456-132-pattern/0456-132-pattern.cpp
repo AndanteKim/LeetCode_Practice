@@ -10,18 +10,14 @@ public:
         for (int i = 1; i < n; ++i)
             minArr[i] = min(minArr[i - 1], nums[i]);
         
-        // monotonic stack
-        stack<int> stack;
+        int k = n;
         for (int j = n - 1; j >= 0; --j){
             if (nums[j] <= minArr[j])
                 continue;
-            
-            while (!stack.empty() && stack.top() <= minArr[j])
-                stack.pop();
-            
-            if (!stack.empty() && stack.top() < nums[j])
+            k = lower_bound(nums.begin() + k, nums.end(), minArr[j] + 1) - nums.begin();
+            if (k < n && nums[k] < nums[j])
                 return true;
-            stack.push(nums[j]);
+            nums[--k] = nums[j];
         }
         
         return false;
