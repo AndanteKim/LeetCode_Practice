@@ -1,37 +1,44 @@
 class Solution:
-    def backtrack_evaluate(self, curr_node: str, target_node: str, acc_product: float, visited: Set[str], graph: Dict[str, Dict[str, float]]) -> float:
+    def backtrack(self, curr_node: float, target_node: float, acc_product: float, visited: Set[bool], graph: DefaultDict[str, DefaultDict[str, float]]) -> float:
         visited.add(curr_node)
-        ret = -1.0
+        res = -1.0
         neighbors = graph[curr_node]
         if target_node in neighbors:
-            ret = acc_product * neighbors[target_node]
+            res = acc_product * neighbors[target_node]
         else:
-            for neighbor, value in neighbors.items():
+            for neighbor, val in neighbors.items():
                 if neighbor in visited:
                     continue
-                ret = self.backtrack_evaluate(neighbor, target_node, acc_product * value, visited, graph)
-                if ret != -1.0:
+                res = self.backtrack(neighbor, target_node, acc_product * val, visited, graph)
+                if res != -1.0:
                     break
         visited.remove(curr_node)
-        return ret
+        return res
+    
     
     def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
         graph = defaultdict(defaultdict)
         
+        # step 1: build the graph from the equations
         for (dividend, divisor), value in zip(equations, values):
+            # add nodes and two edges into the graph
             graph[dividend][divisor] = value
             graph[divisor][dividend] = 1 / value
-        
+            
+        # step 2: evaluate each query via dfs by verifying
+        # if there exists a path from dividend to divisor
         ans = []
-        
         for dividend, divisor in queries:
             if dividend not in graph or divisor not in graph:
-                ret = -1.0
+                # case 1: either node doesn't exist
+                res = -1.0
             elif dividend == divisor:
-                ret = 1.0
+                # case 2: origin and destination are the same node
+                res = 1.0
             else:
                 visited = set()
-                ret = self.backtrack_evaluate(dividend, divisor, 1, visited, graph)
-            ans.append(ret)
+                res = self.backtrack(dividend, divisor, 1, visited, graph)
+            ans.append(res)
         
         return ans
+        
