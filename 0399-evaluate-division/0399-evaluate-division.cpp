@@ -1,44 +1,53 @@
 class Solution {
 private:
-    double backtrackEvaluate(string currNode, string& targetNode, double accProduct, unordered_set<string>& visited, unordered_map<\
-                             string, unordered_map<string, double>>& graph){
+    double backtrack(string currNode, string& targetNode, double accProduct, unordered_set<string>& visited, unordered_map<string, unordered_map<string, double>>& graph){
         visited.insert(currNode);
-        double ret = -1.0;
         unordered_map<string, double> neighbors = graph[currNode];
+        double res = -1.0;
         
         if (neighbors.find(targetNode) != neighbors.end())
-            ret = accProduct * neighbors[targetNode];
+            res = accProduct * neighbors[targetNode];
         else{
-            for (auto [neighbor, value] : neighbors){
-                if (visited.find(neighbor) != visited.end()) continue;
-                ret = backtrackEvaluate(neighbor, targetNode, accProduct * value, visited, graph);
-                if (ret != -1.0) break;
+            for (auto& [neighbor, value] : neighbors){
+                if (visited.find(neighbor) != visited.end())
+                    continue;
+                res = backtrack(neighbor, targetNode, accProduct * value, visited, graph);
+                if (res != -1.0)
+                    break;
             }
         }
+        
         visited.erase(currNode);
-        return ret;
+        return res;
     }
     
 public:
     vector<double> calcEquation(vector<vector<string>>& equations, vector<double>& values, vector<vector<string>>& queries) {
         unordered_map<string, unordered_map<string, double>> graph;
+        vector<double> ans;
         
+        // build the graph from the equations
         for (int i = 0; i < equations.size(); ++i){
+            // add nodes and two edges into the graph
             graph[equations[i][0]][equations[i][1]] = values[i];
-            graph[equations[i][1]][equations[i][0]] = 1 / values[i];
+            graph[equations[i][1]][equations[i][0]] = 1.0 / values[i];
         }
         
-        vector<double> ans;
-        double ret;
         for (vector<string>& query : queries){
-            if (graph.find(query[0]) == graph.end() || graph.find(query[1]) == graph.end())
-                ret = -1.0;
-            else if (query[0] == query[1]) ret = 1.0;
+            string dividend = query[0], divisor = query[1];
+            double res;
+            
+            // case 1: either doesn't exist 
+            if (graph.find(dividend) == graph.end() || graph.find(divisor) == graph.end())
+                res = -1.0;
+            // case 2: destination is the same node
+            else if (dividend == divisor)
+                res = 1.0;
             else{
                 unordered_set<string> visited;
-                ret = backtrackEvaluate(query[0], query[1], 1, visited, graph);
+                res = backtrack(dividend, divisor, 1.0, visited, graph);
             }
-            ans.push_back(ret);
+            ans.push_back(res);
         }
         
         return ans;
