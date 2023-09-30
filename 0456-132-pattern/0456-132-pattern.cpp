@@ -3,7 +3,6 @@ public:
     bool find132pattern(vector<int>& nums) {
         if (nums.size() < 3)
             return false;
-        
         int n = nums.size();
         vector<int> minArr(n);
         minArr[0] = nums[0];
@@ -12,11 +11,14 @@ public:
         
         int k = n;
         for (int j = n - 1; j >= 0; --j){
-            if (nums[j] <= minArr[j])
-                continue;
-            k = lower_bound(nums.begin() + k, nums.end(), minArr[j] + 1) - nums.begin();
+            if (nums[j] <= minArr[j]) continue;
+            
+            while (k < n && nums[k] <= minArr[j])
+                ++k;
+            
             if (k < n && nums[k] < nums[j])
                 return true;
+            
             nums[--k] = nums[j];
         }
         
