@@ -1,5 +1,5 @@
 class Solution:
-    def backtrack(self, curr_node: float, target_node: float, acc_product: float, visited: Set[bool], graph: DefaultDict[str, DefaultDict[str, float]]) -> float:
+    def backtrack(self, curr_node: float, target_node: float, acc_product: float, visited: Set[float], graph: DefaultDict[str, DefaultDict[str, float]]) -> float:
         visited.add(curr_node)
         res = -1.0
         neighbors = graph[curr_node]
