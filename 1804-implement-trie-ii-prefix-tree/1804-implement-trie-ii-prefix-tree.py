@@ -1,8 +1,9 @@
 class TrieNode:
     def __init__(self):
-        self.word_count = 0
-        self.count = 0
-        self.children = dict()
+        self.links = [None] * 26
+        self.words_ending_here = 0
+        self.words_starting_here = 0
+
 
 class Trie:
 
@@ -10,46 +11,40 @@ class Trie:
         self.root = TrieNode()
 
     def insert(self, word: str) -> None:
-        curr = self.root
+        node = self.root
         for c in word:
-            if c not in curr.children:
-                curr.children[c] = TrieNode()
-            curr.children[c].count += 1
-            curr = curr.children[c]
-        curr.word_count += 1
+            char_i = ord(c) - 97
+            if not node.links[char_i]:
+                node.links[char_i] = TrieNode()
+            node = node.links[char_i]
+            node.words_starting_here += 1
+        node.words_ending_here += 1
 
     def countWordsEqualTo(self, word: str) -> int:
-        curr = self.root
+        node = self.root
         for c in word:
-            if c not in curr.children:
+            char_i = ord(c) - 97
+            if not node.links[char_i]:
                 return 0
-            curr = curr.children[c]
-        return curr.word_count
+            node = node.links[char_i]
+        return node.words_ending_here
 
     def countWordsStartingWith(self, prefix: str) -> int:
-        curr = self.root
+        node = self.root
         for c in prefix:
-            if c not in curr.children:
+            char_i = ord(c) - 97
+            if not node.links[char_i]:
                 return 0
-            curr = curr.children[c]
-        return curr.count
+            node = node.links[char_i]
+        return node.words_starting_here
 
     def erase(self, word: str) -> None:
-        curr = self.root
+        node = self.root
         for c in word:
-            if c not in curr.children:
-                return
-            curr = curr.children[c]
-        
-        curr = self.root
-        for c in word:
-            curr.children[c].count -= 1
-            curr = curr.children[c]
-        
-        if curr.word_count == 0:
-            return
-        curr.word_count -= 1
-            
+            char_i = ord(c) - 97
+            node = node.links[char_i]
+            node.words_starting_here -= 1
+        node.words_ending_here -= 1
 
 
 # Your Trie object will be instantiated and called as such:
