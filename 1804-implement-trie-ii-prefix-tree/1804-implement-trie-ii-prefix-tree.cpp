@@ -1,63 +1,61 @@
-struct TrieNode{
-    int wordCount = 0, count = 0;
-    unordered_map<char, TrieNode*> children;
-    TrieNode(){}
+class TrieNode{
+public:
+    int startWords = 0, endWords = 0;
+    TrieNode* links[26];
 };
 
 
 class Trie {
 private:
-    TrieNode* root = new TrieNode();
-    
+    TrieNode *root = new TrieNode();
 public:
     Trie() {}
     
     void insert(string word) {
-        TrieNode* curr = root;
+        TrieNode *curr = root;
+        
         for (char& c : word){
-            if (curr -> children.find(c) == curr -> children.end())
-                curr -> children[c] = new TrieNode();
-            ++curr -> children[c] -> count;
-            curr = curr -> children[c];
+            int charIndex = c - 'a';
+            if (!curr -> links[charIndex])
+                curr -> links[charIndex] = new TrieNode();
+            curr = curr -> links[charIndex];
+            ++curr -> startWords;
         }
-        ++curr -> wordCount;
+        ++curr-> endWords;
     }
     
     int countWordsEqualTo(string word) {
         TrieNode *curr = root;
         for (char& c : word){
-            if (curr -> children.find(c) == curr -> children.end())
+            int charIndex = c - 'a';
+            if (!curr -> links[charIndex])
                 return 0;
-            curr = curr -> children[c];
+            curr = curr -> links[charIndex]; 
         }
-        return curr -> wordCount;
+        return curr -> endWords;
     }
     
     int countWordsStartingWith(string prefix) {
         TrieNode *curr = root;
         for (char& c : prefix){
-            if (curr -> children.find(c) == curr -> children.end())
+            int charIndex = c - 'a';
+            if (!curr -> links[charIndex])
                 return 0;
-            curr = curr -> children[c];
+            curr = curr -> links[charIndex]; 
         }
-        return curr -> count;
+        return curr -> startWords;
     }
     
     void erase(string word) {
         TrieNode *curr = root;
-        for (char& c : word){
-            if (curr -> children.find(c) == curr -> children.end())
-                return;
-            curr = curr -> children[c];
-        }
         
-        curr = root;
         for (char& c : word){
-            --curr -> children[c] -> count;
-            curr = curr -> children[c];
+            int charIndex = c - 'a';
+            
+            curr = curr -> links[charIndex];
+            --curr -> startWords;
         }
-        if (curr -> wordCount == 0) return;
-        --curr -> wordCount;
+        --curr-> endWords;
     }
 };
 
