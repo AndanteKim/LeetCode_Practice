@@ -8,7 +8,7 @@ class Solution:
         while queue:
             x, y, dist = queue.popleft()
             
-            if (x == 0 or y == 0 or x == m - 1 or y == n - 1) and [x, y] != entrance and maze[x][y] == '.':
+            if (x == 0 or y == 0 or x == m - 1 or y == n - 1) and dist != 0:
                 ans = min(ans, dist)
             for dx, dy in (1, 0), (-1, 0), (0, 1), (0, -1):
                 new_x, new_y = x + dx, y + dy
