@@ -9,7 +9,8 @@ class Solution:
             x, y, dist = queue.popleft()
             
             if (x == 0 or y == 0 or x == m - 1 or y == n - 1) and dist != 0:
-                ans = min(ans, dist)
+                return dist
+                
             for dx, dy in (1, 0), (-1, 0), (0, 1), (0, -1):
                 new_x, new_y = x + dx, y + dy
                 if 0 <= new_x < m and 0 <= new_y < n and maze[new_x][new_y] == "." and not visited[new_x][new_y]:
