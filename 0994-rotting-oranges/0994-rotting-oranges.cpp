@@ -1,41 +1,41 @@
 class Solution {
-    bool valid(int x, int y, int rows, int cols, vector<vector<bool>>& visited, vector<vector<int>>& grid){
-        if (x < 0 || x >= rows || y < 0 || y >= cols || visited[x][y] || grid[x][y] != 1)
-            return false;
-        grid[x][y] = 2;
-        visited[x][y] = true;
-        return true;
+private:
+    int rows, cols;
+    
+    bool isValid(int x, int y, vector<vector<int>>& grid, vector<vector<bool>>& visited){
+        return 0 <= x && x < rows && 0 <= y && y < cols && !visited[x][y] && grid[x][y] == 1;
     }
     
 public:
     int orangesRotting(vector<vector<int>>& grid) {
-        int ans = 0, freshOrange = 0, rows = grid.size(), cols = grid[0].size();
-        queue<pair<int, int>> queue;
-        
+        this -> rows = grid.size(), this -> cols = grid[0].size();
+        int fresh = 0, ans = 0;
+        queue<vector<int>> queue;
+        vector<vector<bool>> visited(rows, vector<bool>(cols));
         for (int i = 0; i < rows; ++i){
             for (int j = 0; j < cols; ++j){
-                if (grid[i][j] == 2) queue.push({i, j});
-                else if (grid[i][j] == 1) ++freshOrange;
+                if (grid[i][j] == 1) ++fresh;
+                if (grid[i][j] == 2) queue.push({i, j, 0});
             }
         }
         
-        vector<vector<bool>> visited(rows, vector<bool>(cols));
+        
         while (!queue.empty()){
-            int sz = queue.size();
-            for (int i = 0; i < sz; ++i){
-                auto [x, y] = queue.front();
-                queue.pop();
-                
-                for (auto [new_x, new_y] : {make_pair(x - 1, y), make_pair(x + 1, y), make_pair(x, y - 1), make_pair(x, y + 1)}){
-                    if (valid(new_x, new_y, rows, cols, visited, grid)){
-                        queue.push({new_x, new_y});
-                        --freshOrange;
-                    }
+            auto it = queue.front();
+            queue.pop();
+            int x = it[0], y = it[1], days = it[2];
+            ans = max(ans, days);
+            
+            for (auto& [newX, newY] : vector<pair<int, int>> {{x + 1, y}, {x - 1, y}, {x, y + 1}, {x, y - 1}}){
+                if (isValid(newX, newY, grid, visited)){
+                    visited[newX][newY] = true;
+                    grid[newX][newY] = 2;
+                    --fresh;
+                    queue.push({newX, newY, days + 1});
                 }
             }
-            if (!queue.empty()) ++ans;
         }
         
-        return freshOrange == 0? ans : -1;
+        return fresh > 0? -1 : ans;
     }
 };
