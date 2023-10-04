@@ -1,67 +1,60 @@
-class Bucket{
-private:
-    vector<pair<int, int>> bucket;
-    
+class LinkedList{
 public:
-    Bucket(){}
-    
-    int get(int key){
-        for (auto& [k, v] : bucket){
-            if (k == key)
-                return v;
-        }
-        
-        return -1;
-    }
-    
-    void update(int key, int val){
-        bool found = false;
-        for (int i = 0; i < bucket.size(); ++i){
-            if (key == bucket[i].first){
-                bucket[i] = make_pair(key, val);
-                found = true;
-                break;
-            }
-        }
-        
-        if (!found) bucket.push_back(make_pair(key, val));
-    }
-    
-    void remove(int key){
-        int target = -1;
-        for (int i = 0; i < bucket.size(); ++i){
-            if (bucket[i].first == key)
-                target = i;
-        }
-        
-        if (target != -1)
-            bucket.erase(bucket.begin() + target);
-    }
+    int key, val;
+    LinkedList* next;
+    LinkedList(): key(-1), val(-1), next(nullptr){}
+    LinkedList(int key, int val): key(key), val(val), next(nullptr){}
+    LinkedList(int key, int val, LinkedList* next): key(key), val(val), next(next){}
 };
 
 class MyHashMap {
 private:
     int keySpace = 2069;
-    vector<Bucket*> hashTable;
+    vector<LinkedList*> hashTable;
     
 public:
     MyHashMap() {
-        hashTable.resize(keySpace, new Bucket());
+        hashTable.resize(keySpace, new LinkedList());
+    }
+    
+    int getHashKey(int key){
+        return key % keySpace;
     }
     
     void put(int key, int value) {
-        int hashKey = key % keySpace;
-        hashTable[hashKey] -> update(key, value);
+        LinkedList *curr = hashTable[getHashKey(key)];
+        
+        while (curr -> next){
+            if (curr -> next -> key == key){
+                curr -> next -> val = value;
+                return;
+            }
+            curr = curr -> next;
+        }
+        curr -> next = new LinkedList(key, value);
     }
     
     int get(int key) {
-        int hashKey = key % keySpace;
-        return hashTable[hashKey] -> get(key);
+        LinkedList* curr = hashTable[getHashKey(key)] -> next;
+        
+        while (curr){
+            if (curr -> key == key){
+                return curr -> val;
+            }
+            curr = curr -> next;
+        }
+        return -1;
     }
     
     void remove(int key) {
-        int hashKey = key % keySpace;
-        hashTable[hashKey] -> remove(key);
+        LinkedList* curr = hashTable[getHashKey(key)];
+        while (curr && curr -> next){
+            if (curr -> next -> key == key){
+                curr -> next = curr -> next -> next;
+                return;
+            }
+            curr = curr -> next;
+        }
     }
 };
 
