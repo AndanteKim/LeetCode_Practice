@@ -1,21 +1,20 @@
-typedef long long ll;
-
 class Solution {
 public:
     vector<int> successfulPairs(vector<int>& spells, vector<int>& potions, long long success) {
-        int n = spells.size();
-        vector<int> ans(n, 0);
+        vector<int> ans;
+        int n = potions.size();
         sort(potions.begin(), potions.end());
         
-        for (int i = 0; i < n; ++i){
-            int left = 0, right = potions.size();
-            int curr = right;
+        for (int spell : spells){
+            int left = 0, right = n;
             while (left < right){
-                int mid = left + (right - left) / 2;
-                if ((ll)spells[i] * potions[mid] < success) left = mid + 1;
-                else right = mid;
+                int mid = left + ((right - left) >> 1);
+                if (success <= (long long)potions[mid] * spell)
+                    right = mid;
+                else
+                    left = mid + 1;
             }
-            ans[i] = curr - left;
+            ans.push_back(n - left);
         }
         
         return ans;
