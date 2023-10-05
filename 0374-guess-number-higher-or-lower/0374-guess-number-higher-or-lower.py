@@ -7,15 +7,19 @@
 
 class Solution:
     def guessNumber(self, n: int) -> int:
+        
+        # Since there is no duplicate number between guessing number, maintain left = mid + 1, right = mid - 1 instead of left = mid + 1, mid = right
         left, right = 1, n
-        
         while left <= right:
-            mid = (left + right) // 2
-            if not guess(mid):
-                return mid
-            elif guess(mid) == 1:
+            mid = (left + right) >> 1
+            if guess(mid) == 1:
                 left = mid + 1
-            else:
+            elif guess(mid) == -1:
                 right = mid - 1
-        return mid
-        
+            else:
+                return mid
+            
+        return -1
+                
+                
+                
