@@ -1,16 +1,17 @@
 class Solution:
     def integerBreak(self, n: int) -> int:
-        @lru_cache(maxsize = None)
-        def dp(num: int) -> int:
-            if num <= 3:
-                return num
-            
-            ans = num
-            for i in range(2, num):
-                ans = max(ans, i * dp(num - i))
-            
-            return ans
-                
         if n <= 3:
             return n - 1
-        return dp(n)
+        
+        dp = [0] * (n + 1)
+        
+        for i in (1,2,3):
+            dp[i] = i
+            
+        for num in range(4, n + 1):
+            ans = num
+            for i in range(2, num):
+                ans = max(ans, i * dp[num - i])
+            dp[num] = ans
+            
+        return dp[n]
