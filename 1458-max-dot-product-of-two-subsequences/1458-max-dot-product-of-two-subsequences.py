@@ -13,6 +13,6 @@ class Solution:
         if max1 < 0 and min2 > 0:
             return max1 * min2
         if min1 > 0 and max2 < 0:
-            return min1 * max(nums2)
+            return min1 * max2
         
         return dp(0, 0)
