@@ -1,18 +1,18 @@
 class Solution:
     def maxDotProduct(self, nums1: List[int], nums2: List[int]) -> int:
-        @lru_cache(maxsize = None)
-        def dp(i: int, j: int) -> int:
-            if i == n1 or j == n2:
-                return 0
-            
-            return max(dp(i + 1, j), dp(i, j + 1), nums1[i] * nums2[j] + dp(i + 1, j + 1))
+        max1, max2 = max(nums1), max(nums2)
+        min1, min2 = min(nums1), min(nums2)
         
-        n1, n2 = len(nums1), len(nums2)
-        max1, min1 = max(nums1), min(nums1)
-        max2, min2 = max(nums2), min(nums2)
-        if max1 < 0 and min2 > 0:
-            return max1 * min2
         if min1 > 0 and max2 < 0:
             return min1 * max2
         
-        return dp(0, 0)
+        if max1 < 0 and min2 > 0:
+            return max1 * min2
+        
+        m, n = len(nums1), len(nums2)
+        dp = [[0] * (n + 1) for _ in range(m + 1)]
+        for i in range(m - 1, -1, -1):
+            for j in range(n - 1, -1, -1):
+                use = nums1[i] * nums2[j] + dp[i + 1][j + 1]
+                dp[i][j] = max(use, dp[i + 1][j] , dp[i][j + 1])
+        return dp[0][0]
