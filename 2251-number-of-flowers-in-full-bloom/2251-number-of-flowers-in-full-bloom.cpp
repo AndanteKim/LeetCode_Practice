@@ -1,29 +1,27 @@
 class Solution {
 public:
     vector<int> fullBloomFlowers(vector<vector<int>>& flowers, vector<int>& people) {
-        sort(flowers.begin(), flowers.end());
-        vector<int> sortedPeople(people.begin(), people.end());
-        sort(sortedPeople.begin(), sortedPeople.end());
-        vector<int> ans(people.size());
-        priority_queue<int, vector<int>, greater<int>> pq;
-        unordered_map<int, int> m;
-        
-        int i = 0;
-        for (int t : sortedPeople){
-            
-            while (i < flowers.size() && flowers[i][0] <= t){
-                pq.push(flowers[i][1]);
-                ++i;
-            }
-            
-            while (!pq.empty() && pq.top() < t)
-                pq.pop();
-            
-            m[t] = pq.size();
+        map<int, int> diff;
+        diff[0] = 0;
+        for (vector<int>& flower : flowers){
+            ++diff[flower[0]];
+            --diff[flower[1] + 1];
         }
         
-        for (int i = 0; i < people.size(); ++i)
-            ans[i] = m[people[i]];
+        vector<int> positions, prefix;
+        int curr = 0;
+        
+        for (auto& [key, val] : diff){
+            positions.push_back(key);
+            curr += val;
+            prefix.push_back(curr);
+        }
+        
+        vector<int> ans;
+        for (int person : people){
+            int i = upper_bound(positions.begin(), positions.end(), person) - positions.begin() - 1;
+            ans.push_back(prefix[i]);
+        }
         
         return ans;
     }
