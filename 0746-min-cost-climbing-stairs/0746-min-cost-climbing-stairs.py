@@ -1,8 +1,13 @@
 class Solution:
     def minCostClimbingStairs(self, cost: List[int]) -> int:
-        down1, down2 = 0, 0
-        for i in range(2, len(cost) + 1):
-            temp = down1
-            down1 = min(down1 + cost[i - 1], down2 + cost[i - 2])
-            down2 = temp
-        return down1
+        @lru_cache(maxsize = None)
+        def dp(i: int, two_steps: bool) -> int:
+            if i >= n:
+                return 0
+            if two_steps:
+                return min(cost[i] + dp(i + 1, False), cost[i] + dp(i + 2, True))
+            
+            return min(cost[i] + dp(i + 1, False), cost[i] + dp(i + 2, True), dp(i + 1, True))
+        
+        n = len(cost)
+        return dp(0, False)
