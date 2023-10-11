@@ -4,10 +4,11 @@ class Solution:
         if n <= 1:
             return nums[0]
         
-        dp = [0] * (n + 1)
-        dp[1] = nums[0]
+        rob_next, rob_next_plus_one = nums[0], 0
         
-        for i in range(2, n + 1):
-            dp[i] = max(dp[i - 2] + nums[i - 1], dp[i - 1])
+        for i in range(1, n):
+            current = max(rob_next, rob_next_plus_one + nums[i])
+            rob_next_plus_one = rob_next
+            rob_next = current
         
-        return dp[-1]
+        return rob_next
