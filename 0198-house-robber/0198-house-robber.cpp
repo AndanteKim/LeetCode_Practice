@@ -1,14 +1,18 @@
 class Solution {
+private:
+    int n;
+    int dp(int i, vector<int>& nums, vector<int>& memo){
+        if (i >= n)
+            return 0;
+        
+        if (memo[i] != -1) return memo[i];
+        return memo[i] = max(nums[i] + dp(i + 2, nums, memo), dp(i + 1, nums, memo));
+    }
+    
 public:
     int rob(vector<int>& nums) {
-        int n = nums.size(), robPlusOne = 0, current = 0;
-        int robNext = nums[n - 1];
-        
-        for (int i = n - 2; i >= 0; --i){
-            current = max(robPlusOne + nums[i], robNext);
-            robPlusOne = robNext;
-            robNext = current;
-        }
-        return robNext;
+        this -> n = nums.size();
+        vector<int> memo(n + 1, -1);
+        return dp(0, nums, memo);
     }
 };
