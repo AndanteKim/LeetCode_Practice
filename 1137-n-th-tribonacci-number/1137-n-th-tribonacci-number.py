@@ -1,16 +1,12 @@
 class Solution:
     def tribonacci(self, n: int) -> int:
-        t_0 = 0
-        if n == 0: return t_0
-        t_1 = 1
-        if n == 1: return t_1
-        t_2 = t_0 + t_1
-        if n == 2: return t_2
-        t_3 = t_0 + t_1 + t_2
-        i, ans = 3, 0
-        for _ in range(i, n+1):
-            t_3 = t_0 + t_1 + t_2
-            t_0, t_1, t_2 = t_1, t_2, t_3
-            ans = t_3
+        if n <= 2:
+            return 1 if n == 2 else 1 if n == 1 else 0
+        
+        t_n0, t_n1, t_n2 = 0, 1, 1
+        
+        for i in range(n - 2):
+            t_n3 = t_n0 + t_n1 + t_n2
+            t_n0, t_n1, t_n2 = t_n1, t_n2, t_n3
             
-        return ans
+        return t_n3
