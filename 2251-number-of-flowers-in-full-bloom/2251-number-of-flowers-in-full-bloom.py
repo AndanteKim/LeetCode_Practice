@@ -1,29 +1,18 @@
 class Solution:
     def fullBloomFlowers(self, flowers: List[List[int]], people: List[int]) -> List[int]:
-        positions = set()
+        flowers.sort()
+        sorted_people = sorted(people)
+        heap, dic = [], dict()
         
-        for start, end in flowers:
-            positions.add(start)
-            positions.add(end + 1)
+        i = 0
+        for t in sorted_people:
+            while i < len(flowers) and flowers[i][0] <= t:
+                heappush(heap, flowers[i][1])
+                i += 1
             
-        positions = sorted(list(positions))
-        
-        idx = {positions[i] : i for i in range(len(positions))}
-        tmp = [0] * (1 + len(positions))
-        
-        for start, end in flowers:
-            tmp[idx[start]] += 1
-            tmp[idx[end + 1]] -= 1
+            while heap and heap[0] < t:
+                heappop(heap)
             
-        prefix_sum = [0] * (1 + len(positions))
+            dic[t] = len(heap)
         
-        for i in range(len(positions)):
-            prefix_sum[i + 1] = prefix_sum[i] + tmp[i]
-        
-        ans = []
-        
-        for person in people:
-            idx = bisect_right(positions, person)
-            ans.append(prefix_sum[idx])
-        
-        return ans
+        return [dic[person] for person in people]
