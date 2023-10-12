@@ -11,39 +11,63 @@
 class Solution {
 public:
     int findInMountainArray(int target, MountainArray &mountainArr) {
-        int low = 1, high = mountainArr.length() - 2, peakIndex;
+        unordered_map<int, int> cache;
+        int n = mountainArr.length(), low = 1, high = n - 2, curr, next;
         
-        // find the peak index of the array
-        while (low < high){
+        while (low != high){
             int mid = low + ((high - low) >> 1);
-            if (mountainArr.get(mid) < mountainArr.get(mid + 1))
+            if (cache.find(mid) != cache.end())
+                curr = cache[mid];
+            else{
+                curr = mountainArr.get(mid);
+                cache[mid] = curr;
+            }
+            
+            if (cache.find(mid + 1) != cache.end())
+                next = cache[mid + 1];
+            else{
+                next = mountainArr.get(mid + 1);
+                cache[mid + 1] = next;
+            }
+            
+            if (curr < next)
                 low = mid + 1;
             else
                 high = mid;
         }
-        peakIndex = low;
         
-        // find the target in the increasing array
+        int peakIndex = low;
         low = 0, high = peakIndex;
-        while (low < high){
+        while (low <= high){
             int mid = low + ((high - low) >> 1);
-            if (mountainArr.get(mid) < target)
+            if (cache.find(mid) != cache.end())
+                curr = cache[mid];
+            else
+                curr = mountainArr.get(mid);
+            
+            if (curr == target)
+                return mid;
+            if (curr < target)
                 low = mid + 1;
             else
-                high = mid;
+                high = mid - 1;
         }
-        if (mountainArr.get(low) == target) return low;
         
-        // find the target in the decreasing array
-        low = peakIndex + 1, high = mountainArr.length() - 1;
-        while (low < high){
+        low = peakIndex + 1, high = n - 1;
+        while (low <= high){
             int mid = low + ((high - low) >> 1);
-            if (mountainArr.get(mid) > target)
+            if (cache.find(mid) != cache.end())
+                curr = cache[mid];
+            else
+                curr = mountainArr.get(mid);
+            
+            if (curr == target)
+                return mid;
+            if (curr > target)
                 low = mid + 1;
             else
-                high = mid;
+                high = mid - 1;
         }
-        if (mountainArr.get(low) == target) return low;
         
         return -1;
     }
