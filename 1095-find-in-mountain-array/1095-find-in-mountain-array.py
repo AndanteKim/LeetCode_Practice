@@ -34,7 +34,7 @@ class Solution:
             
             if curr == target:
                 return mid
-            if curr < target:
+            elif curr < target:
                 low = mid + 1
             else:
                 high = mid - 1
