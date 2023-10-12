@@ -11,59 +11,46 @@
 class Solution {
 public:
     int findInMountainArray(int target, MountainArray &mountainArr) {
-        unordered_map<int, int> cache;
-        int n = mountainArr.length(), low = 1, high = n - 2, curr, next;
-        
-        while (low != high){
+        int length = mountainArr.length(), low = 1, high = length - 2, curr, next;
+
+        while (low < high){
             int mid = low + ((high - low) >> 1);
-            if (cache.find(mid) != cache.end())
-                curr = cache[mid];
-            else{
-                curr = mountainArr.get(mid);
-                cache[mid] = curr;
-            }
+            curr = mountainArr.get(mid);
+            next = mountainArr.get(mid + 1);
             
-            if (cache.find(mid + 1) != cache.end())
-                next = cache[mid + 1];
-            else{
-                next = mountainArr.get(mid + 1);
-                cache[mid + 1] = next;
-            }
-            
-            if (curr < next)
+            if (curr < next){
+                if (curr == target)
+                    return mid;
+                if (next == target)
+                    return mid + 1;
                 low = mid + 1;
+            }
             else
                 high = mid;
         }
         
         int peakIndex = low;
         low = 0, high = peakIndex;
+        
         while (low <= high){
             int mid = low + ((high - low) >> 1);
-            if (cache.find(mid) != cache.end())
-                curr = cache[mid];
-            else
-                curr = mountainArr.get(mid);
-            
+            curr = mountainArr.get(mid);
             if (curr == target)
                 return mid;
-            if (curr < target)
+            else if (curr < target)
                 low = mid + 1;
             else
                 high = mid - 1;
         }
         
-        low = peakIndex + 1, high = n - 1;
+        low = peakIndex + 1, high = length - 1;
+        
         while (low <= high){
             int mid = low + ((high - low) >> 1);
-            if (cache.find(mid) != cache.end())
-                curr = cache[mid];
-            else
-                curr = mountainArr.get(mid);
-            
+            curr = mountainArr.get(mid);
             if (curr == target)
                 return mid;
-            if (curr > target)
+            else if (curr > target)
                 low = mid + 1;
             else
                 high = mid - 1;
