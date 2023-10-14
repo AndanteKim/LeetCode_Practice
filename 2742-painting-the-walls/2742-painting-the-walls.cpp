@@ -1,21 +1,19 @@
 class Solution {
-private:
-    int n;
-    int dp(int i, int remain, vector<vector<int>>& memo, vector<int>& cost, vector<int>& time){
-        if (remain <= 0) return 0;
-        if (i == n) return 1e9;
-        if (memo[i][remain] != -1) return memo[i][remain];
-        
-        int paint = cost[i] + dp(i + 1, remain - 1 - time[i], memo, cost, time);
-        int dontPaint = dp(i + 1, remain, memo, cost, time);
-        return memo[i][remain] = min(paint, dontPaint);
-    }
-    
 public:
     int paintWalls(vector<int>& cost, vector<int>& time) {
-        this -> n = cost.size();
-        vector memo(n, vector<int>(n + 1, -1));
+        int n = cost.size();
+        vector dp(n + 1, vector<int>(n + 1, 0));
+        for (int i = 1; i <= n; ++i)
+            dp[n][i] = 1e9;
         
-        return dp(0, n, memo, cost, time);
+        for (int i = n - 1; i >= 0; --i){
+            for (int remain = 1; remain <= n; ++remain){
+                int paint = cost[i] + dp[i + 1][max(0, remain - 1 - time[i])];
+                int dontPaint = dp[i + 1][remain];
+                dp[i][remain] = min(paint, dontPaint);
+            }
+        }
+        
+        return dp[0][n];
     }
 };
