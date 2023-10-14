@@ -27,6 +27,6 @@ private:
     
 public:
     int numTilings(int n) {
-        return f(n);
+        return static_cast<int>(f(n));
     }
 };
