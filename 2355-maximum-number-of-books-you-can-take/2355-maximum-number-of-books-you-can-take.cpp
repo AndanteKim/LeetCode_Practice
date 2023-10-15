@@ -1,32 +1,31 @@
-typedef long long ll;
-
 class Solution {
-private:
-    ll calculateSum(int left, int right, vector<int>& books){
-        ll cnt = min(books[right], right - left + 1);
-        return (2 * books[right] - cnt + 1) * cnt / 2;
-    }
-    
 public:
     long long maximumBooks(vector<int>& books) {
         int n = books.size();
-        vector<ll> dp(n);
-        stack<int> stack;
         
+        auto calculateSum = [&](int l, int r){
+            long long cnt = min(books[r], r - l + 1);
+            return (2 * books[r] - (cnt - 1)) * cnt / 2;
+        };
+        
+        stack<int> s;
+        vector<long long> dp(n);
         for (int i = 0; i < n; ++i){
-            // while we can't push i, we pop from the stack
-            while (!stack.empty() && books[stack.top()] - stack.top() >= books[i] - i)
-                stack.pop();
+            // while we cannot push i, we pop from the stack
+            while (!s.empty() && books[s.top()] - s.top() >= books[i] - i)
+                s.pop();
             
             // compute dp[i]
-            if (stack.empty())
-                dp[i] = calculateSum(0, i, books);
+            if (s.empty())
+                dp[i] = calculateSum(0, i);
             else
-                dp[i] = dp[stack.top()] + calculateSum(stack.top() + 1, i, books);
+                dp[i] = dp[s.top()] + calculateSum(s.top() + 1, i);
             
-            stack.push(i);
+            // push the current index onto the stack
+            s.push(i);
         }
         
+        // return the maximum element in dp array
         return *max_element(dp.begin(), dp.end());
     }
 };
