@@ -1,14 +1,18 @@
-class Solution {
-public:
-    int maxProfit(vector<int>& prices, int fee) {
-        int n = prices.size(), hold = -prices[0], free = 0;
+class Solution:
+    def maxProfit(self, prices: List[int], fee: int) -> int:
+        @lru_cache(maxsize = None)
+        def dp(i: int, hold: int) -> int:
+            if i >= n:
+                return 0
+            
+            profit = 0
+            if not hold:
+                profit = max(-prices[i] + dp(i + 1, True), dp(i + 1, hold))
+            else:
+                profit = max(prices[i] - fee + dp(i + 1, False), dp(i + 1, hold))
+                
+            return profit
         
-        for (int i = 1; i < n; ++i){
-            int tmp = hold;
-            hold = max(hold, free - prices[i]);
-            free = max(free, tmp + prices[i] - fee);
-        }
-        
-        return free;
-    }
-};
+        n = len(prices)
+        # -1 := stands for no buying
+        return dp(0, False)
