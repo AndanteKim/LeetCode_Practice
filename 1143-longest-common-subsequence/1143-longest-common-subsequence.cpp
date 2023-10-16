@@ -1,16 +1,26 @@
 class Solution {
+private:
+    int n1, n2;
+    int dp(int i, int j, string& text1, string& text2, vector<vector<int>>& memo){
+        if (i >= n1 || j >= n2)
+            return 0;
+        if (memo[i][j] != -1)
+            return memo[i][j];
+        
+        int longest = 0;
+        if (text1[i] == text2[j])
+            longest = 1 + dp(i + 1, j + 1, text1, text2, memo);
+        else
+            longest = max(dp(i + 1, j, text1, text2, memo), dp(i, j + 1, text1, text2, memo));
+        
+        return memo[i][j] = longest;
+    }
+    
 public:
     int longestCommonSubsequence(string text1, string text2) {
-        if (text2.size() < text1.size()) swap(text1, text2);
+        this -> n1 = text1.size(), this -> n2 = text2.size();
+        vector memo(n1 + 1, vector<int>(n2 + 1, -1));
         
-        vector<int> previous(text1.size() + 1, 0), current(text1.size() + 1, 0);
-        for (int col = text2.size() - 1; col >= 0; --col){
-            for (int row = text1.size() - 1; row >= 0; --row){
-                if (text2[col] == text1[row]) current[row] = 1 + previous[row + 1];
-                else current[row] = max(previous[row], current[row + 1]);
-            }
-            swap(previous, current);
-        }
-        return previous[0];
+        return dp(0, 0, text1, text2, memo);
     }
 };
