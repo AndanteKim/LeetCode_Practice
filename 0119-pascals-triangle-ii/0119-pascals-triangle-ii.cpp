@@ -10,7 +10,7 @@ public:
         vector<int> prevDp{{1, 1}}, dp;
         
         for (int num = 2; num <= rowIndex; ++num){
-            dp = vector<int>(num + 1, 1);
+            dp.assign(num + 1, 1);
             for (int i = 1; i < num; ++i)
                 dp[i] = prevDp[i - 1] + prevDp[i];
             prevDp = dp;
