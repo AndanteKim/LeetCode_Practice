@@ -14,10 +14,10 @@ private:
             operations = dp(memo, word1, word2, i - 1, j - 1);
         }
         else{
-            int insertion = 1 + dp(memo, word1, word2, i - 1, j);
-            int deletion = 1 + dp(memo, word1, word2, i, j - 1);
-            int replace = 1 + dp(memo, word1, word2, i - 1, j - 1);
-            operations = min(insertion, min(deletion, replace));
+            int insertion = dp(memo, word1, word2, i - 1, j);
+            int deletion = dp(memo, word1, word2, i, j - 1);
+            int replace = dp(memo, word1, word2, i - 1, j - 1);
+            operations = min(insertion, min(deletion, replace)) + 1;
         }
         return memo[i][j] = operations;
     }
@@ -26,6 +26,6 @@ public:
     int minDistance(string word1, string word2) {
         int m = word1.size(), n = word2.size();
         vector memo(m + 1, vector<int>(n + 1, -1));
-        return dp(memo, word1, word2, word1.size(), word2.size());
+        return dp(memo, word1, word2, m, n);
     }
 };
