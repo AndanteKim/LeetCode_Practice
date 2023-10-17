@@ -13,16 +13,16 @@ class Solution:
         if root == -1:
             return False
         
-        seen = {root}
-        stack = [root]
-        while stack:
-            node = stack.pop()
+        seen, queue = {root}, deque([root])
+        
+        while queue:
+            node = queue.popleft()
             for child in [leftChild[node], rightChild[node]]:
                 if child != -1:
                     if child in seen:
                         return False
                     
-                    stack.append(child)
+                    queue.append(child)
                     seen.add(child)
         
         return len(seen) == n
