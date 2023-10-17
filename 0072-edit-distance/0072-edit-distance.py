@@ -1,27 +1,20 @@
 class Solution:
     def minDistance(self, word1: str, word2: str) -> int:
-        word1Length, word2Length = len(word1), len(word2)
-        if word1Length == 0:
-            return word2Length
-        if word2Length == 0:
-            return word1Length
+        @lru_cache(maxsize = None)
+        def dp(i: int, j: int) -> int:
+            if i == 0:
+                return j
+            if j == 0:
+                return i
+            
+            operations = 0
+            if word1[i - 1] == word2[j - 1]:
+                operations = dp(i - 1, j - 1)
+            else:
+                operations = 1 + min(dp(i - 1, j), dp(i, j - 1), dp(i - 1, j - 1))
+            
+            return operations
         
-        dp = [[0 for j in range(len(word2) + 1)] for i in range(len(word1) + 1)]
-        for word1Index in range(1, word1Length + 1):
-            dp[word1Index][0] = word1Index
         
-        for word2Index in range(1, word2Length + 1):
-            dp[0][word2Index] = word2Index
-        
-        
-        for word1Index in range(1, word1Length + 1):
-            for word2Index in range(1, word2Length + 1):
-                if word2[word2Index - 1] == word1[word1Index - 1]:
-                    dp[word1Index][word2Index] = dp[word1Index - 1][word2Index - 1]
-                else:
-                    dp[word1Index][word2Index] = min(dp[word1Index - 1][word2Index],
-                                                     dp[word1Index][word2Index-1],
-                                                     dp[word1Index - 1][word2Index - 1]) + 1
-        
-        return dp[word1Length][word2Length]
-                
+        n1, n2 = len(word1), len(word2)
+        return dp(n1, n2)
