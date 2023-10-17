@@ -1,13 +1,21 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices, int fee) {
-        int n = prices.size(), free = 0, hold = -prices[0];
+        // readable space optimized dynamic programming
+        int n = prices.size();
+        // max_profit if I
+        int hadStockYesterday = -prices[0], haveStockToday;
         
-        for (int i = 1; i < n; ++i){
-            hold = max(hold, free - prices[i]);
-            free = max(free, hold + prices[i] - fee);
+        // max_profit if I
+        int didntHaveStockYesterday = 0, dontHaveStockToday;
+        
+        for (int price : prices){
+            haveStockToday = max(hadStockYesterday, didntHaveStockYesterday - price);
+            dontHaveStockToday = max(didntHaveStockYesterday, hadStockYesterday + price - fee);
+            hadStockYesterday = haveStockToday;
+            didntHaveStockYesterday = dontHaveStockToday;
         }
         
-        return free;
+        return dontHaveStockToday;
     }
 };
