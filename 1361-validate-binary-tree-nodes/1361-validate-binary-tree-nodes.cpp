@@ -1,46 +1,46 @@
-class Solution {
-private:
-    int n;
-    int findRoot(vector<int>& leftChild, vector<int>& rightChild){
-        unordered_set<int> children;
-        children.insert(leftChild.begin(), leftChild.end());
-        children.insert(rightChild.begin(), rightChild.end());
-        for (int i = 0; i < n; ++i){
-            if (children.find(i) == children.end())
-                return i;
-        }
-        
-        return -1;
+class UnionFind{
+public:
+    int components;
+    vector<int> parents;
+    UnionFind(int n){
+        components = n;
+        parents.resize(n);
+        iota(parents.begin(), parents.end(), 0);
     }
     
+    int find(int node){
+        if (parents[node] != node)
+            parents[node] = find(parents[node]);
+        return parents[node];
+    }
+    
+    bool join(int parent, int child){
+        int grandParent = find(parent), childParent = find(child);
+        
+        if (childParent != child || grandParent == childParent)
+            return false;
+        --components;
+        parents[childParent] = grandParent;
+        return true;
+    }
+};
+
+
+class Solution {
 public:
     bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) {
-        this -> n = n;
-        int root = findRoot(leftChild, rightChild);
+        UnionFind *uf = new UnionFind(n);
         
-        if (root == -1) return false;
-        
-        queue<int> q;
-        q.push(root);
-        unordered_set<int> seen;
-        seen.insert(root);
-        
-        while (!q.empty()){
-            int i = q.front();
-            q.pop();
-            
-            int children[] = {leftChild[i], rightChild[i]};
+        for (int node = 0; node < n; ++node){
+            int children [] = {leftChild[node], rightChild[node]};
             for (int child : children){
-                if (child != -1){
-                    if (seen.find(child) != seen.end())
-                        return false;
-                    
-                    q.push(child);
-                    seen.insert(child);
-                }
+                if (child == -1)
+                    continue;
+                if (!uf -> join(node, child))
+                    return false;
             }
         }
         
-        return seen.size() == n;
+        return uf -> components == 1;
     }
 };
