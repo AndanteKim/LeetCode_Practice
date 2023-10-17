@@ -1,30 +1,31 @@
 class Solution {
+private:
+    int dp(vector<vector<int>>& memo, string& word1, string& word2, int i, int j){
+        if (i == 0)
+            return j;
+        if (j == 0)
+            return i;
+        
+        if (memo[i][j] != -1)
+            return memo[i][j];
+        
+        int operations = 0;
+        if (word1[i - 1] == word2[j - 1]){
+            operations = dp(memo, word1, word2, i - 1, j - 1);
+        }
+        else{
+            int insertion = 1 + dp(memo, word1, word2, i - 1, j);
+            int deletion = 1 + dp(memo, word1, word2, i, j - 1);
+            int replace = 1 + dp(memo, word1, word2, i - 1, j - 1);
+            operations = min(insertion, min(deletion, replace));
+        }
+        return memo[i][j] = operations;
+    }
+    
 public:
     int minDistance(string word1, string word2) {
-        int word1Length = word1.size(), word2Length = word2.size();
-        if (word1Length == 0) return word2Length;
-        if (word2Length == 0) return word1Length;
-        
-        vector<vector<int>> dp(word1Length + 1, vector<int>(word2Length + 1, 0)); 
-        for (int word1Index = 1; word1Index <= word1Length; ++word1Index){
-            dp[word1Index][0] = word1Index;
-        }
-        
-        for (int word2Index = 1; word2Index <= word2Length; ++word2Index){
-            dp[0][word2Index] = word2Index;
-        }
-        
-        for (int word1Index = 1; word1Index <= word1Length; ++word1Index){
-            for (int word2Index = 1; word2Index <= word2Length; ++word2Index){
-                if (word1[word1Index - 1] == word2[word2Index - 1]) dp[word1Index][word2Index] = dp[word1Index - 1][word2Index - 1];
-                else{
-                    dp[word1Index][word2Index] = min(dp[word1Index - 1][word2Index],
-                                                     min(dp[word1Index][word2Index - 1],
-                                                         dp[word1Index - 1][word2Index-1])) + 1;
-                }
-            }
-        }
-        
-        return dp[word1Length][word2Length];
+        int m = word1.size(), n = word2.size();
+        vector memo(m + 1, vector<int>(n + 1, -1));
+        return dp(memo, word1, word2, word1.size(), word2.size());
     }
 };
