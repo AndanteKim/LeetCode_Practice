@@ -1,38 +1,44 @@
 class Solution {
 private:
+    int n;
     int findRoot(vector<int>& leftChild, vector<int>& rightChild){
         unordered_set<int> children;
         children.insert(leftChild.begin(), leftChild.end());
         children.insert(rightChild.begin(), rightChild.end());
-        
-        for (int i = 0; i < leftChild.size(); ++i)
+        for (int i = 0; i < n; ++i){
             if (children.find(i) == children.end())
                 return i;
+        }
+        
         return -1;
     }
     
 public:
     bool validateBinaryTreeNodes(int n, vector<int>& leftChild, vector<int>& rightChild) {
+        this -> n = n;
         int root = findRoot(leftChild, rightChild);
+        
         if (root == -1) return false;
+        
+        queue<int> q;
+        q.push(root);
         unordered_set<int> seen;
-        stack<int> s;
-        s.push(root);
         seen.insert(root);
         
-        while (!s.empty()){
-            int i = s.top();
-            s.pop();
+        while (!q.empty()){
+            int i = q.front();
+            q.pop();
             
             int children[] = {leftChild[i], rightChild[i]};
-            for (int node : children){
-                if (node != -1){
-                    if (seen.find(node) != seen.end())
+            for (int child : children){
+                if (child != -1){
+                    if (seen.find(child) != seen.end())
                         return false;
-                    seen.insert(node);
-                    s.push(node);
+                    
+                    q.push(child);
+                    seen.insert(child);
                 }
-            } 
+            }
         }
         
         return seen.size() == n;
