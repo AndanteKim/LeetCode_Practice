@@ -2,16 +2,10 @@ class Solution {
 public:
     vector<int> countBits(int n) {
         vector<int> ans(n + 1);
-        int x = 0, b = 1;
         
-        while (b <= n){
-            while (x < b and x + b <= n){
-                ans[x + b] = ans[x] + 1;
-                ++x;
-            }
-            x = 0;
-            b <<= 1;
-        }
+        for (int x = 1; x <= n; ++x)
+            // at least significant bit
+            ans[x] = ans[x >> 1] + (x & 1);
         
         return ans;
     }
