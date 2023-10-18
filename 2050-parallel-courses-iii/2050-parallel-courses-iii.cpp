@@ -1,34 +1,34 @@
 class Solution {
+private:
+    int dfs(int node, vector<int>& memo, unordered_map<int, vector<int>>& graph, vector<int>& time){
+        if (memo[node] != -1)
+            return memo[node];
+        
+        if (graph[node].size() == 0)
+            return time[node];
+        
+        int ans = 0;
+        for (int neighbor : graph[node])
+            ans = max(ans, dfs(neighbor, memo, graph, time));
+        
+        return memo[node] = time[node] + ans;
+    }
+    
 public:
     int minimumTime(int n, vector<vector<int>>& relations, vector<int>& time) {
         
-        // topological sort + kahn algorithm
+        // dfs + top down memoization dynamic programming
+        vector memo(n, -1);
         unordered_map<int, vector<int>> graph;
-        vector<int> maxTime(n), indegree(n);
+        
         for (vector<int>& relation : relations){
             graph[relation[0] - 1].push_back(relation[1] - 1);
-            ++indegree[relation[1] - 1];
         }
         
-        queue<int> queue;
-        for (int i = 0; i < n; ++i){
-            if (indegree[i] == 0)
-                queue.push(i);
-            maxTime[i] = time[i];
-        }
+        int ans = 0;
+        for (int node = 0; node < n; ++node)
+            ans = max(ans, dfs(node, memo, graph, time));
         
-        while(!queue.empty()){
-            int node = queue.front();
-            queue.pop();
-            
-            for (int neighbor : graph[node]){
-                --indegree[neighbor];
-                maxTime[neighbor] = max(maxTime[neighbor], maxTime[node] + time[neighbor]);
-                if (indegree[neighbor] == 0)
-                    queue.push(neighbor);
-            }
-        }
-        
-        return *max_element(maxTime.begin(), maxTime.end());
+        return ans;
     }
 };
