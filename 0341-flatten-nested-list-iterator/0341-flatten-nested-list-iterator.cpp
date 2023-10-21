@@ -18,34 +18,45 @@
 
 class NestedIterator {
 public:
-    vector<NestedInteger> stack;
+    stack<pair<vector<NestedInteger>, int>> stack;
     NestedIterator(vector<NestedInteger> &nestedList) {
-        stack = nestedList;
-        reverse(stack.begin(), stack.end());
+        stack.push(make_pair(nestedList, 0));
+    }
+    
+    void makeStackTopAnInteger(){
+        while (!stack.empty()){
+            vector<NestedInteger> currList = stack.top().first;
+            int currIndex = stack.top().second;
+            // If the top is used up, pop it and its index
+            if (currList.size() == currIndex){
+                stack.pop();
+                continue;
+            }
+            
+            // Otherwise, if it's already an int, we don't need to do anything
+            if (currList[currIndex].isInteger())
+                break;
+                
+            // Otherwise, it muse be a list. We need to increment the index on the previous list
+            // and add the new list
+            vector<NestedInteger> newList = currList[currIndex].getList();
+            // increment old
+            ++stack.top().second;
+            stack.push(make_pair(newList, 0));
+        }
     }
     
     int next() {
         makeStackTopAnInteger();
-        int ans = stack.back().getInteger();
-        stack.pop_back();
-        return ans;
+        vector<NestedInteger> currList = stack.top().first;
+        int currIndex = stack.top().second;
+        ++stack.top().second;
+        return currList[currIndex].getInteger();
     }
     
     bool hasNext() {
         makeStackTopAnInteger();
         return stack.size() > 0;
-    }
-    
-    void makeStackTopAnInteger(){
-        // While the stack contains a nested list at the top...
-        while (!stack.empty() && !stack.back().isInteger()){
-            // unpack the list at the top by putting its items
-            // onto the stack in reverse order
-            vector<NestedInteger> unpack = stack.back().getList();
-            stack.pop_back();
-            reverse(unpack.begin(), unpack.end());
-            stack.insert(stack.end(), unpack.begin(), unpack.end());
-        }
     }
 };
 
