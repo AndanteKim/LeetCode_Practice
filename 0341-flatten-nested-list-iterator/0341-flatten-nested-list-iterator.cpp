@@ -17,33 +17,35 @@
  */
 
 class NestedIterator {
-protected:
-    vector<int> integers;
-    int position = 0;
-    
-private:
-    void flattenList(vector<NestedInteger>& nestedList){
-        for (NestedInteger& nI : nestedList){
-            if (nI.isInteger())
-                integers.push_back(nI.getInteger());
-            
-            else
-                flattenList(nI.getList());
-            
-        }
-    }
-    
 public:
+    vector<NestedInteger> stack;
     NestedIterator(vector<NestedInteger> &nestedList) {
-        flattenList(nestedList);
+        stack = nestedList;
+        reverse(stack.begin(), stack.end());
     }
     
     int next() {
-        return integers[position++];
+        makeStackTopAnInteger();
+        int ans = stack.back().getInteger();
+        stack.pop_back();
+        return ans;
     }
     
     bool hasNext() {
-        return position < integers.size();
+        makeStackTopAnInteger();
+        return stack.size() > 0;
+    }
+    
+    void makeStackTopAnInteger(){
+        // While the stack contains a nested list at the top...
+        while (!stack.empty() && !stack.back().isInteger()){
+            // unpack the list at the top by putting its items
+            // onto the stack in reverse order
+            vector<NestedInteger> unpack = stack.back().getList();
+            stack.pop_back();
+            reverse(unpack.begin(), unpack.end());
+            stack.insert(stack.end(), unpack.begin(), unpack.end());
+        }
     }
 };
 
