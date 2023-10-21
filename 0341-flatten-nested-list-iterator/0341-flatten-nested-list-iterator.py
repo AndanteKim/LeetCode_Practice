@@ -22,23 +22,38 @@
 
 class NestedIterator:
     def __init__(self, nestedList: [NestedInteger]):
-        self.stack = list(reversed(nestedList))
+        self.stack = [[nestedList, 0]]
+        
+    def make_stack_top_an_integer(self) -> None:
+        while self.stack:
+            
+            curr_list = self.stack[-1][0]
+            curr_index = self.stack[-1][1]
+            
+            # If the top list is used up, pop it and its index
+            if len(curr_list) == curr_index:
+                self.stack.pop()
+                continue
+                
+            # Otherwise, if it's already an integer, we don't need to do anything
+            if curr_list[curr_index].isInteger():
+                break
+            
+            # Otherwise, it must be a list. We need to increment the index
+            # on the previous list, and add the new list
+            new_list = curr_list[curr_index].getList()
+            self.stack[-1][1] += 1 # increment old
+            self.stack.append([new_list, 0])
     
     def next(self) -> int:
         self.make_stack_top_an_integer()
-        return self.stack.pop().getInteger()
+        curr_list, curr_index = self.stack[-1][0], self.stack[-1][1]
+        self.stack[-1][1] += 1
+        return curr_list[curr_index].getInteger()
     
     def hasNext(self) -> bool:
         self.make_stack_top_an_integer()
         return len(self.stack) > 0
-        
-    def make_stack_top_an_integer(self) -> None:
-        # While the stack contains a nested list at the top...
-        while self.stack and not self.stack[-1].isInteger():
-            # unpack the list at the top by putting its items onto
-            # the stack in reverse order
-            self.stack.extend(reversed(self.stack.pop().getList()))
-    
 
 # Your NestedIterator object will be instantiated and called as such:
 # i, v = NestedIterator(nestedList), []
