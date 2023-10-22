@@ -10,20 +10,33 @@
  * };
  */
 class Solution {
-private:
-    TreeNode* dfs(TreeNode* root, unordered_set<int>& seen){
-        if (!root || (root -> right && seen.find(root -> right -> val) != seen.end()))
-            return nullptr;
-        seen.insert(root -> val);
-        root -> right = dfs(root -> right, seen);
-        root -> left = dfs(root -> left, seen);
-        
-        return root;
-    }
-    
 public:
     TreeNode* correctBinaryTree(TreeNode* root) {
-        unordered_set<int> seen;
-        return dfs(root, seen);
+        queue<pair<TreeNode*, TreeNode*>> q;
+        q.push({root, nullptr});
+        
+        while (!q.empty()){
+            int n = q.size();
+            unordered_set<TreeNode*> seen;
+            for (int i = 0 ; i < n; ++i){
+                auto [child, parent] = q.front();
+                q.pop();
+                
+                if(seen.find(child -> right) != seen.end()){
+                    if (parent -> left == child)
+                        parent -> left = nullptr;
+                    else
+                        parent -> right = nullptr;
+                    return root;
+                }
+                
+                seen.insert(child);
+                if (child -> right)
+                    q.push({child -> right, child});
+                if (child -> left)
+                    q.push({child -> left, child});
+            }
+        }
+        return root;
     }
 };
