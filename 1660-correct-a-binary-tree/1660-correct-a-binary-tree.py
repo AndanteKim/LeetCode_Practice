@@ -8,7 +8,7 @@ class Solution:
     def correctBinaryTree(self, root: TreeNode) -> TreeNode:
         seen = set()
         
-        def dfs(root: TreeNode) -> None:
+        def dfs(root: TreeNode) -> TreeNode:
             if not root or (root.right and root.right.val in seen):
                 return
             seen.add(root.val)
