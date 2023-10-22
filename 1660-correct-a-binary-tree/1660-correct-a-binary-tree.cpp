@@ -22,7 +22,7 @@ public:
                 auto [child, parent] = q.front();
                 q.pop();
                 
-                if(seen.find(child -> right) != seen.end()){
+                if(seen.count(child -> right)){
                     if (parent -> left == child)
                         parent -> left = nullptr;
                     else
