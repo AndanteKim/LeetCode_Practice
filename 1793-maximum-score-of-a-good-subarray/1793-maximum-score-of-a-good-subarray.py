@@ -1,25 +1,19 @@
 class Solution:
     def maximumScore(self, nums: List[int], k: int) -> int:
         n = len(nums)
-        left = [-1] * n
-        stack = []
+        left, right = k, k
+        ans = nums[k]
+        curr_min = nums[k]
         
-        for i in range(n - 1, -1, -1):
-            while stack and nums[stack[-1]] > nums[i]:
-                left[stack.pop()] = i
-            stack.append(i)
+        while left > 0 or right < n - 1:
+            if (nums[left - 1] if left else 0) < (nums[right + 1] if right < n - 1 else 0):
+                right += 1
+                curr_min = min(curr_min, nums[right])
+            
+            else:
+                left -= 1
+                curr_min = min(curr_min, nums[left])
+            
+            ans = max(ans, curr_min * (right - left + 1))
         
-        right = [n] * n
-        stack = []
-        
-        for i in range(n):
-            while stack and nums[stack[-1]] > nums[i]:
-                right[stack.pop()] = i
-            stack.append(i)
-        
-        ans = 0
-        for i in range(n):
-            if left[i] < k and right[i] > k:
-                ans = max(ans, nums[i] * (right[i] - left[i] - 1))
         return ans
-        
