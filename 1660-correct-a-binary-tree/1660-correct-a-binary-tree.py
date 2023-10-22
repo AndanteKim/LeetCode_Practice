@@ -6,26 +6,14 @@
 #         self.right = right
 class Solution:
     def correctBinaryTree(self, root: TreeNode) -> TreeNode:
-        ancestors = dict()
-        queue = deque([(root, None)])
+        seen = set()
         
-        while queue:
-            child, parent = queue.popleft()
-            
-            if child in ancestors:
-                if not ancestors[parent]:
-                    return None
-                if ancestors[parent].left == parent:
-                    ancestors[parent].left = None
-                else:
-                    ancestors[parent].right = None
-                break
-            ancestors[child] = parent
-            
-            if child.left:
-                queue.append((child.left, child))
-            
-            if child.right:
-                queue.append((child.right, child))
+        def dfs(root: TreeNode) -> None:
+            if not root or (root.right and root.right.val in seen):
+                return
+            seen.add(root.val)
+            root.right = dfs(root.right)
+            root.left = dfs(root.left)
+            return root
         
-        return root
+        return dfs(root)
