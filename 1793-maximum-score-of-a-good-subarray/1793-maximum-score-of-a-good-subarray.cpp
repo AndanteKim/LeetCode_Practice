@@ -1,32 +1,19 @@
 class Solution {
 public:
     int maximumScore(vector<int>& nums, int k) {
-        int n = nums.size();
-        vector<int> left(n, -1);
-        stack<int> st;
-        for (int i = n - 1; i >= 0; --i){
-            while (!st.empty() && nums[st.top()] > nums[i]){
-                left[st.top()] = i;
-                st.pop();
-            }
-            st.push(i);
-        }
+        int n = nums.size(), ans = nums[k], left = k, right = k, currMin = nums[k];
         
-        vector<int> right(n, n);
-        st = stack<int>();
-        for (int i = 0; i < n; ++i){
-            while (!st.empty() && nums[st.top()] > nums[i]){
-                right[st.top()] = i;
-                st.pop();
+        while (left > 0 || right < n - 1){
+            if ((left > 0? nums[left - 1] : 0) < (right < n - 1? nums[right + 1] : 0)){
+                ++right;
+                currMin = min(currMin, nums[right]);
             }
-            st.push(i);
-        }
-        
-        int ans = 0;
-        for (int i = 0; i < n; ++i){
-            if (left[i] < k && right[i] > k){
-                ans = max(ans, nums[i] * (right[i] - left[i] - 1));
+            else{
+                --left;
+                currMin = min(currMin, nums[left]);
             }
+            
+            ans = max(ans, currMin * (right - left + 1));
         }
         
         return ans;
