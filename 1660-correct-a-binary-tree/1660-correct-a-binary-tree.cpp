@@ -10,31 +10,20 @@
  * };
  */
 class Solution {
-public:
-    TreeNode* correctBinaryTree(TreeNode* root) {
-        unordered_map<TreeNode*, TreeNode*> ancestors;
-        queue<pair<TreeNode*, TreeNode*>> q;
-        q.push({root, nullptr});
-        
-        while(!q.empty()){
-            auto[child, parent] = q.front();
-            q.pop();
-            
-            if (ancestors.find(child) != ancestors.end()){
-                if (!ancestors[parent]) return nullptr;
-                if (ancestors[parent] -> left == parent)
-                    ancestors[parent] -> left = nullptr;
-                else
-                    ancestors[parent] -> right = nullptr;
-                break;
-            }
-            ancestors[child] = parent;
-            if(child -> left)
-                q.push({child -> left, child});
-            if(child -> right)
-                q.push({child -> right, child});
-        }
+private:
+    TreeNode* dfs(TreeNode* root, unordered_set<int>& seen){
+        if (!root || (root -> right && seen.find(root -> right -> val) != seen.end()))
+            return nullptr;
+        seen.insert(root -> val);
+        root -> right = dfs(root -> right, seen);
+        root -> left = dfs(root -> left, seen);
         
         return root;
+    }
+    
+public:
+    TreeNode* correctBinaryTree(TreeNode* root) {
+        unordered_set<int> seen;
+        return dfs(root, seen);
     }
 };
