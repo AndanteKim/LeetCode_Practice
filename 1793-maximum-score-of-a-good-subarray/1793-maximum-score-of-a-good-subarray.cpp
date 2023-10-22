@@ -1,36 +1,34 @@
 class Solution {
-private:
-    int n;
-    int solve(vector<int>& nums, int k){
-        vector<int> left(k);
-        int currMin = INT_MAX;
-        for (int i = k - 1; i >= 0; --i){
-            currMin = min(currMin, nums[i]);
-            left[i] = currMin;
+public:
+    int maximumScore(vector<int>& nums, int k) {
+        int n = nums.size();
+        vector<int> left(n, -1);
+        stack<int> st;
+        for (int i = n - 1; i >= 0; --i){
+            while (!st.empty() && nums[st.top()] > nums[i]){
+                left[st.top()] = i;
+                st.pop();
+            }
+            st.push(i);
         }
         
-        currMin = INT_MAX;
-        vector<int> right;
-        
-        for (int i = k; i < n; ++i){
-            currMin = min(currMin, nums[i]);
-            right.push_back(currMin);
+        vector<int> right(n, n);
+        st = stack<int>();
+        for (int i = 0; i < n; ++i){
+            while (!st.empty() && nums[st.top()] > nums[i]){
+                right[st.top()] = i;
+                st.pop();
+            }
+            st.push(i);
         }
-        int i, ans = 0;
-        for (int j = 0; j < right.size(); ++j){
-            i = lower_bound(left.begin(), left.end(), right[j]) - left.begin();
-            int size = (k + j) - i + 1;
-            ans = max(ans, right[j] * size);
+        
+        int ans = 0;
+        for (int i = 0; i < n; ++i){
+            if (left[i] < k && right[i] > k){
+                ans = max(ans, nums[i] * (right[i] - left[i] - 1));
+            }
         }
         
         return ans;
-    }
-    
-public:
-    int maximumScore(vector<int>& nums, int k) {
-        this -> n = nums.size();
-        int ans = solve(nums, k);
-        reverse(nums.begin(), nums.end());
-        return max(ans, solve(nums, n - k - 1));
     }
 };
