@@ -5,20 +5,21 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def dfs(self, node: Optional[TreeNode], level: int, ans: List[int]) -> None:
-        if not node:
-            return
-        
-        if level == len(ans):
-            ans.append(node.val)
-        ans[level] = max(ans[level], node.val)
-        
-        self.dfs(node.left, level + 1, ans)
-        self.dfs(node.right, level + 1, ans)
-    
     def largestValues(self, root: Optional[TreeNode]) -> List[int]:
-        ans = []
+        if not root:
+            return []
+        ans, queue = [], deque([(root, 0)])
         
-        self.dfs(root, 0, ans);
-        
-        return ans;
+        while queue:
+            node, level = queue.popleft()
+            if len(ans) == level:
+                ans.append(float('-inf'))
+            
+            ans[level] = max(ans[level], node.val)
+            if node.left:
+                queue.append((node.left, level + 1))
+            
+            if node.right:
+                queue.append((node.right, level + 1))
+                
+        return ans
