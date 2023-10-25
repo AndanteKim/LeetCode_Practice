@@ -1,17 +1,27 @@
 class Solution:
-    def recursion(self, n: int, k: int) -> int:
-        # First row will only have one symbol '0'
+    def kthGrammar(self, n: int, k: int) -> int:
         if n == 1:
             return 0
         
-        total_elements = 1 << (n - 1)
-        half_elements = total_elements // 2
+        # We assume the symbol at the target position is '1'
+        symbol = 1
         
-        # If the target is present in the right half, we switch to the respective left half symbol
-        if k > half_elements:
-            return 1 - self.recursion(n, k - half_elements)
-        # Otherwise, we switch to the previous row
-        return self.recursion(n - 1, k)
-    
-    def kthGrammar(self, n: int, k: int) -> int:
-        return self.recursion(n, k)
+        for curr_row in range(n, 1, -1):
+            total_elements = 1 << (curr_row - 1)
+            half_elements = total_elements // 2
+            
+            # If 'k' lies in the right half symbol, then we flip over to the respective left half symbol
+            if k > half_elements:
+                # Flip the symbol
+                symbol = 1 - symbol
+                # Change the position after flipping
+                k -= half_elements
+                
+        # We reached the 1st row; if the symbol is not '0', we started with the wrong symbol
+        if symbol != 0:
+            # Thus, the start symbol was '0', not '1'.
+            return 0
+            
+        # The start symbol was indeed what we started with, a '1'.
+        return 1
+        
