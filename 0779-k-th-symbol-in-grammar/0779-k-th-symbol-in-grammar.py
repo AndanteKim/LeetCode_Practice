@@ -1,19 +1,17 @@
 class Solution:
-    def depthFirstSearch(self, n: int, k: int, rootVal: int) -> int:
+    def recursion(self, n: int, k: int) -> int:
+        # First row will only have one symbol '0'
         if n == 1:
-            return rootVal
+            return 0
         
-        totalNodes = 2 ** (n - 1)
+        total_elements = 1 << (n - 1)
+        half_elements = total_elements // 2
         
-        # Target node will be present in the right half sub-tree of the current root node
-        if k > (totalNodes // 2):
-            nextRootVal = 1 if rootVal == 0 else 0
-            return self.depthFirstSearch(n - 1, k - (totalNodes // 2), nextRootVal)
-        
-        # Otherwise, the target node is in the sub-tree of the current root node
-        else:
-            nextRootVal = 0 if rootVal == 0 else 1
-            return self.depthFirstSearch(n - 1, k, nextRootVal)
+        # If the target is present in the right half, we switch to the respective left half symbol
+        if k > half_elements:
+            return 1 - self.recursion(n, k - half_elements)
+        # Otherwise, we switch to the previous row
+        return self.recursion(n - 1, k)
     
     def kthGrammar(self, n: int, k: int) -> int:
-        return self.depthFirstSearch(n, k, 0)
+        return self.recursion(n, k)
