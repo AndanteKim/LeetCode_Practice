@@ -1,24 +1,30 @@
 class Solution {
-public:
-    int numFactoredBinaryTrees(vector<int>& arr) {
-        sort(arr.begin(), arr.end());
-        int MOD = 1'000'000'007, n = arr.size();
-        unordered_map<int, int> index;
-        for (int i = 0; i < n; ++i)
-            index[arr[i]] = i;
+private:
+    int n, MOD = 1'000'000'007;
+    long dp(int node, set<int>& arrSet, unordered_map<int, int>& memo){
+        long ans = 1;
+        if (memo.find(node) != memo.end()) return memo[node];
         
-        vector<long> dp(n, 1);
-        for (int i = 0; i < n; ++i){
-            for (int j = 0; j < i; ++j){
-                if (arr[i] % arr[j] == 0){
-                    int right = arr[i] / arr[j];
-                    if (index.find(right) != index.end()){
-                        dp[i] = (dp[i] + dp[j] * dp[index[right]]) % MOD;
-                    }
-                }
+        for (int num : arrSet){
+            if (node % num == 0 && arrSet.find(node / num) != arrSet.end()){
+                ans = (ans + (dp(num, arrSet, memo) * dp(node / num, arrSet, memo)));
+                ans %= MOD;
             }
         }
+        return memo[node] = ans;
+    }
+    
+public:
+    int numFactoredBinaryTrees(vector<int>& arr) {
+        this -> n = arr.size();
+        unordered_map<int, int> memo;
+        set<int> arrSet(arr.begin(), arr.end());
+        long ans = 0;
+        for (int num : arrSet){
+            ans += dp(num, arrSet, memo);
+            ans %= MOD;
+        }
         
-        return accumulate(dp.begin(), dp.end(), 0L) % MOD;
+        return ans;
     }
 };
