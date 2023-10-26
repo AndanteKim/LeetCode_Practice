@@ -1,18 +1,16 @@
 class Solution:
     def numFactoredBinaryTrees(self, arr: List[int]) -> int:
-        arr.sort()
+        @lru_cache(maxsize = None)
+        def dp(node: int) -> int:
+            ans = 1
+            for elem in arr_set:
+                if node % elem == 0 and node // elem in arr_set:
+                    ans += dp(elem) * dp(node // elem)
+                    ans %= MOD
+            
+            return ans
+        
         MOD = 1_000_000_007
-        n = len(arr)
-        dp = [1] * n
-        index = {x: i for i, x in enumerate(arr)}
+        arr_set = set(arr)
         
-        for i, x in enumerate(arr):
-            for j in range(i):
-                # where arr[j] is left child
-                if x % arr[j] == 0:
-                    right = x // arr[j]
-                    if right in index:
-                        dp[i] += dp[j] * dp[index[right]]
-                        dp[i] %= MOD
-        
-        return sum(dp) % MOD
+        return sum(dp(x) for x in arr_set) % MOD
