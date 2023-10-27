@@ -1,34 +1,41 @@
 class Solution {
-private:
-    int n;
-    int expand(int left, int right, string& s){
-        while (left >= 0 && right < n && s[left] == s[right]){
-            --left;
-            ++right;
-        }
-        
-        return right - left - 1;
-    }
-    
 public:
     string longestPalindrome(string s) {
-        this -> n = s.size();
+        string sPrime = "#";
+        for (char& c : s){
+            sPrime += c;
+            sPrime += '#';
+        }
+        
+        int n = sPrime.size(), center = 0, radius = 0;
+        vector<int> palindromeRadii(n);
         pair<int, int> ans;
         
         for (int i = 0; i < n; ++i){
-            int oddLength = expand(i, i, s);
-            if (oddLength > ans.second - ans.first + 1){
-                int dist = oddLength >> 1;
-                ans.first = i - dist, ans.second = i + dist;
+            int mirror = 2 * center - i;
+            if (i < radius){
+                palindromeRadii[i] = min(radius - i, palindromeRadii[mirror]);
             }
             
-            int evenLength = expand(i, i + 1, s);
-            if (evenLength > ans.second - ans.first + 1){
-                int dist = (evenLength >> 1) - 1;
-                ans.first = i - dist, ans.second = i + dist + 1;
+            while ((i + 1 + palindromeRadii[i] < n) && (i - 1 - palindromeRadii[i] >= 0) && sPrime[i + 1 + palindromeRadii[i]]\
+                   == sPrime[i - 1 - palindromeRadii[i]]){
+                ++palindromeRadii[i];
+            }
+            
+            if (i + palindromeRadii[i] > radius){
+                center = i;
+                radius = i + palindromeRadii[i];
             }
         }
         
-        return s.substr(ans.first, ans.second - ans.first + 1);
+        int maxLength = 0, centerIndex = 0;
+        for (int i = 0; i < n; ++i){
+            if (maxLength < palindromeRadii[i]){
+                maxLength = palindromeRadii[i];
+                centerIndex = i;
+            }
+        }
+        int startIndex = (centerIndex - maxLength) >> 1;
+        return s.substr(startIndex, maxLength);
     }
 };
