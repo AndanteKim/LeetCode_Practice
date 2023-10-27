@@ -9,7 +9,6 @@ public:
         
         int n = sPrime.size(), center = 0, radius = 0;
         vector<int> palindromeRadii(n);
-        pair<int, int> ans;
         
         for (int i = 0; i < n; ++i){
             int mirror = 2 * center - i;
