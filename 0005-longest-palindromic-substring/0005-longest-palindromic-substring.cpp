@@ -1,30 +1,31 @@
 class Solution {
-public:
-    string longestPalindrome(string s) {
-        int n = s.size();
-        vector dp(n, vector<bool>(n));
-        pair<int, int> ans;
-        
-        for (int i = 0; i < n; ++i)
-            dp[i][i] = true;
-        
-        for (int i = 0; i < n - 1; ++i){
-            if (s[i] == s[i + 1]){
-                dp[i][i + 1] = true;
-                ans.first = i, ans.second = i + 1;
-            }
+private:
+    int n;
+    int expand(int left, int right, string& s){
+        while (left >= 0 && right < n && s[left] == s[right]){
+            --left;
+            ++right;
         }
         
-        for (int diff = 2; diff < n; ++diff){
-            for (int i = 0; i < n - diff; ++i){
-                int j = i + diff;
-                
-                // match middle bridge
-                if (s[i] == s[j] && dp[i + 1][j - 1]){
-                    ans.first = i;
-                    ans.second = j;
-                    dp[i][j] = true;
-                }
+        return right - left - 1;
+    }
+    
+public:
+    string longestPalindrome(string s) {
+        this -> n = s.size();
+        pair<int, int> ans;
+        
+        for (int i = 0; i < n; ++i){
+            int oddLength = expand(i, i, s);
+            if (oddLength > ans.second - ans.first + 1){
+                int dist = oddLength >> 1;
+                ans.first = i - dist, ans.second = i + dist;
+            }
+            
+            int evenLength = expand(i, i + 1, s);
+            if (evenLength > ans.second - ans.first + 1){
+                int dist = (evenLength >> 1) - 1;
+                ans.first = i - dist, ans.second = i + dist + 1;
             }
         }
         
