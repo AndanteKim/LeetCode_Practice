@@ -12,6 +12,6 @@ public:
             aCnt = aNewCnt, eCnt = eNewCnt, iCnt = iNewCnt, oCnt = oNewCnt, uCnt = uNewCnt;
         }
         
-        return (aCnt + eCnt + iCnt + oCnt + uCnt) % MOD;
+        return static_cast<int>((aCnt + eCnt + iCnt + oCnt + uCnt) % MOD);
     }
 };
