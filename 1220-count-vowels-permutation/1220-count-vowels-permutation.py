@@ -1,17 +1,18 @@
 class Solution:
     def countVowelPermutation(self, n: int) -> int:
-        @lru_cache(maxsize = None)
-        def dp(i: int, prev) -> int:
-            if i == 0:
-                return 1
-            
-            ways = 0
-            for c in sequence[prev]:
-                ways += dp(i - 1, c)
-                ways %= MOD
-            return ways
-        
-        sequence = {'a': ('e',), 'e': ('a', 'i'), 'i': ('a', 'e', 'o', 'u'), 'o': ('i', 'u'),\
-                   'u': ('a',)}
+        permutations = [[1] * n for _ in range(5)]
         MOD = 1_000_000_007
-        return sum(dp(n - 1, c) for c in ('a', 'e', 'i', 'o', 'u')) % MOD
+        
+        for i in range(1, n):
+            # 'a'
+            permutations[0][i] = (permutations[1][i - 1] + permutations[2][i - 1] + permutations[4][i - 1]) % MOD
+            # 'e'
+            permutations[1][i] = (permutations[0][i - 1] + permutations[2][i - 1]) % MOD
+            # 'i'
+            permutations[2][i] = (permutations[1][i - 1] + permutations[3][i - 1]) % MOD
+            # 'o'
+            permutations[3][i] = permutations[2][i - 1] % MOD
+            # 'u'
+            permutations[4][i] = (permutations[2][i - 1] + permutations[3][i - 1]) % MOD
+        
+        return sum(permutations[i][n - 1] for i in range(5)) % MOD
