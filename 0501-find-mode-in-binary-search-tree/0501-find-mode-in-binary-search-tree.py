@@ -6,23 +6,33 @@
 #         self.right = right
 class Solution:
     def findMode(self, root: Optional[TreeNode]) -> List[int]:
-        frequencies, ans = dict(), []
-        queue = deque([root])
+        def dfs(node: Optional[TreeNode], values: List[int]) -> None:
+            if not node:
+                return
+            
+            # Inorder traversal visits nodes in sorted order
+            dfs(node.left, values)
+            values.append(node.val)
+            dfs(node.right, values)
         
-        while queue:
-            node = queue.popleft()
+        values = []
+        dfs(root, values)
+        
+        max_streak, curr_streak, curr_num = 0, 0, 0
+        ans = []
+        
+        for num in values:
+            if num == curr_num:
+                curr_streak += 1
+            else:
+                curr_streak = 1
+                curr_num = num
             
-            frequencies[node.val] = frequencies.get(node.val, 0) + 1
+            if curr_streak > max_streak:
+                ans = []
+                max_streak = curr_streak
             
-            if node.left:
-                queue.append(node.left)
-            
-            if node.right:
-                queue.append(node.right)
-                
-        mx = max(frequencies.values())
-        for val, cnt in frequencies.items():
-            if cnt == mx:
-                ans.append(val)
+            if curr_streak == max_streak:
+                ans.append(num)
         
         return ans
