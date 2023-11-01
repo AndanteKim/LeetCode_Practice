@@ -10,43 +10,47 @@
  * };
  */
 class Solution {
+private:
+    int maxStreak = 0, currStreak = 0, currNum = 0;
+    void add(int num, vector<int>& ans){
+        if (num == currNum)
+            ++currStreak;
+        else{
+            currStreak = 1;
+            currNum = num;
+        }
+        
+        if (currStreak > maxStreak){
+            ans = {};
+            maxStreak = currStreak;
+        }
+        
+        if (currStreak == maxStreak)
+            ans.push_back(num);
+    }
+    
 public:
     vector<int> findMode(TreeNode* root) {
-        int maxStreak = 0, currStreak = 0, currNum = 0;
-        TreeNode *curr = root, *left;
         vector<int> ans;
-        
+        TreeNode* curr = root;
         while (curr){
             if (curr -> left){
-                // find the friend
                 TreeNode* friendNode = curr -> left;
-                while (friendNode -> right)
+                while (friendNode -> right && friendNode -> right != curr)
                     friendNode = friendNode -> right;
                 
-                friendNode -> right = curr;
-                
-                // Delete the edge after using it
-                left = curr -> left;
-                curr -> left = nullptr;
-                curr = left;
+                if (!friendNode -> right){
+                    friendNode -> right = curr;
+                    curr = curr -> left;
+                }
+                else{
+                    friendNode -> right = nullptr;
+                    add(curr -> val, ans);
+                    curr = curr -> right;
+                }
             }
             else{
-                int num = curr -> val;
-                if (num == currNum)
-                    ++currStreak;
-                else{
-                    currStreak = 1;
-                    currNum = num;
-                }
-                
-                if (currStreak > maxStreak){
-                    ans = {};
-                    maxStreak = currStreak;
-                }
-                
-                if (currStreak == maxStreak)
-                    ans.push_back(num);
-                
+                add(curr -> val, ans);
                 curr = curr -> right;
             }
         }
