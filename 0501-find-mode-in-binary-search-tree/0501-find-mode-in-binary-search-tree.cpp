@@ -10,32 +10,37 @@
  * };
  */
 class Solution {
+private:
+    void dfs(TreeNode* node, vector<int>& values){
+        if (!node)
+            return;
+        
+        dfs(node -> left, values);
+        values.push_back(node -> val);
+        dfs(node -> right, values);
+    }
+    
 public:
     vector<int> findMode(TreeNode* root) {
-        unordered_map<int, int> frequencies;
-        vector<int> ans;
-        queue<TreeNode*> queue;
-        queue.push(root);
+        vector<int> values, ans;
+        dfs(root, values);
         
-        while (!queue.empty()){
-            TreeNode* node = queue.front();
-            queue.pop();
+        int currStreak = 0, maxStreak = 0, currVal = 0;
+        for (int num : values){
+            if (num == currVal)
+                ++currStreak;
+            else{
+                currStreak = 1;
+                currVal = num;
+            }
             
-            ++frequencies[node -> val];
+            if (currStreak > maxStreak){
+                maxStreak = currStreak;
+                ans.clear();
+            }
             
-            if (node -> left)
-                queue.push(node -> left);
-            if (node -> right)
-                queue.push(node -> right);
-        }
-        
-        int mx = INT_MIN;
-        for (auto& [val, cnt] : frequencies)
-            mx = max(mx, cnt);
-        
-        for (auto& [val, cnt] : frequencies){
-            if (cnt == mx)
-                ans.push_back(val);
+            if (currStreak == maxStreak)
+                ans.push_back(currVal);
         }
         
         return ans;
