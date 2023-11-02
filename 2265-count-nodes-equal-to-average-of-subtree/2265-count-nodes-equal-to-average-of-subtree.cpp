@@ -11,22 +11,22 @@
  */
 class Solution {
 private:
-    tuple<int, int, int> dfs(TreeNode* node){
-        if (!node)
-            return {0, 0, 0};
-        if (!node -> left && !node -> right)
-            return {node -> val, 1, 1};
+    int count = 0;
+    pair<int, int> dfs(TreeNode* node){
+        if (!node) return {0, 0};
         
-        auto [leftSum, leftCount, leftCorrect] = dfs(node -> left);
-        auto [rightSum, rightCount, rightCorrect] = dfs(node -> right);
-        if ((leftSum + rightSum + node -> val) / (leftCount + rightCount + 1) == node -> val)
-            return {leftSum + rightSum + node -> val, leftCount + rightCount + 1, leftCorrect + rightCorrect + 1};
-        return {leftSum + rightSum + node -> val, leftCount + rightCount + 1, leftCorrect + rightCorrect};
+        pair<int, int> left = dfs(node -> left);
+        pair<int, int> right = dfs(node -> right);
+        
+        int nodeSum = left.first + right.first + node -> val, nodeCount = left.second + right.second + 1;
+        if (nodeSum / nodeCount == node -> val)
+            ++count;
+        return {nodeSum, nodeCount};
     }
     
 public:
     int averageOfSubtree(TreeNode* root) {
-        auto [total, count, ans] = dfs(root);
-        return ans;
+        dfs(root);
+        return count;
     }
 };
