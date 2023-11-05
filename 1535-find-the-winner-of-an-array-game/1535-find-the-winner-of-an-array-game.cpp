@@ -1,36 +1,27 @@
 class Solution {
 public:
     int getWinner(vector<int>& arr, int k) {
-        queue<int> q({arr.begin(), arr.end()});
-        int first = -1, second = -1, firstWin = 0, secondWin = 0;
+        int mx = *max_element(arr.begin(), arr.end()), curr = arr[0], winstreak = 0, opponent;
+        queue<int> queue({arr.begin() + 1, arr.end()});
         
-        while (firstWin < k && secondWin < k){
-            if (first == -1){
-                first = q.front();
-                q.pop();
-            }
-            if (second == -1){
-                second = q.front();
-                q.pop();
-            }
+        while (!queue.empty()){
+            opponent = queue.front();
+            queue.pop();
             
-            if (first > second){
-                q.push(second);
-                second = -1;
-                ++firstWin;
-                secondWin = 0;
+            if (curr > opponent){
+                queue.push(opponent);
+                ++winstreak;
             }
             else{
-                q.push(first);
-                first = -1;
-                ++secondWin;
-                firstWin = 0;
+                queue.push(curr);
+                curr = opponent;
+                winstreak = 1;
             }
             
-            if (firstWin > arr.size() || secondWin > arr.size())
-                break;
+            if (curr == mx || winstreak == k)
+                return curr;
         }
         
-        return first != -1? first : second;
+        return -1;
     }
 };
