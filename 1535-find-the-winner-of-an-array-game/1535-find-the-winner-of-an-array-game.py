@@ -1,17 +1,13 @@
 class Solution:
     def getWinner(self, arr: List[int], k: int) -> int:
         max_element = max(arr)
-        queue = deque(arr[1:])
-        curr = arr[0]
-        winstreak = 0
+        curr, winstreak = arr[0], 0
         
-        while queue:
-            opponent = queue.popleft()
+        for i in range(1, len(arr)):
+            opponent = arr[i]
             if curr > opponent:
-                queue.append(opponent)
                 winstreak += 1
             else:
-                queue.append(curr)
                 curr = opponent
                 winstreak = 1
             
