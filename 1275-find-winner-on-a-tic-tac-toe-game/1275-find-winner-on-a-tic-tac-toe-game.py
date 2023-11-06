@@ -1,29 +1,52 @@
 class Solution:
     def tictactoe(self, moves: List[List[int]]) -> str:
-        A_board, B_board = [[False] * 3 for _ in range(3)], [[False] * 3 for _ in range(3)]
-        A_turn = True
+        
+        # Initialize the board, n = 3
+        n = 3
+        board = [[0] * n for _ in range(n)]
+        
+        # check if any of 4 winning conditions to see if the current player has won
+        def check_row(row: int, player_id: int) -> bool:
+            for col in range(n):
+                if board[row][col] != player_id:
+                    return False
+            
+            return True
+    
+        def check_col(col: int, player_id: int) -> bool:
+            for row in range(n):
+                if board[row][col] != player_id:
+                    return False
+            return True
+        
+        def check_diagonal(player_id: int) -> bool:
+            for row in range(n):
+                if board[row][row] != player_id:
+                    return False
+            return True
+        
+        def check_anti_diagonal(player_id: int) -> bool:
+            for row in range(n):
+                if board[row][n - 1 - row] != player_id:
+                    return False
+            return True
+        
+        # start with player_1
+        player = 1
         
         for move in moves:
-            if A_turn:
-                A_board[move[0]][move[1]] = True
-                A_turn = False
-            else:
-                B_board[move[0]][move[1]] = True
-                A_turn = True
+            row, col = move
+            board[row][col] = player
             
-            if (A_board[0][0] and A_board[1][1] and A_board[2][2]) or \
-                (A_board[2][0] and A_board[1][1] and A_board[0][2]) or \
-                any(sum(A_row) == 3 for A_row in A_board) or \
-                any(A_board[0][i] + A_board[1][i] + A_board[2][i] == 3 for i in range(3)):
-                    return "A"
-                
-            if (B_board[0][0] and B_board[1][1] and B_board[2][2]) or \
-                (B_board[2][0] and B_board[1][1] and B_board[0][2]) or \
-                any(sum(B_row) == 3 for B_row in B_board) or \
-                any(B_board[0][i] + B_board[1][i] + B_board[2][i] == 3 for i in range(3)):
-                    return "B"
+            # If any of the winninmg conditions is met, return the current player's id
+            if check_row(row, player) or check_col(col, player) or \
+            (row == col and check_diagonal(player)) or \
+            (row + col == n - 1 and check_anti_diagonal(player)):
+                return 'A' if player == 1 else 'B'
+            
+            # If no one wins so far, change to the other player alternatively
+            player *= -1
         
-        if len(moves) < 9:
-            return "Pending"
-        
-        return "Draw"
+        # If all moves are completed and there is no still no result, we shall check if the\
+        # grid is full or not. If so, the game ends with draw, otherwise pending
+        return "Draw" if len(moves) == n * n else "Pending"
