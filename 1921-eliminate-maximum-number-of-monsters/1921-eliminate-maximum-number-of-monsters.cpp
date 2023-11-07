@@ -1,16 +1,15 @@
 class Solution {
 public:
     int eliminateMaximum(vector<int>& dist, vector<int>& speed) {
-        vector<float> arrival;
-        int ans = 0;
+        priority_queue<float, vector<float>, greater<float>> minHeap;
         for (int i = 0; i < dist.size(); ++i)
-            arrival.push_back((float)dist[i] / speed[i]);
+            minHeap.push((float)dist[i] / speed[i]);
         
-        sort(arrival.begin(), arrival.end());
-        
-        for (int day = 0; day < arrival.size(); ++day){
-            if (arrival[day] <= day)
+        int ans = 0;
+        while (!minHeap.empty()){
+            if (minHeap.top() <= ans)
                 break;
+            minHeap.pop();
             ++ans;
         }
         
