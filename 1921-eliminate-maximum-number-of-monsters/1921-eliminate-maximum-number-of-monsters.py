@@ -1,15 +1,15 @@
 class Solution:
     def eliminateMaximum(self, dist: List[int], speed: List[int]) -> int:
-        arrival = []
+        heap = []
         for i in range(len(dist)):
-            arrival.append(dist[i] / speed[i])
+            heap.append(dist[i] / speed[i])
         
-        arrival.sort()
+        heapify(heap)
         ans = 0
         
-        for i in range(len(arrival)):
-            if arrival[i] <= i:
+        while heap:
+            if heappop(heap) <= ans:
                 break
             ans += 1
-            
         return ans
+            
