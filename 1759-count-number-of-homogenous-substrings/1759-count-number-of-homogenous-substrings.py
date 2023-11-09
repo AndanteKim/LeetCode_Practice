@@ -1,11 +1,13 @@
 class Solution:
     def countHomogenous(self, s: str) -> int:
-        substr, ans = "", 0
-        for c in s:
-            if not substr or substr[-1] == c:
-                substr += c
+        curr_streak, ans, mod = 0, 0, 10 ** 9 + 7
+        
+        for i in range(len(s)):
+            if i == 0 or s[i] == s[i - 1]:
+                curr_streak += 1
             else:
-                substr = c
-            ans = (ans + len(substr)) % (1_000_000_007)
+                curr_streak = 1
+            
+            ans = (ans + curr_streak) % mod
             
         return ans
