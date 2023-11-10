@@ -5,19 +5,22 @@ class Solution:
         for x, y in adjacentPairs:
             graph[x].append(y)
             graph[y].append(x)
-        
+            
         root = None
         for num in graph:
             if len(graph[num]) == 1:
                 root = num
                 break
         
-        def dfs(node: int, prev: int, ans: List[int]) -> None:
-            ans.append(node)
-            for neighbor in graph[node]:
-                if neighbor != prev:
-                    dfs(neighbor, node, ans)
+        curr = root
+        ans = [root]
+        prev = None
         
-        ans = []
-        dfs(root, None, ans)
+        while len(ans) < len(graph):
+            for neighbor in graph[curr]:
+                if neighbor != prev:
+                    ans.append(neighbor)
+                    prev = curr
+                    curr = neighbor
+                    break
         return ans
