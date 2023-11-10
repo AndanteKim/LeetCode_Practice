@@ -1,35 +1,36 @@
 class Solution {
-private:
-    void dfs(int node, int prev, vector<int>& ans, unordered_map<int, vector<int>>& graph){
-        ans.push_back(node);
-        
-        for (int neighbor : graph[node]){
-            if (neighbor != prev){
-                dfs(neighbor, node, ans, graph);
-            }
-        }
-    }
-    
 public:
     vector<int> restoreArray(vector<vector<int>>& adjacentPairs) {
         unordered_map<int, vector<int>> graph;
         
-        for (vector<int>& pairs : adjacentPairs){
-            int x = pairs[0], y = pairs[1];
+        for (vector<int>& edges : adjacentPairs){
+            int x = edges[0], y = edges[1];
             graph[x].push_back(y);
             graph[y].push_back(x);
         }
         
-        int root;
-        for (auto& [node, route] : graph){
+        int curr;
+        for (auto& [num, route] : graph){
             if (route.size() == 1){
-                root = node;
+                curr = num;
                 break;
             }
         }
         
-        vector<int> ans;
-        dfs(root, NULL, ans, graph);
+        vector<int> ans{curr};
+        int prev = INT_MAX;
+        
+        while (ans.size() < graph.size()){
+            for (int neighbor : graph[curr]){
+                if (neighbor != prev){
+                    ans.push_back(neighbor);
+                    prev = curr;
+                    curr = neighbor;
+                    break;
+                }
+            }
+        }
+        
         return ans;
     }
 };
