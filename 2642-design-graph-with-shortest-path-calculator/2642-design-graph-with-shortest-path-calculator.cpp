@@ -1,47 +1,35 @@
 class Graph {
 private:
-    vector<vector<pair<int, int>>> graph;
+    vector<vector<int>> adjMatrix;
 public:
     Graph(int n, vector<vector<int>>& edges) {
-        graph.resize(n);
-        for (vector<int>& edge : edges){
-            int start = edge[0], end = edge[1], cost = edge[2];
-            graph[start].push_back({end, cost});
+        adjMatrix.resize(n, vector<int>(n, 1e9));
+        
+        for (vector<int>& edge : edges)
+            adjMatrix[edge[0]][edge[1]] = edge[2];
+        
+        for (int i = 0; i < n; ++i) adjMatrix[i][i] = 0;
+        
+        for (int i = 0; i < n; ++i){
+            for (int j = 0; j < n; ++j){
+                for (int k = 0; k < n; ++k)
+                    adjMatrix[j][k] = min(adjMatrix[j][k], adjMatrix[j][i] + adjMatrix[i][k]);
+            }
         }
     }
     
     void addEdge(vector<int> edge) {
-        int start = edge[0], end = edge[1], cost = edge[2];
-        graph[start].push_back({end, cost});
+        int n = adjMatrix.size();
+        
+        for (int i = 0; i < n; ++i){
+            for (int j = 0; j < n; ++j){
+                adjMatrix[i][j] = min(adjMatrix[i][j], adjMatrix[i][edge[0]] + adjMatrix[edge[1]][j] + edge[2]);
+            }
+        }
     }
     
     int shortestPath(int node1, int node2) {
-        int n = graph.size();
-        vector<int> costForNode(n, INT_MAX);
-        costForNode[node1] = 0;
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap;
-        minHeap.push({0, node1});
-        
-        while (!minHeap.empty()){
-            auto [currCost, currNode] = minHeap.top();
-            minHeap.pop();
-            
-            if (currCost > costForNode[currNode])
-                continue;
-            
-            if (currNode == node2)
-                return currCost;
-            
-            for (auto& [neighbor, cost] : graph[currNode]){
-                int newCost = currCost + cost;
-                if (newCost < costForNode[neighbor]){
-                    costForNode[neighbor] = newCost;
-                    minHeap.push({newCost, neighbor});
-                }
-            }
-        }
-        
-        return -1;
+        return adjMatrix[node1][node2] == 1e9? -1 : adjMatrix[node1][node2];
     }
 };
 
