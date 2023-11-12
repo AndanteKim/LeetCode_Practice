@@ -1,47 +1,81 @@
 class Solution {
+private:
+    vector<int> adjList[501];
+    
+    // Iterate over each pair of routes and add an edge between thm if there's a common stop
+    void createGraph(vector<vector<int>>& routes){
+        for (int i = 0; i < routes.size(); ++i){
+            for (int j = i + 1; j < routes.size(); ++j){
+                if (haveCommonNode(routes[i], routes[j])){
+                    adjList[i].push_back(j);
+                    adjList[j].push_back(i);
+                }
+            }
+        }
+    }
+    
+    // Returns true if the provided routes have a common stop, false otherwise.
+    bool haveCommonNode(vector<int>& route1, vector<int>& route2){
+        int i = 0, j = 0;
+        while (i < route1.size() && j < route2.size()){
+            if (route1[i] == route2[j])
+                return true;
+            route1[i] < route2[j]? ++i : ++j;
+        }
+        return false;
+    }
+    
+    // Add all the routes in the queue having the source as one of the stops
+    void addStartingNodes(queue<int>& q, vector<vector<int>>& routes, int source){
+        for (int i = 0; i < routes.size(); ++i){
+            if (isStopExist(routes[i], source))
+                q.push(i);
+        }
+    }
+    
+    // Returns True if the given stop is present in the route, false otherwise
+    bool isStopExist(vector<int>& route, int stop){
+        for (int j = 0; j < route.size(); ++j){
+            if (route[j] == stop)
+                return true;
+        }
+        
+        return false;
+    }
+    
 public:
     int numBusesToDestination(vector<vector<int>>& routes, int source, int target) {
         if (source == target)
             return 0;
         
-        unordered_map<int, vector<int>> adjList;
-        // Create a map from the bus stop to all the route that include this stop
-        for (int route = 0; route < routes.size(); ++route){
-            for (int stop : routes[route])
-                adjList[stop].push_back(route);
-        }
+        for (int i = 0; i < routes.size(); ++i)
+            sort(routes[i].begin(), routes[i].end());
         
-        queue<int> queue;
-        unordered_set<int> visited;
-        // Insert all the routes in the queue having the source stop
-        for (int route : adjList[source]){
-            queue.push(route);
-            visited.insert(route);
-        }
+        createGraph(routes);
+        queue<int> q;
+        addStartingNodes(q, routes, source);
         
+        vector<bool> vis(routes.size());
         int busCount = 1;
-        
-        while (!queue.empty()){
-            int size = queue.size();
+        while(!q.empty()){
+            int sz = q.size();
             
-            for (int i = 0; i < size; ++i){
-                int currRoute = queue.front();
-                queue.pop();
-                // Iterate over the stops in the current route
-                for (int stop : routes[currRoute]){
-                    // return the current count if the target is found
-                    if (stop == target)
-                        return busCount;
-                    
-                    // Iterate over the next possible routes from the current stop
-                    for (int nextRoute : adjList[stop]){
-                        if (visited.count(nextRoute) == 0){
-                            visited.insert(nextRoute);
-                            queue.push(nextRoute);
-                        }
+            while (sz--){
+                int node = q.front();
+                q.pop();
+                
+                // Return busCount, if the stop target is present in the current route.
+                if (isStopExist(routes[node], target))
+                    return busCount;
+                
+                for (int adj : adjList[node]){
+                    if (!vis[adj]){
+                        vis[adj] = true;
+                        q.push(adj);
                     }
                 }
             }
+            
             ++busCount;
         }
         
