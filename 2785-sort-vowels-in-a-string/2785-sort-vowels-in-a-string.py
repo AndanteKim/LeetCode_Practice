@@ -1,24 +1,25 @@
 class Solution:
     def sortVowels(self, s: str) -> str:
-        vowels, curr, ans = {'A':0, 'E':0, 'I':0, 'O':0, 'U':0, 'a':0, 'e':0, 'i':0, 'o':0, 'u':0}, [], ""
+        def is_vowel(ch: chr) -> bool:
+            return ch == 'A' or ch == 'E' or ch == 'I' or ch == 'O' or ch == 'U' or\
+        ch == 'a' or ch == 'e' or ch == 'i' or ch == 'o' or ch == 'u'
         
+        count = defaultdict(int)
         for c in s:
-            if c in vowels:
-                vowels[c] += 1
-        for char, val in vowels.items():
-            if val > 0:
-                heappush(curr, (char, val))
+            if is_vowel(c):
+                count[c] += 1
         
-        for c in s:
-            if c in vowels:
-                vowel, val = heappop(curr)
-                ans += vowel
-                val -= 1
-                if val > 0:
-                    heappush(curr, (vowel, val))
-                
+        sorted_vowel = "AEIOUaeiou"
+        ans, j = "", 0
+        
+        for i in range(len(s)):
+            if is_vowel(s[i]):
+                while count[sorted_vowel[j]] == 0:
+                    j += 1
+                ans += sorted_vowel[j]
+                count[sorted_vowel[j]] -= 1
+        
             else:
-                ans += c
+                ans += s[i]
         
         return ans
-        
