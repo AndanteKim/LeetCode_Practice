@@ -1,24 +1,23 @@
 class Solution {
 public:
     int countPalindromicSubsequence(string s) {
-        unordered_set<char> letters(s.begin(), s.end());
-        int ans = 0;
+        vector<int> first(26, -1), last(26, -1);
         
-        for (char letter : letters){
-            int i = -1, j = 0;
-            
-            for (int k = 0; k < s.size(); ++k){
-                if (s[k] == letter){
-                    if (i == -1)
-                        i = k;
-                    j = k;
-                }
-            }
+        for (int i = 0; i < s.size(); ++i){
+            int curr = s[i] - 'a';
+            if (first[curr] == -1)
+                first[curr] = i;
+            last[curr] = i;
+        }
+        
+        int ans = 0;
+        for (int i = 0; i < 26; ++i){
+            if (first[i] == -1)
+                continue;
             
             unordered_set<char> between;
-            for (int k = i + 1; k < j; ++k){
-                between.insert(s[k]);
-            }
+            for (int j = first[i] + 1; j < last[i]; ++j)
+                between.insert(s[j]);
             
             ans += between.size();
         }
