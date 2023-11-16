@@ -1,24 +1,19 @@
 class Solution {
-private:
-    int n;
-    string generate(string curr, unordered_set<string>& nums){
-        if (curr.size() == n){
-            if (!nums.count(curr))
-                return curr;
-            return "";
-        }
-        
-        string addZero = generate(curr + "0", nums);
-        if (!addZero.empty())
-            return addZero;
-        return generate(curr + "1", nums);
-    }
-    
 public:
     string findDifferentBinaryString(vector<string>& nums) {
-        n = nums.size();
-        unordered_set<string> numsList(nums.begin(), nums.end());
+        unordered_set<int> integers;
+        for (string& num : nums){
+            integers.insert(stoi(num, 0, 2));
+        }
         
-        return generate("", numsList);
+        int n = nums.size();
+        for (int num  = 0; num <= n; ++num){
+            if (!integers.count(num)){
+                string ans = bitset<16>(num).to_string();
+                return ans.substr(16 - n);
+            }
+        }
+        
+        return "";
     }
 };
