@@ -1,14 +1,8 @@
 class Solution:
     def findDifferentBinaryString(self, nums: List[str]) -> str:
-        integers = set()
-        for num in nums:
-            integers.add(int(num, 2))
-            
-        ans = int(nums[0], 2)
-        n = len(nums)
+        ans = []
+        for i in range(len(nums)):
+            curr = nums[i][i]
+            ans.append("1" if curr == "0" else "0")
         
-        while ans in integers:
-            ans = random.randrange(0, 2 ** n)
-        
-        s = bin(ans)[2:]
-        return "0" * (n - len(s)) + s
+        return "".join(ans)
