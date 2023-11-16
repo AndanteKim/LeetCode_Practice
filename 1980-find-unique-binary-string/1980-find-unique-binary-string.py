@@ -1,21 +1,16 @@
 class Solution:
     def findDifferentBinaryString(self, nums: List[str]) -> str:
-        def backtrack(i: int, curr: str) -> None:
-            nonlocal ans
+        def generate(curr: str) -> str:
             if len(curr) == n:
-                convert = "".join(curr)
-                if convert not in nums:
-                    ans = convert
-                return
+                if curr not in nums:
+                    return curr
+                return ""
             
-            curr.append('0')
-            backtrack(i + 1, curr)
-            curr.pop()
-            
-            curr.append('1')
-            backtrack(i + 1, curr)
-            curr.pop()
+            add_zero = generate(curr + "0")
+            if add_zero:
+                return add_zero
+            return generate(curr + "1")
         
-        n, curr, ans = len(nums), [], ""
-        backtrack(0, curr)
-        return ans
+        n, nums = len(nums), set(nums)
+        return generate("")
+        
