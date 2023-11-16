@@ -1,28 +1,24 @@
 class Solution {
 private:
-    string ans = "";
     int n;
-    void backtrack(string& curr, vector<string>& nums){
+    string generate(string curr, unordered_set<string>& nums){
         if (curr.size() == n){
-            if (ans == "" && find(nums.begin(), nums.end(), curr) == nums.end())
-                ans = curr;
-            return;
+            if (!nums.count(curr))
+                return curr;
+            return "";
         }
         
-        curr.push_back('0');
-        backtrack(curr, nums);
-        curr.pop_back();
-        
-        curr.push_back('1');
-        backtrack(curr, nums);
-        curr.pop_back();
+        string addZero = generate(curr + "0", nums);
+        if (!addZero.empty())
+            return addZero;
+        return generate(curr + "1", nums);
     }
     
 public:
     string findDifferentBinaryString(vector<string>& nums) {
         n = nums.size();
-        string curr = "";
-        backtrack(curr, nums);
-        return ans;
+        unordered_set<string> numsList(nums.begin(), nums.end());
+        
+        return generate("", numsList);
     }
 };
