@@ -2,18 +2,14 @@ class Solution {
 public:
     string findDifferentBinaryString(vector<string>& nums) {
         unordered_set<int> integers;
-        for (string& num : nums){
+        for (string& num : nums)
             integers.insert(stoi(num, 0, 2));
-        }
         
-        int n = nums.size();
-        for (int num  = 0; num <= n; ++num){
-            if (!integers.count(num)){
-                string ans = bitset<16>(num).to_string();
-                return ans.substr(16 - n);
-            }
-        }
+        int ans = stoi(nums[0], 0, 2), n = nums.size();
         
-        return "";
+        while (integers.find(ans) != integers.end())
+            ans = rand() % (int) pow(2, n);
+        
+        return bitset<16>(ans).to_string().substr(16 - n);
     }
 };
