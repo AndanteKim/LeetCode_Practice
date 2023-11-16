@@ -1,16 +1,12 @@
 class Solution:
     def findDifferentBinaryString(self, nums: List[str]) -> str:
-        def generate(curr: str) -> str:
-            if len(curr) == n:
-                if curr not in nums:
-                    return curr
-                return ""
-            
-            add_zero = generate(curr + "0")
-            if add_zero:
-                return add_zero
-            return generate(curr + "1")
+        integers = set()
+        for num in nums:
+            integers.add(int(num, 2))
         
-        n, nums = len(nums), set(nums)
-        return generate("")
-        
+        n = len(nums)
+        for num in range(n + 1):
+            if num not in integers:
+                ans = bin(num)[2:]
+                return "0" * (n - len(ans)) + ans
+        return ""
