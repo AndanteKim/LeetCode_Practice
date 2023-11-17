@@ -3,13 +3,10 @@ public:
     int minPairSum(vector<int>& nums) {
         sort(nums.begin(), nums.end());
         
-        int ans = 0, i = (nums.size() >> 1) - 1, j = (nums.size() >> 1);
-        while (i >= 0 && j < nums.size()){
-            ans = max(ans, nums[i] + nums[j]);
-            --i;
-            ++j;
-        }
+        int maxSum = 0;
+        for (int i = 0; i < nums.size() / 2; ++i)
+            maxSum = max(maxSum, nums[i] + nums[nums.size() - 1 - i]);
         
-        return ans;
+        return maxSum;
     }
 };
