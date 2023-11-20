@@ -1,31 +1,27 @@
 class Solution {
 public:
     int garbageCollection(vector<string>& garbage, vector<int>& travel) {
-        int time = 0;
-        unordered_map<char, int> countType;
-        for (string& dummy : garbage){
-            for (char& trashType : dummy){
-                ++countType[trashType];
+        vector<int> prefixSum(travel.size() + 1);
+        for (int i = 0; i < travel.size(); ++i)
+            prefixSum[i + 1] = prefixSum[i] + travel[i];
+        
+        // map to store garbage count, type
+        unordered_map<char, int> garbageLastPos, garbageCount;
+        for (int i = 0; i < garbage.size(); ++i){
+            for (char& c : garbage[i]){
+                ++garbageCount[c];
+                garbageLastPos[c] = i;
             }
         }
         
-        for (auto& [truck, _] : countType){
-            int curr = 0;
-            for (int i = 0; i < garbage.size(); ++i){
-                for (char& trash : garbage[i]){
-                    if (trash == truck){
-                        ++curr;
-                        --countType[trash];
-                    }
-                }
-                if (!countType[truck])
-                    break;
-                if (i < travel.size())
-                    curr += travel[i];
+        int ans = 0;
+        for (auto& [c, i]: garbageLastPos){
+            // add only if there is at least one unit of this garbage
+            if (garbageCount[c] > 0){
+                ans += garbageCount[c] + prefixSum[i];
             }
-            time += curr;
         }
         
-        return time;
+        return ans;
     }
 };
