@@ -1,27 +1,21 @@
 class Solution {
 public:
     int garbageCollection(vector<string>& garbage, vector<int>& travel) {
-        vector<int> prefixSum(travel.size() + 1);
-        for (int i = 0; i < travel.size(); ++i)
-            prefixSum[i + 1] = prefixSum[i] + travel[i];
-        
-        // map to store garbage count, type
-        unordered_map<char, int> garbageLastPos, garbageCount;
-        for (int i = 0; i < garbage.size(); ++i){
-            for (char& c : garbage[i]){
-                ++garbageCount[c];
-                garbageLastPos[c] = i;
-            }
-        }
+        for (int i = 1; i < travel.size(); ++i)
+            travel[i] = travel[i - 1] + travel[i];
         
         int ans = 0;
-        for (auto& [c, i]: garbageLastPos){
-            // add only if there is at least one unit of this garbage
-            if (garbageCount[c] > 0){
-                ans += garbageCount[c] + prefixSum[i];
-            }
+        unordered_map<char, int> garbageLastPos;
+        for (int i = 0; i < garbage.size(); ++i){
+            for (char& c : garbage[i])
+                garbageLastPos[c] = i;
+            ans += garbage[i].size();
         }
         
+        string type = "MPG";
+        for (char& c : type){
+            ans += (garbageLastPos[c] == 0? 0 : travel[garbageLastPos[c] - 1]);
+        }
         return ans;
     }
 };
