@@ -1,35 +1,29 @@
 class Solution {
 private:
-    int rev(int x){
-        stack<int> st;
-        while (x > 0){
-            st.push(x % 10);
-            x /= 10;
-        }
-        int num = 0;
-        long digit = 1;
-        while (!st.empty()){
-            num = (num + st.top() * digit) % 1'000'000'007;
-            digit *= 10;
-            st.pop();
+    int MOD = 1'000'000'007;
+    int rev(int num){
+        int res = 0;
+        while (num > 0){
+            res = res * 10 + num % 10;
+            num /= 10;
         }
         
-        return num;
+        return res;
     }
     
 public:
     int countNicePairs(vector<int>& nums) {
-        long ans = 0;
-        unordered_map<int, int> diffPairs;
+        vector<int> arr;
+        for (int num : nums)
+            arr.push_back(num - rev(num));
         
-        for (int num : nums){
-            int diff = num - rev(num);
-            ++diffPairs[diff];
+        int ans = 0;
+        unordered_map<int, int> pairs;
+        for (int num : arr){
+            ans = (ans + pairs[num]) % MOD;
+            ++pairs[num];
         }
         
-        for (auto& [_, freq] : diffPairs)
-            ans = (ans + (((long)freq * (freq - 1)) >> 1)) % 1'000'000'007;
-        
-        return static_cast<int>(ans);
+        return ans;
     }
 };
