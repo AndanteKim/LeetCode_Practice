@@ -1,22 +1,21 @@
 class Solution:
     def countNicePairs(self, nums: List[int]) -> int:
-        def rev(x: int) -> int:
-            stack = []
-            while x > 0:
-                stack.append(x % 10)
-                x //= 10
-            num, digit = 0, 0
-            while stack:
-                num = (num + stack.pop() * (10 ** digit)) % (10 ** 9 + 7)
-                digit += 1
-            return num
-
-        ans, pairs = 0, dict()
-        for num in nums:
-            diff = num - rev(num)
-            pairs[diff] = pairs.get(diff, 0) + 1
+        def rev(num: int) -> int:
+            res = 0
+            while num:
+                res = res * 10 + num % 10
+                num //= 10
+            
+            return res
         
-        for _, freq in pairs.items():
-            ans = (ans + ((freq * (freq - 1)) >> 1)) % (10 ** 9 + 7)
+        arr = []
+        for i in range(len(nums)):
+            arr.append(nums[i] - rev(nums[i]))
+            
+        dic = defaultdict(int)
+        ans, MOD = 0, 10 ** 9 + 7
+        for num in arr:
+            ans = (ans + dic[num]) % MOD
+            dic[num] += 1
         
         return ans
