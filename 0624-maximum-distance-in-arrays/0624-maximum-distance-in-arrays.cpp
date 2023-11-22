@@ -1,42 +1,15 @@
 class Solution {
 public:
     int maxDistance(vector<vector<int>>& arrays) {
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap;
-        priority_queue<pair<int, int>, vector<pair<int, int>>> maxHeap;
+        int ans = 0, n = arrays[0].size(), minVal = arrays[0][0], maxVal = arrays[0][n - 1];
         
-        for (int i = 0; i < arrays.size(); ++i){
-            minHeap.push({arrays[i][0], i});
-            maxHeap.push({arrays[i].back(), i});
+        for (int i = 1; i < arrays.size(); ++i){
+            n = arrays[i].size();
+            ans = max(ans, max(abs(minVal - arrays[i][n - 1]), abs(maxVal - arrays[i][0])));
+            minVal = min(minVal, arrays[i][0]);
+            maxVal = max(maxVal, arrays[i][n - 1]);
         }
         
-        int min = INT_MAX, max = INT_MIN, idx1 = -1, idx2 = -1;
-        while (!minHeap.empty() && !maxHeap.empty()){
-            if (min == INT_MAX && idx1 == -1){
-                min = minHeap.top().first;
-                idx1 = minHeap.top().second;
-                minHeap.pop();
-            }
-                
-            if (max == INT_MIN && idx2 == -1){
-                max = maxHeap.top().first;
-                idx2 = maxHeap.top().second;
-                maxHeap.pop();
-            }
-            
-            if (idx1 == idx2){
-                if (abs(min - minHeap.top().first) < abs(max - maxHeap.top().first)){
-                    min = INT_MAX;
-                    idx1 = -1;
-                }
-                else{
-                    max = INT_MIN;
-                    idx2 = -1;
-                }
-            }
-            else
-                return max - min;
-        }
-        
-        return -1;
+        return ans;
     }
 };
