@@ -1,17 +1,22 @@
 class Solution:
     def checkArithmeticSubarrays(self, nums: List[int], l: List[int], r: List[int]) -> List[bool]:
-        ans, queries = [], []
-        for i in range(len(l)):
-            query = nums[l[i] : r[i] + 1]
-            query.sort()
-            queries.append(query)
+        def check(arr: List[int]) -> bool:
+            min_element, max_element = min(arr), max(arr)
+            if (max_element - min_element) % (len(arr) - 1) != 0:
+                return False
             
-        for query in queries:
-            arithmetic, flag = query[1] - query[0], True
-            for i in range(1, len(query)):
-                if query[i - 1] + arithmetic != query[i]:
-                    flag = False
-                    break
-            ans.append(flag)
+            diff = (max_element - min_element) // (len(arr) - 1)
+            arr_set = set(arr)
+            curr = min_element + diff
+            while curr < max_element:
+                if curr not in arr_set:
+                    return False
+                curr += diff
+            
+            return True
+            
+        ans = []
+        for i in range(len(l)):
+            arr = nums[l[i] : r[i] + 1]
+            ans.append(check(arr))
         return ans
-        
