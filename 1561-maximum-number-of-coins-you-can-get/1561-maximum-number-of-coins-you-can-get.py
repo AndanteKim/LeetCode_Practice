@@ -1,15 +1,14 @@
 class Solution:
     def maxCoins(self, piles: List[int]) -> int:
         piles.sort()
+        queue, ans = deque(piles), 0
         
-        ans, queue, triplets = 0, deque(piles), []
         while queue:
-            Alice = queue.pop()
-            I = queue.pop()
-            Bob = queue.popleft()
-            triplets.append((Alice, I, Bob))
+            # Alice
+            queue.pop()
+            # I
+            ans += queue.pop()
+            # Bob
+            queue.popleft()
             
-        for triplet in triplets:
-            ans += triplet[1]
-        
         return ans
