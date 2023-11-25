@@ -1,17 +1,20 @@
 class Solution:
     def getSumAbsoluteDifferences(self, nums: List[int]) -> List[int]:
-        n, ans = len(nums), []
-        prefix_sum, suffix_sum = [0] * (n + 1), [0] * (n + 1)
+        n, prefix = len(nums), [nums[0]]
         
-        for i in range(1, n + 1):
-            prefix_sum[i] = prefix_sum[i - 1] + nums[i - 1]
+        for i in range(1, n):
+            prefix.append(prefix[-1] + nums[i])
+        
+        ans = []
+        for i in range(len(nums)):
+            left_sum = prefix[i] - nums[i]
+            right_sum = prefix[-1] - prefix[i]
             
-        for i in range(n - 1, -1, -1):
-            suffix_sum[i] = suffix_sum[i + 1] + nums[i]
-        
-        
-        for i in range(n):
-            curr = nums[i] * i - prefix_sum[i] + suffix_sum[i + 1] - nums[i] * (n - i - 1)
-            ans.append(curr)
-        
+            left_count, right_count = i, n - 1 - i
+            
+            left_total = left_count * nums[i] - left_sum
+            right_total = right_sum - right_count * nums[i]
+            
+            ans.append(left_total + right_total)
+            
         return ans
