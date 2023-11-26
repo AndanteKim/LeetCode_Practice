@@ -1,17 +1,22 @@
 class Solution:
     def largestSubmatrix(self, matrix: List[List[int]]) -> int:
-        m, n, ans = len(matrix), len(matrix[0]), 0
-        prev_row = [0] * n
+        m, n = len(matrix), len(matrix[0])
+        prev_heights, ans = [], 0
         
         for row in range(m):
-            curr_row = matrix[row][:]
+            heights = []
+            seen = [False] * n
+            for (height, col) in prev_heights:
+                if matrix[row][col]:
+                    heights.append((height + 1, col))
+                    seen[col] = True
+            
             for col in range(n):
-                if curr_row[col]:
-                    curr_row[col] += prev_row[col]
-                
-            sorted_row = sorted(curr_row, reverse = True)
-            for i in range(n):
-                ans = max(ans, sorted_row[i] * (i + 1))
-            prev_row = curr_row
+                if not seen[col] and matrix[row][col]:
+                    heights.append((1, col))
+                    
+            for i in range(len(heights)):
+                ans = max(ans, heights[i][0] * (i + 1))
+            prev_heights = heights
         
         return ans
