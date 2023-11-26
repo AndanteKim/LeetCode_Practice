@@ -1,16 +1,17 @@
 class Solution:
     def largestSubmatrix(self, matrix: List[List[int]]) -> int:
         m, n, ans = len(matrix), len(matrix[0]), 0
+        prev_row = [0] * n
         
         for row in range(m):
+            curr_row = matrix[row][:]
             for col in range(n):
-                if matrix[row][col] != 0 and row > 0:
-                    matrix[row][col] += matrix[row - 1][col]
-            
-            curr_row = sorted(matrix[row], reverse = True)
-            print(curr_row)
-            
+                if curr_row[col]:
+                    curr_row[col] += prev_row[col]
+                
+            sorted_row = sorted(curr_row, reverse = True)
             for i in range(n):
-                ans = max(ans, curr_row[i] * (i + 1))
+                ans = max(ans, sorted_row[i] * (i + 1))
+            prev_row = curr_row
         
         return ans
