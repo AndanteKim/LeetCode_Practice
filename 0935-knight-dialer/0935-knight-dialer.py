@@ -3,10 +3,36 @@ class Solution:
         if n == 1:
             return 10
         
-        A, B, C, D = 4, 2, 2, 1
-        MOD = 10 ** 9 + 7
-        
-        for _ in range(n - 1):
-            A, B, C, D = (2 * (B + C)) % MOD, A, (A + 2 * D) % MOD, C
+        def multiply(A: List[List[int]], B: List[List[int]]) -> List[List[int]]:
+            res = [[0] * len(B[0]) for _ in range(len(A))]
             
-        return (A + B + C + D) % MOD
+            for i in range(len(A)):
+                for j in range(len(B[0])):
+                    for k in range(len(B)):
+                        res[i][j] = (res[i][j] + A[i][k] * B[k][j]) % MOD  
+            return res
+        
+        A = [
+            [0, 0, 0, 0, 1, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0, 1, 0],
+            [0, 0, 0, 0, 0, 0, 0, 1, 0, 1],
+            [0, 0, 0, 0, 1, 0, 0, 0, 1, 0],
+            [1, 0, 0, 1, 0, 0, 0, 0, 0, 1],
+            [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            [1, 1, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 0, 1, 0, 0, 0, 1, 0, 0, 0],
+            [0, 1, 0, 1, 0, 0, 0, 0, 0, 0],
+            [0, 0, 1, 0, 1, 0, 0, 0, 0, 0]
+        ]
+        
+        v = [[1] * 10]                    
+        MOD = 1_000_000_007
+        n -= 1
+        
+        while n:
+            if n & 1:
+                v = multiply(v, A)
+            A = multiply(A, A)
+            n >>= 1
+            
+        return sum(v[0]) % MOD
