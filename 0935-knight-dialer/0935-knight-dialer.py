@@ -3,21 +3,18 @@ class Solution:
         jumps = ((4,6), (6,8), (7,9), (4,8), (0,3,9), (),\
                 (0,1,7), (2,6), (1,3), (2,4))
         
-        mod = 10 ** 9 + 7
-        dp = [[0] * 10 for _ in range(n + 1)]
-        for square in range(10):
-            dp[0][square] = 1
-            
+        prev_dp, dp, MOD = [1] * 10, [0] * 10, 1_000_000_007
+        
         for remain in range(1, n):
+            dp = [0] * 10
             for square in range(10):
-                ans = 0
+                curr = 0
                 for next_square in jumps[square]:
-                    ans = (ans + dp[remain - 1][next_square]) % mod
-                
-                dp[remain][square] = ans
-            
+                    curr = (curr + prev_dp[next_square]) % MOD
+                dp[square] = curr
+            prev_dp = dp
+        
         ans = 0
         for square in range(10):
-            ans = (ans + dp[n - 1][square]) % mod
-        
+            ans = (ans + prev_dp[square]) % MOD
         return ans
