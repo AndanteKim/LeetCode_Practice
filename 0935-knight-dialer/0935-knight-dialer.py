@@ -1,17 +1,23 @@
 class Solution:
     def knightDialer(self, n: int) -> int:
-        @lru_cache(maxsize = None)
-        def dp(prev: int, remain: int) -> int:
-            if remain == 0:
-                return 1
+        jumps = ((4,6), (6,8), (7,9), (4,8), (0,3,9), (),\
+                (0,1,7), (2,6), (1,3), (2,4))
+        
+        mod = 10 ** 9 + 7
+        dp = [[0] * 10 for _ in range(n + 1)]
+        for square in range(10):
+            dp[0][square] = 1
             
-            ways = 0
-            for curr in available[prev]:
-                ways = (ways + dp(curr, remain - 1)) % 1_000_000_007
+        for remain in range(1, n):
+            for square in range(10):
+                ans = 0
+                for next_square in jumps[square]:
+                    ans = (ans + dp[remain - 1][next_square]) % mod
                 
-            return ways
+                dp[remain][square] = ans
             
-        available = {0:(4,6), 1:(6,8), 2:(7,9), 3:(4, 8),\
-                    4:(0,3,9), 5:tuple(), 6:(0,1,7), 7:(2,6),\
-                    8:(1,3), 9:(2,4)}
-        return sum(dp(i, n - 1) for i in range(10)) % 1_000_000_007
+        ans = 0
+        for square in range(10):
+            ans = (ans + dp[n - 1][square]) % mod
+        
+        return ans
