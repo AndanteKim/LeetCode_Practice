@@ -1,18 +1,30 @@
 class Solution:
     def numberOfWays(self, corridor: str) -> int:
-        n, prev_dp, MOD = len(corridor), [0, 0, 1], 1_000_000_007
+        MOD, count = 1_000_000_007, 1
         
-        for i in range(n - 1, -1, -1):
-            dp = [0, 0, 0]
-            if corridor[i] == 'S':
-                dp[0] = prev_dp[1]
-                dp[1] = prev_dp[2]
-                dp[2] = prev_dp[1]
-            else:
-                dp[0] = prev_dp[0]
-                dp[1] = prev_dp[1]
-                dp[2] = (prev_dp[0] + prev_dp[2]) % MOD
+        # Number of seats in current section
+        seats = 0
+        
+        # Tracking index of last S in the previous section
+        prev_pair_last = None
+        
+        # Keep track of seats in the corridor
+        for i, thing in enumerate(corridor):
+            if thing == "S":
+                seats += 1
             
-            prev_dp = dp
+                # If two seats, then this is the last S in the section
+                # Update seats for the next section
+                if seats == 2:
+                    prev_pair_last = i
+                    seats = 0
+                
+                elif seats == 1 and prev_pair_last:
+                    count *= i - prev_pair_last
+                    count %= MOD
+            
+        # If odd seats, or zero seats
+        if seats == 1 or not prev_pair_last:
+            return 0
         
-        return prev_dp[0]
+        return count
