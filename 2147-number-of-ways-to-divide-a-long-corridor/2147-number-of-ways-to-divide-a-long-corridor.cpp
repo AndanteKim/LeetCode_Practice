@@ -2,22 +2,24 @@ class Solution {
 public:
     int numberOfWays(string corridor) {
         const int n = corridor.size(), MOD = 1e9 + 7;
-        vector<vector<int>> count(n + 1, vector<int>(3));
-        count[n][2] = 1;
+        vector<int> prevDp(3);
+        prevDp[2] = 1;
         
         for (int i = n - 1; i >= 0; --i){
+            vector<int> dp(3);
             if (corridor[i] == 'S'){
-                count[i][0] = count[i + 1][1];
-                count[i][1] = count[i + 1][2];
-                count[i][2] = count[i + 1][1];
+                dp[0] = prevDp[1];
+                dp[1] = prevDp[2];
+                dp[2] = prevDp[1];
             }
             else{
-                count[i][0] = count[i + 1][0];
-                count[i][1] = count[i + 1][1];
-                count[i][2] = (count[i + 1][0] + count[i + 1][2]) % MOD;
+                dp[0] = prevDp[0];
+                dp[1] = prevDp[1];
+                dp[2] = (prevDp[0] + prevDp[2]) % MOD;
             }
+            prevDp = dp;
         }
         
-        return count[0][0];
+        return prevDp[0];
     }
 };
