@@ -2,24 +2,28 @@ class Solution {
 public:
     int numberOfWays(string corridor) {
         const int n = corridor.size(), MOD = 1e9 + 7;
-        vector<int> prevDp(3);
-        prevDp[2] = 1;
+        vector<int> indices;
         
-        for (int i = n - 1; i >= 0; --i){
-            vector<int> dp(3);
-            if (corridor[i] == 'S'){
-                dp[0] = prevDp[1];
-                dp[1] = prevDp[2];
-                dp[2] = prevDp[1];
-            }
-            else{
-                dp[0] = prevDp[0];
-                dp[1] = prevDp[1];
-                dp[2] = (prevDp[0] + prevDp[2]) % MOD;
-            }
-            prevDp = dp;
+        for (int i = 0; i < n; ++i){
+            if (corridor[i] == 'S')
+                indices.push_back(i);
         }
         
-        return prevDp[0];
+        // When division is not possible
+        if (indices.empty() || indices.size() % 2 == 1)
+            return 0;
+        
+        // Total number of ways
+        long count = 1;
+        int prevFirstLast = 1, currSecondFirst = 2;
+        
+        // Take the product of non-paired neighbors
+        while (currSecondFirst < indices.size()){
+            count = (count * (indices[currSecondFirst] - indices[prevFirstLast])) % MOD;
+            prevFirstLast += 2;
+            currSecondFirst += 2;
+        }
+        
+        return count;
     }
 };
