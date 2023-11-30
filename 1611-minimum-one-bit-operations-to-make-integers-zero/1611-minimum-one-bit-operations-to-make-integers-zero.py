@@ -1,12 +1,10 @@
 class Solution:
     def minimumOneBitOperations(self, n: int) -> int:
-        ans, k, mask = 0, 0, 1
-        
-        while mask <= n:
-            if n & mask:
-                ans = 2 ** (k + 1) - 1 - ans
-            
-            mask <<= 1
-            k += 1
+        ans = n
+        ans ^= ans >> 16
+        ans ^= ans >> 8
+        ans ^= ans >> 4
+        ans ^= ans >> 2
+        ans ^= ans >> 1
         
         return ans
