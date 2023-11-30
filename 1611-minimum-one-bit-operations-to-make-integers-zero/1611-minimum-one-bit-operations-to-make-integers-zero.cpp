@@ -1,14 +1,12 @@
 class Solution {
 public:
     int minimumOneBitOperations(int n) {
-        int ans = 0, k = 0, mask = 1;
-        
-        while (mask <= n){
-            if (n & mask)
-                ans = pow(2, k + 1) - 1 - ans;
-            mask <<= 1;
-            ++k;
-        }
+        int ans = n;
+        ans ^= ans >> 16;
+        ans ^= ans >> 8;
+        ans ^= ans >> 4;
+        ans ^= ans >> 2;
+        ans ^= ans >> 1;
         
         return ans;
     }
