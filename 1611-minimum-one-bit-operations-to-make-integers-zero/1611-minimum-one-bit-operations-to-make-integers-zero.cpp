@@ -1,15 +1,15 @@
 class Solution {
 public:
     int minimumOneBitOperations(int n) {
-        if (n == 0)
-            return 0;
+        int ans = 0, k = 0, mask = 1;
         
-        int k = 0, curr = 1;
-        while (curr * 2 <= n){
-            curr *= 2;
+        while (mask <= n){
+            if (n & mask)
+                ans = pow(2, k + 1) - 1 - ans;
+            mask <<= 1;
             ++k;
         }
         
-        return pow(2, k + 1) - 1 - minimumOneBitOperations(n ^ curr);
+        return ans;
     }
 };
