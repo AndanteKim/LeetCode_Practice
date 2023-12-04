@@ -1,12 +1,13 @@
 class Solution:
     def removeDuplicates(self, nums: List[int]) -> int:
-        unique = []
-        for num in nums:
-            if not unique or unique[-1] != num:
-                unique.append(num)
+        n, insert_index = len(nums), 1
         
-        for i in range(len(unique)):
-            nums[i] = unique[i]
-            
-        return len(unique)
+        for i in range(1, n):
+            # Found unique element
+            if nums[i - 1] != nums[i]:
+                # Updating insert_index in our main array
+                nums[insert_index] = nums[i]
+                # Incrementing insert_index count by 1
+                insert_index += 1
         
+        return insert_index
