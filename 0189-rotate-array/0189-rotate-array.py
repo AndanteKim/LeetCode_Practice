@@ -3,11 +3,8 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        queue = deque(nums)
-        
-        for _ in range(k):
-            elem = queue.pop()
-            queue.appendleft(elem)
-        
-        for i in range(len(nums)):
-            nums[i] = queue.popleft()
+        n = len(nums)
+        a = [0] * n
+        for i in range(n):
+            a[(i + k) % n] = nums[i]
+        nums[:] = a
