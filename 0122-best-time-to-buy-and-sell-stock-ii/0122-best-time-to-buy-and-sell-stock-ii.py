@@ -1,27 +1,17 @@
-class Solution {
-private:
-    int n;
-    int dp(int i, int bought, vector<vector<int>>& memo, vector<int>& prices){
-        if (i >= n)
-            return 0;
-        if (memo[i][bought] != -1)
-            return memo[i][bought];
+class Solution:
+    def maxProfit(self, prices: List[int]) -> int:
+        i, valley, peak = 0, prices[0], prices[0]
+        ans, n = 0, len(prices)
         
-        int profit = 0;
-        if (bought){
-            profit += max(dp(i + 1, 1, memo, prices), prices[i] + dp(i + 1, 0, memo, prices));
-        }
-        else{
-            profit += max(-prices[i] + dp(i + 1, 1, memo, prices), dp(i + 1, 0, memo, prices));
-        }
+        while i < n - 1:
+            while i < n - 1 and prices[i] >= prices[i + 1]:
+                i += 1
+            valley = prices[i]
+            while i < n - 1 and prices[i] <= prices[i + 1]:
+                i += 1
+            peak = prices[i]
+            ans += peak - valley
         
-        return memo[i][bought] = profit;
-    }
-    
-public:
-    int maxProfit(vector<int>& prices) {
-        n = prices.size();
-        vector memo(n, vector<int>(2, -1));
-        return dp(0, 0, memo, prices);
-    }
-};
+        return ans
+        
+        
