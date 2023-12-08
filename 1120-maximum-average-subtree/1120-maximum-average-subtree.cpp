@@ -10,26 +10,31 @@
  * };
  */
 class Solution {
-private:
-    void dfs(TreeNode* node, unordered_map<TreeNode*, double>& descendantSum, unordered_map<TreeNode*, double>& descendantLength){
-        if (!node)
-            return;
-        
-        dfs(node -> left, descendantSum, descendantLength);
-        dfs(node -> right, descendantSum, descendantLength);
-        descendantSum[node] = descendantSum[node -> left] + descendantSum[node -> right] + node -> val;
-        descendantLength[node] = descendantLength[node -> left] + descendantLength[node -> right] + 1;
-    }
-    
 public:
     double maximumAverageSubtree(TreeNode* root) {
-        unordered_map<TreeNode*, double> descendantSum, descendantLength;
-        dfs(root, descendantSum, descendantLength);
         double ans = 0.0;
+        stack<pair<TreeNode*, bool>> st;
+        st.push({root, false});
+        unordered_map<TreeNode*, int> descendantSum, descendantLength;
         
-        for (auto& [key, _] : descendantSum)
-            ans = max(ans, descendantSum[key] / descendantLength[key]);
+        while (!st.empty()){
+            auto [node, visited] = st.top();
             
+            if (visited){
+                descendantSum[node] = descendantSum[node -> left] + descendantSum[node -> right] + node -> val;
+                descendantLength[node] = descendantLength[node -> left] + descendantLength[node -> right] + 1;
+                ans = max(ans, (double)descendantSum[node] / descendantLength[node]);
+                st.pop();
+            }
+            else{
+                st.top().second = true;
+                if (node -> right)
+                    st.push({node -> right, false});
+                if (node -> left)
+                    st.push({node -> left, false});
+            }
+        }
+        
         return ans;
     }
 };
