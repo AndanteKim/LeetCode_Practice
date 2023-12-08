@@ -6,16 +6,23 @@
 #         self.right = right
 class Solution:
     def maximumAverageSubtree(self, root: Optional[TreeNode]) -> float:
-        def dfs(node: Optional[TreeNode]) -> None:
-            if not node:
-                return
+        ans, stack, descendant_sum, descendant_length = 0.0, [[root, False]], defaultdict(int), defaultdict(int)
+        
+        while stack:
+            node, visited = stack[-1]
             
-            dfs(node.left)
-            dfs(node.right)
-            descendant_sum[node] = descendant_sum[node.left] + descendant_sum[node.right] + node.val
-            descendant_length[node] = descendant_length[node.left] + descendant_length[node.right] + 1
-        
-        descendant_sum, descendant_length = defaultdict(int), defaultdict(int)
-        dfs(root)
-        
-        return max(descendant_sum[key] / descendant_length[key] for key in descendant_sum if descendant_length[key] != 0)
+            if visited:
+                descendant_sum[node] = descendant_sum[node.left] + descendant_sum[node.right] + node.val
+                descendant_length[node] = descendant_length[node.left] + descendant_length[node.right] + 1
+                ans = max(ans, descendant_sum[node] / descendant_length[node])
+                stack.pop()
+                
+            if not visited:
+                stack[-1][1] = True
+                if node.right:
+                    stack.append([node.right, False])
+                
+                if node.left:
+                    stack.append([node.left, False])
+                
+        return ans
