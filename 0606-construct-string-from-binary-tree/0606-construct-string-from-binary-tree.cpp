@@ -10,31 +10,31 @@
  * };
  */
 class Solution {
-private:
-    string dfs(TreeNode* node){
-        if (!node)
-            return "";
-        string ans = to_string(node -> val);
-        
-        if (node -> left){
-            ans.push_back('(');
-            ans += dfs(node -> left);
-            ans.push_back(')');
-        }
-        
-        if (node -> right){
-            if (!node -> left)
-                ans += "()";
-            ans.push_back('(');
-            ans += dfs(node -> right);
-            ans.push_back(')');
-        }
-        
-        return ans;
-    }
-    
 public:
     string tree2str(TreeNode* root) {
-        return dfs(root);
+        stack<TreeNode*> st{{root}};
+        set<TreeNode*> visited;
+        string ans = "";
+        
+        while (!st.empty()){
+            TreeNode* node = st.top();
+            if (visited.count(node)){
+                st.pop();
+                ans.push_back(')');
+            }
+            else{
+                visited.insert(node);
+                ans.push_back('(');
+                ans += to_string(node -> val);
+                if (!node -> left && node -> right)
+                    ans += "()";
+                if (node -> right)
+                    st.push(node -> right);
+                if (node -> left)
+                    st.push(node -> left);
+            }
+        }
+        
+        return ans.substr(1, ans.size() - 2);
     }
 };
