@@ -1,29 +1,20 @@
 class Solution {
-private:
-    int good = 1, bad = 0, unknown = -1, n;
-    bool canJumpFromPosition(int i, vector<int>& memo, vector<int>& nums){
-        if (memo[i] != unknown){
-            return memo[i] == good? true : false;
-        }
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n);
+        dp[n - 1] = 1;
         
-        int furthest = min(n - 1, nums[i] + i);
-        for (int next = i + 1; next <= furthest; ++next){
-            if (canJumpFromPosition(next, memo, nums)){
-                memo[i] = good;
-                return true;
+        for (int i = n - 2; i >= 0; --i){
+            int furthest = min(n - 1, nums[i] + i);
+            for (int nxt = i + 1; nxt <= furthest; ++nxt){
+                if (dp[nxt] == 1){
+                    dp[i] = 1;
+                    break;
+                }
             }
         }
         
-        memo[i] = bad;
-        return false;
-    }
-    
-public:
-    bool canJump(vector<int>& nums) {
-        n = nums.size();
-        vector<int> memo(n, unknown);
-        memo[n - 1] = good;
-        
-        return canJumpFromPosition(0, memo, nums);
+        return dp[0] == 1;
     }
 };
