@@ -1,20 +1,13 @@
 class Solution {
 public:
     bool canJump(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> dp(n);
-        dp[n - 1] = 1;
+        int n = nums.size(), lastPos = n - 1;
         
-        for (int i = n - 2; i >= 0; --i){
-            int furthest = min(n - 1, nums[i] + i);
-            for (int nxt = i + 1; nxt <= furthest; ++nxt){
-                if (dp[nxt] == 1){
-                    dp[i] = 1;
-                    break;
-                }
-            }
+        for (int i = n - 1; i >= 0; --i){
+            if (nums[i] + i >= lastPos)
+                lastPos = i;
         }
         
-        return dp[0] == 1;
+        return lastPos == 0;
     }
 };
