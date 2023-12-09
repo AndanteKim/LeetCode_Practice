@@ -10,20 +10,30 @@
  * };
  */
 class Solution {
-private:
-    vector<int> dfs(TreeNode* node){
-        if (!node)
-            return {};
-        vector<int> ans{dfs(node -> left)};
-        ans.push_back(node -> val);
-        vector<int> right{dfs(node -> right)};
-        ans.insert(ans.end(), right.begin(), right.end());
-        
-        return ans;
-    }
-    
 public:
     vector<int> inorderTraversal(TreeNode* root) {
-        return dfs(root);
+        if (!root)
+            return {};
+        
+        stack<pair<TreeNode*, bool>> st;
+        st.push(make_pair(root, false));
+        vector<int> ans;
+        
+        while(!st.empty()){
+            auto [node, visited] = st.top();
+            st.pop();
+            
+            if (!visited){
+                if (node -> right)
+                    st.push({node -> right, false});
+                st.push({node, true});
+                if (node -> left)
+                    st.push({node -> left, false});
+            }
+            else
+                ans.push_back(node -> val);
+        }
+        
+        return ans;
     }
 };
