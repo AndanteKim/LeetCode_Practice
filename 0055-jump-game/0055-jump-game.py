@@ -1,18 +1,16 @@
 class Solution:
     def canJump(self, nums: List[int]) -> bool:
-        def can_jump_from_position(i: int) -> bool:
-            if memo[i] != -1:
-                return True if memo[i] == 1 else False
-            
-            furthest_jump = min(n - 1, nums[i] + i)
-            for nxt in range(i + 1, furthest_jump + 1):
-                if can_jump_from_position(nxt):
-                    memo[i] = 1
-                    return True
-            memo[i] = 0
-            return False
+        n = len(nums)
+        dp = [0] * n
+        dp[n - 1] = 1
         
-        good, bad, unknown, n = 1, 0, -1, len(nums)
-        memo = [unknown] * n
-        memo[n - 1] = good
-        return can_jump_from_position(0)
+        for i in range(n - 2, -1, -1):
+            furthest = min(i + nums[i], n - 1)
+            for nxt in range(i + 1, furthest + 1):
+                if dp[nxt] == 1:
+                    dp[i] = 1
+                    break
+        
+        return dp[0] == 1
+        
+        
