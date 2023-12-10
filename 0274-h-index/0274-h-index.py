@@ -1,13 +1,9 @@
 class Solution:
     def hIndex(self, citations: List[int]) -> int:
-        highest = max(citations)
-        counting = [0] * (highest + 1)
-        for citation in citations:
-            for i in range(citation + 1):
-                counting[i] += 1
+        citations.sort()
+        n, i = len(citations), 0
         
-        for cited in range(highest, -1, -1):
-            if counting[cited] >= cited:
-                return cited
+        while i < n and citations[n - 1 - i] > i:
+            i += 1
         
-        return 0
+        return i
