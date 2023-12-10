@@ -1,9 +1,15 @@
 class Solution:
     def hIndex(self, citations: List[int]) -> int:
-        citations.sort()
-        n, i = len(citations), 0
+        n = len(citations)
+        papers = [0] * (n + 1)
         
-        while i < n and citations[n - 1 - i] > i:
-            i += 1
+        for c in citations:
+            papers[min(n, c)] += 1
+            
+        k, s = n, papers[n]
         
-        return i
+        while k > s:
+            k -= 1
+            s += papers[k]
+        return k
+        
