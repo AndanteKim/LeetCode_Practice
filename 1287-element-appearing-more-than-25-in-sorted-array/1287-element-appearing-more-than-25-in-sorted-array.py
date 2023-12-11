@@ -6,8 +6,8 @@ class Solution:
         
         for candidate in candidates:
             left = bisect_left(arr, candidate)
-            right = bisect_right(arr, candidate)
-            if right - left > target:
+            right = bisect_right(arr, candidate) - 1
+            if right - left + 1 > target:
                 return candidate
         
         return -1
