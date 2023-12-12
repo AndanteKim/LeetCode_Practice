@@ -1,23 +1,12 @@
 class Solution {
 public:
     int maxProduct(vector<int>& nums) {
-        vector<int> counting(pow(10, 3) + 1);
-        int i = INT_MIN;
-        for (int num : nums){
-            i = max(num, i);
-            ++counting[num];
-        }
+        sort(nums.begin(), nums.end());
+        int first = nums.back() - 1, second;
+        nums.pop_back();
+        second = nums.back() - 1;
+        nums.pop_back();
         
-        long ans = 1;
-        int remain = 2;
-        for(; i >= 0 && remain > 0; --i){
-            while (counting[i] > 0 && remain > 0){
-                ans *= i - 1;
-                --counting[i];
-                --remain;
-            }
-        }
-        
-        return ans;
+        return first * second;
     }
 };
