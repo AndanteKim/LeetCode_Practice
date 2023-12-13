@@ -1,33 +1,24 @@
 class Solution:
     def numSpecial(self, mat: List[List[int]]) -> int:
-        r, c, ans = len(mat), len(mat[0]), 0
-        queue = deque()
+        ans, m, n = 0, len(mat), len(mat[0])
         
-        for i in range(r):
-            for j in range(c):
-                if mat[i][j]:
-                    queue.append((i, j))
+        for row in range(m):
+            for col in range(n):
+                if mat[row][col] == 0:
+                    continue
+                
+                good = True
+                for r in range(m):
+                    if r != row and mat[r][col] == 1:
+                        good = False
+                        break
                     
-        while queue:
-            row, col = queue.popleft()
-            
-            satisfied = True
-            for i in range(r):
-                if i != row and mat[i][col]:
-                    satisfied = False
-                    break
-            
-            if not satisfied:
-                continue
-            
-            for i in range(c):
-                if i != col and mat[row][i]:
-                    satisfied = False
-                    break
-            
-            if satisfied:
-                ans += 1
+                for c in range(n):
+                    if c != col and mat[row][c] == 1:
+                        good = False
+                        break
+                
+                if good:
+                    ans += 1
         
         return ans
-            
-        
