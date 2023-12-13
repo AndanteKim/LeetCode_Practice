@@ -1,12 +1,18 @@
-class Solution:
-    def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
-        curr_gain, total_gain, ans = 0, 0, 0
+class Solution {
+public:
+    int canCompleteCircuit(vector<int>& gas, vector<int>& cost) {
+        int ans = 0, currGain = 0, totalGain = 0, n = gas.size();
         
-        for i in range(len(gas)):
-            total_gain += gas[i] - cost[i]
-            curr_gain += gas[i] - cost[i]
-            if curr_gain < 0:
-                curr_gain = 0
-                ans = i + 1
+        for (int i = 0; i < n; ++i){
+            totalGain += gas[i] - cost[i];
+            currGain += gas[i] - cost[i];
+            
+            if (currGain < 0){
+                currGain = 0;
+                ans = i + 1;
+            }
+        }
         
-        return -1 if total_gain < 0 else ans
+        return totalGain < 0? -1:ans;
+    }
+};
