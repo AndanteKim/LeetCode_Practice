@@ -1,24 +1,21 @@
 class Solution:
     def numSpecial(self, mat: List[List[int]]) -> int:
-        ans, m, n = 0, len(mat), len(mat[0])
+        m, n = len(mat), len(mat[0])
+        row_count, col_count = [0] * m, [0] * n
         
         for row in range(m):
             for col in range(n):
-                if mat[row][col] == 0:
-                    continue
-                
-                good = True
-                for r in range(m):
-                    if r != row and mat[r][col] == 1:
-                        good = False
-                        break
-                    
-                for c in range(n):
-                    if c != col and mat[row][c] == 1:
-                        good = False
-                        break
-                
-                if good:
-                    ans += 1
+                if mat[row][col] == 1:
+                    row_count[row] += 1
+                    col_count[col] += 1
+        
+        ans = 0
+        for row in range(m):
+            for col in range(n):
+                if mat[row][col] == 1:
+                    if row_count[row] == 1 and col_count[col] == 1:
+                        ans += 1
         
         return ans
+        
+        
