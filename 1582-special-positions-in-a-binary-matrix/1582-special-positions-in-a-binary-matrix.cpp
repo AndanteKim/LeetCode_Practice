@@ -1,40 +1,31 @@
 class Solution {
 public:
     int numSpecial(vector<vector<int>>& mat) {
-        int r = mat.size(), c = mat[0].size(), ans = 0;
-        queue<pair<int, int>> q;
+        int m = mat.size(), n = mat[0].size(), ans = 0;
         
-        for (int i = 0; i < r; ++i){
-            for (int j = 0; j < c; ++j){
-                if (mat[i][j])
-                    q.push({i, j});
-            }
-        }
-        
-        while (!q.empty()){
-            auto[row, col] = q.front();
-            q.pop();
-            
-            bool satisfied = true;
-            for (int i = 0; i < r; ++i){
-                if (i != row && mat[i][col]){
-                    satisfied = false;
-                    break;
+        for (int i = 0; i < m; ++i){
+            for (int j = 0; j < n; ++j){
+                if (mat[i][j] == 0)
+                    continue;
+                
+                bool good = true;
+                for (int r = 0; r < m; ++r){
+                    if (r != i && mat[r][j] == 1){
+                        good = false;
+                        break;
+                    }
                 }
-            }
-            
-            if (!satisfied)
-                continue;
-            
-            for (int i = 0; i < c; ++i){
-                if (i != col && mat[row][i]){
-                    satisfied = false;
-                    break;
+                
+                for (int c = 0; c < n; ++c){
+                    if (c != j && mat[i][c] == 1){
+                        good = false;
+                        break;
+                    }
                 }
+                
+                if (good)
+                    ++ans;
             }
-            
-            if (satisfied)
-                ++ans;
         }
         
         return ans;
