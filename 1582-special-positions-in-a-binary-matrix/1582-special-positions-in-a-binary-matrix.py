@@ -1,21 +1,27 @@
-class Solution:
-    def numSpecial(self, mat: List[List[int]]) -> int:
-        m, n = len(mat), len(mat[0])
-        row_count, col_count = [0] * m, [0] * n
+class Solution {
+public:
+    int numSpecial(vector<vector<int>>& mat) {
+        int m = mat.size(), n = mat[0].size(), ans = 0;
+        vector<int> rowCount(m), colCount(n);
         
-        for row in range(m):
-            for col in range(n):
-                if mat[row][col] == 1:
-                    row_count[row] += 1
-                    col_count[col] += 1
+        for (int i = 0; i < m; ++i){
+            for (int j = 0; j < n; ++j){
+                if (mat[i][j] == 1){
+                    ++rowCount[i];
+                    ++colCount[j];
+                }
+            }
+        }
         
-        ans = 0
-        for row in range(m):
-            for col in range(n):
-                if mat[row][col] == 1:
-                    if row_count[row] == 1 and col_count[col] == 1:
-                        ans += 1
+        for (int i = 0; i < m; ++i){
+            for (int j = 0; j < n; ++j){
+                if (mat[i][j] == 1){
+                    if (rowCount[i] == 1 && colCount[j] == 1)
+                        ++ans;
+                }
+            }
+        }
         
-        return ans
-        
-        
+        return ans;
+    }
+};
