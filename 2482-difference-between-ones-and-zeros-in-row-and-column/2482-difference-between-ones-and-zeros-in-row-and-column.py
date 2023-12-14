@@ -13,6 +13,6 @@ class Solution:
         
         for i in range(m):
             for j in range(n):
-                ans[i][j] = row_ones[i] + col_ones[j] - (m - row_ones[i]) - (n - col_ones[j])
+                ans[i][j] = 2 * row_ones[i] + 2 * col_ones[j] - m - n
         return ans
         
