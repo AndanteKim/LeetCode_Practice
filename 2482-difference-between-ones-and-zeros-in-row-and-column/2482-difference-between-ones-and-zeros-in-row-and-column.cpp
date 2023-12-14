@@ -16,7 +16,7 @@ public:
         
         for (int i = 0; i < m; ++i){
             for (int j = 0; j < n; ++j){
-                ans[i][j] = rowOnes[i] + colOnes[j] - (m - rowOnes[i]) - (n - colOnes[j]);
+                ans[i][j] = 2 * rowOnes[i] + 2 * colOnes[j] - m - n;
             }
         }
         
