@@ -1,18 +1,28 @@
 class Solution:
+    def _min_distance_1d(self, points: List[int], origin: int) -> int:
+        dist = 0
+        for point in points:
+            dist += abs(point - origin)
+        return dist
+    
+    def _collect_rows(self, grid: List[List[int]]) -> List[int]:
+        rows = []
+        for row in range(0, len(grid)):
+            for col in range(0, len(grid[0])):
+                if grid[row][col]:
+                    rows.append(row)
+        return rows
+    
+    def _collect_cols(self, grid: List[List[int]]) -> List[int]:
+        cols = []
+        for col in range(0, len(grid[0])):
+            for row in range(0, len(grid)):
+                if grid[row][col]:
+                    cols.append(col)
+        return cols
+    
     def minTotalDistance(self, grid: List[List[int]]) -> int:
-        def min_distance_1d(points: List[int], origin: int) -> int:
-            dist = 0
-            for point in points:
-                dist += abs(point - origin)
-            return dist
-        
-        rows, cols, m, n = [], [], len(grid), len(grid[0])
-        for r in range(m):
-            for c in range(n):
-                if grid[r][c]:
-                    rows.append(r)
-                    cols.append(c)
-        
-        cols.sort()
+        rows, cols = self._collect_rows(grid), self._collect_cols(grid)
         row, col = rows[len(rows) // 2], cols[len(cols) // 2]
-        return min_distance_1d(rows, row) + min_distance_1d(cols, col)
+        
+        return self._min_distance_1d(rows, row) + self._min_distance_1d(cols, col)
