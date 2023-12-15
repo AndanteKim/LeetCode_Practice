@@ -1,8 +1,12 @@
 class Solution:
     def _min_distance_1d(self, points: List[int], origin: int) -> int:
         dist = 0
-        for point in points:
-            dist += abs(point - origin)
+        i, j = 0, len(points) - 1
+        while i < j:
+            dist += points[j] - points[i]
+            i += 1
+            j -= 1
+        
         return dist
     
     def _collect_rows(self, grid: List[List[int]]) -> List[int]:
