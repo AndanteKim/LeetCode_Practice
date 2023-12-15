@@ -3,29 +3,42 @@ private:
     int minDistance1D(vector<int>& points, int origin){
         int dist = 0;
         
-        for (int pt : points)
-            dist += abs(pt - origin);
-        
+        for (int point : points)
+            dist += abs(point - origin);
         return dist;
+    }
+    
+    vector<int> collectCols(vector<vector<int>>& grid){
+        vector<int> cols;
+        
+        for (int col = 0; col < grid[0].size(); ++col){
+            for (int row = 0; row < grid.size(); ++row){
+                if (grid[row][col])
+                    cols.push_back(col);
+            }
+        }
+        
+        return cols;
+    }
+    
+    vector<int> collectRows(vector<vector<int>>& grid){
+        vector<int> rows;
+        
+        for (int row = 0; row < grid.size(); ++row){
+            for (int col = 0; col < grid[0].size(); ++col){
+                if (grid[row][col]){
+                    rows.push_back(row);
+                }
+            }
+        }
+        return rows;
     }
     
 public:
     int minTotalDistance(vector<vector<int>>& grid) {
-        int m = grid.size(), n = grid[0].size();
-        vector<int> rows, cols;
-        for (int i = 0; i < m; ++i){
-            for (int j = 0; j < n; ++j){
-                if (grid[i][j]){
-                    rows.push_back(i);
-                    cols.push_back(j);
-                }
-            }
-        }
+        vector<int> rows{collectRows(grid)}, cols{collectCols(grid)};
+        int medianRow = rows[rows.size() / 2], medianCol = cols[cols.size() / 2];
         
-        // To find median of cols, we need to sort cols vector
-        sort(cols.begin(), cols.end());
-        int row = rows[rows.size() / 2], col = cols[cols.size() / 2];
-        
-        return minDistance1D(rows, row) + minDistance1D(cols, col);
+        return minDistance1D(rows, medianRow) + minDistance1D(cols, medianCol);
     }
 };
