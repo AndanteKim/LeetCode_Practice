@@ -1,14 +1,15 @@
 class Solution {
 public:
     int lengthOfLastWord(string s) {
-        stringstream ss(s);
-        string word;
-        stack<string> words;
+        int i = s.size() - 1, ans = 0;
         
-        while (ss >> word){
-            words.push(word);
+        while (i >= 0 && s[i] == ' ') --i;
+        
+        while (i >= 0 && ((s[i] >= 65 && s[i] <= 90) || (s[i] >= 97 && s[i] <= 122))){
+            ++ans;
+            --i;
         }
-        
-        return words.top().size();
+            
+        return ans;
     }
 };
