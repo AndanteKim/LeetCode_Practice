@@ -1,10 +1,14 @@
 class Solution {
 private:
     int minDistance1D(vector<int>& points, int origin){
-        int dist = 0;
+        int dist = 0, i = 0, j = points.size() - 1;
         
-        for (int point : points)
-            dist += abs(point - origin);
+        while (i < j){
+            dist += points[j] - points[i];
+            ++i;
+            --j;
+        }
+        
         return dist;
     }
     
