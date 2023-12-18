@@ -1,38 +1,24 @@
 class Solution {
-private:
-    int computing(int start, vector<int>& countSort){
-        int count = 0, product = 1;
-        
-        if (start == 0){
-            for (int i = 0; i < countSort.size() && count < 2; ++i){
-                while (countSort[i] && count < 2){
-                    product *= i;
-                    --countSort[i];
-                    ++count;
-                }
-            }
-        }
-        else{
-            for (int i = countSort.size() - 1; i >= 1 && count < 2; --i){
-                while (countSort[i] && count < 2){
-                    product *= i;
-                    --countSort[i];
-                    ++count;
-                }
-            }
-        }
-        
-        return product;
-    }
-    
 public:
     int maxProductDifference(vector<int>& nums) {
-        int maxNum = *max_element(nums.begin(), nums.end());
-        vector<int> countSort(maxNum + 1);
-        for (int num : nums)
-            ++countSort[num];
-        int maxPair = computing(maxNum, countSort), minPair = computing(0, countSort);
+        int biggest = 0, secondBiggest = 0, smallest = INT_MAX, secondSmallest = INT_MAX;
         
-        return maxPair - minPair;
+        for (int num : nums){
+            if (num > biggest){
+                secondBiggest = biggest;
+                biggest = num;
+            }
+            else
+                secondBiggest = max(secondBiggest, num);
+            
+            if (num < smallest){
+                secondSmallest = smallest;
+                smallest = num;
+            }
+            else
+                secondSmallest = min(secondSmallest, num);
+        }
+        
+        return biggest * secondBiggest - smallest * secondSmallest;
     }
 };
