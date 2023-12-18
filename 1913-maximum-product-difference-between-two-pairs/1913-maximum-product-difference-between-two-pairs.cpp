@@ -32,8 +32,7 @@ public:
         for (int num : nums)
             ++countSort[num];
         int maxPair = computing(maxNum, countSort), minPair = computing(0, countSort);
-        cout << maxPair << endl;
-        cout << minPair << endl;
+        
         return maxPair - minPair;
     }
 };
