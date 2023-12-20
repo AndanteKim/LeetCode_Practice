@@ -1,18 +1,15 @@
 class Solution:
     def buyChoco(self, prices: List[int], money: int) -> int:
-        max_price, ans, count = max(prices), money, 0
-        count_sorting = [0] * (max_price + 1)
-        for price in prices:
-            count_sorting[price] += 1
-            
-        for price in range(max_price + 1):
-            if count >= 2 or price > ans:
-                break
-            
-            while count < 2 and count_sorting[price] > 0:
-                ans -= price
-                count += 1
-                count_sorting[price] -= 1
+        minimum = min(prices[0], prices[1])
+        second_minimum = max(prices[0], prices[1])
         
-        return money if count != 2 or ans < 0 else ans 
+        for i in range(2, len(prices)):
+            if prices[i] < minimum:
+                second_minimum = minimum
+                minimum = prices[i]
+            elif prices[i] < second_minimum:
+                second_minimum = prices[i]
         
+        min_cost = minimum + second_minimum
+        
+        return money - min_cost if min_cost <= money else money
