@@ -1,10 +1,19 @@
 class Solution {
 public:
     int buyChoco(vector<int>& prices, int money) {
-        sort(prices.begin(), prices.end(), [](int a, int b){return a > b;});
+        int maxPrice = *max_element(prices.begin(), prices.end()), count = 0, ans = money;
+        vector<int> countingSort(maxPrice + 1);
+        for (int price:prices)
+            ++countingSort[price];
         
-        int n = prices.size(), change = money - prices[n - 1] - prices[n - 2];
+        for (int price = 0; price <= maxPrice && count < 2 && ans >= 0; ++price){
+            while (count < 2 && countingSort[price] > 0){
+                ans -= price;
+                ++count;
+                --countingSort[price];
+            }
+        }
         
-        return change < 0? money : change;
+        return count != 2 || ans < 0? money : ans;
     }
 };
