@@ -1,19 +1,17 @@
 class Solution {
 public:
     int buyChoco(vector<int>& prices, int money) {
-        int maxPrice = *max_element(prices.begin(), prices.end()), count = 0, ans = money;
-        vector<int> countingSort(maxPrice + 1);
-        for (int price:prices)
-            ++countingSort[price];
+        int minimum = min(prices[0], prices[1]), secondMinimum = max(prices[0], prices[1]);
         
-        for (int price = 0; price <= maxPrice && count < 2 && ans >= 0; ++price){
-            while (count < 2 && countingSort[price] > 0){
-                ans -= price;
-                ++count;
-                --countingSort[price];
+        for (int i = 2; i < prices.size(); ++i){
+            if (prices[i] < minimum){
+                secondMinimum = minimum;
+                minimum = prices[i];
             }
+            else if (prices[i] < secondMinimum)
+                secondMinimum = prices[i];
         }
         
-        return count != 2 || ans < 0? money : ans;
+        return (minimum + secondMinimum <= money)? money - (minimum + secondMinimum) : money;
     }
 };
