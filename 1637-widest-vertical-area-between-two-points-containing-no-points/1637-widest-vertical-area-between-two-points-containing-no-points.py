@@ -1,11 +1,12 @@
 class Solution:
     def maxWidthOfVerticalArea(self, points: List[List[int]]) -> int:
-        width_points, height_points, ans = [], set(), 0
+        width_points, width_visited, ans = [], set(), 0
         
         for point in points:
-            if point[1] in height_points:
+            if point[0] in width_visited:
                 continue
             width_points.append(point[0])
+
         width_points.sort()
         current = width_points.pop()
         
