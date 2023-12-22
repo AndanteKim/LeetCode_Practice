@@ -1,12 +1,14 @@
 class Solution:
     def maxScore(self, s: str) -> int:
-        ans, left, right = 0, 1 if s[0] == '0' else 0, s.count('1') - 1 if s[0] == '1' else s.count('1')
-        ans = max(ans, left + right)
+        ones = s.count('1')
+        zeros, ans = 0, 0
         
-        for i in range(1, len(s) - 1):
-            if s[i] == '0':
-                left += 1
+        for i in range(len(s) - 1):
+            if s[i] == '1':
+                ones -= 1
             else:
-                right -= 1
-            ans = max(ans, left + right)
+                zeros += 1
+        
+            ans = max(ans, zeros + ones)
+        
         return ans
