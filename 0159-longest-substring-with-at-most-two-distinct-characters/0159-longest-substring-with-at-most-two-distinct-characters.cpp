@@ -1,41 +1,32 @@
 class Solution {
 public:
     int lengthOfLongestSubstringTwoDistinct(string s) {
-        vector<int> smallChars(26), capitalChars(26);
-        unordered_set<char> twoChars;
-        int n = s.size(), left = 0, ans = 0;
+        int n = s.size();
+        if (n < 3)
+            return n;
         
-        for (int right = 0; right < n; ++right){
-            if (twoChars.find(s[right]) == twoChars.end()){
-                while (twoChars.size() >= 2 && left < right){
-                    if (0 <= s[left] - 65 && s[left] - 65 < 26){
-                        --capitalChars[s[left] - 65];
-                        if (capitalChars[s[left] - 65] == 0)
-                            twoChars.erase(s[left]);
-                    }
-                    else{
-                        --smallChars[s[left] - 97];
-                        if (smallChars[s[left] - 97] == 0)
-                            twoChars.erase(s[left]);
-                    }
-                    ++left;
-                }
-                twoChars.insert(s[right]);
+        // sliding window left and right pointers
+        int left = 0, right = 0, maxLen = 2;
+        // hashmap character -> its rightmost position
+        // in the sliding window
+        unordered_map<char, int> hashmap;
+        
+        while (right < n){
+            // when the sliding window contains less than 3 characters
+            hashmap[s[right]] = right;
+            ++right;
+            
+            // sliding window contains 3 characters
+            if (hashmap.size() == 3){
+                auto[_, delIdx] = *min_element(hashmap.begin(), hashmap.end(), [](auto& l, auto& r){return l.second < r.second;});
+                // delete the leftmost character
+                hashmap.erase(s[delIdx]);
+                left = delIdx + 1;
             }
             
-            if (0 <= s[right] - 65 && s[right] - 65 < 26)
-                ++capitalChars[s[right] - 65];
-            else
-                ++smallChars[s[right] - 97];
-            int longest = 0;
-            for (int i = 0; i < 26; ++i){
-                longest += smallChars[i];
-                longest += capitalChars[i];
-            }
-            
-            ans = max(ans, longest);
+            maxLen = max(maxLen, right - left);
         }
         
-        return ans;
+        return maxLen;
     }
 };
