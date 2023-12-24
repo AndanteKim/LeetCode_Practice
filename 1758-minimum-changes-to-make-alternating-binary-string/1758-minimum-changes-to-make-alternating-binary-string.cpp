@@ -1,9 +1,9 @@
 class Solution {
 public:
     int minOperations(string s) {
-        int start0 = 0, n = s.size();
+        int start0 = 0;
         
-        for (int i = 0; i < n; ++i){
+        for (int i = 0; i < s.size(); ++i){
             if (i % 2 == 0){
                 if (s[i] == '1')
                     ++start0;
@@ -14,6 +14,6 @@ public:
             }
         }
         
-        return min(start0, n - start0);
+        return min(start0, (int)s.size() - start0);
     }
 };
