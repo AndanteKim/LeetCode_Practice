@@ -1,15 +1,17 @@
 class Solution {
 public:
     int minOperations(string s) {
-        vector<char> pattern{'1','0'};
-        int changesOZ = 0, changesZO = 0;
+        int start0 = 0, start1 = 0;
         
         for (int i = 0; i < s.size(); ++i){
-            if (pattern[i % 2] == s[i])
-                ++changesOZ;
-            else
-                ++changesZO;
+            if (i % 2 == 0){
+                s[i] == '0'? ++start1 : ++start0;
+            }
+            else{
+                s[i] == '1'? ++start1 : ++start0;
+            }
         }
-        return min(changesOZ, changesZO);
+        
+        return min(start0, start1);
     }
 };
