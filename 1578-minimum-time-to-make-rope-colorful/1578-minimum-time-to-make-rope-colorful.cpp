@@ -1,26 +1,22 @@
 class Solution {
 public:
     int minCost(string colors, vector<int>& neededTime) {
-        // Initialize two pointers i, j
-        int i = 0, j = 0, totalTime = 0;
+        // totalTime: total time needed to make rope colorful
+        // currMaxTime: maximum time of a balloon needed in this group
+        int totalTime = 0, currMaxTime = 0;
         
-        while (i < neededTime.size() && j < neededTime.size()){
-            int currMax = 0, currTime = 0;
+        // For each balloon in thios array
+        for(int i = 0; i < neededTime.size(); ++i){
+            // If this balloon is the first of a new group, set the currMaxTime as 0 
+            if (i > 0 && colors[i - 1] != colors[i])
+                currMaxTime = 0;
             
-            // Find all the balloons having the same color as the balloon indexed at i,
-            // record the total removal time and the maximum removal time
-            while (j < neededTime.size() && colors[i] == colors[j]){
-                currTime += neededTime[j];
-                currMax = max(currMax, neededTime[j]);
-                ++j;
-            }
-            
-            // Once we reached the end of the current group, add the cost of this group
-            // to total_time, and reset 2 pointers
-            totalTime += currTime - currMax;
-            i = j;
+            // Increment totalTime by the smaller one
+            totalTime += min(currMaxTime, neededTime[i]);
+            currMaxTime = max(currMaxTime, neededTime[i]);
         }
         
+        // Return totalTime as the minimum removal time
         return totalTime;
     }
 };
