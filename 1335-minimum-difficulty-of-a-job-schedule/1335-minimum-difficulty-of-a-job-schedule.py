@@ -5,9 +5,7 @@ class Solution:
             return -1
         
         # Initialize the min_diff matrix to record the minimum difficulty of the job schedule
-        min_diff = [[float('inf')] * (n + 1) for _ in range(d + 1)]
-        for i in range(d + 1):
-            min_diff[i][-1] = 0
+        min_diff = [[float('inf')] * n + [0] for _ in range(d + 1)]
         
         for days_remaining in range(1, d + 1):
             for i in range(n - days_remaining + 1):
