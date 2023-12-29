@@ -1,42 +1,27 @@
 class Solution {
-private:
-    int n;
-    int minDiff(int i, int remain, vector<vector<int>>& memo, vector<int>& maxJobRemaining, vector<int>& jobDifficulty){
-        // base case: Finish all remaining jobs in the last day
-        if (remain == 1)
-            return maxJobRemaining[i];
-        
-        // top down memoization
-        if (memo[i][remain] != -1)
-            return memo[i][remain];
-        
-        // keep track of the maximum difficulty for today
-        int ans = INT_MAX, dailyMaxJobDiff = 0;
-        
-        // Iterate through possible starting index for the next day and ensure we have at least one job
-        // for each remaining day
-        for (int j = i; j <= n - remain; ++j){
-            dailyMaxJobDiff = max(dailyMaxJobDiff, jobDifficulty[j]);
-            ans = min(ans, dailyMaxJobDiff + minDiff(j + 1, remain - 1, memo, maxJobRemaining, jobDifficulty));
-        }
-        
-        return memo[i][remain] = ans;
-    }
-    
 public:
     int minDifficulty(vector<int>& jobDifficulty, int d) {
-        this -> n = jobDifficulty.size();
-        
-        // edge cases: make sure there is at least 1 job per day
+        int n = jobDifficulty.size();
         if (n < d)
             return -1;
         
-        vector memo(n + 1, vector<int>(d + 1, -1));
-        // precompute the max job difficulty for remaining jobs
-        vector<int> maxJobRemaining = jobDifficulty;
-        for (int i = n - 2; i >= 0; --i)
-            maxJobRemaining[i] = max(maxJobRemaining[i], maxJobRemaining[i + 1]);
+        // Initialize the minDiff matrix to record the minimum difficulty of the job schedule
+        vector minDiff(d + 1, vector<int>(n + 1, INT_MAX));
+        for (int i = 0; i <= d; ++i)
+            minDiff[i].back() = 0;
         
-        return minDiff(0, d, memo, maxJobRemaining, jobDifficulty);
+        for (int daysRemaining = 1; daysRemaining <= d; ++daysRemaining){
+            for (int i = 0; i <= n - daysRemaining; ++i){
+                int dailyMaxJobDiff = 0;
+                for (int j = i + 1; j <= n - daysRemaining + 1; ++j){
+                    // Use dailyMaxJobDiff to record maximum job difficulty
+                    dailyMaxJobDiff = max(dailyMaxJobDiff, jobDifficulty[j - 1]);
+                    if (minDiff[daysRemaining - 1][j] != INT_MAX)
+                        minDiff[daysRemaining][i] = min(minDiff[daysRemaining][i], dailyMaxJobDiff + minDiff[daysRemaining - 1][j]);
+                }
+            }
+        }
+        
+        return (minDiff[d][0] == INT_MAX)? -1: minDiff[d][0];
     }
 };
