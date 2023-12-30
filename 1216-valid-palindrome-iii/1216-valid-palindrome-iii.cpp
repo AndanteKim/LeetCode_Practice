@@ -2,23 +2,25 @@ class Solution {
 public:
     bool isValidPalindrome(string s, int k) {
         int n = s.size();
-        vector dp(n, vector<int>(n));
+        vector<int> prevDp(n);
         
         // Generate all combinations of 'i' and 'j' in the correct order
         for (int i = n - 2; i >= 0; --i){
+            vector<int> dp(n);
+            
             for (int j = i + 1; j < n; ++j){
-                // Case 1: If character at 'i' equals character at 'j'
+                // Case 1: Character at 'i' == character at 'j'
                 if (s[i] == s[j])
-                    dp[i][j] = dp[i + 1][j - 1];
-                
-                // Case 2: If character at 'i' doesn't equal character at 'j'
-                // Either delete characters at 'i' or 'j' and try to match two pointers
-                // We need to take the minimum of the two results and add 1 representating the cost of deletion
+                    dp[j] = prevDp[j - 1];
+                // Case 2: Character at 'i' != character at 'j'
+                // Either delete character 'i' or 'j' and try to match two pointers
+                // We try to take two minimum of results and add 1 representating the cost of deletion 
                 else
-                    dp[i][j] = 1 + min(dp[i + 1][j], dp[i][j - 1]);
+                    dp[j] = 1 + min(prevDp[j], dp[j - 1]);
             }
+            prevDp = dp;
         }
         
-        return dp[0][n - 1] <= k;
+        return prevDp[n - 1] <= k;
     }
 };
