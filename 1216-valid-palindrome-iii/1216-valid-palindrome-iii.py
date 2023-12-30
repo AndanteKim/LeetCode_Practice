@@ -1,22 +1,21 @@
 class Solution:
     def isValidPalindrome(self, s: str, k: int) -> bool:
         n = len(s)
-        dp = [[0] * n for _ in range(n)]
+        prev_dp = [0] * n
         
-        # Generate all combinations of 'i' and 'j' in the correct order
+        # Generate all combination of the correct order
         for i in range(n - 2, -1, -1):
+            dp = [0] * n
             for j in range(i + 1, n):
-                
-                # Case 1: Character at 'i' equals character at 'j'
+                # Case 1: character at 'i' equals character at 'j'
                 if s[i] == s[j]:
-                    dp[i][j] = dp[i + 1][j - 1]
-                    
-                # Case 2: Character at 'i' doesn't equal character at 'j'.
-                # Either delete character at 'i' or delete character at 'j'
-                # and try to match the two pointers using recursion.
-                # We need to take the minimum of the two results and add 1
-                # representing the cost of deletion.
-                else:
-                    dp[i][j] = 1 + min(dp[i + 1][j], dp[i][j - 1])
+                    dp[j] = prev_dp[j - 1]
                 
-        return dp[0][n - 1] <= k
+                # Case 2: character at 'i' doesn't equal character at 'j'
+                # Either delete character at 'i' or 'j' and try to match two pointers.
+                # Then, we take two minimum of results and add 1 representing the cost of deletion.
+                else:
+                    dp[j] = 1 + min(prev_dp[j], dp[j - 1])
+            prev_dp = dp
+                    
+        return prev_dp[n - 1] <= k
