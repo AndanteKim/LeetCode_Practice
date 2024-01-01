@@ -1,30 +1,34 @@
 class Solution:
-    def assignBikes(self, workers: List[List[int]], bikes: List[List[int]]) -> int:
-        @lru_cache(maxsize = None)
-        def dp(i: int, curr: int, workers_unoccupied: int, bikes_unoccupied: int) -> int:
-            # Base case
-            if i >= m:
-                if workers_unoccupied == 0:
-                    return curr
-                return float('inf')
-            
-            min_distances = float('inf')
-            
-            if workers_unoccupied & (1 << i):
-                workers_unoccupied -= (1 << i)
-                for bike_idx, dist in distances[i]:
-                    if bikes_unoccupied & (1 << bike_idx):
-                        min_distances = min(min_distances, dp(i + 1, curr + dist, workers_unoccupied, bikes_unoccupied - (1 << bike_idx)))
-            else:
-                min_distances = min(min_distances, dp(i + 1, curr, workers_unoccupied, bikes_unoccupied))
-            
-            return min_distances
-            
+    
+    # Manhanttan distance
+    def find_dist(self, worker: List[int], bike: List[int]) -> int:
+        return abs(worker[0] - bike[0]) + abs(worker[1] - bike[1]);
+    
+    def min_dist_sum(self, workers: List[List[int]], bikes: List[List[int]], worker_idx: int, mask: int) -> int:
+        if worker_idx >= len(workers):
+            return 0
         
-        n, m = len(workers), len(bikes)
-        distances = defaultdict(list)
-        for i in range(n):
-            for j in range(m):
-                distances[i].append((j, abs(bikes[j][0] - workers[i][0]) + abs(bikes[j][1] - workers[i][1]))) 
-        workers_unoccupied, bikes_unoccupied = sum(1 << i for i in range(n)), sum(1 << i for i in range(m))
-        return dp(0, 0, workers_unoccupied, bikes_unoccupied)
+        # If result is already calculated, return it no recursion needed
+        if self.memo[mask] != -1:
+            return self.memo[mask]
+        
+        smallest_dist_sum = float('inf')
+        for bike_idx in range(len(bikes)):
+            # Check if the bike at bike_idx is available
+            if mask & (1 << bike_idx) == 0:
+                # Adding the current distance and repeat the process for next worker
+                # also changing the bit at index bike_idx to 1 to show the bike there is assigned
+                smallest_dist_sum = min(smallest_dist_sum, self.find_dist(workers[worker_idx], bikes[bike_idx]) + self.min_dist_sum(workers, bikes, worker_idx + 1, mask | (1 << bike_idx)))
+        
+        # Memoizing the result corresponding to mask
+        self.memo[mask] = smallest_dist_sum
+        return self.memo[mask]
+    
+    def assignBikes(self, workers: List[List[int]], bikes: List[List[int]]) -> int:
+        # Maximum value of mask will be 2 ^ (Number of bikes)
+        # and number of bikes can be 10 at max
+        # Marking all positions to -1 that signifies result
+        # has not been calculated yet for this mask
+        self.memo = [-1] * 1024
+        
+        return self.min_dist_sum(workers, bikes, 0, 0)
