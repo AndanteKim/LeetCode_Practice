@@ -1,6 +1,6 @@
 class Solution:
     
-    # Manhanttan distance
+    # Manhattan distance
     def find_dist(self, worker: List[int], bike: List[int]) -> int:
         return abs(worker[0] - bike[0]) + abs(worker[1] - bike[1]);
     
