@@ -1,15 +1,13 @@
 class Solution:
     def findMatrix(self, nums: List[int]) -> List[List[int]]:
-        hashmap, ans = defaultdict(int), []
+        freq, ans = [0] * (len(nums) + 1), []
         
-        for num in nums:
-            hashmap[num] += 1
-        
-        for num, height in hashmap.items():
-            for i in range(height):
-                if len(ans) < i + 1:
-                    ans.append([num])
-                else:
-                    ans[i].append(num)
+        for n in nums:
+            if freq[n] >= len(ans):
+                ans.append([])
+                
+            # Store the integer in the list corresponding to its current frequency.
+            ans[freq[n]].append(n)
+            freq[n] += 1
         
         return ans
