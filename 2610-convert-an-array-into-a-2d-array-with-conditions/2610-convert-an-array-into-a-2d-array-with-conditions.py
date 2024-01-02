@@ -1,6 +1,5 @@
 class Solution:
     def findMatrix(self, nums: List[int]) -> List[List[int]]:
-        n = max(nums)
         hashmap, ans = defaultdict(int), []
         
         for num in nums:
