@@ -1,45 +1,45 @@
 class Solution:
+    # Manhattan Distance
+    def find_distance(self, worker: List[int], bike: List[int]) -> int:
+        return abs(worker[0] - bike[0]) + abs(worker[1] - bike[1]);
+    
     # Count the number of ones using Brian Kernighan's Algorithm
     def count_num_of_ones(self, mask: int) -> int:
-        cnt = 0
+        count = 0
         while mask != 0:
-            mask &= (mask - 1)
-            cnt += 1
-        return cnt
+            mask &= mask - 1
+            count += 1
+        return count
     
-    # Manhanttan Distance
-    def find_dist(self, worker: List[int], bike: List[int]) -> int:
-        return abs(worker[0] - bike[0]) + abs(worker[1] - bike[1])
-    
-    def min_dist_sum(self, workers: List[List[int]], bikes: List[List[int]]) -> int:
-        m, n, smallest_dist_sum = len(bikes), len(workers), float('inf')
-        
-        # 0 signifies that no bike has been assigned and distance sum for no assigning any bike is equal to 0
-        self.dp[0] = 0
-        
-        # Traverse over all the possible values of mask
-        for mask in range((1 << m)):
-            next_worker_idx = self.count_num_of_ones(mask)
-            
-            # If mask has more number of 1's than the number of workers
-            # Then, we can update our anser accordingly
-            if next_worker_idx >= n:
-                smallest_dist_sum = min(smallest_dist_sum, self.dp[mask])
-                continue
-            
-            for bike_idx in range(m):
-                # Checking if the bike at bike_idx has already been assigned
-                if (mask & (1 << bike_idx)) == 0:
-                    new_mask = (1 << bike_idx) | mask
-                    
-                    # Updating the distance sum for new mask
-                    self.dp[new_mask] = min(self.dp[new_mask], self.dp[mask] + self.find_dist(workers[next_worker_idx], bikes[bike_idx]))
-        
-        return smallest_dist_sum
-     
     def assignBikes(self, workers: List[List[int]], bikes: List[List[int]]) -> int:
-        # Maximum value of mask will be 2 ^ (Number of bikes)
-        # And number of bikes can be 10 at max
-        self.dp = [float('inf')] * 1024
-        return self.min_dist_sum(workers, bikes)
+        m, n = len(bikes), len(workers)
+        pq, visited = [], set()
+        heappush(pq, (0, 0))
         
+        while pq:
+            current_dist_sum, current_mask = heappop(pq)
+            
+            # Continue if the mask is already traversed
+            if current_mask in visited:
+                continue
+                
+            # Marking the mask as visited
+            visited.add(current_mask)
+            # Next worker index would be equal to the number of 1's in curent_mask
+            worker_index = self.count_num_of_ones(current_mask)
+            
+            # Return the current distance sum if all workers are covered
+            if worker_index == n:
+                return current_dist_sum
+            
+            for bike_index in range(m):
+                # Checking if the bike at bike_index has been assigned or not
+                if (current_mask & (1 << bike_index)) == 0:
+                    next_state_distance_sum = current_dist_sum + self.find_distance(workers[worker_index], bikes[bike_index])
+                    
+                    # Put the next state pair into the priority queue
+                    next_state_mask = current_mask | (1 << bike_index)
+                    heappush(pq, (next_state_distance_sum, next_state_mask))
+       
+        # This statement will never be executed provided there is at least one bike per worker
+        return -1;
