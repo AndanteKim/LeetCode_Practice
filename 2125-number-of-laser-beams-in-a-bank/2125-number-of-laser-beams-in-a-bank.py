@@ -1,12 +1,17 @@
 class Solution:
     def numberOfBeams(self, bank: List[str]) -> int:
-        row_constitute, m, ans = [], len(bank), 0
-        for row in bank:
-            num_camera = row.count('1')
-            if num_camera:
-                row_constitute.append(num_camera)
+        prev, ans = 0, 0
         
-        for i in range(1, len(row_constitute)):
-            ans += row_constitute[i - 1] * row_constitute[i]
+        for s in bank:
+            cnt = 0
             
+            for c in s:
+                if c == '1':
+                    cnt += 1
+                
+            if cnt != 0:
+                ans += prev * cnt
+                prev = cnt
+                
+                
         return ans
