@@ -1,24 +1,15 @@
 class Solution {
 public:
     int minOperations(vector<int>& nums) {
-        unordered_map<int, int> idxTable;
         int ans = 0;
-        
+        unordered_map<int, int> counter;
         for (int num : nums)
-            idxTable[num] += 1;
+            ++counter[num];
         
-        for (auto& [num, freq] : idxTable){
-            int curr = INT_MAX, max3 = freq / 3;
-            
-            for (int i = 0; i <= max3; ++i){
-                int remain = freq - (3 * i);
-                if (remain % 2 == 0)
-                    curr = min(curr, i + remain / 2);
-            }
-            
-            if (curr == INT_MAX)
+        for (auto& [_, val] : counter){
+            if (val == 1)
                 return -1;
-            ans += curr;
+            ans += ceil((double) val / 3);
         }
         
         return ans;
