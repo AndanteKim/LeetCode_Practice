@@ -1,48 +1,53 @@
 class Solution {
 private:
-    // maximum number of jobs are 50000
-    int memo[50001];
-    int dp(vector<vector<int>>& jobs, vector<int>& start, int n, int pos){
-        // 0 profit if we've already iterated over all the jobs
-        if (pos == n)
-            return 0;
+    int n;
+    
+    int findMaxProfit(vector<vector<int>>& jobs, vector<int>& startTime){
+        vector<int> dp(50001);
         
-        // We've already calculated the answer, so no need to go into recursion
-        if (memo[pos] != -1)
-            return memo[pos];
+        for (int pos = n - 1; pos >= 0; --pos){
+            // It's the profit made by scheduling the current job
+            int currProfit = 0;
+            
+            // nextIndex is the index of non-conflicting job
+            // lower_bound will return the iterator to the first element which is equal to or
+            // greater than the element 'jobs[pos][1]'
+            int nextIndex = lower_bound(startTime.begin(), startTime.end(), jobs[pos][1]) - startTime.begin();
+            
+            // If there is a non-conflicting job possible add it's profit
+            // else just consider the current job profit
+            if (nextIndex != n)
+                currProfit = jobs[pos][2] + dp[nextIndex];
+            else
+                currProfit = jobs[pos][2];
+            
+            // Storing the maximum profit we can achieve by scheduling
+            // non-conflicting jobs from index i to the end of array
+            if (pos == n - 1)
+                dp[pos] = currProfit;
+            else
+                dp[pos] = max(currProfit, dp[pos + 1]);
+        }
         
-        // nextIndex is the index of next non-conflicting job
-        // lower_bound(binary search) will return the iterator to the first element which is 
-        // equal to or greater than the element at 'jobs[pos][1]'
-        int nextIndex = lower_bound(start.begin(), start.end(), jobs[pos][1]) - start.begin();
-        
-        // find the maximum profit of our two options: skipping vs scheduling the current job
-        int maxProfit = max(dp(jobs, start, n, pos + 1), jobs[pos][2] + dp(jobs,start, n, nextIndex));
-        
-        // return the maximum profit and also storing it for future reference(memoization)
-        return memo[pos] = maxProfit;
+        return dp[0];
     }
     
 public:
     int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
         vector<vector<int>> jobs;
-        
-        // marking all values to -1, so that we can differentiate
-        // if we've already calculated the answer or not
-        memset(memo, -1, sizeof(memo));
+        this -> n = profit.size();
         
         // storing job's details into one list
         // this will help in sorting the jobs while maintaining the other parameters
-        int n = profit.size();
         for (int i = 0; i < n; ++i)
             jobs.push_back({startTime[i], endTime[i], profit[i]});
-        
+      
         sort(jobs.begin(), jobs.end());
         
-        // binary search will be used in startTime, so store it as separate list
+        // binary search will be used in startTinme, so store it as separate list
         for (int i = 0; i < n; ++i)
             startTime[i] = jobs[i][0];
         
-        return dp(jobs, startTime, n, 0);
+        return findMaxProfit(jobs, startTime);
     }
 };
