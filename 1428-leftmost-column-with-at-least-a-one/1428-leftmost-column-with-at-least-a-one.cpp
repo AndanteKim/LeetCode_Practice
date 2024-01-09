@@ -12,25 +12,19 @@ class Solution {
 public:
     int leftMostColumnWithOne(BinaryMatrix &binaryMatrix) {
         auto it = binaryMatrix.dimensions();
-        int rows = it[0], cols = it[1], smallestIndex = cols;
+        int rows = it[0], cols = it[1];
+        // Set pointers to the top-right corner
+        int currentRow = 0, currentCol = cols - 1;
         
-        for (int row = 0; row < rows; ++row){
-            // binary search for the first one in the row
-            int lo = 0, hi = cols - 1;
-            while (lo < hi){
-                int mid = (lo + hi) >> 1;
-                if (binaryMatrix.get(row, mid) == 0)
-                    lo = mid + 1;
-                else
-                    hi = mid;
-            }
-            
-            // If the last element is in the search space is 1, then this row contained one.
-            if (binaryMatrix.get(row, lo) == 1)
-                smallestIndex = min(smallestIndex, lo);
+        // Repeat the search until it goes off the grid
+        while (currentRow < rows && currentCol >= 0){
+            if (binaryMatrix.get(currentRow, currentCol) == 0)
+                ++currentRow;
+            else
+                --currentCol;
         }
         
-        // If smallestIndex is the still set to cols, then there is no one in the grid.
-        return (smallestIndex == cols)? -1: smallestIndex;
+        // If we never left the last column, it must have been all 0's.
+        return (currentCol == cols - 1)? -1: currentCol + 1;
     }
 };
