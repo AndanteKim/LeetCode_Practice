@@ -5,32 +5,41 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def convert(self, current: TreeNode, parent: int, tree_map: Dict[int, Set[int]]) -> None:
+        if not current:
+            return
+        
+        if current.val not in tree_map:
+            tree_map[current.val] = set()
+        
+        adj_list = tree_map[current.val]
+        if parent != 0:
+            adj_list.add(parent)
+        
+        if current.left:
+            adj_list.add(current.left.val)
+        
+        if current.right:
+            adj_list.add(current.right.val)
+        
+        self.convert(current.left, current.val, tree_map)
+        self.convert(current.right, current.val, tree_map)
+    
+    
     def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
-        adj = defaultdict(list)
-        queue = deque([root])
-        while queue:
-            node = queue.popleft()
-            
-            if node.left:
-                adj[node.val].append(node.left.val)
-                adj[node.left.val].append(node.val)
-                queue.append(node.left)
-            
-            if node.right:
-                adj[node.val].append(node.right.val)
-                adj[node.right.val].append(node.val)
-                queue.append(node.right)
-        
-        visited, ans = [False] * (10 ** 5 + 1), 0
-        queue.append((start, 0))
+        tree_map: Dict[int, Set[int]] = {}
+        self.convert(root, 0, tree_map)
+        queue, ans = deque([start]), 0
+        visited = {start}
         
         while queue:
-            node, dist = queue.popleft()
-            
-            if not visited[node]:
-                ans = max(ans, dist)
-                visited[node] = True
-                for neighbor in adj[node]:
-                    queue.append((neighbor, dist + 1))
-        
-        return ans
+            level = len(queue)
+            while level > 0:
+                current = queue.popleft()
+                for num in tree_map[current]:
+                    if num not in visited:
+                        visited.add(num)
+                        queue.append(num)
+                level -= 1
+            ans += 1
+        return ans - 1
