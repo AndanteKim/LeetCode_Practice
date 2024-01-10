@@ -10,45 +10,51 @@
  * };
  */
 class Solution {
+private:
+    void convert(TreeNode* current, int parent, unordered_map<int, unordered_set<int>>& treeMap){
+        if (!current)
+            return;
+        
+        unordered_set<int> &adjList = treeMap[current -> val];
+        if (parent != 0)
+            adjList.insert(parent);
+        
+        if (current -> left)
+            adjList.insert(current -> left -> val);
+        
+        if (current -> right)
+            adjList.insert(current -> right -> val);
+        
+        convert(current -> left, current -> val, treeMap);
+        convert(current -> right, current -> val, treeMap);
+    }
+    
 public:
     int amountOfTime(TreeNode* root, int start) {
-        queue<TreeNode*> q{{root}};
-        unordered_map<int, vector<int>> adj;
+        unordered_map<int, unordered_set<int>> treeMap;
+        convert(root, 0, treeMap);
+        
+        queue<int> q{{start}};
+        int ans = 0;
+        unordered_set<int> visited{start};
         
         while (!q.empty()){
-            TreeNode* node = q.front();
-            q.pop();
-            
-            if (node -> left){
-                adj[node -> val].push_back(node -> left -> val);
-                adj[node -> left -> val].push_back(node -> val);
-                q.push(node -> left);
-            }
-            
-            if (node -> right){
-                adj[node -> val].push_back(node -> right -> val);
-                adj[node -> right -> val].push_back(node -> val);
-                q.push(node -> right);
-            }
-        }
-        
-        int ans = 0;
-        vector<bool> visited(100'001);
-        queue<pair<int, int>> graphQ;
-        graphQ.push(make_pair(start, 0));
-        while(!graphQ.empty()){
-            auto [node, dist] = graphQ.front();
-            graphQ.pop();
-            
-            if (!visited[node]){
-                ans = max(ans, dist);
-                visited[node] = true;
-                for (int neighbor: adj[node]){
-                    graphQ.push({neighbor, dist + 1});
+            int level = q.size();
+            while (level > 0){
+                int current = q.front();
+                q.pop();
+                
+                for (int num: treeMap[current]){
+                    if (!visited.count(num)){
+                        visited.insert(num);
+                        q.push(num);
+                    }
                 }
+                --level;
             }
+            ++ans;
         }
         
-        return ans;
+        return ans - 1;
     }
 };
