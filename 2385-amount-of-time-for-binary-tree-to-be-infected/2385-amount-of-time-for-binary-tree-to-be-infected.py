@@ -5,41 +5,34 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def convert(self, current: TreeNode, parent: int, tree_map: Dict[int, Set[int]]) -> None:
-        if not current:
-            return
-        
-        if current.val not in tree_map:
-            tree_map[current.val] = set()
-        
-        adj_list = tree_map[current.val]
-        if parent != 0:
-            adj_list.add(parent)
-        
-        if current.left:
-            adj_list.add(current.left.val)
-        
-        if current.right:
-            adj_list.add(current.right.val)
-        
-        self.convert(current.left, current.val, tree_map)
-        self.convert(current.right, current.val, tree_map)
-    
+    def __init__(self):
+        self.max_dist = 0
     
     def amountOfTime(self, root: Optional[TreeNode], start: int) -> int:
-        tree_map: Dict[int, Set[int]] = {}
-        self.convert(root, 0, tree_map)
-        queue, ans = deque([start]), 0
-        visited = {start}
+        self.traverse(root, start)
+        return self.max_dist
+    
+    def traverse(self, root: Optional[TreeNode], start: int) -> int:
+        depth = 0
         
-        while queue:
-            level = len(queue)
-            while level > 0:
-                current = queue.popleft()
-                for num in tree_map[current]:
-                    if num not in visited:
-                        visited.add(num)
-                        queue.append(num)
-                level -= 1
-            ans += 1
-        return ans - 1
+        # base case: if it is a leaf
+        if not root:
+            return depth
+        
+        left_depth = self.traverse(root.left, start)
+        right_depth = self.traverse(root.right, start)
+        
+        # when the current node reaches to start point
+        if root.val == start:
+            self.max_dist = max(left_depth, right_depth)
+            depth = -1
+            
+        elif left_depth >= 0 and right_depth >= 0:
+            depth = max(left_depth, right_depth) + 1
+            
+        else:
+            dist = abs(left_depth) + abs(right_depth)
+            self.max_dist = max(self.max_dist, dist)
+            depth = min(left_depth, right_depth) - 1
+        
+        return depth
