@@ -1,43 +1,35 @@
 class Solution:
     def jobScheduling(self, startTime: List[int], endTime: List[int], profit: List[int]) -> int:
-        
-        def find_max_profit(n: int) -> int:
-            for pos in range(n - 1, -1, -1):
-                # It is the profit made by scheduling the current job
-                curr_profit = 0
-                
-                # next_idx is the index of next non-conflicting job
-                # bisect_left will return the iterator to the first element
-                # which is equal to or greater than the element at 'jobs[pos][1]'
-                next_idx = bisect_left(startTime, jobs[pos][1])
-                
-                # If there is a non-conflicting job possible add it's profit
-                # else just consider the current job profit
-                if next_idx != n:
-                    curr_profit = jobs[pos][2] + dp[next_idx]
-                else:
-                    curr_profit = jobs[pos][2]
-                
-                # storing the maximum profit we can achieve by scheduling
-                # non-conflicting jobs from index i to the end of array
-                if pos == n - 1:
-                    dp[pos] = curr_profit
-                else:
-                    dp[pos] = max(curr_profit, dp[pos + 1])
+        def find_max_profit() -> int:
+            pq, max_profit = [], 0
             
-            return dp[0]
+            for i in range(self.n):
+                start, end, profit = jobs[i]
+            
+                # keep popping while the heap is not empty and
+                # jobs are not conflicting
+                # update the value of max_profit
+                while pq and start >= pq[0][0]:
+                    _, curr_profit = heappop(pq)
+                    max_profit = max(max_profit, curr_profit)
+                    
+                # push the job with combined profit
+                # if no non-conflicting job is present max_profit will be 0
+                heappush(pq, (end, profit + max_profit))
+                
+            # update the value of max_profit by comparing with
+            # profit of jobs that exits in the heap
+            while pq:
+                _, curr_profit = heappop(pq)
+                max_profit = max(max_profit, curr_profit)
+            
+            return max_profit
         
-        jobs, n, dp = [], len(profit), [0] * 50001
+        jobs, self.n = [], len(profit)
         
-        # storing job's details into one list
-        # this will help in sorting the jobs while maintaining the other parameters\
-        for i in range(n):
+        for i in range(self.n):
             jobs.append((startTime[i], endTime[i], profit[i]))
-        
+            
         jobs.sort()
         
-        # binary search will be used in startTime, so store it as separate list
-        for i in range(n):
-            startTime[i] = jobs[i][0];
-            
-        return find_max_profit(n)
+        return find_max_profit()
