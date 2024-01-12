@@ -1,20 +1,20 @@
 class Solution {
 public:
     bool halvesAreAlike(string s) {
-        unordered_set<char> vowels{'a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U'};
-        int cntA = 0, cntB = 0;
-        string a = s.substr(0, s.size() / 2), b = s.substr(s.size() / 2);
+        int n = s.size(), aVowelCount = 0;
+        string vowels = "aeiouAEIOU";
         
-        for (int i = 0; i < a.size(); ++i){
-            if (vowels.find(a[i]) != vowels.end())
-                ++cntA;
+        for (int i = 0; i < n / 2; ++i){
+            if (vowels.find(s[i]) != string::npos)
+                ++aVowelCount;
         }
         
-        for (int i = 0; i < b.size(); ++i){
-            if (vowels.find(b[i]) != vowels.end())
-                ++cntB;
+        int bVowelCount = 0;
+        for (int i = n / 2; i < n; ++i){
+            if (vowels.find(s[i]) != string::npos)
+                ++bVowelCount;
         }
         
-        return cntA == cntB;
+        return aVowelCount == bVowelCount;
     }
 };
