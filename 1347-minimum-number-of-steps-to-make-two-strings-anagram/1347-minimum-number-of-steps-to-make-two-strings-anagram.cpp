@@ -1,18 +1,22 @@
 class Solution {
 public:
     int minSteps(string s, string t) {
-        int n = s.size(), ans = 0;
-        vector<int> sChars(26), tChars(26);
+        int count[26] = {0};
         
-        for (int i = 0; i < n; ++i){
-            ++sChars[s[i] - 97];
-            ++tChars[t[i] - 97];
+        // Store the difference of frequencies of characters in t and s.
+        for (int i = 0; i < s.size(); ++i){
+            ++count[t[i] - 'a'];
+            --count[s[i] - 'a'];
         }
         
+        int ans = 0;
+        // adding the difference where string t has more instances than s.
+        // Ignoring where t has fewer instances as they are redundant and 
+        // can be covered by the first case
         for (int i = 0; i < 26; ++i){
-            ans += abs(sChars[i] - tChars[i]);
+            ans += max(0, count[i]);
         }
         
-        return ans >> 1;
+        return ans;
     }
 };
