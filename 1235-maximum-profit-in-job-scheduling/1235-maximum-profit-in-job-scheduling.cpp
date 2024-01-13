@@ -1,53 +1,48 @@
 class Solution {
 private:
     int n;
-    
-    int findMaxProfit(vector<vector<int>>& jobs, vector<int>& startTime){
-        vector<int> dp(50001);
+    int findMaxProfit(vector<vector<int>>& jobs){
+        // min heap haaving {endTime, profit}
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
+        int maxProfit = 0;
         
-        for (int pos = n - 1; pos >= 0; --pos){
-            // It's the profit made by scheduling the current job
-            int currProfit = 0;
+        for (int i = 0; i < n; ++i){
+            int start = jobs[i][0], end = jobs[i][1], profit = jobs[i][2];
             
-            // nextIndex is the index of non-conflicting job
-            // lower_bound will return the iterator to the first element which is equal to or
-            // greater than the element 'jobs[pos][1]'
-            int nextIndex = lower_bound(startTime.begin(), startTime.end(), jobs[pos][1]) - startTime.begin();
+            // keep popping while the heap is not empty and
+            // jobs are not conflicting
+            // update the value of maxProfit
+            while (!pq.empty() && start >= pq.top().first){
+                maxProfit = max(maxProfit, pq.top().second);
+                pq.pop();
+            }
             
-            // If there is a non-conflicting job possible add it's profit
-            // else just consider the current job profit
-            if (nextIndex != n)
-                currProfit = jobs[pos][2] + dp[nextIndex];
-            else
-                currProfit = jobs[pos][2];
-            
-            // Storing the maximum profit we can achieve by scheduling
-            // non-conflicting jobs from index i to the end of array
-            if (pos == n - 1)
-                dp[pos] = currProfit;
-            else
-                dp[pos] = max(currProfit, dp[pos + 1]);
+            // push the job with combined profit
+            // if no non-conflicting job is present maxProfit will be 0
+            pq.push({end, profit + maxProfit});
         }
         
-        return dp[0];
+        // Update the value of maxProfit by comparing with
+        // profit of jobs that exists in the heap
+        while(!pq.empty()){
+            maxProfit = max(maxProfit, pq.top().second);
+            pq.pop();
+        }
+        
+        return maxProfit;
     }
     
 public:
     int jobScheduling(vector<int>& startTime, vector<int>& endTime, vector<int>& profit) {
-        vector<vector<int>> jobs;
         this -> n = profit.size();
+        vector<vector<int>> jobs;
         
         // storing job's details into one list
         // this will help in sorting the jobs while maintaining the other parameters
-        for (int i = 0; i < n; ++i)
+        for (int i = 0; i < profit.size(); ++i)
             jobs.push_back({startTime[i], endTime[i], profit[i]});
-      
+        
         sort(jobs.begin(), jobs.end());
-        
-        // binary search will be used in startTinme, so store it as separate list
-        for (int i = 0; i < n; ++i)
-            startTime[i] = jobs[i][0];
-        
-        return findMaxProfit(jobs, startTime);
+        return findMaxProfit(jobs);
     }
 };
