@@ -1,9 +1,9 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        @lru_cache(maxsize = None)
-        def dfs(remain: int) -> int:
-            if remain <= 0:
-                return 1 if remain == 0 else 0
+        dp = [0] * (n + 1)
+        dp[0], dp[1] = 1, 1
+        
+        for i in range(2, n + 1):
+            dp[i] = dp[i - 2] + dp[i - 1]
             
-            return dfs(remain - 1) + dfs(remain - 2)
-        return dfs(n)
+        return dp[n]
