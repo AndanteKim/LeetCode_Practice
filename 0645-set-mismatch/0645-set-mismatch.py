@@ -1,15 +1,31 @@
 class Solution:
     def findErrorNums(self, nums: List[int]) -> List[int]:
-        dup, missing = -1, 1
+        # xor0 := missing, xor1: duplicate
+        xor, xor0, xor1 = 0, 0, 0
         
         for n in nums:
-            if nums[abs(n) - 1] < 0:
-                dup = abs(n)
+            xor ^= n
+            
+        for i in range(1, len(nums) + 1):
+            xor ^= i
+            
+        rightmostbit = xor & ~(xor - 1)
+                                     
+        for n in nums:
+            if (n & rightmostbit) != 0:
+                xor1 ^= n
             else:
-                nums[abs(n) - 1] *= -1
+                xor0 ^= n
                 
-        for i in range(1, len(nums)):
-            if nums[i] > 0:
-                missing = i + 1
+        for i in range(1, len(nums) + 1):
+            if (i & rightmostbit) != 0:
+                xor1 ^= i
+            else:
+                xor0 ^= i
                 
-        return [dup, missing]
+        for i in range(0, len(nums)):
+            if nums[i] == xor0:
+                return [xor0, xor1]
+            
+        return [xor1, xor0]
+        
