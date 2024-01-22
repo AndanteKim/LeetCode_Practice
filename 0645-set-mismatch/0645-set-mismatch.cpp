@@ -1,7 +1,7 @@
 class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) {
-        map<int, int> freqs;
+        unordered_map<int, int> freqs;
         
         for (int n:nums){
             ++freqs[n];
