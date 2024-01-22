@@ -1,22 +1,22 @@
 class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) {
-        sort(nums.begin(), nums.end());
-        int mx = *max_element(nums.begin(), nums.end());
-        vector<int> count(mx + 1);
+        map<int, int> freqs;
         
-        for (int n:nums)
-            ++count[n];
-        
-        vector<int> missing{-1, -1};
-        for (int i = 1; i <= mx; ++i){
-            if (count[i] == 2)
-                missing[0] = i;
-            
-            if (count[i] == 0)
-                missing[1] = i;
+        for (int n:nums){
+            ++freqs[n];
         }
         
-        return missing[1] == -1? vector<int>{missing[0], mx + 1} : missing;
+        int dup = -1, missing = 1;
+        for (int i = 1; i <= nums.size(); ++i){
+            if (freqs.count(i)){
+                if (freqs[i] == 2)
+                    dup = i;
+            }
+            else
+                missing = i;
+        }
+        
+        return vector<int>{dup, missing};
     }
 };
