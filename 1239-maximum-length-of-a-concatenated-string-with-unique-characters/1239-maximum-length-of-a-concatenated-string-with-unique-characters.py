@@ -1,21 +1,24 @@
 class Solution:
     def maxLength(self, arr: List[str]) -> int:
-        def backtrack(i: int, exist_char: Set[int]) -> int:
-            if i == n:
-                return 0
-            
-            curr_length = 0
-            choose_ch = deepcopy(exist_char)
-            for ch in arr[i]:
-                if ch in choose_ch:
-                    curr_length = 0
-                    break
-                choose_ch.add(ch)
-                curr_length += 1
-            
-            max_length = max(curr_length + backtrack(i + 1, choose_ch), backtrack(i + 1, exist_char))
-            
-            return max_length
+        # Initialize results with an empty string
+        # from which to build all future results
+        results, ans = [""], 0
         
-        n = len(arr)
-        return backtrack(0, set())
+        for word in arr:
+            # We only want to iterate through results
+            # that exisited prior this loop
+            
+            for i in range(len(results)):
+                # Form a new result combination and
+                # use a set to check for duplicate characters
+                new_res = results[i] + word
+                if len(new_res) != len(set(new_res)):
+                    continue
+                
+                # Add valid options results and
+                # keep track of the longest so far
+                results.append(new_res)
+                ans = max(ans, len(new_res))
+       
+        return ans
+        
