@@ -13,9 +13,7 @@ public:
                 // Form a new result combination and
                 // use a set to check for duplicate characters
                 string newResults = results[i] + word;
-                unordered_set<int> chars;
-                for (char& c:newResults)
-                    chars.insert(c);
+                unordered_set<int> chars(newResults.begin(), newResults.end());
                 if (newResults.size() != chars.size())
                     continue;
                 
