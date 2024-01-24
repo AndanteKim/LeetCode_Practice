@@ -6,24 +6,24 @@
 #         self.right = right
 class Solution:
     def pseudoPalindromicPaths (self, root: Optional[TreeNode]) -> int:
-        count = 0
-        stack = [(root, 0)]
-        
-        while stack:
-            node, path = stack.pop()
-            
+        def preorder(node: Optional[TreeNode], path: int) -> None:
+            nonlocal count
             if node:
-                # Compute occurrences of each digit in the corresponding register
+                # comput occurrences of each digit in the corresponding register
                 path ^= (1 << node.val)
+                
                 # If it's a leaf, check if the path is pseudo-palindromic
                 if not (node.left or node.right):
                     # check if at most one digit has an odd frequency
                     if path & (path - 1) == 0:
                         count += 1
-                        
-                else:
-                    stack.append((node.right, path))
-                    stack.append((node.left, path))
                     
+                else:
+                    preorder(node.left, path)
+                    preorder(node.right, path)
+        
+        
+        count = 0
+        preorder(root, 0)
+        
         return count
-                
