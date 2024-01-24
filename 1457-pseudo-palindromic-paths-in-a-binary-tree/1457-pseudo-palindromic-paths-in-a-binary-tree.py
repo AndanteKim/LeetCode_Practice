@@ -6,33 +6,24 @@
 #         self.right = right
 class Solution:
     def pseudoPalindromicPaths (self, root: Optional[TreeNode]) -> int:
-        queue, ans = deque([(root, 0)]), 0
-        cases = []
+        count = 0
+        stack = [(root, 0)]
         
-        while queue:
-            node, curr = queue.popleft()
-            curr ^= (1 << node.val)
+        while stack:
+            node, path = stack.pop()
             
-            if not node.left and not node.right:
-                cases.append(curr)
-                
-            if node.left:
-                queue.append((node.left, curr))
-                
-            if node.right:
-                queue.append((node.right, curr))
-        
-        for case in cases:
-            flag, exist_odd = False, False
-            for i in range(1, 10):
-                if case & (1 << i):
-                    if exist_odd:
-                        flag = True
-                        break
-                    exist_odd = True
+            if node:
+                # Compute occurrences of each digit in the corresponding register
+                path ^= (1 << node.val)
+                # If it's a leaf, check if the path is pseudo-palindromic
+                if not (node.left or node.right):
+                    # check if at most one digit has an odd frequency
+                    if path & (path - 1) == 0:
+                        count += 1
+                        
+                else:
+                    stack.append((node.right, path))
+                    stack.append((node.left, path))
                     
-            if not flag:
-                ans += 1
+        return count
                 
-        return ans
-        
