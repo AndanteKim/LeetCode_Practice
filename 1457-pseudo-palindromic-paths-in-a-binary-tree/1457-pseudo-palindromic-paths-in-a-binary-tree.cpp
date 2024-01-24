@@ -10,31 +10,32 @@
  * };
  */
 class Solution {
-public:
-    int pseudoPalindromicPaths (TreeNode* root) {
-        int ans = 0;
-        stack<pair<TreeNode*, int>> st;
-        st.push({root, 0});
+private:
+    int count = 0;
+    void preorder(TreeNode* node, int path){
         
-        while (!st.empty()){
-            auto [node, path] = st.top();
-            st.pop();
-            
-            if (node){
-                // Compute occurrences of each digit in the corresponding register
-                path = path ^ (1 << (node -> val));
-                // If it's a leaf, then check if the path is pseudo-palindromic
-                if (!(node -> left || node -> right)){
-                    // Check if at most one digit has an odd frequency
-                    if ((path & (path - 1)) == 0) ++ans;
-                }
-                else{
-                    st.push({node -> right, path});
-                    st.push({node -> left, path});
-                }
+        if (node){
+            // compute occurrences of each digit in the corresponding register
+            path ^= (1 << (node -> val));
+            // If it's a leaf, check if the path is a pseudo-palindromic
+            if (!(node -> left || node -> right)){
+                
+                // check if at most one digit has an odd frequency
+                if ((path & (path - 1)) == 0)
+                    ++count;
+                
             }
+            
+            preorder(node -> left, path);
+            preorder(node -> right, path);
         }
         
-        return ans;
+    }
+    
+public:
+    int pseudoPalindromicPaths (TreeNode* root) {
+        
+        preorder(root, 0);
+        return count;
     }
 };
