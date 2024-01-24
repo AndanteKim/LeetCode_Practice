@@ -12,42 +12,27 @@
 class Solution {
 public:
     int pseudoPalindromicPaths (TreeNode* root) {
-        queue<pair<TreeNode*, int>> q;
-        q.push({root, 0});
         int ans = 0;
-        vector<int> cases;
+        stack<pair<TreeNode*, int>> st;
+        st.push({root, 0});
         
-        while (!q.empty()){
-            auto[node, curr] = q.front();
-            q.pop();
+        while (!st.empty()){
+            auto [node, path] = st.top();
+            st.pop();
             
-            curr ^= (1 << (node -> val));
-            
-            if (!(node -> left || node -> right))
-                cases.push_back(curr);
-            
-            if (node -> left)
-                q.push(make_pair(node -> left, curr));
-            
-            if (node -> right)
-                q.push(make_pair(node -> right, curr));
-        }
-        
-        for (int cs:cases){
-            bool flag = false, existOdd = false;
-            
-            for (int i = 1; i < 10; ++i){
-                if (cs & (1 << i)){
-                    if (existOdd){
-                        flag = true;
-                        break;
-                    }
-                    existOdd = true;
+            if (node){
+                // Compute occurrences of each digit in the corresponding register
+                path = path ^ (1 << (node -> val));
+                // If it's a leaf, then check if the path is pseudo-palindromic
+                if (!(node -> left || node -> right)){
+                    // Check if at most one digit has an odd frequency
+                    if ((path & (path - 1)) == 0) ++ans;
+                }
+                else{
+                    st.push({node -> right, path});
+                    st.push({node -> left, path});
                 }
             }
-            
-            if (!flag)
-                ++ans;
         }
         
         return ans;
