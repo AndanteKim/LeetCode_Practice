@@ -1,45 +1,54 @@
 class Solution:
     def maxLength(self, arr: List[str]) -> int:
-        # Results initialized as a Set to prevent duplicates
-        results, ans = set([0]), 0
-        
-        # Check eeach string in arr and find the best length
+        # Pre-process arr with an optimizing helper
+        # which converts each word to its character bitset
+        # and then uses a set to prevent duplicate results
+        opt_set = set()
         for word in arr:
-            ans = max(ans, self.add_word(word, results))
-        return ans
-
-    def add_word(self, word: str, results: List[str]) -> int:
-        # Initialize an int used as a character set
-        char_bitset, ans = 0, 0
+            self.word_to_bitset(opt_set, word)
+            
+        # Convert the set back to an anrray for iteration
+        # then start up the recursive helper
+        opt_arr = list(opt_set)
+        return self.backtrack(opt_arr, 0, 0, 0)
+    
+    def word_to_bitset(self, opt_arr: Set[int], word: str) -> None:
+        # Initialize an empty int to use as a character bitset
+        char_bitset = 0
         
-        for ch in word:
-            # Define character mask for current chaar
-            mask = 1 << ord(ch) - 97
+        for c in word:
+            # If the bitset contains a duplicate character
+            # then discard this word with an early return
+            # otherwise add the character to the bitset
+            mask = 1 << ord(c) - 97
+            if char_bitset & mask:
+                return
             
-            # Bitwise AND check using character mask to see
-            # if char already found and if so, exit
-            if char_bitset & mask > 0:
-                return 0
-            
-            # Mark char as seen in char_bitset
             char_bitset += mask
         
-        # If the initial bitset is already a known result
-        # then any possible new results will have already been found
-        if char_bitset + (len(word) << 26) in results:
-            return 0
+        # Store the length of the word in the unused space
+        # then add the completed bitset to our optimized set
+        opt_arr.add(char_bitset + (len(word) << 26))
         
-        # Iterate through previous results only
-        for res in list(results):
-            # If the two bitsets overlap, skip to the next result
-            if res & char_bitset:
-                continue
-                
-            # Build the new entry with bit manipulation
-            new_res_len = (res >> 26) + len(word)
-            new_char_bitset = char_bitset + res & ((1 << 26) - 1)
+    def backtrack(self, opt_arr: List[int], pos: int, res_chars: int, res_len: int) -> int:
+        # Recurse through each possible next option
+        # and find the best answer
+        best = res_len
+        for i in range(pos, len(opt_arr)):
+            new_chars = opt_arr[i] & ((1 << 26) - 1)
+            new_len = opt_arr[i] >> 26
             
-            # Merge the two into one, add it to results and keep track of the longest so far
-            results.add((new_res_len << 26) + new_char_bitset)
-            ans = max(ans, new_res_len)
-        return ans
+            # If the two bitsets overlap, skip to the next result
+            if new_chars & res_chars:
+                continue
+            
+            # Add the current word to the result
+            # and recurse to the next position
+            res_chars += new_chars
+            res_len += new_len
+            best = max(best, self.backtrack(opt_arr, i + 1, res_chars, res_len))
+            
+            # Backtrack the result before continuing
+            res_chars -= new_chars
+            res_len -= new_len
+        return best
