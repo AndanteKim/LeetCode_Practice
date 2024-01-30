@@ -1,23 +1,31 @@
 class Solution:
     def evalRPN(self, tokens: List[str]) -> int:
-        stack, ans = [], 0
+        operations = {
+            "+": lambda a, b: a + b,
+            "-": lambda a, b: a - b,
+            "*": lambda a, b: a * b,
+            "/": lambda a, b: int(a / b)
+        }
         
-        for token in tokens:
-            if token in ('+', '-', '*', '/'):
-                second, first = int(stack.pop()), int(stack.pop())
-                ops = 0
-                if token == '+':
-                    ops += first + second
-                elif token == '-':
-                    ops += first - second
-                elif token == '*':
-                    ops += first * second
-                else:
-                    ops += first / second
-                stack.append(ops)
-                
-            else:
-                stack.append(token)
+        curr_pos = 0
         
-        ans = int(stack.pop())
-        return ans
+        while len(tokens) > 1:
+            # Move the current position pointer to the next operator
+            while tokens[curr_pos] not in "+-*/":
+                curr_pos += 1
+            
+            # Extract the operator and numbers from the list
+            operator = tokens[curr_pos]
+            n1, n2 = int(tokens[curr_pos - 2]), int(tokens[curr_pos - 1])
+            
+            # Calculate the result to overwrite the operator with
+            operation = operations[operator]
+            tokens[curr_pos] = operation(n1, n2)
+            
+            # Remove the numbers and move the pointer to the position
+            # after the new number we just added.
+            tokens.pop(curr_pos - 2)
+            tokens.pop(curr_pos - 2)
+            curr_pos -= 1
+            
+        return int(tokens[0])
