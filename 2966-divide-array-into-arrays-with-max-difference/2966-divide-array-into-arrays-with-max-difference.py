@@ -1,25 +1,12 @@
 class Solution:
     def divideArray(self, nums: List[int], k: int) -> List[List[int]]:
-        n = len(nums)
-        
         nums.sort()
-        ans, curr = [], []
+        ans = []
         
-        for num in nums:
-            if len(curr) == 3:
-                if abs(curr[0] - curr[-1]) > k:
-                    return []
-                ans.append(curr[:])
-                curr.clear()
-            
-            if not curr or abs(num - curr[-1]) <= k:
-                curr.append(num)
-            else:
+        for i in range(0, len(nums), 3):
+            if nums[i + 2] - nums[i] > k:
                 return []
-        
-        if len(curr) == 3 and abs(curr[0] - curr[-1]) <= k:
-            ans.append(curr)
-        else:
-            return []
             
+            ans.append([nums[i], nums[i + 1], nums[i + 2]])
+        
         return ans
