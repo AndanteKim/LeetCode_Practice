@@ -1,17 +1,16 @@
 class Solution {
 public:
     int firstUniqChar(string s) {
-        map<char, vector<int>> dict;
-        int ans = -1;
+        unordered_map<char, int> count;
         
-        for (int i = 0; i < s.size(); ++i)
-            dict[s[i]].push_back(i);
+        for (char& c:s)
+            count[c] += 1;
         
-        for (auto& [_, val]:dict){
-            if (val.size() == 1)
-                ans = (ans == -1)? val[0]:min(ans,val[0]);
+        for (int i = 0; i < s.size(); ++i){
+            if (count[s[i]] == 1)
+                return i;
         }
         
-        return ans;
+        return -1;
     }
 };
