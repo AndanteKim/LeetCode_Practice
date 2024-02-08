@@ -1,21 +1,20 @@
 class Solution {
-private:
-    int dp(int start, int remain, vector<int>& memo){
-        if (remain <= 0 || remain < start * start)
-            return remain == 0? 0:10'001;
-        
-        if (memo[remain] != -1)
-            return memo[remain];
-        
-        int ways = min(1 + dp(start, remain - start * start, memo), min(1 + dp(start + 1, remain - start * start, memo), dp(start + 1, remain, memo)));
-        
-        return memo[remain] = ways;
-    }
-    
 public:
     int numSquares(int n) {
-        vector<int> memo(n + 1, -1);
+        vector<int> sqNums, dp(n + 1, 10'001);
+        for (int i = 0; i <= (int)sqrt(n); ++i)
+            sqNums.push_back(i * i);
         
-        return dp(1, n, memo);
+        dp[0] = 0;
+        int ans = 0;
+        for (int i = 1; i <= n; ++i){
+            for (int sq:sqNums){
+                if (i < sq)
+                    break;
+                dp[i] = min(dp[i], dp[i - sq] + 1);
+            }
+        }
+        
+        return dp.back();
     }
 };
