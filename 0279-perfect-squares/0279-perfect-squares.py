@@ -1,24 +1,24 @@
 class Solution:
     def numSquares(self, n: int) -> int:
+        # list of square numbers that are less than 'n'
+        square_nums = [i * i for i in range(1, int(n ** 0.5) + 1)]
+        level, queue = 0, {n}
         
-        def is_divided_by(n: int, count: int) -> bool:
-            """
-            return: true if "n" can be decomposed into "count" number of perfect square numbers.
-            e.g. n = 12, count = 3: true.
-                 n = 12, count = 2: false
-            """
+        while queue:
+            level += 1
+            #! important: use set() instead of list() to eliminate the redundancy.
+            # which would even provide a 5-times speedup, 200ms vs. 1000ms.
+            next_queue = set()
             
-            if count == 1:
-                return n in square_nums
+            # construct the queue for the next level
+            for remainder in queue:
+                for square_num in square_nums:
+                    if remainder == square_num:
+                        return level # find the node!
+                    elif remainder < square_num:
+                        break
+                    else:
+                        next_queue.add(remainder - square_num)
             
-            for k in square_nums:
-                if is_divided_by(n - k, count - 1):
-                    return True
-            
-            return False
-        
-        square_nums = set([i * i for i in range(1, int(n ** 0.5) + 1)])
-        
-        for count in range(1, n + 1):
-            if is_divided_by(n, count):
-                return count
+            queue = next_queue
+        return level
