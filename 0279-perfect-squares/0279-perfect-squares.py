@@ -1,24 +1,23 @@
 class Solution:
+    def is_square(self, n: int) -> bool:
+        sq = int(sqrt(n))
+        return sq * sq == n
+    
     def numSquares(self, n: int) -> int:
-        # list of square numbers that are less than 'n'
-        square_nums = [i * i for i in range(1, int(n ** 0.5) + 1)]
-        level, queue = 0, {n}
+        # four-square and three-square theorems
+        while n & 3 == 0:
+            n >>= 2     # reducing the 4^k factor from number
         
-        while queue:
-            level += 1
-            #! important: use set() instead of list() to eliminate the redundancy.
-            # which would even provide a 5-times speedup, 200ms vs. 1000ms.
-            next_queue = set()
-            
-            # construct the queue for the next level
-            for remainder in queue:
-                for square_num in square_nums:
-                    if remainder == square_num:
-                        return level # find the node!
-                    elif remainder < square_num:
-                        break
-                    else:
-                        next_queue.add(remainder - square_num)
-            
-            queue = next_queue
-        return level
+        if n & 7 == 7: # mod 8
+            return 4
+        
+        if self.is_square(n):
+            return 1
+        
+        # check if the number can be decomposed into sum of two squares
+        for i in range(1, int(n ** 0.5) + 1):
+            if self.is_square(n - i * i):
+                return 2
+        
+        # bottom case from the three-square theorem
+        return 3
