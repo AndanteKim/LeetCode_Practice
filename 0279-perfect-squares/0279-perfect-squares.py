@@ -1,7 +1,7 @@
 class Solution:
     def numSquares(self, n: int) -> int:
         
-        def is_divided_by(n: int, count: int) -> int:
+        def is_divided_by(n: int, count: int) -> bool:
             """
             return: true if "n" can be decomposed into "count" number of perfect square numbers.
             e.g. n = 12, count = 3: true.
