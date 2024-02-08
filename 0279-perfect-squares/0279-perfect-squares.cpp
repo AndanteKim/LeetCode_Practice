@@ -1,34 +1,29 @@
 class Solution {
+private:
+    int isSquare(int n){
+        int sq = sqrt(n);
+        return sq * sq == n;
+    }
+    
 public:
     int numSquares(int n) {
-        // List of square numbers that are less than 'n'
-        vector<int> squareNumbers;
-        for (int i = 1; i <= (int)sqrt(n); ++i)
-            squareNumbers.push_back(i * i);
+        // four-square and three-square theorems
+        while ((n & 3) == 0)
+            n >>= 2; // reducing the 4^k factor from number
         
-        unordered_set<int> queue{n};
-        int level = 0;
+        if ((n & 7) == 7) // mod 8
+            return 4;
         
-        while (!queue.empty()){
-            ++level;
-            /*! important: use set() instead of list() to eliminate the redundancy
-            which would even produce a 5-times speedup, 200ms vs 1000ms.
-            */
-            unordered_set<int> nextQueue;
-            // construct the queue for the next level
-            for (int remainder:queue){
-                for (int squareNum:squareNumbers){
-                    if (remainder == squareNum)
-                        return level; // find the node
-                    else if (remainder < squareNum)
-                        break;
-                    else
-                        nextQueue.insert(remainder - squareNum);
-                }
-            }
-            queue = nextQueue;
+        if (isSquare(n))
+            return 1;
+        
+        // check if the number can be decomposed into sum of two squares
+        for (int i = 1; i <= (int)sqrt(n); ++i){
+            if (isSquare(n - i * i))
+                return 2;
         }
         
-        return level;
+        // bottom case from the three-square theorem
+        return 3;
     }
 };
