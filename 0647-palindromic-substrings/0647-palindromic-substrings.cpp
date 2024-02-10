@@ -1,28 +1,29 @@
 class Solution {
-public:
-    int countSubstrings(string s) {
-        int ans = 0, n = s.size();
-        if (n <= 0)
-            return 0;
+private:
+    int countPalindromesAroundCenter(string& ss, int lo, int hi){
+        int ans = 0;
         
-        bool dp[n][n];
-        fill_n(*dp, n * n, false);
-        // base case: single letter substring
-        for (int i = 0; i < n; ++i, ++ans)
-            dp[i][i] = true;
-        
-        // base case: double letter substring
-        for (int i = 0; i < n - 1; ++i){
-            dp[i][i + 1] = (s[i] == s[i + 1]);
-            ans += dp[i][i + 1];
+        while (lo >= 0 && hi < ss.size()){
+            // check the first and last characters don't match and expand around the center
+            if (ss[lo--] != ss[hi++])
+                break;
+            
+            ++ans;
         }
         
-        // All other cases: substrings of length 3 to n
-        for (int len = 3; len <= n; ++len){
-            for (int i = 0, j = i + len - 1; j < n; ++i,++j){
-                dp[i][j] = dp[i + 1][j - 1] && (s[i] == s[j]);
-                ans += dp[i][j];
-            }
+        return ans;
+    }
+    
+public:
+    int countSubstrings(string s) {
+        int ans = 0;
+        
+        for (int i = 0; i < s.size(); ++i){
+            // odd-length of palindromes, single character center
+            ans += countPalindromesAroundCenter(s, i, i);
+            
+            // even-length of palindromes, consecutive characters center
+            ans += countPalindromesAroundCenter(s, i, i + 1);
         }
         
         return ans;
