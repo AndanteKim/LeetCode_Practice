@@ -1,15 +1,15 @@
 class Solution:
     def numWays(self, n: int, k: int) -> int:
+        # Space Optimization with Tabulation
         if n == 1:
             return k
         
         if n == 2:
             return k * k
         
-        total_ways = [0] * (n + 1)
-        total_ways[1], total_ways[2] = k, k * k
-        
+        two_posts_back, one_post_back = k, k * k
         for i in range(3, n + 1):
-            total_ways[i] = (k - 1) * (total_ways[i - 1] + total_ways[i - 2])
-        
-        return total_ways[n]
+            curr = (k - 1) * (one_post_back + two_posts_back)
+            two_posts_back, one_post_back = one_post_back, curr
+            
+        return one_post_back
