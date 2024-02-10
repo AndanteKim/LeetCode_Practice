@@ -1,23 +1,15 @@
 class Solution {
-private:
-    int k;
-    int totalWays(int i, vector<int>& memo){
-        if (i == 1)
-            return k;
-        if (i == 2)
-            return k * k;
-        
-        if (memo[i] != -1)
-            return memo[i];
-        
-        // Use the recurrence relation to calculate totalWays(i)
-        return memo[i] = (k - 1) * (totalWays(i - 1, memo) + totalWays(i - 2, memo));
-    }
-    
 public:
     int numWays(int n, int k) {
-        this -> k = k;
-        vector<int> memo(n + 1, -1);
-        return totalWays(n, memo);
+        if (n == 1) return k;
+        if (n == 2) return k * k;
+        
+        vector<int> totalWays(n + 1);
+        totalWays[1] = k, totalWays[2] = k * k;
+        for (int i = 3; i <= n; ++i){
+            totalWays[i] = (k - 1) * (totalWays[i - 1] + totalWays[i - 2]);
+        }
+        
+        return totalWays[n];
     }
 };
