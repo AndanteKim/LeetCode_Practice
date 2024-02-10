@@ -1,30 +1,29 @@
 class Solution:
-    def countSubstrings(self, s: str) -> int:
-        n, ans = len(s), 0
+    def countPalindromesAroundCenter(self, ss: str, lo: int, hi: int) -> int:
+        ans = 0
         
-        if n <= 0:
-            return 0
-        
-        dp = [[False] * n for _ in range(n)]
-        
-        # Base case: single letter substrings
-        for i in range(n):
-            dp[i][i] = True
+        while lo >= 0 and hi < len(ss):
+            if ss[lo] != ss[hi]:
+                break
+                
+            # expand around the center
+            lo -= 1
+            hi += 1
+            
             ans += 1
-            
-        # Base case: double letter substrings
-        for i in range(n - 1):
-            dp[i][i + 1] = (s[i] == s[i + 1])
-            ans += dp[i][i + 1]
-            
-        # All other cases: substrings of length 3 to n
-        for k in range(3, n + 1):
-            i, j = 0, 0
-            while j < n:
-                j = i + k - 1
-                dp[i][j] = dp[i + 1][j - 1] and (s[i] == s[j])
-                ans += dp[i][j]
-                i += 1
-                j += 1
-        
         return ans
+    
+    def countSubstrings(self, s: str) -> int:
+        ans = 0
+        
+        for i in range(len(s)):
+            # odd-length palindromes, single character center
+            ans += self.countPalindromesAroundCenter(s, i, i)
+            
+            # even-length palindromes, consecutive characters center
+            ans += self.countPalindromesAroundCenter(s, i, i + 1)
+            
+        return ans
+    
+    
+            
