@@ -4,16 +4,10 @@ public:
         int ans = 0, count = 0;
         
         for (int num:nums){
-            if (ans != num){
-                if (count == 0){
-                    ans = num;
-                    ++count;
-                }
-                else --count;
-            }
-            else
-                ++count;
-                
+            if (count == 0)
+                ans = num;
+            (ans == num)? ++count:--count; 
+            
         }
         
         return ans;
