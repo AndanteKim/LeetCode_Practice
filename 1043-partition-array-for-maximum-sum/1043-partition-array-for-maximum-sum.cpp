@@ -1,7 +1,7 @@
 class Solution {
 private:
     int n;
-    int dp(int start, int k, vector<int>& memo, vector<int>& arr){
+    int dp(int start, int k, int memo[], vector<int>& arr){
         if (start >= n)
             return 0;
         
@@ -24,7 +24,8 @@ private:
 public:
     int maxSumAfterPartitioning(vector<int>& arr, int k) {
         this -> n = arr.size();
-        vector<int> memo(n, -1);
+        int memo[n];
+        memset(memo, -1, sizeof(memo));
         
         return dp(0, k, memo, arr);
     }
