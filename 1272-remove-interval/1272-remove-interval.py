@@ -1,19 +1,19 @@
 class Solution:
     def removeInterval(self, intervals: List[List[int]], toBeRemoved: List[int]) -> List[List[int]]:
+        remove_start, remove_end = toBeRemoved
         ans = []
         
         for start, end in intervals:
-            if toBeRemoved[0] <= start and end <= toBeRemoved[1]:
-                continue
-            elif start > toBeRemoved[1] or end < toBeRemoved[0]:
+            # If there are no overlaps, add the interval to the list as is.
+            if start > remove_end or end < remove_start:
                 ans.append([start, end])
-            elif start < toBeRemoved[0] and end > toBeRemoved[0]:
-                ans.append([start, toBeRemoved[0]])
-                if end > toBeRemoved[1]:
-                    ans.append([toBeRemoved[1], end])
             else:
-                if start < toBeRemoved[0]:
-                    ans.append([start, toBeRemoved[0]])
-                ans.append([toBeRemoved[1], end])
+                # Is there a left interval we need to keep?
+                if start < remove_start:
+                    ans.append([start, remove_start])
                 
+                # Is there a right interval we need to keep?
+                if end > remove_end:
+                    ans.append([remove_end, end])
+        
         return ans
