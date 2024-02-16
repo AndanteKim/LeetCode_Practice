@@ -1,25 +1,23 @@
 class Solution {
 public:
     vector<vector<int>> removeInterval(vector<vector<int>>& intervals, vector<int>& toBeRemoved) {
+        int removeStart = toBeRemoved[0], removeEnd = toBeRemoved[1];
         vector<vector<int>> ans;
         
         for (vector<int>& interval:intervals){
             int start = interval[0], end = interval[1];
-            
-            if (toBeRemoved[0] <= start && end <= toBeRemoved[1])
-                continue;
-            else if (start > toBeRemoved[1] || end < toBeRemoved[0])
+            // If there are no overlaps, add the interval to the list intervals
+            if (start > removeEnd || end < removeStart)
                 ans.push_back({start, end});
-            else if (start < toBeRemoved[0] && end > toBeRemoved[0]){
-                ans.push_back({start, toBeRemoved[0]});
-                if (end > toBeRemoved[1]) ans.push_back({toBeRemoved[1], end});
-            }
             else{
-                if (start < toBeRemoved[0])
-                    ans.push_back({start, toBeRemoved[0]});
-                ans.push_back({toBeRemoved[1], end});
+                // Is there a left interval we need to keep?
+                if (start < removeStart)
+                    ans.push_back({start, removeStart});
+                
+                // Is there a right interval we need to keep?
+                if (end > removeEnd)
+                    ans.push_back({removeEnd, end});
             }
-            
         }
         
         return ans;
