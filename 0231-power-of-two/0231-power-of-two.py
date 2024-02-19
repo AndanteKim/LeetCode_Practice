@@ -3,5 +3,4 @@ class Solution:
         if n == 0:
             return False
         
-        x = n
-        return (x & (-x)) == x
+        return (n & (n - 1)) == 0
