@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/bitwise-and-of-numbers-range/solution/">201. Bitwise AND of Numbers Range</a></h2><h3>Medium</h3><hr><div><p>Given two integers <code>left</code> and <code>right</code> that represent the range <code>[left, right]</code>, return <em>the bitwise AND of all numbers in this range, inclusive</em>.</p>
+<h2><a href="https://leetcode.com/problems/bitwise-and-of-numbers-range/">201. Bitwise AND of Numbers Range</a></h2><h3>Medium</h3><hr><div><p>Given two integers <code>left</code> and <code>right</code> that represent the range <code>[left, right]</code>, return <em>the bitwise AND of all numbers in this range, inclusive</em>.</p>
 
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
