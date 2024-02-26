@@ -1,27 +1,27 @@
-class DSU:
+class Graph:
     def __init__(self, n: int):
         self.n = n
-        self.parent = [i for i in range(n)]
-        self.compSize = [1 for i in range(n)]
+        self.edges = [[] for _ in range(n)]
         
-    def get_parent(self, x: int) -> int:
-        if self.parent[x] != x:
-            self.parent[x] = self.get_parent(self.parent[x])
-        return self.parent[x]
+    def traverse(self, x: int, visited: List[bool]) -> None:
+        q = deque([x])
+        visited[x] = True
         
-    def union_set(self, x: int, y: int) -> None:
-        par_x, par_y = self.get_parent(x), self.get_parent(y)
-        if par_x != par_y:
-            if self.compSize[par_x] < self.compSize[par_y]:
-                par_x, par_y = par_y, par_x
-            self.parent[par_y] = par_x
-            self.compSize[par_x] += self.compSize[par_y]
+        while q:
+            x = q.popleft()
+            for y in self.edges[x]:
+                if not visited[y]:
+                    q.append(y)
+                    visited[y] = True
             
     def add_edge(self, x: int, y: int) -> None:
-        self.union_set(x, y)
+        self.edges[x].append(y)
+        self.edges[y].append(x)
         
     def is_connected(self) -> bool:
-        return self.compSize[self.get_parent(0)] == self.n
+        visited = [False] * self.n
+        self.traverse(0, visited)
+        return visited.count(True) == self.n
 
 class Solution:
     def get_prime_factors(self, x: int) -> int:
@@ -33,14 +33,12 @@ class Solution:
         if x != 1:
             yield x
     
-    
     def canTraverseAllPairs(self, nums: List[int]) -> bool:
         n = len(nums)
         if n == 1:
             return True
         
-        g, seen = DSU(n), dict()
-        
+        g, seen = Graph(n), dict()
         for i in range(n):
             if nums[i] == 1:
                 return False
@@ -50,5 +48,6 @@ class Solution:
                     g.add_edge(i, seen[prime])
                 else:
                     seen[prime] = i
-                    
+        
         return g.is_connected()
+        
