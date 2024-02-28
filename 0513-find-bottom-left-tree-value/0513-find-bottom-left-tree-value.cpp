@@ -10,25 +10,19 @@
  * };
  */
 class Solution {
-private:
-    int maxDepth = -1, bottomLeftValue = 0;
-    void dfs(TreeNode* current, int depth){
-        if (!current) return;
-        
-        // If true, we discovered a new level
-        if (depth > maxDepth){
-            maxDepth = depth;
-            bottomLeftValue = current -> val;
-        }
-        
-        dfs(current -> left, depth + 1);
-        dfs(current -> right, depth + 1);
-    }
-    
 public:
     int findBottomLeftValue(TreeNode* root) {
-        dfs(root, 0);
+        TreeNode* curr = root;
+        queue<TreeNode*> queue{{root}};
         
-        return bottomLeftValue;
+        while (!queue.empty()){
+            curr = queue.front();
+            queue.pop();
+            
+            if (curr -> right) queue.push(curr -> right);
+            if (curr -> left) queue.push(curr -> left);
+        }
+        
+        return curr -> val;
     }
 };
