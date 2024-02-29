@@ -17,7 +17,7 @@ private:
         
         long left = dfs(curr -> left), right = dfs(curr -> right);
         
-        if (curr -> val == (long)left + (long)right) ++count;
+        if (curr -> val == left + right) ++count;
         
         return left + right + curr -> val;
     }
