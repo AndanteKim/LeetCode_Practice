@@ -1,21 +1,25 @@
 class Solution {
 public:
     int bagOfTokensScore(vector<int>& tokens, int power) {
-        int low = 0, high = tokens.size() - 1, score = 0;
+        int score = 0;
         sort(tokens.begin(), tokens.end());
+        deque<int> dq(tokens.begin(), tokens.end());
         
-        while (low <= high){
-            // When we've enough power, play the lowest token face-up
-            if (power >= tokens[low]){
+        while (!dq.empty()){
+            // When we're enough power, play token face-up.
+            if (power >= dq.front()){
+                power -= dq.front();
+                dq.pop_front();
                 ++score;
-                power -= tokens[low++];
             }
+            
             // We don't have enough power to play a token face-up
-            // if there is at least one token remaining,
-            // and we've enough score, play the highest token face-down
-            else if (low < high && score > 0){
+            // When there at least one token remaining, and we've enough score
+            // play token face-down
+            else if (dq.size() > 2 && score > 0){
                 --score;
-                power += tokens[high--];
+                power += dq.back();
+                dq.pop_back();
             }
             
             // We don't have enough score, power, or tokens
