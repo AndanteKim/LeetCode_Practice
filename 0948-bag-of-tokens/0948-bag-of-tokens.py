@@ -1,26 +1,25 @@
 class Solution:
     def bagOfTokensScore(self, tokens: List[int], power: int) -> int:
-        low, high, score = 0, len(tokens) - 1, 0
+        score = 0
         tokens.sort()
+        dq = deque(tokens)
         
-        while low <= high:
-            # When we've enough power, play lowest token face-up
-            if power >= tokens[low]:
+        while dq:
+            # When we've enough power, play token face-up
+            if power >= dq[0]:
+                power -= dq.popleft()
                 score += 1
-                power -= tokens[low]
-                low += 1
                 
-            # We don't have enough power to play a token fae-up
-            # If there is at least one token remaining,
-            # and we have enough score, play highest token face-down
-            elif low < high and score > 0:
+            # We don't have enough power to play a token face-up
+            # When there is at least one token remaining,
+            # and we've enough score, play token face-down
+            elif len(dq) > 2 and score > 0:
+                power += dq.pop()
                 score -= 1
-                power += tokens[high]
-                high -= 1
-            
+                
             # We don't have enough score, power, or tokens
             # to play face-up or down and increase our score
             else:
                 return score
-        return score
         
+        return score
