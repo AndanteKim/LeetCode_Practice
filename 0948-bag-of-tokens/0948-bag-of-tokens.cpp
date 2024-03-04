@@ -16,7 +16,7 @@ public:
             // We don't have enough power to play a token face-up
             // When there at least one token remaining, and we've enough score
             // play token face-down
-            else if (dq.size() > 2 && score > 0){
+            else if (dq.size() > 1 && score > 0){
                 --score;
                 power += dq.back();
                 dq.pop_back();
