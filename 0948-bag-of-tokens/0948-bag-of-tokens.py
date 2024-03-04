@@ -13,7 +13,7 @@ class Solution:
             # We don't have enough power to play a token face-up
             # When there is at least one token remaining,
             # and we've enough score, play token face-down
-            elif len(dq) > 2 and score > 0:
+            elif len(dq) > 1 and score > 0:
                 power += dq.pop()
                 score -= 1
                 
