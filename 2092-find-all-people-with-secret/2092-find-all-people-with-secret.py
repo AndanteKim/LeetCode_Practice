@@ -1,28 +1,35 @@
 class Solution:
     def findAllPeople(self, n: int, meetings: List[List[int]], firstPerson: int) -> List[int]:
-        def dfs(person: int, time: int) -> None:
-            for t, next_person in graph[person]:
-                if t >= time and earliest[next_person] > t:
-                    earliest[next_person] = t
-                    dfs(next_person, t)
-        
-        # For every person, store the time and label of the person met.
+        # For every person, store the time and laberl of the person met.
         graph = defaultdict(list)
+        
         for x, y, t in meetings:
             graph[x].append((t, y))
             graph[y].append((t, x))
             
-        # Earliest time at which a person learnt the secret
-        # as per current state of knowledge. If due to some new information,
-        # the earliest time of knowing the secret changes, we'll update it
-        # and again process all the people whom he/she meets after the time
-        # at which he/she learnt the secret.
-        earliest = [float('inf')] * n
-        earliest[0], earliest[firstPerson] = 0, 0
+        # Priority Queue for BFS. It stores (time secret learned, person)
+        # It pops the person with the minimum time of knowing the secret.
+        pq = []
+        heappush(pq, (0, 0))
+        heappush(pq, (0, firstPerson))
         
-        dfs(0, 0)
-        dfs(firstPerson, 0)
+        # Visited arraay to mark if a person is visited or not.
+        # We'll mark a person as visited after it's dequeued
+        # from the queue.
+        visited = [False] * n
+        
+        # Do BFS, but pop minimum
+        while pq:
+            time, person = heappop(pq)
+            if visited[person]:
+                continue
             
+            visited[person] = True
+            
+            for t, next_person in graph[person]:
+                if not visited[next_person] and t >= time:
+                    heappush(pq, (t, next_person))
+        
         # Since we visited only those people who know the secret
         # we need to return indices of all visited people
-        return [i for i in range(n) if earliest[i] != float('inf')]
+        return [i for i in range(n) if visited[i]]
