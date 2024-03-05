@@ -1,18 +1,18 @@
 class Solution:
     def minimumLength(self, s: str) -> int:
-        n = len(s)
-        i, j = 0, n - 1
+        begin, end = 0, len(s) - 1
         
-        while i < j:
-            prefix, suffix = s[i], s[j]
+        # Delete similar ends until the ends differ or they meet in the middle
+        while begin < end and s[begin] == s[end]:
+            c = s[begin]
             
-            if prefix == suffix:
-                while i <= j and prefix == s[i]:
-                    i += 1
-                
-                while i <= j and suffix == s[j]:
-                    j -= 1
-            else:
-                break
+            # Delete consecutive occurrences of c from prefix
+            while begin <= end and s[begin] == c:
+                begin += 1
             
-        return j - i + 1
+            # Delete consecutive occurrences of c from suffix
+            while end > begin and s[end] == c:
+                end -= 1
+            
+        # Return the number of remaining characters
+        return end - begin + 1
