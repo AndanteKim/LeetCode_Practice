@@ -1,17 +1,22 @@
 class Solution {
 public:
     int minimumLength(string s) {
-        int n = s.size(), i = 0, j = n - 1;
+        int end = s.size() - 1, begin = 0;
         
-        while (i < j){
-            char prefix = s[i], suffix = s[j];
-            if (prefix == suffix){
-                while (i <= j && prefix == s[i]) ++i;
-                while (i <= j && suffix == s[j]) --j;
-            }
-            else
-                break;
+        // Delete similar ends until the end differ or they meet in the middle
+        while (begin < end && s[begin] == s[end]){
+            char c = s[begin];
+            // Delete consecutive occurrences of c from prefix
+            while (begin <= end && s[begin] == c)
+                ++begin;
+            
+            // Delete consecutive occurrences of c from suffix
+            while (end > begin && s[end] == c)
+                --end;
+            
         }
-        return j - i + 1;
+        
+        // Return the number of remain characters
+        return end - begin + 1;
     }
 };
