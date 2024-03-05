@@ -1,45 +1,60 @@
 class Solution {
 public:
     vector<int> findAllPeople(int n, vector<vector<int>>& meetings, int firstPerson) {
-        // For every person, store the time and label of the person met.
-        unordered_map<int, vector<pair<int, int>>> graph;
+        // Sort meetings in increasing order of time
+        sort(meetings.begin(), meetings.end(), [](auto& a, auto& b){
+            return a[2] < b[2];
+        });
         
+        // Group Meetings in increasing order of time
+        map<int, vector<pair<int, int>>> sameTimeMeetings;
         for (auto& meeting : meetings){
             int x = meeting[0], y = meeting[1], t = meeting[2];
-            graph[x].push_back({t, y});
-            graph[y].push_back({t, x});
+            sameTimeMeetings[t].emplace_back(x, y);
         }
         
-        // Priority Queue for BFS. It stores (time secret learned, person)
-        // It pops the person with the minimum time of knowing the secret.
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> pq;
-        pq.push({0, 0});
-        pq.push({0, firstPerson});
+        // Boolean Array to mark if a person knows the secret or not
+        vector<bool> knowsSecret(n);
+        knowsSecret[0] = true, knowsSecret[firstPerson] = true;
         
-        // Visited array to mark if a person is visited or not.
-        // We'll mark a person as visited after it's dequeued
-        // from the queue.
-        vector<bool> visited(n);
-        
-        // Do BFS, but pop minimum.
-        while(!pq.empty()){
-            auto [t, person] = pq.top();
-            pq.pop();
+        // Process in increasing order of time
+        for (auto& [t, meetings] : sameTimeMeetings){
+            // For each person, save all the people whom he/she meets at time t
+            unordered_map<int, vector<int>> meet;
+            for (auto& [x, y] : meetings){
+                meet[x].push_back(y);
+                meet[y].push_back(x);
+            }
             
-            if (visited[person])
-                continue;
-            visited[person] = true;
-            for (auto& [time, nextPerson] : graph[person]){
-                if (time >= t && !visited[nextPerson]){
-                    pq.push({time, nextPerson});
+            // Start traversal from those who already know the secret at time t
+            // Set to avoid redundancy
+            unordered_set<int> start;
+            for (auto& [x, y] : meetings){
+                if (knowsSecret[x]) start.insert(x);
+                if (knowsSecret[y]) start.insert(y);
+            }
+            
+            // Do BFS
+            queue<int> q;
+            for (auto& person : start) q.push(person);
+            
+            while (!q.empty()){
+                int person = q.front();
+                q.pop();
+                
+                for (auto& nextPerson : meet[person]){
+                    if (!knowsSecret[nextPerson]){
+                        knowsSecret[nextPerson] = true;
+                        q.push(nextPerson);
+                    }
                 }
             }
         }
         
-        // Since we visited only those people who know the secret
-        // we need to return indices of all visited people
+        // List of people who know the secret
         vector<int> ans;
-        for (int i = 0; i < n; ++i) if (visited[i]) ans.push_back(i);
+        for (int i = 0; i < n; ++i) if (knowsSecret[i]) ans.push_back(i);
+        
         return ans;
     }
 };
