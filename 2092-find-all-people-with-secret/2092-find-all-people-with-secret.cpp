@@ -1,4 +1,14 @@
 class Solution {
+private:
+    void dfs(int person, int time, auto& earliest, auto& graph){
+        for (auto [t, nextPerson] : graph[person]){
+            if (t >= time && earliest[nextPerson] > t){
+                earliest[nextPerson] = t;
+                dfs(nextPerson, t, earliest, graph);
+            }
+        }
+    }       
+
 public:
     vector<int> findAllPeople(int n, vector<vector<int>>& meetings, int firstPerson) {
         // For every person, we store the meeting time and label of the person met.
@@ -17,22 +27,9 @@ public:
         // at which he/she learned the secret.
         vector<int> earliest(n, INT_MAX);
         earliest[0] = 0, earliest[firstPerson] = 0;
-        stack<pair<int, int>> s;
-        s.push({0, 0});
-        s.push({firstPerson, 0});
         
-        // Stack for DFS. It'll store (person, time of knowing the secret)
-        while (!s.empty()){
-            auto [person, time] = s.top();
-            s.pop();
-            
-            for (auto& [t, nextPerson] : graph[person]){
-                if (t >= time && earliest[nextPerson] > t){
-                    earliest[nextPerson] = t;
-                    s.emplace(nextPerson, t);
-                }
-            }
-        }
+        dfs(0, 0, earliest, graph);
+        dfs(firstPerson, 0, earliest, graph);
         
         // Since we visited only those people who know the secret
         // we need to return indices of all visited people.
