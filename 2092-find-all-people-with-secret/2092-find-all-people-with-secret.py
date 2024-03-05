@@ -1,6 +1,6 @@
 class Solution:
     def findAllPeople(self, n: int, meetings: List[List[int]], firstPerson: int) -> List[int]:
-        # For every person, store the time and laberl of the person met.
+        # For every person, store the time and label of the person met.
         graph = defaultdict(list)
         
         for x, y, t in meetings:
