@@ -1,35 +1,43 @@
 class Solution:
     def findAllPeople(self, n: int, meetings: List[List[int]], firstPerson: int) -> List[int]:
-        # For every person, store the time and label of the person met.
-        graph = defaultdict(list)
+        # Sort meetings in increasing order of time
+        meetings.sort(key = lambda x : x[2])
         
+        # Group Meetings in increasing order of time
+        same_time_meetings = defaultdict(list)
         for x, y, t in meetings:
-            graph[x].append((t, y))
-            graph[y].append((t, x))
+            same_time_meetings[t].append((x, y))
             
-        # Priority Queue for BFS. It stores (time secret learned, person)
-        # It pops the person with the minimum time of knowing the secret.
-        pq = []
-        heappush(pq, (0, 0))
-        heappush(pq, (0, firstPerson))
+        # Boolean Array to mark if a person knows the secret or not
+        knows_secret = [False] * n
+        knows_secret[0], knows_secret[firstPerson] = True, True
         
-        # Visited arraay to mark if a person is visited or not.
-        # We'll mark a person as visited after it's dequeued
-        # from the queue.
-        visited = [False] * n
-        
-        # Do BFS, but pop minimum
-        while pq:
-            time, person = heappop(pq)
-            if visited[person]:
-                continue
-            
-            visited[person] = True
-            
-            for t, next_person in graph[person]:
-                if not visited[next_person] and t >= time:
-                    heappush(pq, (t, next_person))
-        
-        # Since we visited only those people who know the secret
-        # we need to return indices of all visited people
-        return [i for i in range(n) if visited[i]]
+        # Process in increasing order of time
+        for t in same_time_meetings:
+            # For each person, save all the people whom he/she meets at time t
+            meet = defaultdict(list)
+            for x, y in same_time_meetings[t]:
+                meet[x].append(y)
+                meet[y].append(x)
+                
+            # Start traversal from those who already know the secret at time t
+            # Set to avoid redundancy
+            q = set()
+            for x, y in same_time_meetings[t]:
+                if knows_secret[x]:
+                    q.add(x)
+                
+                if knows_secret[y]:
+                    q.add(y)
+                    
+            # Do BFS
+            q = deque(q)
+            while q:
+                person = q.popleft()
+                for next_person in meet[person]:
+                    if not knows_secret[next_person]:
+                        knows_secret[next_person] = True
+                        q.append(next_person)
+                        
+        # List of people who know the secret
+        return [i for i in range(n) if knows_secret[i]]
