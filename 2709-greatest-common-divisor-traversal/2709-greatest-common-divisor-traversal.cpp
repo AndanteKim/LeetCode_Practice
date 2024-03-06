@@ -2,24 +2,18 @@ class Graph{
 private:
     int n;
     vector<vector<int>> edges;
-    void traverse(int x, vector<bool>& visited){
-        queue<int> q;
-        q.push(x);
-        visited[x] = true;
-        while(!q.empty()){
-            x = q.front(); q.pop();
-            for (int y : edges[x]){
-                if (!visited[y]){
-                    q.push(y);
-                    visited[y] = true;
-                }
-            }
-        }
-    }
-
+    
 public:
     Graph(int n = 0) : n(n){
         edges.resize(n);
+    }
+    
+    void traverse(int x, vector<bool>& visited){
+        visited[x] = true;
+        for (int y : edges[x]){
+            if (!visited[y])
+                traverse(y, visited);
+        }
     }
     
     void addEdge(int x, int y){
@@ -30,7 +24,6 @@ public:
     bool isConnected(){
         vector<bool> visited(n);
         traverse(0, visited);
-        
         return count(visited.begin(), visited.end(), true) == n;
     }
 };
@@ -38,38 +31,38 @@ public:
 
 class Solution {
 private:
-    vector<int> getPrimeFactor(int x){
-        vector<int> primeFactors;
+    vector<int> getPrimeFactors(int x){
+        vector<int> primes;
         for (int i = 2; i * i <= x; ++i){
             if (x % i == 0){
-                primeFactors.push_back(i);
-                while (x % i == 0) x /= i;
+                while (x % i == 0)
+                    x /= i;
+                primes.push_back(i);
             }
         }
         
-        if (x != 1) primeFactors.push_back(x);
+        if (x != 1) primes.push_back(x);
         
-        return primeFactors;
+        return primes;
     }
     
 public:
     bool canTraverseAllPairs(vector<int>& nums) {
+        // DFS
         int n = nums.size();
         if (n == 1) return true;
         
         Graph g(n);
         unordered_map<int, int> seen;
+        
         for (int i = 0; i < n; ++i){
             if (nums[i] == 1) return false;
             
-            vector<int> primeFactors = getPrimeFactor(nums[i]);
-            for (int prime : primeFactors){
-                if (seen.count(prime)){
+            for (int prime : getPrimeFactors(nums[i])){
+                if (seen.find(prime) != seen.end())
                     g.addEdge(i, seen[prime]);
-                }
-                else{
+                else
                     seen[prime] = i;
-                }
             }
         }
         
