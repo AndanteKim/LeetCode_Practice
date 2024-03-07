@@ -1,23 +1,21 @@
 class Solution {
 public:
-    unordered_map<string, int> values{\
-        {"I", 1}, {"V", 5}, {"X", 10}, {"L", 50}, {"C", 100}, {"D", 500}, {"M", 1000},\
-        {"IV", 4}, {"IX", 9}, {"XL", 40}, {"XC", 90}, {"CD", 400}, {"CM", 900}
-    };
     int romanToInt(string s) {
-        int i = 0, total = 0;
+        unordered_map<char, int> values{\
+        {'I', 1}, {'V', 5}, {'X', 10},\
+        {'L', 50}, {'C', 100}, {'D', 500},\
+        {'M', 1000}\
+        };
         
-        while (i < s.size()){
-            if (i < s.size() - 1 && values.find(s.substr(i, 2)) != values.end()){
-                total += values[s.substr(i, 2)];
-                i += 2;
-            }
-            else{
-                total += values[s.substr(i, 1)];
-                ++i;
-            }
+        int n = s.size() - 2, ans = values[s.back()];
+        
+        for (int i = n; i >= 0; --i){
+            if (values[s[i]] < values[s[i + 1]])
+                ans -= values[s[i]];
+            else
+                ans += values[s[i]];
         }
         
-        return total;
+        return ans;
     }
 };
