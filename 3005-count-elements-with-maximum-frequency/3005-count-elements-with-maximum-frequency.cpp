@@ -10,7 +10,7 @@ public:
             
             // If we discover a higher frequency element
             // Update mx_freq
-            // Reset ans to the new mx_freq
+            // Reset ans to the new maxFreq
             if (freq > maxFreq){
                 maxFreq = freq;
                 ans = freq;
