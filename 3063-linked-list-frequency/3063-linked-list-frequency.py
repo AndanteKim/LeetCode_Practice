@@ -5,22 +5,25 @@
 #         self.next = next
 class Solution:
     def frequenciesOfElements(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        max_value = 100000 # Maximum element value 
-        frequencies = [0] * max_value
-        current = head
-
-        # Find the frequency of each element
-        while current is not None:
-            frequencies[current.val - 1] += 1
-            current = current.next
-
-        freq_head = ListNode(0)
-        current = freq_head
-
-        # Create a linked list of the frequencies of the elements
-        for i in range(0, max_value):
-            if frequencies[i] > 0:
-                current.next = ListNode(frequencies[i])
-                current = current.next
-
-        return freq_head.next
+        freqs, curr = dict(), head
+        freq_head = None
+        
+        # Process the linked list, strong
+        # frequency ListNodes in the hash table
+        
+        while curr:
+            # Existing element, increment frequency
+            if curr.val in freqs:
+                freq_node = freqs[curr.val]
+                freq_node.val += 1
+                freqs[curr.val] = freq_node
+                
+            # New element, create hash table entry with frequency node
+            else:
+                new_freq_node = ListNode(1, freq_head)
+                freqs[curr.val] = new_freq_node
+                freq_head = new_freq_node
+            curr = curr.next
+            
+        return freq_head
+                
