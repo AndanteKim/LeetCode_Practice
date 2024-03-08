@@ -11,27 +11,27 @@
 class Solution {
 public:
     ListNode* frequenciesOfElements(ListNode* head) {
-        unordered_map<int, int> freqs;
-        ListNode* root = head;
-        int k = 0;
-        vector<int> keys;
-        while (root){
-            if (freqs[root -> val] == 0){
-                keys.push_back(root -> val);
-                ++k;
+        int maxVal = 100'000; // Maximum element value
+        vector<int> freqs(maxVal);
+        ListNode* curr = head;
+        
+        // Find the frequency of each element
+        while (curr){
+            ++freqs[curr -> val];
+            curr = curr -> next;
+        }
+        
+        ListNode *freqHead = new ListNode();
+        curr = freqHead;
+        
+        // Create a linked list of the frequencies of the elements
+        for (int i = 0; i < maxVal; ++i){
+            if (freqs[i] > 0){
+                curr -> next = new ListNode(freqs[i]); 
+                curr = curr -> next;
             }
-            ++freqs[root -> val];
-            root = root -> next;
         }
         
-        ListNode* sentinel = root = new ListNode(); 
-        while (k-- > 0){
-            root -> next = new ListNode(freqs[keys.back()]);
-            freqs.erase(keys.back());
-            keys.pop_back();
-            root = root -> next;
-        }
-        
-        return sentinel -> next;
+        return freqHead -> next;
     }
 };
