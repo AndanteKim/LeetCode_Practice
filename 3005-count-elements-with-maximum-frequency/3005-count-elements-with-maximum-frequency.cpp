@@ -2,15 +2,22 @@ class Solution {
 public:
     int maxFrequencyElements(vector<int>& nums) {
         unordered_map<int, int> freqs;
-        int ans = 0, mx = 0;
         
+        int ans = 0, maxFreq = 0, freq;
         for (int num:nums){
             ++freqs[num];
-            if (freqs[num] > mx) mx = freqs[num];
-        }
-        
-        for (auto& [_,val]:freqs){
-            if (val == mx) ans += val;
+            freq = freqs[num];
+            
+            // If we discover a higher frequency element
+            // Update mx_freq
+            // Reset ans to the new mx_freq
+            if (freq > maxFreq){
+                maxFreq = freq;
+                ans = freq;
+            }
+            // If we find an element with the max frequency, add it to the total
+            else if (freq == maxFreq)
+                ans += freq;
         }
         
         return ans;
