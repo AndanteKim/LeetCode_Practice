@@ -1,30 +1,34 @@
 class Solution {
 private:
-    string commonPrefix(string& left, string& right){
-        int mn = min(left.size(), right.size());
-        
-        for (int i = 0; i < mn; ++i){
-            if (left[i] != right[i])
-                return left.substr(0, i);
+    bool isCommonPrefix(vector<string>& strs, int len){
+        string s1 = strs[0].substr(0, len);
+        for (int i = 1; i < strs.size(); ++i){
+            if (strs[i].find(s1) != 0)
+                return false;
         }
         
-        return left.substr(0, mn);
-    }
-    
-    string longestCommonPrefix(vector<string>& strs, int left, int right){
-        if (left == right) return strs[left];
-        else {
-            int mid = left + ((right - left) >> 1);
-            string lcpLeft = longestCommonPrefix(strs, left, mid);
-            string lcpRight = longestCommonPrefix(strs, mid + 1, right);
-            return commonPrefix(lcpLeft, lcpRight);
-        }
+        return true;
     }
     
 public:
     string longestCommonPrefix(vector<string>& strs) {
-        if (strs.empty() || strs[0].size() == 0) return "";
+        if (strs.empty()) return "";
         
-        return longestCommonPrefix(strs, 0, strs.size() - 1);
+        int minLen = INT_MAX;
+        for (string& s:strs)
+            minLen = min(minLen, (int)s.size());
+        
+        int low = 0, high = minLen;
+        
+        while (low <= high){
+            int mid = low + ((high - low) >> 1);
+            
+            if (isCommonPrefix(strs, mid))
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
+        
+        return strs[0].substr(0, low + ((high - low) >> 1));
     }
 };
