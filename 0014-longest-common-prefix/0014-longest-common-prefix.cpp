@@ -1,34 +1,57 @@
-class Solution {
+class TrieNode{
+public:
+    unordered_map<char, TrieNode*> children;
+    bool isEnd = false;
+
+    TrieNode(){}
+};
+
+class Trie{
 private:
-    bool isCommonPrefix(vector<string>& strs, int len){
-        string s1 = strs[0].substr(0, len);
-        for (int i = 1; i < strs.size(); ++i){
-            if (strs[i].find(s1) != 0)
-                return false;
-        }
-        
-        return true;
-    }
+    TrieNode* root;
     
 public:
-    string longestCommonPrefix(vector<string>& strs) {
-        if (strs.empty()) return "";
-        
-        int minLen = INT_MAX;
-        for (string& s:strs)
-            minLen = min(minLen, (int)s.size());
-        
-        int low = 0, high = minLen;
-        
-        while (low <= high){
-            int mid = low + ((high - low) >> 1);
-            
-            if (isCommonPrefix(strs, mid))
-                low = mid + 1;
-            else
-                high = mid - 1;
+    Trie(){
+        root = new TrieNode();
+    }
+    
+    void insert(string& word){
+        TrieNode* curr = root;
+        for (char& c:word){
+            if (curr -> children.find(c) == curr -> children.end()){
+                curr -> children[c] = new TrieNode();
+            }
+            curr = curr -> children[c];
         }
         
-        return strs[0].substr(0, low + ((high - low) >> 1));
+        curr -> isEnd = true;
+    }
+    
+    string startswith(string& word){
+        TrieNode* curr = root;
+        string prefix = "";
+        
+        for (char& c:word){
+            if (curr -> isEnd || curr -> children.size() != 1 || curr -> children.find(c) == curr -> children.end()) break;
+            curr = curr -> children[c];
+            prefix.push_back(c);
+        }
+        
+        return prefix;
+    }
+};
+
+class Solution {
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if (strs.size() == 0) return "";
+        if (strs.size() == 1) return strs[0];
+        
+        Trie *trie = new Trie();
+        
+        for (int i = 0; i < strs.size(); ++i)
+            trie -> insert(strs[i]);
+        
+        return trie -> startswith(strs[0]);
     }
 };
