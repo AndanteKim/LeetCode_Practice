@@ -1,26 +1,34 @@
-class Solution:
-    def is_common_prefix(self, strs: List[str], l: int) -> bool:
-        str1 = strs[0][:l]
-        for i in range(1, len(strs)):
-            if not strs[i].startswith(str1):
-                return False
-        return True
+class Solution {
+private:
+    bool isCommonPrefix(vector<string>& strs, int len){
+        string s1 = strs[0].substr(0, len);
+        for (int i = 1; i < strs.size(); ++i){
+            if (strs[i].find(s1) != 0)
+                return false;
+        }
+        
+        return true;
+    }
     
-    def longestCommonPrefix(self, strs: List[str]) -> str:
-        if len(strs) == 0:
-            return ""
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if (strs.empty()) return "";
         
-        min_len = float('inf')
-        for s in strs:
-            min_len = min(min_len, len(s))
+        int minLen = INT_MAX;
+        for (string& s:strs)
+            minLen = min(minLen, (int)s.size());
+        
+        int low = 0, high = minLen;
+        
+        while (low <= high){
+            int mid = low + ((high - low) >> 1);
             
-        low, high = 1, min_len
+            if (isCommonPrefix(strs, mid))
+                low = mid + 1;
+            else
+                high = mid - 1;
+        }
         
-        while low <= high:
-            mid = (low + high) >> 1
-            if self.is_common_prefix(strs, mid):
-                low = mid + 1
-            else:
-                high = mid - 1
-        
-        return strs[0][0: (low + high) >> 1]
+        return strs[0].substr(0, low + ((high - low) >> 1));
+    }
+};
