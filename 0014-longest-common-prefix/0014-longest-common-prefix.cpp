@@ -1,17 +1,30 @@
 class Solution {
-public:
-    string longestCommonPrefix(vector<string>& strs) {
-        if (strs.size() == 0) return "";
+private:
+    string commonPrefix(string& left, string& right){
+        int mn = min(left.size(), right.size());
         
-        string prefix = strs[0];
-        
-        for (int i = 1; i < strs.size(); ++i){
-            while (strs[i].find(prefix) != 0){
-                prefix = prefix.substr(0, prefix.size() - 1);
-                if (prefix.size() == 0) return "";
-            }
+        for (int i = 0; i < mn; ++i){
+            if (left[i] != right[i])
+                return left.substr(0, i);
         }
         
-        return prefix;
+        return left.substr(0, mn);
+    }
+    
+    string longestCommonPrefix(vector<string>& strs, int left, int right){
+        if (left == right) return strs[left];
+        else {
+            int mid = left + ((right - left) >> 1);
+            string lcpLeft = longestCommonPrefix(strs, left, mid);
+            string lcpRight = longestCommonPrefix(strs, mid + 1, right);
+            return commonPrefix(lcpLeft, lcpRight);
+        }
+    }
+    
+public:
+    string longestCommonPrefix(vector<string>& strs) {
+        if (strs.empty() || strs[0].size() == 0) return "";
+        
+        return longestCommonPrefix(strs, 0, strs.size() - 1);
     }
 };
