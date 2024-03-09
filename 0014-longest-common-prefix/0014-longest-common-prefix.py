@@ -1,34 +1,42 @@
-class Solution {
-private:
-    bool isCommonPrefix(vector<string>& strs, int len){
-        string s1 = strs[0].substr(0, len);
-        for (int i = 1; i < strs.size(); ++i){
-            if (strs[i].find(s1) != 0)
-                return false;
-        }
+class TrieNode:
+    def __init__(self):
+        self.children = dict()
+        self.is_end = False
         
-        return true;
-    }
-    
-public:
-    string longestCommonPrefix(vector<string>& strs) {
-        if (strs.empty()) return "";
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
         
-        int minLen = INT_MAX;
-        for (string& s:strs)
-            minLen = min(minLen, (int)s.size());
+    def insert(self, word: str) -> None:
+        curr = self.root
+        for c in word:
+            if c not in curr.children:
+                curr.children[c] = TrieNode()
+            curr = curr.children[c]
+        curr.is_end = True    
         
-        int low = 0, high = minLen;
         
-        while (low <= high){
-            int mid = low + ((high - low) >> 1);
+    def startswith(self, word: str) -> str:
+        curr, prefix = self.root, ""
+        for c in word:
+            if curr.is_end or len(curr.children) != 1 or c not in curr.children:
+                break
             
-            if (isCommonPrefix(strs, mid))
-                low = mid + 1;
-            else
-                high = mid - 1;
-        }
+            curr = curr.children[c]
+            prefix += c
         
-        return strs[0].substr(0, low + ((high - low) >> 1));
-    }
-};
+        return prefix
+    
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        if len(strs) == 0:
+            return ""
+        
+        if len(strs) == 1:
+            return strs[0]
+        
+        trie = Trie()
+        for i in range(len(strs)):
+            trie.insert(strs[i])
+        
+        return trie.startswith(strs[0])
