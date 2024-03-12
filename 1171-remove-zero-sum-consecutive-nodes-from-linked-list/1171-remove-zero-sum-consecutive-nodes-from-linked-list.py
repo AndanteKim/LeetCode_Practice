@@ -6,21 +6,26 @@
 class Solution:
     def removeZeroSumSublists(self, head: Optional[ListNode]) -> Optional[ListNode]:
         front = ListNode(0, head)
-        start = front
+        curr = front
+        prefix_sum = 0
+        prefix_sum_to_node = {0: front}
         
-        while start:
-            prefix_sum = 0
-            end = start.next
+        # Calculate the prefix sum for each node and add to the hashmap
+        # Duplicate prefix sum values will be replaced
+        while curr:
+            prefix_sum += curr.val
+            prefix_sum_to_node[prefix_sum] = curr
+            curr = curr.next
             
-            while end:
-                # Add end's value to the prefix_sum
-                prefix_sum += end.val
-                
-                # Delete zero sum consecutive sequence
-                # by setting node before sequence to node after
-                if prefix_sum == 0:
-                    start.next = end.next
-                end = end.next
-            start = start.next
+        # Reset prefix sum and current
+        prefix_sum = 0
+        curr = front
+        
+        # Delete zero sum consecutive sequences
+        # by setting node before sequence to node after
+        while curr:
+            prefix_sum += curr.val
+            curr.next = prefix_sum_to_node[prefix_sum].next
+            curr = curr.next
             
         return front.next
