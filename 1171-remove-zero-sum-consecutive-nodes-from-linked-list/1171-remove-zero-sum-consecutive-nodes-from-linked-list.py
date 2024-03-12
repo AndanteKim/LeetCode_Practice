@@ -7,25 +7,34 @@ class Solution:
     def removeZeroSumSublists(self, head: Optional[ListNode]) -> Optional[ListNode]:
         front = ListNode(0, head)
         curr = front
-        prefix_sum = 0
-        prefix_sum_to_node = {0: front}
+        prefix_sum, prefix_sum_to_node = 0, dict()
         
-        # Calculate the prefix sum for each node and add to the hashmap
-        # Duplicate prefix sum values will be replaced
         while curr:
+            # Add current's value to the prefix sum
             prefix_sum += curr.val
-            prefix_sum_to_node[prefix_sum] = curr
-            curr = curr.next
             
-        # Reset prefix sum and current
-        prefix_sum = 0
-        curr = front
-        
-        # Delete zero sum consecutive sequences
-        # by setting node before sequence to node after
-        while curr:
-            prefix_sum += curr.val
-            curr.next = prefix_sum_to_node[prefix_sum].next
+            # If prefix_sum is already in the hashmap,
+            # we have found a zero-sum sequence:
+            if prefix_sum in prefix_sum_to_node:
+                prev = prefix_sum_to_node[prefix_sum]
+                curr = prev.next
+            
+                # Delete zero sum nodes from hashmap
+                # to prevent incorrect deletions from linked list
+                p = prefix_sum + curr.val
+                while p != prefix_sum:
+                    del prefix_sum_to_node[p]
+                    curr = curr.next
+                    p += curr.val
+                    
+                # Make connection from the node before
+                # the zero sum sequence to the node after
+                prev.next = curr.next
+            else:
+                # Add new prefix_sum to hashmap
+                prefix_sum_to_node[prefix_sum] = curr
+                
+            # Progress to next element in list
             curr = curr.next
             
         return front.next
