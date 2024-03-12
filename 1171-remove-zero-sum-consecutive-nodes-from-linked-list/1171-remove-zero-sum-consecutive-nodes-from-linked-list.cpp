@@ -16,23 +16,31 @@ public:
         int prefixSum = 0;
         unordered_map<int, ListNode*> prefixSumToNode;
         
-        // Calculate the prefix sum for each node and add to the hashmap
-        // Duplicate prefix sum values will be replaced
         while (curr){
+            // Add current's value to the prefix sum
             prefixSum += curr -> val;
-            prefixSumToNode[prefixSum] = curr;
-            curr = curr -> next;
-        }
-        
-        // Reset prefix sum and current
-        prefixSum = 0;
-        curr = front;
-        
-        // Delete zero sum consecutive sequences
-        // by setting node before sequence to node after
-        while (curr){
-            prefixSum += curr -> val;
-            curr -> next = prefixSumToNode[prefixSum] -> next;
+            
+            // If prefixSum is already in the hashmap,
+            // we have found a zero-sum sequence
+            if (prefixSumToNode.find(prefixSum) != prefixSumToNode.end()){
+                ListNode* prev = prefixSumToNode[prefixSum];
+                curr = prev -> next;
+                
+                // Delete zero sum nodes from hashmap
+                // to prevent incorrect deletions from linked list
+                int p = prefixSum + curr -> val;
+                while (p != prefixSum){
+                    prefixSumToNode.erase(p);
+                    curr = curr -> next;
+                    p += curr -> val;
+                }
+                prev -> next = curr -> next;
+            }
+            else
+                // Add new prefixSum to hashmap
+                prefixSumToNode[prefixSum] = curr;
+            
+            // Progress to next element inlist
             curr = curr -> next;
         }
         
