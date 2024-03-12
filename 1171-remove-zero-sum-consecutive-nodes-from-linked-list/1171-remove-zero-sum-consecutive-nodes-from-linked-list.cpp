@@ -12,24 +12,28 @@ class Solution {
 public:
     ListNode* removeZeroSumSublists(ListNode* head) {
         ListNode* front = new ListNode(0, head);
-        ListNode* start = front;
+        ListNode* curr = front;
+        int prefixSum = 0;
+        unordered_map<int, ListNode*> prefixSumToNode;
         
-        while (start){
-            int prefixSum = 0;
-            ListNode* end = start -> next;
-            
-            while (end){
-                // Add end's value to the prefixSum
-                prefixSum += end -> val;
-                
-                // Delete zero sum consecutive sequence
-                // by setting node before sequence to node after
-                if (prefixSum == 0) start -> next = end -> next;
-                
-                end = end -> next;
-            }
-            
-            start = start -> next;
+        // Calculate the prefix sum for each node and add to the hashmap
+        // Duplicate prefix sum values will be replaced
+        while (curr){
+            prefixSum += curr -> val;
+            prefixSumToNode[prefixSum] = curr;
+            curr = curr -> next;
+        }
+        
+        // Reset prefix sum and current
+        prefixSum = 0;
+        curr = front;
+        
+        // Delete zero sum consecutive sequences
+        // by setting node before sequence to node after
+        while (curr){
+            prefixSum += curr -> val;
+            curr -> next = prefixSumToNode[prefixSum] -> next;
+            curr = curr -> next;
         }
         
         return front -> next;
