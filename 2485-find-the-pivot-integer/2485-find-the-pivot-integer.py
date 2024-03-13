@@ -1,23 +1,21 @@
 class Solution:
     def pivotInteger(self, n: int) -> int:
-        left_value, right_value = 1, n
-        sum_left, sum_right = left_value, right_value
+        # Initialize left and right pointers for binary search
+        left, right = 1, n
         
-        if n == 1:
-            return n
+        # Calculate the total sum of the sequence
+        total_sum = n * (n + 1) >> 1
         
-        # Iterate until the pointers meet
-        while left_value < right_value:
-            # Adjust sums and pointers based on comparison
-            if sum_left < sum_right:
-                sum_left += left_value + 1
-                left_value += 1
+        # Binary search for the pivot point
+        while left <right:
+            # Calculate the mid-point
+            mid = (left + right) >> 1
+            
+            # Check if the difference between the square of mid and the total sum is negative
+            if mid * mid - total_sum < 0:
+                left = mid + 1  # Adjust the left bound if the sum is smaller
             else:
-                sum_right += right_value - 1
-                right_value -= 1
-                
-            # Check for pivot condition
-            if sum_left == sum_right and left_value + 1 == right_value - 1:
-                return left_value + 1
-        
-        return -1 # Return -1 if no pivot is found
+                right = mid  # Adjust the right bound if the sum is equal or greater
+       
+        # Check if the square of the left pointer minus the total sum is zero
+        return left if left * left - total_sum == 0 else -1
