@@ -1,14 +1,20 @@
 class Solution:
     def findMaxLength(self, nums: List[int]) -> int:
-        n = len(nums)
-        ans, arr = 0, [-2] * (2 * n + 1)
-        arr[n], ans, count = -1, 0, 0
+        prefix = dict()
+        ans, count, n = 0, 0, len(nums)
         
         for i in range(n):
-            count += -1 if nums[i] == 0 else 1
-            if arr[count + n] >= -1:
-                ans = max(ans, i - arr[count + n])
-            else:
-                arr[count + n] = i
+            count += 1 if nums[i] == 1 else -1
             
+            # Array from index 0 to i contains equal number of 0's and 1's
+            if count == 0:
+                ans = max(ans, i + 1)
+            
+            if count in prefix:
+                ans = max(ans, i - prefix[count])
+            else:
+                prefix[count] = i
+                
         return ans
+                
+              
