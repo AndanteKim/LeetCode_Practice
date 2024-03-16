@@ -1,19 +1,19 @@
 class Solution {
 public:
     int findMaxLength(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> arr(2 * n + 1, -2);
-        arr[n] = -1;
-        int ans = 0, count = 0;
+        unordered_map<int, int> prefix;
+        int ans = 0, count = 0, n = nums.size();
         
         for (int i = 0; i < n; ++i){
-            count += (nums[i] == 0)? -1 : 1;
+            (nums[i] == 1)? ++count:--count;
             
-            if (arr[count + n] >= -1){
-                ans = max(ans, i - arr[count + n]);
-            }
+            // Array from index 0 to i contains equal number of 0's and 1's
+            if (count == 0) ans = max(ans, i + 1);
+            
+            if (prefix.find(count) != prefix.end())
+                ans = max(ans, i - prefix[count]);
             else
-                arr[count + n] = i;
+                prefix[count] = i;
         }
         
         return ans;
