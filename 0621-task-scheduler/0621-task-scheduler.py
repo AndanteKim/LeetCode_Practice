@@ -1,30 +1,23 @@
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        # Build frequency
-        freq = Counter(tasks)
+        # Create a frequency array to keep track of the count of each task
+        freq = [0] * 26
+        for task in tasks:
+            freq[ord(task) - 65] += 1
+            
+        # Sort the frequency array in non-decreasing order
+        freq.sort()
         
-        # Max heap to store frequencies
-        pq = [-f for f in freq.values() if f > 0]
-        heapify(pq)
+        # Calculate the maximum frequency of any task
+        max_freq = freq[25] - 1
         
-        time = 0
-        # Process tasks until the heap is empty
-        while pq:
-            cycle, store, task_count = n + 1, [], 0
+        # Calculate the number of idle slots that will be required
+        idle_slots = max_freq * n
+        
+        # Iterate over the frequency array from the second highest frequency to the lowest frequency
+        for i in range(24, -1, -1):
+            # Subtract the minimum of the maximum frequency and the current frequency from the idle slots
+            idle_slots -= min(max_freq, freq[i])
             
-            # Execute tasks in each cycle
-            while cycle > 0 and pq:
-                curr_freq = -heappop(pq)
-                if curr_freq > 1:
-                    store.append(-(curr_freq - 1))
-                task_count += 1
-                cycle -= 1
-            
-            # Restore updated frequencies to the heap
-            for x in store:
-                heappush(pq, x)
-            
-            # Add time for the completed cycle
-            time += task_count if not pq else n + 1
-                
-        return time
+        # If there are any idle slots left, add them to the total number of tasks
+        return idle_slots + len(tasks) if idle_slots > 0 else len(tasks)
