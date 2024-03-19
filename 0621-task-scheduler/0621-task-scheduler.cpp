@@ -1,37 +1,25 @@
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
-        // Build frequencies map
-        unordered_map<char, int> freq;
+        // Create a frequency array to keep track of the count of each task.
+        vector<int> freq(26);
         
-        // Max heap to store frequencies
-        for (char& c:tasks) ++freq[c];
-        int ans = 0;
+        for(char& task:tasks) ++freq[task - 65];
         
-        priority_queue<int, vector<int>> pq;
-        for (auto& [_, v]:freq) pq.push(v);
+        // sort the frequency array in non-decreasing order
+        sort(freq.begin(), freq.end());
+        // Calculate the number of idle slots that will be required
+        int maxFrequency = freq[25] - 1;
+        int idleSlots = maxFrequency * n;
         
-        // Process tasks until the pq is empty
-        while (!pq.empty()){
-            int taskCount = 0, cycle = n + 1;
-            vector<int> store;
-            
-            // Execute tasks until the pq is empty
-            while (cycle-- > 0 && !pq.empty()){
-                int currFreq = pq.top();
-                pq.pop();
-                ++taskCount;
-                
-                if (currFreq > 1) store.push_back(--currFreq);
-            }
-            
-            // restore updated frequencies to the heap
-            for (int x:store) pq.push(x);
-            
-            // Add time for the completed cycle
-            ans += (pq.empty())? taskCount : n + 1;
+        // Iterate over the frequency aray from the second highset frequency to the lowest frequency
+        for (int i = 24; i >= 0; --i){
+            // subtract the minimum of the maximum frequency and the current frequency
+            // to the lowest frequency
+            idleSlots -= min(maxFrequency, freq[i]);
         }
         
-        return ans;
+        // If there are any idle slots left, add them to the total number of tasks.
+        return (idleSlots > 0)? idleSlots + tasks.size() : tasks.size();
     }
 };
