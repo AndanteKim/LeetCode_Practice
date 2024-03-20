@@ -1,25 +1,28 @@
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
-        // Create a frequency array to keep track of the count of each task.
-        vector<int> freq(26);
+        // Count the array to store the frequency of each task
+        vector<int> counter(26);
+        int maxVal = 0, maxCount = 0;
         
-        for(char& task:tasks) ++freq[task - 65];
-        
-        // sort the frequency array in non-decreasing order
-        sort(freq.begin(), freq.end());
-        // Calculate the number of idle slots that will be required
-        int maxFrequency = freq[25] - 1;
-        int idleSlots = maxFrequency * n;
-        
-        // Iterate over the frequency aray from the second highset frequency to the lowest frequency
-        for (int i = 24; i >= 0; --i){
-            // subtract the minimum of the maximum frequency and the current frequency
-            // to the lowest frequency
-            idleSlots -= min(maxFrequency, freq[i]);
+        // Traverse through tasks to calculate task frequencies
+        for (char& task:tasks){
+            ++counter[task - 65];
+            
+            if (maxVal == counter[task - 65])
+                ++maxCount;
+            else if (maxVal < counter[task - 65]){
+                maxCount = 1;
+                maxVal = counter[task - 65];
+            }
         }
         
-        // If there are any idle slots left, add them to the total number of tasks.
-        return (idleSlots > 0)? idleSlots + tasks.size() : tasks.size();
+        // Calculate idle slots, available_tasks, and idles needed
+        int partCount = maxVal - 1, partLength = n - (maxCount - 1);
+        int emptySlots = partCount * partLength;
+        int availableTasks = tasks.size() - maxVal * maxCount, idles = max(0, emptySlots - availableTasks);
+        
+        // Return the total time required
+        return tasks.size() + idles;
     }
 };
