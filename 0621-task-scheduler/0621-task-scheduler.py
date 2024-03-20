@@ -1,23 +1,24 @@
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        # Create a frequency array to keep track of the count of each task
-        freq = [0] * 26
+        # Counter array to store the frequency of each task
+        counter = [0] * 26
+        max_val, max_count = 0, 0
+        
+        # Traverse through tasks to calculate task frequencies
         for task in tasks:
-            freq[ord(task) - 65] += 1
-            
-        # Sort the frequency array in non-decreasing order
-        freq.sort()
+            counter[ord(task) - 65] += 1
+            if max_val == counter[ord(task) - 65]:
+                max_count += 1
+            elif max_val < counter[ord(task) - 65]:
+                max_val = counter[ord(task) - 65]
+                max_count = 1
         
-        # Calculate the maximum frequency of any task
-        max_freq = freq[25] - 1
+        # Calculate idle slots, available, taasks, and idles needed
+        part_count = max_val - 1
+        part_length = n - (max_count - 1)
+        empty_slots = part_count * part_length
+        available_tasks = len(tasks) - max_val * max_count
+        idles = max(0, empty_slots - available_tasks)
         
-        # Calculate the number of idle slots that will be required
-        idle_slots = max_freq * n
-        
-        # Iterate over the frequency array from the second highest frequency to the lowest frequency
-        for i in range(24, -1, -1):
-            # Subtract the minimum of the maximum frequency and the current frequency from the idle slots
-            idle_slots -= min(max_freq, freq[i])
-            
-        # If there are any idle slots left, add them to the total number of tasks
-        return idle_slots + len(tasks) if idle_slots > 0 else len(tasks)
+        # Return the total time required
+        return len(tasks) + idles
