@@ -11,30 +11,29 @@
 class Solution {
 public:
     ListNode* mergeInBetween(ListNode* list1, int a, int b, ListNode* list2) {
-        ListNode *sentinel = new ListNode(), *l2 = list2, *root = sentinel;
-        sentinel -> next = list1;
-        int curr = -1;
+        // Without sentinel or dummy
+        ListNode *curr = list1;
+        int count = 1;
         
-        while (root){
-            // remove list1 starting from a
-            if (curr == a - 1){
-                ListNode *temp = root -> next;
-                root -> next = list2;
-                root = temp;
-            }
-            
-            // reconnect list starting from b + 1
-            if (curr == b){
-                while (l2 -> next){
-                    l2 = l2 -> next;
-                }
-                l2 -> next = root;
-            }
-            
-            root = root -> next;
-            ++curr;
+        while (count < a){
+            curr = curr -> next;
+            ++count;
         }
         
-        return sentinel -> next;
+        ListNode *insertAfter = curr;
+        while (count < b + 1){
+            curr = curr -> next;
+            ++count;
+        }
+        
+        insertAfter -> next = list2;
+        ListNode *prev;
+        while (list2){
+            prev = list2;
+            list2 = list2 -> next;
+        }
+        
+        prev -> next = curr -> next;
+        return list1;
     }
 };
