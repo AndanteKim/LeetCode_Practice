@@ -1,24 +1,18 @@
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        # Counter array to store the frequency of each task
-        counter = [0] * 26
-        max_val, max_count = 0, 0
+        # freq array to store the frequency of each task
+        freq, max_count = [0] * 26, 0
         
-        # Traverse through tasks to calculate task frequencies
+        # Count the frequency of each task and find the maximum frequency
         for task in tasks:
-            counter[ord(task) - 65] += 1
-            if max_val == counter[ord(task) - 65]:
-                max_count += 1
-            elif max_val < counter[ord(task) - 65]:
-                max_val = counter[ord(task) - 65]
-                max_count = 1
+            freq[ord(task) - 65] += 1
+            max_count = max(max_count, freq[ord(task) - 65])
         
-        # Calculate idle slots, available, taasks, and idles needed
-        part_count = max_val - 1
-        part_length = n - (max_count - 1)
-        empty_slots = part_count * part_length
-        available_tasks = len(tasks) - max_val * max_count
-        idles = max(0, empty_slots - available_tasks)
+        # Calculate the total time needed for execution
+        time = (max_count - 1) * (n + 1)
+        for f in freq:
+            if f == max_count:
+                time += 1
         
-        # Return the total time required
-        return len(tasks) + idles
+        # Return the maximum of total time needed and the length of the task list
+        return max(len(tasks), time)
