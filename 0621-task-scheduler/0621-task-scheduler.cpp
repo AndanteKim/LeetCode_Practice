@@ -1,28 +1,25 @@
 class Solution {
 public:
     int leastInterval(vector<char>& tasks, int n) {
-        // Count the array to store the frequency of each task
-        vector<int> counter(26);
-        int maxVal = 0, maxCount = 0;
+        // freq array to store the frequency of each task
+        vector<int> freq(26);
+        int maxCount = 0;
         
-        // Traverse through tasks to calculate task frequencies
+        // Count the frequency of each task and find the maximum frequency
         for (char& task:tasks){
-            ++counter[task - 65];
-            
-            if (maxVal == counter[task - 65])
-                ++maxCount;
-            else if (maxVal < counter[task - 65]){
-                maxCount = 1;
-                maxVal = counter[task - 65];
-            }
+            ++freq[task - 65];
+            maxCount = max(maxCount, freq[task - 65]);
         }
         
-        // Calculate idle slots, available_tasks, and idles needed
-        int partCount = maxVal - 1, partLength = n - (maxCount - 1);
-        int emptySlots = partCount * partLength;
-        int availableTasks = tasks.size() - maxVal * maxCount, idles = max(0, emptySlots - availableTasks);
+        // Calculate the total time needed for execution
+        int time = (maxCount - 1) * (n + 1);
         
-        // Return the total time required
-        return tasks.size() + idles;
+        for (int f : freq){
+            if (f == maxCount)
+                ++time;
+        }
+        
+        // Return the maximum of total time needed and the length of the task list
+        return max((int)tasks.size(), time);
     }
 };
