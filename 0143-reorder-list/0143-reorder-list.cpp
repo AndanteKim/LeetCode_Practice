@@ -9,36 +9,40 @@
  * };
  */
 class Solution {
+private:
+    ListNode* reorderList(ListNode* root, ListNode* curr){
+        if (!curr)
+            return root;
+        
+        // Keep on passing the initial root to the end
+        root = reorderList(root, curr -> next);
+        
+        if (!root)
+            return nullptr;
+        /*
+        We stop reconfiguring in 2 cases
+        1. returned new root is same as head: odd number of list items, so we have come to the middle
+        
+        2. returned new root's next is same as head: Even number of list nums
+        */
+        ListNode *temp = nullptr;
+        if (root == curr || root -> next == curr){
+            curr -> next = nullptr;
+        }
+        else{
+            // Make returned root's next to be curr and return root's next as the new root
+            temp = root -> next;
+            root -> next = curr;
+            curr -> next = temp;
+        }
+        
+        return temp;
+    }
+    
 public:
     void reorderList(ListNode* head) {
-        // Iterative combo: Find middle point, reversed Linked List(LL), two sorted LL
-        ListNode *slow = head, *fast = head;
+        if (!head) return;
         
-        // Find middle point
-        while (fast && fast -> next){
-            slow = slow -> next;
-            fast = fast -> next -> next;
-        }
-        
-        // reverse the second part of the list
-        ListNode *prev = nullptr;
-        while (slow){
-            ListNode *temp = slow -> next;
-            slow -> next = prev;
-            prev = slow;
-            slow = temp;
-        }
-        
-        // merge two sorted LL
-        ListNode *first = head, *second = prev;
-        while (second -> next){
-            ListNode *temp = first -> next;
-            first -> next = second;
-            first = temp;
-            
-            temp = second -> next;
-            second -> next = first;
-            second = temp;
-        }
+        reorderList(head, head -> next);
     }
 };
