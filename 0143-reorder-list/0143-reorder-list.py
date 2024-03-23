@@ -8,29 +8,31 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        front, mid, stack, i = head, head, [], 0
-        
-        if not (front and front.next):
+        # Iterative combo: Find middle pointer, reverse LinkedList(LL), merged two sorted LL
+        if not head:
             return
-
-        while front and front.next:
-            i += 1
-            mid = mid.next
-            front = front.next.next
         
-        while mid:
-            i += 1
-            stack.append(mid)
-            mid = mid.next
+        slow = fast = head
+        while fast and fast.next:
+            slow = slow.next
+            fast = fast.next.next
+            
+        # reverse the second part of the list
+        prev, curr = None, slow
+        while curr:
+            temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = temp
+            
+        # merge two sorted LL
+        first, second = head, prev
+        while second.next:
+            temp = first.next
+            first.next = second
+            first = temp
+            
+            temp = second.next
+            second.next = first
+            second = temp
         
-        front = head
-        while stack:
-            temp, rear = front.next, stack.pop()
-            front.next = rear
-            rear.next = temp
-            front = temp
-        
-        if i % 2:
-            front.next.next = None
-        else:
-            front.next = None
