@@ -11,34 +11,34 @@
 class Solution {
 public:
     void reorderList(ListNode* head) {
-        ListNode *front = head, *mid = head;
-        stack<ListNode*> s;
-        int i = 0;
+        // Iterative combo: Find middle point, reversed Linked List(LL), two sorted LL
+        ListNode *slow = head, *fast = head;
         
-        if (!(front && front -> next)) return;
-        
-        while (front && front -> next){
-            ++i;
-            mid = mid -> next;
-            front = front -> next -> next;
+        // Find middle point
+        while (fast && fast -> next){
+            slow = slow -> next;
+            fast = fast -> next -> next;
         }
         
-        while (mid){
-            s.push(mid);
-            ++i;
-            mid = mid -> next;
+        // reverse the second part of the list
+        ListNode *prev = nullptr;
+        while (slow){
+            ListNode *temp = slow -> next;
+            slow -> next = prev;
+            prev = slow;
+            slow = temp;
         }
         
-        front = head;
-        while (!s.empty()){
-            ListNode *temp = front -> next, *rear = s.top();
-            s.pop();
-            front -> next = rear;
-            rear -> next = temp;
-            front = temp;
+        // merge two sorted LL
+        ListNode *first = head, *second = prev;
+        while (second -> next){
+            ListNode *temp = first -> next;
+            first -> next = second;
+            first = temp;
+            
+            temp = second -> next;
+            second -> next = first;
+            second = temp;
         }
-        
-        if (i % 2) front -> next -> next = nullptr;
-        else front -> next = nullptr;
     }
 };
