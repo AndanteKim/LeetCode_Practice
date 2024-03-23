@@ -4,35 +4,37 @@
 #         self.val = val
 #         self.next = next
 class Solution:
+    def _reorderList(self, root: Optional[ListNode], curr: Optional[ListNode]) -> ListNode:
+        if not curr:
+            return root
+        
+        # Keep on passing the initial root to the end
+        root = self._reorderList(root, curr.next)
+        
+        if not root:
+            return None
+        
+        """
+        We stop reconfiguring in 2 cases.
+        1. returned new root is same as head: Odd number of list items, so we have come to the middle
+        2. returned new root's next is same as head" Even number of list items
+        """
+        temp = None
+        if root == curr or root.next == curr:
+            curr.next = None
+        else:
+            # Make returned root's next to be curr and return root's next as the new root
+            temp = root.next
+            root.next = curr
+            curr.next = temp
+        
+        return temp
+    
     def reorderList(self, head: Optional[ListNode]) -> None:
         """
         Do not return anything, modify head in-place instead.
         """
-        # Iterative combo: Find middle pointer, reverse LinkedList(LL), merged two sorted LL
         if not head:
             return
         
-        slow = fast = head
-        while fast and fast.next:
-            slow = slow.next
-            fast = fast.next.next
-            
-        # reverse the second part of the list
-        prev, curr = None, slow
-        while curr:
-            temp = curr.next
-            curr.next = prev
-            prev = curr
-            curr = temp
-            
-        # merge two sorted LL
-        first, second = head, prev
-        while second.next:
-            temp = first.next
-            first.next = second
-            first = temp
-            
-            temp = second.next
-            second.next = first
-            second = temp
-        
+        self._reorderList(head, head.next)
