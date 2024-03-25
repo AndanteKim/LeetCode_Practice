@@ -1,17 +1,16 @@
 class Solution {
 public:
     vector<int> findDuplicates(vector<int>& nums) {
+        // one pass implement
         vector<int> ans;
         
-        // two pass implement
-        for (int num: nums)
-            nums[abs(num) - 1] *= -1;
-        
         for (int num:nums){
-            if (nums[abs(num) - 1] > 0){
+            if (nums[abs(num) - 1] < 0){
+                // seen before
                 ans.push_back(abs(num));
-                nums[abs(num) - 1] *= -1;
             }
+            
+            nums[abs(num) - 1] *= -1;
         }
         
         return ans;
