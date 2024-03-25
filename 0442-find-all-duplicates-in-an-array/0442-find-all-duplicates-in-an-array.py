@@ -1,11 +1,13 @@
 class Solution:
     def findDuplicates(self, nums: List[int]) -> List[int]:
-        bitwise, ans = 0, []
+        ans = []
         
         for num in nums:
-            if bitwise ^ (1 << num) < bitwise:
-                ans.append(num)
+            nums[abs(num) - 1] *= -1
             
-            bitwise ^= (1 << num)
-            
+        for num in nums:
+            if nums[abs(num) - 1] > 0:
+                ans.append(abs(num))
+                nums[abs(num) - 1] *= -1
+        
         return ans
