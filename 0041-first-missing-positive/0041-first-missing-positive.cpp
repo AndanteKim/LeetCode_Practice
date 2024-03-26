@@ -1,22 +1,24 @@
 class Solution {
 public:
     int firstMissingPositive(vector<int>& nums) {
-        int n = nums.size();
-        // look up
-        vector<bool> seen(n + 1);
+        int i = 0, n = nums.size();
         
-        // Mark the elements from nums in the lookup array
-        for (int num:nums){
-            if (0 < num && num <= n)
-                seen[num] = true;
+        // Use cycle sort to place positive elements smaller than n
+        // at the nums[i] - 1
+        while (i < n){
+            if (0 < nums[i] && nums[i] <= n && nums[i] != nums[nums[i] - 1])
+                swap(nums[i], nums[nums[i] - 1]);
+            else
+                ++i;
         }
         
-        // Iterate through integers 1 to n
-        // return smallest missing positive integer
-        for (int i = 1; i <= n; ++i)
-            if (!seen[i]) return i;
+        // Iterate through nums
+        // return the smallest missing positive integer
+        for (int i = 0; i < n; ++i){
+            if (nums[i] != i + 1) return i + 1;
+        }
         
-        // If seen contains all elements 1 to n
+        // If all elements at the correctIndex
         // the smallest missing positive number is n + 1
         return n + 1;
     }
