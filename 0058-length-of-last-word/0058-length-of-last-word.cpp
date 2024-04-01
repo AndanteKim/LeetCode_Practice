@@ -1,14 +1,21 @@
 class Solution {
 public:
     int lengthOfLastWord(string s) {
-        stack<string> st;
-        stringstream ss(s);
-        string word;
+        int i = s.size() - 1, ans = 0;
+        bool countStart = false;
         
-        while (ss >> word){
-            st.push(word);
+        while (i >= 0){
+            if (!countStart && s[i] == ' '){
+                --i;
+                continue;
+            }
+            
+            if (countStart && s[i] == ' ') break;
+            countStart = true;
+            ++ans;
+            --i;
         }
         
-        return st.top().size();
+        return ans;
     }
 };
