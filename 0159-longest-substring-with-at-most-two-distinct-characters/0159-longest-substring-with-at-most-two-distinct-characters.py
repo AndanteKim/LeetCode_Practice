@@ -1,24 +1,16 @@
 class Solution:
     def lengthOfLongestSubstringTwoDistinct(self, s: str) -> int:
-        n = len(s)
-        if n < 3:
-            return n
+        freq, ans, left = defaultdict(int), 0, 0
         
-        left, right = 0, 0
-        hashmap = defaultdict()
-        max_len = 2
-        
-        while right < n:
-            hashmap[s[right]] = right
-            right += 1
+        for right in range(len(s)):
+            freq[s[right]] += 1
             
-            if len(hashmap) == 3:
-                del_idx = min(hashmap.values())
-                del hashmap[s[del_idx]]
+            while len(freq) > 2 and left < right:
+                freq[s[left]] -= 1
+                if freq[s[left]] == 0:
+                    del freq[s[left]]
+                left += 1
                 
-                # move left pointer of the sliding window
-                left = del_idx + 1
-            
-            max_len = max(max_len, right - left)
+            ans = max(ans, right - left + 1)
         
-        return max_len
+        return ans
