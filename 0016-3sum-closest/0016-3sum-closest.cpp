@@ -4,20 +4,17 @@ public:
         int diff = INT_MAX;
         sort(nums.begin(), nums.end());
         
-        for (int i = 0; i < nums.size(); ++i){
-            int lo = i + 1, hi = nums.size() - 1;
-            
-            while (lo < hi){
-                int sum = nums[i] + nums[lo] + nums[hi];
+        for (int i = 0; i < nums.size() && diff != 0; ++i){
+            for (int j = i + 1; j < nums.size(); ++j){
+                int complement = target - (nums[i] + nums[j]);
+                int hi = upper_bound(nums.begin() + j + 1, nums.end(), complement) - nums.begin(), lo = hi - 1;
                 
-                if (abs(target - sum) < abs(diff)) diff = target - sum;
+                if (hi < nums.size() && abs(complement - nums[hi]) < abs(diff))
+                    diff = complement - nums[hi];
                 
-                if (sum < target) ++lo;
-                else --hi;
+                if (j < lo && abs(complement - nums[lo]) < abs(diff))
+                    diff = complement - nums[lo];
             }
-            
-            // If there is the exact target by summation of three vars.
-            if (diff == 0) break;
         }
         
         return target - diff;
