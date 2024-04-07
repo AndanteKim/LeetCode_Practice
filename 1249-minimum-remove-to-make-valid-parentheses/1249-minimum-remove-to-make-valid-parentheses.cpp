@@ -1,29 +1,31 @@
 class Solution {
+private:
+    int n;
+    string deleteInvalidString(string& str, const char openSymbol, const char closeSymbol){
+        string sb = "";
+        int balance = 0;
+        
+        for (char& c:str){
+            if (c == openSymbol) ++balance;
+            if (c == closeSymbol){
+                if (balance == 0) continue;
+                --balance;
+            }
+            sb.push_back(c);
+        }
+        
+        return sb;
+    }
+    
 public:
     string minRemoveToMakeValid(string s) {
-        stack<int> st;
-        unordered_set<int> indicesToRemove;
         
-        for (int i = 0; i < s.size(); ++i){
-            if (s[i] == '(') st.push(i);
-            else if (s[i] == ')'){
-                if (st.empty()) indicesToRemove.insert(i);
-                else st.pop();
-            }
-        }
-        
-        while (!st.empty()){
-            indicesToRemove.insert(st.top());
-            st.pop();
-        }
-        
-        string ans = "";
-        for (int i = 0; i < s.size(); ++i){
-            if (indicesToRemove.find(i) != indicesToRemove.end())
-                continue;
-            ans.push_back(s[i]);
-        }
-        
-        return ans;
+        // Note that the reverse string
+        this -> n = s.size();
+        s = deleteInvalidString(s, '(', ')');
+        reverse(s.begin(), s.end());
+        s = deleteInvalidString(s, ')', '(');
+        reverse(s.begin(), s.end());
+        return s;
     }
 };
