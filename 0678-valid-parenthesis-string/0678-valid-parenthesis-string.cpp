@@ -1,46 +1,44 @@
 class Solution {
-private:
-    int n;
-    bool isValidString(int index, int openCount, const string& s, vector<vector<int>>& memo){
-        // base case: If reached the end of the string, check if all brackets are balanced
-        if (index == n)
-            return openCount == 0;
-        
-        // If already computed, return memoized result
-        if (memo[index][openCount] != -1)
-            return memo[index][openCount];
-        
-        bool isValid = false;
-        // If encountering '*', try all possibilities.
-        if (s[index] == '*'){
-            // Treat * as '('
-            isValid |= isValidString(index + 1, openCount + 1, s, memo);
-            // Treat * as ')'
-            if (openCount)
-                isValid |= isValidString(index + 1, openCount - 1, s, memo);
-            
-            // Treat * as empty
-            isValid |= isValidString(index + 1, openCount, s, memo);
-        }
-        else{
-            // Handle '(' and ')'
-            // Increment count for '('
-            if (s[index] == '(')
-                isValid = isValidString(index + 1, openCount + 1, s, memo);
-            // Decrement count for ')'
-            else if (openCount)
-                isValid = isValidString(index + 1, openCount - 1, s, memo);
-        }
-        
-        // Memoize and return the result
-        return memo[index][openCount] = (isValid)? 1:0;
-    }
-    
 public:
     bool checkValidString(string s) {
-        this -> n = s.size();
-        vector<vector<int>> memo(n, vector<int>(n, -1));
+        int n = s.size();
         
-        return isValidString(0, 0, s, memo);
+        // dp[i][j] represents the substring starting index i is valid with opening brackets.
+        vector<vector<bool>> dp(n + 1, vector<bool>(n + 1));
+        // base case: an empty string with 0 opening brackets is valid
+        dp[n][0] = true;
+        
+        for (int index = n - 1; index >= 0; --index){
+            for (int openCount = 0; openCount < n; ++openCount){
+                bool isValid = false;
+                
+                // '*' can represent '(', ')' or (empty)
+                if (s[index] == '*'){
+                    if (index < n)
+                        // try * as '('
+                        isValid |= dp[index + 1][openCount + 1];
+                    
+                    // opening brackets to use '*' as ')'
+                    if (openCount > 0)
+                        // try * as ')'
+                        isValid |= dp[index + 1][openCount - 1];
+                    // ignore '*'
+                    isValid |= dp[index + 1][openCount];
+                }
+                else{
+                    // If the character is not '*', it can be '(' or ')'
+                    if (s[index] == '(')
+                        // try '('
+                        isValid |= dp[index + 1][openCount + 1];
+                    else if (openCount > 0)
+                        // try ')'
+                        isValid |= dp[index + 1][openCount - 1];
+                }
+                dp[index][openCount] = isValid;
+            }
+        }
+        
+        // check if the entire string is valid with no excess opening brackets
+        return dp[0][0];
     }
 };
