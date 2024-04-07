@@ -20,7 +20,7 @@ private:
 public:
     string minRemoveToMakeValid(string s) {
         
-        // Note that the reverse string
+        // Note that we have to screen both s and the reverse of s to make valid string.
         this -> n = s.size();
         s = deleteInvalidString(s, '(', ')');
         reverse(s.begin(), s.end());
