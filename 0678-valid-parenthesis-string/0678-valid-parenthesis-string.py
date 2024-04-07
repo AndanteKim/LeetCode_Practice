@@ -1,25 +1,33 @@
 class Solution:
     def checkValidString(self, s: str) -> bool:
-        open_bracket, asterisk = [], []
+        self.n = len(s)
+        memo = [[-1] * self.n for _ in range(self.n)]
+        return self.is_valid_string(0, 0, s, memo)
+    
+    def is_valid_string(self, index: int, open_count: int, s: str, memo: List[List[int]]) -> bool:
+        # If reached end of the string, check if all brackets are balanced
+        if index == self.n:
+            return open_count == 0
         
-        for i in range(len(s)):
-            if s[i] == '(':
-                open_bracket.append(i)
+        # If already computed, return memoized result
+        if memo[index][open_count] != -1:
+            return memo[index][open_count] == 1
+        
+        is_valid = False
+        # If encountering '*', try all possibilities
+        if s[index] == '*':
+            is_valid |= self.is_valid_string(index + 1, open_count + 1, s, memo) # Treat '*' as '('
+            if open_count > 0:
+                is_valid |= self.is_valid_string(index + 1, open_count - 1, s, memo) # Treat '*' as ')'
+            is_valid |= self.is_valid_string(index + 1, open_count, s, memo) # Treat '*' as empty
+        else:
+            # Handle '(' and ')'
+            if s[index] == '(':
+                is_valid = self.is_valid_string(index + 1, open_count + 1, s, memo) # Increment count for '('
+            elif open_count > 0:
+                is_valid = self.is_valid_string(index + 1, open_count - 1, s, memo) # Decrement count for ')'
                 
-            elif s[i] == ')':
-                if not (open_bracket or asterisk):
-                    return False
-                if open_bracket:
-                    open_bracket.pop()
-                else:
-                    asterisk.pop()
-                
-            else:
-                asterisk.append(i)
-            
-        while open_bracket and asterisk:
-            # If the order of asterisk shows before the open bracket
-            if open_bracket.pop() > asterisk.pop():
-                return False
-           
-        return False if open_bracket else True
+        # Memoize and return the result
+        memo[index][open_count] = 1 if is_valid else 0
+        
+        return is_valid
