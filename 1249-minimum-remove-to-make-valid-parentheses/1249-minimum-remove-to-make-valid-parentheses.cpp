@@ -1,31 +1,34 @@
 class Solution {
-private:
-    int n;
-    string deleteInvalidString(string& str, const char openSymbol, const char closeSymbol){
-        string sb = "";
-        int balance = 0;
-        
-        for (char& c:str){
-            if (c == openSymbol) ++balance;
-            if (c == closeSymbol){
+public:
+    string minRemoveToMakeValid(string s) {
+        // Pass 1: Remove all invalid ')'
+        string firstPassChars;
+        int openSeen = 0, balance = 0;
+        for (char& c:s){
+            if (c == '('){
+                ++openSeen;
+                ++balance;
+            }
+            
+            if (c == ')'){
                 if (balance == 0) continue;
                 --balance;
             }
-            sb.push_back(c);
+            
+            firstPassChars.push_back(c);
         }
         
-        return sb;
-    }
-    
-public:
-    string minRemoveToMakeValid(string s) {
+        // Pass 2: Remove the rightmost ')'
+        int openToKeep = openSeen - balance;
+        string ans = "";
+        for (char& c : firstPassChars){
+            if (c == '('){
+                --openToKeep;
+                if (openToKeep < 0) continue;
+            }
+            ans.push_back(c);
+        }
         
-        // Note that we have to screen both s and the reverse of s to make valid string.
-        this -> n = s.size();
-        s = deleteInvalidString(s, '(', ')');
-        reverse(s.begin(), s.end());
-        s = deleteInvalidString(s, ')', '(');
-        reverse(s.begin(), s.end());
-        return s;
+        return ans;
     }
 };
