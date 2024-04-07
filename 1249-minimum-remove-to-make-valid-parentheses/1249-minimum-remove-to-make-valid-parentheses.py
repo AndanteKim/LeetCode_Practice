@@ -1,24 +1,22 @@
 class Solution:
     def minRemoveToMakeValid(self, s: str) -> str:
-        indices_to_remove = set()
-        stack = []
-        for i in range(len(s)):
-            if s[i] not in "()":
-                continue
+        def delete_invalid_closing(string: str, open_symbol: chr, close_symbol: chr) -> str:
+            # sb := string builder
+            sb, balance = [], 0
+            for c in string:
+                if c == open_symbol:
+                    balance += 1
+                if c == close_symbol:
+                    if balance == 0:
+                        continue
+                    balance -= 1
+                sb.append(c)
                 
-            if s[i] == '(':
-                stack.append(i)
-            elif not stack:
-                indices_to_remove.add(i)
-            else:
-                stack.pop()
+            return "".join(sb)
+            
         
-        while stack:
-            indices_to_remove.add(stack.pop())
+        # Note that s[::-1] gets the reverse of s.
+        s = delete_invalid_closing(s, '(', ')')
+        s = delete_invalid_closing(s[::-1], ')', '(')
+        return s[::-1]
         
-        string_builder = []
-        for i in range(len(s)):
-            if i not in indices_to_remove:
-                string_builder.append(s[i])
-        
-        return "".join(string_builder)
