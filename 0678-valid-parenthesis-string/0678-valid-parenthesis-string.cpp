@@ -1,28 +1,46 @@
 class Solution {
+private:
+    int n;
+    bool isValidString(int index, int openCount, const string& s, vector<vector<int>>& memo){
+        // base case: If reached the end of the string, check if all brackets are balanced
+        if (index == n)
+            return openCount == 0;
+        
+        // If already computed, return memoized result
+        if (memo[index][openCount] != -1)
+            return memo[index][openCount];
+        
+        bool isValid = false;
+        // If encountering '*', try all possibilities.
+        if (s[index] == '*'){
+            // Treat * as '('
+            isValid |= isValidString(index + 1, openCount + 1, s, memo);
+            // Treat * as ')'
+            if (openCount)
+                isValid |= isValidString(index + 1, openCount - 1, s, memo);
+            
+            // Treat * as empty
+            isValid |= isValidString(index + 1, openCount, s, memo);
+        }
+        else{
+            // Handle '(' and ')'
+            // Increment count for '('
+            if (s[index] == '(')
+                isValid = isValidString(index + 1, openCount + 1, s, memo);
+            // Decrement count for ')'
+            else if (openCount)
+                isValid = isValidString(index + 1, openCount - 1, s, memo);
+        }
+        
+        // Memoize and return the result
+        return memo[index][openCount] = (isValid)? 1:0;
+    }
+    
 public:
     bool checkValidString(string s) {
-        stack<int> openBracket, asterisks;
+        this -> n = s.size();
+        vector<vector<int>> memo(n, vector<int>(n, -1));
         
-        for (int i = 0; i < s.size(); ++i){
-            if (s[i] == '(') openBracket.push(i);
-            else if (s[i] == ')'){
-                if (openBracket.empty() && asterisks.empty()) return false;
-                
-                if (!openBracket.empty()) openBracket.pop();
-                else asterisks.pop();
-            }
-            else
-                asterisks.push(i);
-        }
-        
-        // Check whether the order of openBracket goes first or not
-        while (!openBracket.empty() && !asterisks.empty()){
-            if (openBracket.top() > asterisks.top())
-                return false;
-            openBracket.pop();
-            asterisks.pop();
-        }
-        
-        return (openBracket.empty())? true:false;
+        return isValidString(0, 0, s, memo);
     }
 };
