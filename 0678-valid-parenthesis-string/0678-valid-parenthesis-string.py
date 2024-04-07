@@ -1,33 +1,32 @@
 class Solution:
     def checkValidString(self, s: str) -> bool:
-        self.n = len(s)
-        memo = [[-1] * self.n for _ in range(self.n)]
-        return self.is_valid_string(0, 0, s, memo)
-    
-    def is_valid_string(self, index: int, open_count: int, s: str, memo: List[List[int]]) -> bool:
-        # If reached end of the string, check if all brackets are balanced
-        if index == self.n:
-            return open_count == 0
+        n = len(s)
+        # dp[i][j] represents if the substring starting from index i is valid with j opening brackets
+        dp = [[False] * (n + 1) for _ in range(n + 1)]
         
-        # If already computed, return memoized result
-        if memo[index][open_count] != -1:
-            return memo[index][open_count] == 1
+        # base case: an empty string with 0 opening brackets is valid
+        dp[n][0] = True
         
-        is_valid = False
-        # If encountering '*', try all possibilities
-        if s[index] == '*':
-            is_valid |= self.is_valid_string(index + 1, open_count + 1, s, memo) # Treat '*' as '('
-            if open_count > 0:
-                is_valid |= self.is_valid_string(index + 1, open_count - 1, s, memo) # Treat '*' as ')'
-            is_valid |= self.is_valid_string(index + 1, open_count, s, memo) # Treat '*' as empty
-        else:
-            # Handle '(' and ')'
-            if s[index] == '(':
-                is_valid = self.is_valid_string(index + 1, open_count + 1, s, memo) # Increment count for '('
-            elif open_count > 0:
-                is_valid = self.is_valid_string(index + 1, open_count - 1, s, memo) # Decrement count for ')'
+        for index in range(n - 1, -1, -1):
+            for open_bracket in range(n):
+                is_valid = False
                 
-        # Memoize and return the result
-        memo[index][open_count] = 1 if is_valid else 0
+                # '*' can represent '(' or ')' or '' (empty)
+                if s[index] == '*':
+                    if open_bracket < n:
+                        is_valid |= dp[index + 1][open_bracket + 1] # try '*' as '('
+                    
+                    # opening brackets to use '*' as ')'
+                    if open_bracket > 0:
+                        is_valid |= dp[index + 1][open_bracket - 1] # try '*' as ')'
+                    is_valid |= dp[index + 1][open_bracket] # ignore '*'
+                else:
+                    # If the character is not '*', it can be '(' or ')'
+                    if s[index] == '(':
+                        is_valid |= dp[index + 1][open_bracket + 1] # try '('
+                    elif open_bracket > 0:
+                        is_valid |= dp[index + 1][open_bracket - 1] # try ')'
+                
+                dp[index][open_bracket] = is_valid
         
-        return is_valid
+        return dp[0][0] # check if the entire string is valid with no excess opening brackets
