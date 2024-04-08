@@ -1,15 +1,19 @@
 class Solution:
     def verifyPreorder(self, preorder: List[int]) -> bool:
-        min_limit, i = float('-inf'), 0
         
-        for num in preorder:
-            while i > 0 and preorder[i - 1] < num:
-                min_limit = preorder[i - 1]
-                i -= 1
-                
-            if min_limit >= num:
+        def helper(i: List[int], min_limit: int, max_limit: int) -> bool:
+            if i[0] == len(preorder):
+                return True
+            
+            root = preorder[i[0]]
+            if not (min_limit < root < max_limit):
                 return False
-            preorder[i] = num
-            i += 1
+            
+            i[0] += 1
+            left = helper(i, min_limit, root)
+            right = helper(i, root, max_limit)
+            
+            return left or right
         
-        return True
+        i = [0]
+        return helper(i, float('-inf'), float('inf'))
