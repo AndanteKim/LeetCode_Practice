@@ -1,34 +1,24 @@
 class Solution {
 public:
     int countStudents(vector<int>& students, vector<int>& sandwiches) {
-        queue<int> studentQueue;
-        stack<int> sandwichStack;
-        int n = students.size(); // the size of sandwiches would be the same length
+        int circleStudentsCount = 0, squareStudentsCount = 0;
         
-        // Add students and sandwiches to the queue and stack
-        for (int i = 0; i < n; ++i){
-            studentQueue.push(students[i]);
-            sandwichStack.push(sandwiches[n - 1 - i]);
+        for (int student : students){
+            if (student == 0) ++circleStudentsCount;
+            else ++squareStudentsCount;
         }
         
-        // Simulate the lunch process by serving sandwiches
-        // or sending students to the back of queue.
-        int lastServed = 0;
-        while (!studentQueue.empty() && lastServed < studentQueue.size()){
-            if (sandwichStack.top() == studentQueue.front()){
-                sandwichStack.pop(); // serve sandwich
-                studentQueue.pop();  // student leaves queue
-                lastServed = 0;
+        for (int sandwich : sandwiches){
+            if (sandwich == 0){
+                if (circleStudentsCount == 0) return squareStudentsCount;
+                --circleStudentsCount;
             }
             else{
-                // student moves to back of queue
-                int curr = studentQueue.front(); studentQueue.pop();
-                studentQueue.push(curr);
-                ++lastServed;
+                if (squareStudentsCount == 0) return circleStudentsCount;
+                --squareStudentsCount;
             }
         }
         
-        // Remaining students in queue are unserved students
-        return studentQueue.size();
+        return 0;
     }
 };
