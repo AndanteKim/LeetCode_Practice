@@ -1,26 +1,27 @@
 class Solution:
     def countStudents(self, students: List[int], sandwiches: List[int]) -> int:
-        queue, n = deque(students), len(sandwiches)
-        square_students = students.count(1)
-        circular_students = n - square_students
-        # Make sandwiches array like a stack 
-        sandwiches = sandwiches[::-1]
+        n = len(students) # Sandwiches will be the same length
+        student_queue, sandwich_stack = deque(), []
         
-        while queue and sandwiches:
-            curr = queue.popleft()  
-            
-            # If the current student finds the sandwich they want, then take and leave
-            if curr == sandwiches[-1]:
-                status = sandwiches.pop()
-                if status == 0:
-                    circular_students -= 1
-                else:
-                    square_students -= 1
-            # Otherwise, they will leave it and go back to the end of queue
+        # Add students and sandwiches to the queue and staack
+        for i in range(n):
+            sandwich_stack.append(sandwiches[n - i - 1])
+            student_queue.append(students[i])
+        
+        # Simulate the lunch process by serving sandwiches
+        # or sending students to the back of the queue.
+        last_served = 0
+        
+        while len(student_queue) > 0 and last_served < len(student_queue):
+            if sandwich_stack[-1] == student_queue[0]:
+                sandwich_stack.pop() # Serve sandwich
+                student_queue.popleft() # Student leaves queue
+                last_served = 0
+                
             else:
-                queue.append(curr)
-                if (sandwiches[-1] == 0 and circular_students == 0) or (sandwiches[-1] == 1 and square_students == 0):
-                    break
-        
-        # Return the students unable to eat
-        return len(queue)
+                # Student moves to back of queue
+                student_queue.append(student_queue.popleft())
+                last_served += 1
+                
+        # Remaining students in queue are unserved students
+        return len(student_queue)
