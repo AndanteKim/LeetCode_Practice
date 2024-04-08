@@ -1,14 +1,15 @@
 class Solution:
     def verifyPreorder(self, preorder: List[int]) -> bool:
-        min_limit, stack = float('-inf'), []
+        min_limit, i = float('-inf'), 0
         
-        # Monotonic stack
         for num in preorder:
-            while stack and stack[-1] < num:
-                min_limit = stack.pop()
+            while i > 0 and preorder[i - 1] < num:
+                min_limit = preorder[i - 1]
+                i -= 1
                 
-            if num <= min_limit:
+            if min_limit >= num:
                 return False
-            stack.append(num)
+            preorder[i] = num
+            i += 1
         
         return True
