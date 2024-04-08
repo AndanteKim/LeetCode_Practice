@@ -1,19 +1,18 @@
 class Solution:
     def verifyPreorder(self, preorder: List[int]) -> bool:
-        
-        def helper(i: List[int], min_limit: int, max_limit: int) -> bool:
-            if i[0] == len(preorder):
+        def helper(min_limit: int, max_limit: int) -> bool:
+            nonlocal i
+            if i == len(preorder):
                 return True
             
-            root = preorder[i[0]]
-            if not (min_limit < root < max_limit):
+            root = preorder[i]
+            if root < min_limit or root > max_limit:
                 return False
+            i += 1
             
-            i[0] += 1
-            left = helper(i, min_limit, root)
-            right = helper(i, root, max_limit)
-            
+            left = helper(min_limit, root)
+            right = helper(root, max_limit)
             return left or right
         
-        i = [0]
-        return helper(i, float('-inf'), float('inf'))
+        i = 0
+        return helper(float('-inf'), float('inf'))
