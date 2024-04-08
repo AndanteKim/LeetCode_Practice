@@ -1,27 +1,29 @@
 class Solution:
     def countStudents(self, students: List[int], sandwiches: List[int]) -> int:
-        n = len(students) # Sandwiches will be the same length
-        student_queue, sandwich_stack = deque(), []
+        circle_students_count, square_students_count = 0, 0
         
-        # Add students and sandwiches to the queue and staack
-        for i in range(n):
-            sandwich_stack.append(sandwiches[n - i - 1])
-            student_queue.append(students[i])
-        
-        # Simulate the lunch process by serving sandwiches
-        # or sending students to the back of the queue.
-        last_served = 0
-        
-        while len(student_queue) > 0 and last_served < len(student_queue):
-            if sandwich_stack[-1] == student_queue[0]:
-                sandwich_stack.pop() # Serve sandwich
-                student_queue.popleft() # Student leaves queue
-                last_served = 0
-                
+        # Count the number of students who want each type of sandwich
+        for student in students:
+            if student == 0:
+                circle_students_count += 1
             else:
-                # Student moves to back of queue
-                student_queue.append(student_queue.popleft())
-                last_served += 1
+                square_students_count += 1
                 
-        # Remaining students in queue are unserved students
-        return len(student_queue)
+        # Serve sandwiches to students
+        for sandwich in sandwiches:
+            # No student wants the circle sandwich on top of the stack
+            if sandwich == 0 and circle_students_count == 0:
+                return square_students_count
+            
+            # No student wants the square sandwich on top of the stack
+            if sandwich == 1 and square_students_count == 0:
+                return circle_students_count
+            
+            # Decrement the count of the served sandwich type
+            if sandwich == 0:
+                circle_students_count -= 1
+            else:
+                square_students_count -= 1
+        
+        # Every student received a sandwich
+        return 0
