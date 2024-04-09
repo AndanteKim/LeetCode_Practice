@@ -1,22 +1,19 @@
 class Solution {
 public:
     int timeRequiredToBuy(vector<int>& tickets, int k) {
-        queue<pair<int, bool>> q;
+        int time = 0;
+        
         for (int i = 0; i < tickets.size(); ++i){
-            if (i == k) q.push({tickets[i], true});
-            else q.push({tickets[i], false});
+            // If the current person is before at the desired person 'k'
+            if (i <= k)
+                // buy the minimum of tickets available at person 'k' and the current person
+                time += min(tickets[k], tickets[i]);
+            else
+                // If the current person is after 'k', buy the minimum of
+                // (tickets available at person 'k' - 1) and the current person
+                time += min(tickets[k] - 1, tickets[i]);
         }
         
-        int time = 0;
-        while (!q.empty()){
-            auto [left, kthTurn] = q.front(); q.pop();
-            
-            --left;
-            ++time;
-            if (left > 0) q.push({left, kthTurn});
-            else if (kthTurn) return time;
-        }
-            
-        return -1;
+        return time;
     }
 };
