@@ -1,25 +1,15 @@
 class Solution:
     def timeRequiredToBuy(self, tickets: List[int], k: int) -> int:
-        queue, time = deque(), 0
+        time = 0
         
         for i in range(len(tickets)):
-            if i == k:
-                queue.append((tickets[i], True))
+            # If the current person is before at the desired person 'k'
+            if i <= k:
+                # Buy the minimum of tickets available at person 'k' and the current person
+                time += min(tickets[k], tickets[i])
             else:
-                queue.append((tickets[i], False))
+                # If the current person is after 'k', buy the minimum of
+                # (tickets available at person 'k' - 1) and the current person
+                time += min(tickets[k] - 1, tickets[i])
                 
-        while queue:
-            left, target_turn = queue.popleft()
-            
-            # buy a ticket for each turn of people
-            left -= 1
-            time += 1
-            
-            if left > 0:
-                queue.append((left, target_turn))
-            elif target_turn:
-                return time
-            
-        return -1
-            
-        
+        return time
