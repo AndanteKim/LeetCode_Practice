@@ -1,24 +1,20 @@
 class Solution:
     def deckRevealedIncreasing(self, deck: List[int]) -> List[int]:
-        N, skip = len(deck), False
-        result = [0] * N
-        index_in_deck, index_in_result = 0, 0
+        N, queue = len(deck), deque()
+        
+        # Create aa queue of indices
+        for i in range(N):
+            queue.append(i)
+            
         deck.sort()
         
-        while index_in_deck < N:
-            # There is an available gap in result
-            if result[index_in_result] == 0:
-                
-                # Add a card to result
-                if not skip:
-                    result[index_in_result] = deck[index_in_deck]
-                    index_in_deck += 1
-                    
-                # Toggle skip to alternate between adding and skipping cars
-                skip = not skip
-                
-            # Progress to the next index of result array
-            index_in_result = (index_in_result + 1) % N
+        # Put cards at correct index in ans
+        ans = [0] * N
+        for card in deck:
+            ans[queue.popleft()] = card
+            
+            # Move next card to bottom
+            if queue:
+                queue.append(queue.popleft())
         
-        return result
-                
+        return ans
