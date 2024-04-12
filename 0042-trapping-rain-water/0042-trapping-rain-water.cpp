@@ -1,25 +1,22 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        int ans = 0, leftMax = 0, rightMax = 0;
-        int left = 0, right = height.size() - 1;
+        int size = height.size(), ans = 0;
+        vector<int> leftMax(size), rightMax(size);
         
-        while (left < right){
-            if (height[left] < height[right]){
-                if (height[left] >= leftMax)
-                    leftMax = height[left];
-                else
-                    ans += leftMax - height[left];
-                ++left;
-            }
-            else{
-                if (height[right] >= rightMax)
-                    rightMax = height[right];
-                else
-                    ans += rightMax - height[right];
-                --right;
-            }
-        }
+        leftMax[0] = height[0];
+        // Search the left part for max bar size
+        for (int i = 1; i < size; ++i)
+            leftMax[i] = max(leftMax[i - 1], height[i]);
+            
+        rightMax.back() = height.back();
+        // Search the right part for max bar size
+        for (int i = size - 2; i >= 0; --i)
+            rightMax[i] = max(rightMax[i + 1], height[i]);
+        
+        // find the overlap of both sides
+        for (int i = 1; i < size - 1; ++i)
+            ans += min(leftMax[i], rightMax[i]) - height[i];
         
         return ans;
     }
