@@ -1,18 +1,19 @@
 class Solution {
 public:
     int trap(vector<int>& height) {
-        int ans = 0;
-        stack<int> stack;
+        int size = height.size(), leftMax = 0, rightMax = 0;
+        int ans = 0, left = 0, right = size - 1;
         
-        for (int curr = 0; curr < height.size(); ++curr){
-            while (!stack.empty() && height[curr] > height[stack.top()]){
-                int top = stack.top(); stack.pop();
-                if (stack.empty()) break;
-                
-                int dist = curr - stack.top() - 1, boundedHeight = min(height[curr], height[stack.top()]) - height[top];
-                ans += dist * boundedHeight;
+        // sum up ans as vertical with two pointers
+        while (left < right){
+            if (height[left] < height[right]){
+                (height[left] >= leftMax)? leftMax = height[left] : ans += leftMax - height[left];
+                ++left;
             }
-            stack.push(curr);
+            else{
+                (height[right] >= rightMax)? rightMax = height[right] : ans += rightMax - height[right];
+                --right;
+            }
         }
         
         return ans;
