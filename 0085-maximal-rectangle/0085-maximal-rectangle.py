@@ -1,29 +1,43 @@
 class Solution:
-    def monotone(self, heights: List[int]) -> int:
-        stack, max_area = [-1], 0
-        
-        for i in range(len(heights)):
-            while stack[-1] != -1 and heights[stack[-1]] >= heights[i]:
-                max_area = max(max_area, heights[stack.pop()] * (i - stack[-1] - 1))
-            stack.append(i)
-        
-        while stack[-1] != -1:
-            max_area = max(max_area, heights[stack.pop()] * (len(heights) - stack[-1] - 1))
-
-        return max_area
-    
     def maximalRectangle(self, matrix: List[List[str]]) -> int:
         if not matrix:
             return 0
         
-        max_area, m, n = 0, len(matrix), len(matrix[0])
-        dp = [0] * n
+        m, n = len(matrix), len(matrix[0])
+        
+        # Initialize left and right as the leftmost and rightmosot boundary possible for each
+        left, right = [0] * n, [n] * n
+        height = [0] * n
+        
+        max_area = 0
+        
         for i in range(m):
+            curr_left, curr_right = 0, n
+            # update height
             for j in range(n):
-                # Update the state of this row's histogram using the last row's histogram
-                # by keeping track of the number of consecutive ones
-                dp[j] = dp[j] + 1 if matrix[i][j] == '1' else 0
+                if matrix[i][j] == '1':
+                    height[j] += 1
+                else:
+                    height[j] = 0
+                    
+            # update left
+            for j in range(n):
+                if matrix[i][j] == '1':
+                    left[j] = max(left[j], curr_left)
+                else:
+                    left[j] = 0
+                    curr_left = j + 1
             
-            # update max_area with the maximum area from this row's historgram
-            max_area = max(max_area, self.monotone(dp))
+            # update right
+            for j in range(n - 1, -1, -1):
+                if matrix[i][j] == '1':
+                    right[j] = min(right[j], curr_right)
+                else:
+                    right[j] = n
+                    curr_right = j
+            
+            # update the area
+            for j in range(n):
+                max_area = max(max_area, height[j] * (right[j] - left[j]))
+        
         return max_area
