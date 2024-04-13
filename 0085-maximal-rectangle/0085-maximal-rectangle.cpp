@@ -1,39 +1,43 @@
 class Solution {
-private:
-    int monotone(vector<int>& heights){
-        int maxArea = 0;
-        stack<int> st;
-        st.push(-1);
-        
-        for (int i = 0; i < heights.size(); ++i){
-            while (st.top() != -1 && heights[i] <= heights[st.top()]){
-                int height = heights[st.top()]; st.pop();
-                maxArea = max(maxArea, height * (i - st.top() - 1));
-            }
-            st.push(i);
-        }
-        
-        while (st.top() != -1){
-            int height = heights[st.top()]; st.pop();
-            maxArea = max(maxArea, height * ((int)heights.size() - st.top() - 1));
-        }
-        
-        return maxArea;
-    }
-    
 public:
     int maximalRectangle(vector<vector<char>>& matrix) {
         int maxArea = 0, m = matrix.size(), n = matrix[0].size();
-        vector<int> dp(n);
+        
+        // Initialize left and right as the leftmost and rightmost boundary possible for each
+        vector<int> left(n, 0), right(n, n), height(n, 0);
         
         for (int i = 0; i < m; ++i){
+            int currLeft = 0, currRight = n;
+            
+            // Update the height
             for (int j = 0; j < n; ++j){
-                // Update the state of this rows histogram using the last row's histogram
-                // by keeping track of the number of consecutive ones
-                dp[j] = (matrix[i][j] == '1')? ++dp[j] : 0;
+                if (matrix[i][j] == '1') ++height[j];
+                else
+                    height[j] = 0;
             }
-            // Update maxArea with the maximum area from the row's histogram
-            maxArea = max(maxArea, monotone(dp));
+            
+            // Update the left
+            for (int j = 0; j < n; ++j){
+                if (matrix[i][j] == '1') left[j] = max(left[j], currLeft);
+                else{
+                    left[j] = 0;
+                    currLeft = j + 1;
+                }
+            }
+            
+            // Update the right
+            for (int j = n - 1; j >= 0; --j){
+                if (matrix[i][j] == '1') right[j] = min(right[j], currRight);
+                else{
+                    right[j] = n;
+                    currRight = j;
+                }
+            }
+            
+            // Update the area
+            for (int j = 0; j < n; ++j)
+                maxArea = max(maxArea, height[j] * (right[j] - left[j]));
+            
         }
         
         return maxArea;
