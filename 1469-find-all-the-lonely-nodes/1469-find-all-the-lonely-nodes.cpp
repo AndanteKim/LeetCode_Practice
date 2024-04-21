@@ -10,25 +10,21 @@
  * };
  */
 class Solution {
+private:
+    void dfs(TreeNode* curr, bool isLonely, vector<int>& ans){
+        if (!curr) return;
+        
+        if (isLonely) ans.push_back(curr -> val);
+        
+        dfs(curr -> left, curr -> right == nullptr, ans);
+        dfs(curr -> right, curr -> left == nullptr, ans);
+    }
+    
+    
 public:
     vector<int> getLonelyNodes(TreeNode* root) {
-        queue<TreeNode*> queue{{root}};
         vector<int> ans;
-        
-        while (!queue.empty()){
-            TreeNode* curr = queue.front(); queue.pop();
-            
-            
-            if (curr -> left != nullptr ^ curr -> right != nullptr){
-                // If curr's child is leaf
-                if (curr -> left) ans.push_back(curr -> left -> val);
-                
-                if (curr -> right) ans.push_back(curr -> right -> val);
-            }
-            
-            if (curr -> left) queue.push(curr -> left);
-            if (curr -> right) queue.push(curr -> right);
-        }
+        dfs(root, false, ans);
         
         return ans;
     }
