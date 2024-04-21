@@ -6,24 +6,18 @@
 #         self.right = right
 class Solution:
     def getLonelyNodes(self, root: Optional[TreeNode]) -> List[int]:
-        queue, ans = deque([root]), []
+        ans, queue = [], deque([(root, False)])
         
         while queue:
-            curr = queue.popleft()
+            curr_node, is_lonely = queue.popleft()
             
-            # If child is leaf
-            if (curr.left is not None) ^ (curr.right is not None):
-                # If its child is leaf
-                if curr.left:
-                    ans.append(curr.left.val)
+            if is_lonely:
+                ans.append(curr_node.val)
                 
-                if curr.right:
-                    ans.append(curr.right.val)
-            
-            if curr.left:
-                queue.append(curr.left)
-            
-            if curr.right:
-                queue.append(curr.right)
+            if curr_node.left:
+                queue.append((curr_node.left, curr_node.right == None))
+                
+            if curr_node.right:
+                queue.append((curr_node.right, curr_node.left == None))
                 
         return ans
