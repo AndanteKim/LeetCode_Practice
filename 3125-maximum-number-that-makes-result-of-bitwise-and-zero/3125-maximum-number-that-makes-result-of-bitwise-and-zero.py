@@ -1,4 +1,3 @@
 class Solution:
     def maxNumber(self, n: int) -> int:
-        
-        return 2 ** int(log2(n)) - 1
+        return (1 << (n.bit_length() - 1)) - 1
