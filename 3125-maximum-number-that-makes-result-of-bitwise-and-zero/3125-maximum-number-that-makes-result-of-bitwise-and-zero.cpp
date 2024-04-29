@@ -1,6 +1,12 @@
 class Solution {
 public:
     long long maxNumber(long long n) {
-        return pow(2, int(log2(n))) - 1;
+        long long msb = 0;
+        
+        while (msb < n){
+            msb = msb * 2 + 1;
+        }
+        
+        return msb >> 1;
     }
 };
