@@ -1,13 +1,14 @@
 class Solution {
 public:
     long long wonderfulSubstrings(string word) {
-        unordered_map<long long, int> freq;
         // Create the frequency map
         // key = bitmask, value = frequency of bitmask key
+        unordered_map<long long, int> freq;
+        
+        // The empty prefix can be the smaller prefix, which is handled like this.
         freq[0] = 1;
         long long ans = 0, mask = 0;
         
-        // The empty prefix can be the smaller prefix, which is handled like this.
         for (char& c : word){
             int bit = c - 'a';
             
