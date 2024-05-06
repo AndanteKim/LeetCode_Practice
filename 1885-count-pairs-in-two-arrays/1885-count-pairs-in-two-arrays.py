@@ -1,32 +1,23 @@
 class Solution:
     def countPairs(self, nums1: List[int], nums2: List[int]) -> int:
-        n, ans = len(nums1), 0
+        n = len(nums1)
         
-        # diff[i] stores nums1[i] - nums2[i]
+        # Diff[i] stores nums1[i] - nums2[i]
         diff = [nums1[i] - nums2[i] for i in range(n)]
         diff.sort()
         
-        for i in range(n):
-            # All indices j following i make a valid pair
-            if diff[i] > 0:
-                ans += n - i - 1
-                
-            # Binary search to find the first index j
-            # that makes a valid pair with i
+        # Count the number of valid pairs
+        ans, left, right = 0, 0, n - 1
+        
+        while left < right:
+            # Left makes a valid pair with right
+            # Right also makes a valid pair with indices between the pointers
+            if diff[left] + diff[right] > 0:
+                ans += right - left
+                right -= 1
+            # Left and right are not a valid pair
             else:
-                left, right = i + 1, n - 1
-                while left <= right:
-                    mid = (left + right) >> 1
-                    # If diff[mid] is a valid pair, search in left half
-                    if diff[i] + diff[mid] > 0:
-                        right = mid - 1
-                    # If diff[mid] doesn't make a valid pair, search in right half
-                    else:
-                        left = mid + 1
-            
-            # After the search left points to the first index j that makes
-            # a valid pair with i, so we count that and all following indices
-                ans += n - left
-                
+                left += 1
         
         return ans
+         
