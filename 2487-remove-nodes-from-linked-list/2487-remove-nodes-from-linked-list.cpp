@@ -9,22 +9,47 @@
  * };
  */
 class Solution {
+private:
+    ListNode* reverseList(ListNode* head){
+        ListNode *prev = nullptr, *curr = head, *nextTemp = nullptr;
+        
+        // set each node's next pointer to the previous node
+        while (curr){
+            nextTemp = curr -> next;
+            curr -> next = prev;
+            prev = curr;
+            curr = nextTemp;
+        }
+        
+        return prev;
+    }
+    
 public:
     ListNode* removeNodes(ListNode* head) {
-        // Base case, reached end of the list
-        if (!(head && head -> next)) return head;
+        // Reverse the original linked list
+        head = reverseList(head);
+        int mx = 0;
+        ListNode *curr = head, *prev = nullptr, *deleted = nullptr;
         
-        // Recursive call
-        ListNode* nextNode = removeNodes(head -> next);
+        // Traverse the list deleting nodes
+        while (curr){
+            mx = max(mx, curr -> val);
+            // delete current by skipping
+            if (curr -> val < mx){
+                prev -> next = curr -> next;
+                deleted = curr;
+                curr = curr -> next;
+                deleted -> next = nullptr;
+            }
+            // curr doesn't need to be deleted
+            else{
+                prev = curr;
+                curr = curr -> next;
+            }
+            
+        }
         
-        // If the next node has greater value head, delete the head
-        // return the next node, which removes the current head and
-        // makes next the new head
-        if (head -> val < nextNode -> val)
-            return nextNode;
-        
-        // Keep the head
-        head -> next = nextNode;
-        return head;
+        // Reverse and return the modified linked list
+        return reverseList(head);
     }
 };
