@@ -4,20 +4,42 @@
 #         self.val = val
 #         self.next = next
 class Solution:
+    def reverse_list(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        prev, curr = None, head
+        next_temp = None
+        
+        # Set each node's next pointer to the previous node
+        while curr:
+            next_temp = curr.next
+            curr.next = prev
+            prev = curr
+            curr = next_temp
+            
+        return prev
+    
     def removeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        # Base case, reached end of the list
-        if not (head and head.next):
-            return head
+        # Reverse the original linked list
+        head = self.reverse_list(head)
         
-        # Recursive call
-        next_node = self.removeNodes(head.next)
+        maximum, prev, curr = 0, None, head
         
-        # If the next node has greater value than head, delete the head
-        # Return next node, which removes the current head and
-        # makes next the new head
-        if head.val < next_node.val:
-            return next_node
+        # Traverse the list deleting nodes
+        while curr:
+            maximum = max(maximum, curr.val)
+            
+            # Deleete nodes that are smaller than maximum
+            if curr.val < maximum:
+                # Delete current by skipping
+                prev.next = curr.next
+                deleted = curr
+                curr = curr.next
+                deleted.next = None
+                
+            # curr doesn't need to be deleted
+            else:
+                prev = curr
+                curr = curr.next
+                
+        # Reverse and return the modified linked list
+        return self.reverse_list(head)
         
-        # Keep the head
-        head.next = next_node
-        return head
