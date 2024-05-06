@@ -11,23 +11,37 @@
 class Solution {
 public:
     ListNode* removeNodes(ListNode* head) {
-        ListNode* node = head;
-        deque<ListNode*> dq;
+        ListNode *curr = head;
+        stack<ListNode*> stack;
         
-        while (node){
-            while (!dq.empty() && node -> val > dq.back() -> val)
-                dq.pop_back();
-            dq.push_back(node);
-            node = node -> next;
+        // Add nodes to the stack
+        while (curr){
+            stack.push(curr);
+            curr = curr -> next;
         }
         
-        ListNode* sentinel = new ListNode();
-        sentinel -> next = dq.front();
-        while (dq.size() > 1){
-            dq.front() -> next = dq[1];
-            dq.pop_front();
+        ListNode* ans = new ListNode(stack.top() -> val), *newNode;
+        int max = stack.top() -> val;
+        stack.pop();
+        
+        // Remove nodes from the stack and add to ans
+        while (!stack.empty()){
+            ListNode *curr = stack.top();
+            stack.pop();
+            // curr should not be added to the ans
+            if (curr -> val < max){
+                continue;
+            }
+            // Add new node with curr's value to front of ans
+            else{
+                newNode = new ListNode(curr -> val);
+                newNode -> next = ans;
+                ans = newNode;
+                max = newNode -> val;
+            }
+            
         }
         
-        return sentinel -> next;
+        return ans;
     }
 };
