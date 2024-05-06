@@ -5,19 +5,29 @@
 #         self.next = next
 class Solution:
     def removeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        node, dq = head, deque()
+        stack, curr = [], head
         
-        while node:
-            while dq and node.val > dq[-1].val:
-                dq.pop()
-            dq.append(node)
-            node = node.next
+        # Add nodes to the stack
+        while curr:
+            stack.append(curr)
+            curr = curr.next
+       
+        curr = stack.pop()
+        maximum = curr.val
+        ans = ListNode(maximum)
         
-        sentinel = ListNode()
-        sentinel.next = dq[0]
+        # Remove nodes from the stack and add to ans
+        while stack:
+            curr = stack.pop()
+            # curr should not be added to the result
+            if curr.val < maximum:
+                continue
+                
+            # Add new node with curr's value to front of the result
+            else:
+                new_node = ListNode(curr.val)
+                new_node.next = ans
+                ans = new_node
+                maximum = curr.val
         
-        while len(dq) > 1:
-            dq[0].next = dq[1]
-            dq.popleft()
-            
-        return sentinel.next
+        return ans
