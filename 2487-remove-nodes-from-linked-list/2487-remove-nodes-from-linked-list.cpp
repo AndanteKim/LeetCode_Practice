@@ -11,37 +11,20 @@
 class Solution {
 public:
     ListNode* removeNodes(ListNode* head) {
-        ListNode *curr = head;
-        stack<ListNode*> stack;
+        // Base case, reached end of the list
+        if (!(head && head -> next)) return head;
         
-        // Add nodes to the stack
-        while (curr){
-            stack.push(curr);
-            curr = curr -> next;
-        }
+        // Recursive call
+        ListNode* nextNode = removeNodes(head -> next);
         
-        ListNode* ans = new ListNode(stack.top() -> val), *newNode;
-        int max = stack.top() -> val;
-        stack.pop();
+        // If the next node has greater value head, delete the head
+        // return the next node, which removes the current head and
+        // makes next the new head
+        if (head -> val < nextNode -> val)
+            return nextNode;
         
-        // Remove nodes from the stack and add to ans
-        while (!stack.empty()){
-            ListNode *curr = stack.top();
-            stack.pop();
-            // curr should not be added to the ans
-            if (curr -> val < max){
-                continue;
-            }
-            // Add new node with curr's value to front of ans
-            else{
-                newNode = new ListNode(curr -> val);
-                newNode -> next = ans;
-                ans = newNode;
-                max = newNode -> val;
-            }
-            
-        }
-        
-        return ans;
+        // Keep the head
+        head -> next = nextNode;
+        return head;
     }
 };
