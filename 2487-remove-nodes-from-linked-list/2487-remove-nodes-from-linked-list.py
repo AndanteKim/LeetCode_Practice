@@ -27,7 +27,7 @@ class Solution:
         while curr:
             maximum = max(maximum, curr.val)
             
-            # Deleete nodes that are smaller than maximum
+            # Delete nodes that are smaller than maximum
             if curr.val < maximum:
                 # Delete current by skipping
                 prev.next = curr.next
