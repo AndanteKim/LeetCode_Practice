@@ -1,7 +1,7 @@
 class Solution:
     def maximumHappinessSum(self, happiness: List[int], k: int) -> int:
-        # Convert the list into a max heap ny inverting the happiness values
-        # Pythion's default heap data structure is a min heap
+        # Convert the list into a max heap my inverting the happiness values
+        # Python's default heap data structure is a min heap
         max_heap = [-h for h in happiness]
         heapq.heapify(max_heap)
         
