@@ -1,13 +1,20 @@
 class Solution:
+    # Return the maximum values in the 3 x 3 matrix with top-left as (x, y).
+    def find_max(self, grid: List[List[int]], x: int, y: int) -> int:
+        max_elem = 0
+        for i in range(x, x + 3):
+            for j in range(y, y + 3):
+                max_elem = max(max_elem, grid[i][j])
+        
+        return max_elem
+    
     def largestLocal(self, grid: List[List[int]]) -> List[List[int]]:
         n = len(grid)
-        ans = [[0] * (n - 2) for _ in range(n - 2)]
+        max_local = [[0] * (n - 2) for _ in range(n - 2)]
         
-        for i in range(1, n - 1):
-            for j in range(1, n - 1):
-                ans[i - 1][j - 1] = grid[i][j]
-                for r, c in (i - 1, j), (i + 1, j), (i, j - 1), (i, j + 1), (i - 1, j - 1), (i - 1, j + 1), \
-                (i + 1, j - 1), (i + 1, j + 1):
-                    ans[i - 1][j - 1] = max(ans[i - 1][j - 1], grid[r][c])
+        for i in range(n - 2):
+            for j in range(n - 2):
+                max_local[i][j] = self.find_max(grid, i, j)
                 
-        return ans        
+        return max_local
+        
