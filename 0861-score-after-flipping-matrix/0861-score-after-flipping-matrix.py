@@ -7,7 +7,7 @@ class Solution:
             if grid[i][0] == 0:
                 # Flip row
                 for j in range(n):
-                    grid[i][j] ^= 1 #- grid[i][j] # Bitwise XOR for flip
+                    grid[i][j] = 1 - grid[i][j] # Bitwise XOR for flip
                     
         # Optimize columns except first column
         for j in range(1, n):
