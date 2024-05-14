@@ -7,19 +7,20 @@ class Solution:
             
             max_gold = 0
             
-            # Mark the cell as visited and save the valuie
+            # Mark the cell as visited and save the value
             original_val = grid[r][c]
             grid[r][c] = 0
             
             # Backtrack in each of the four directions
-            for new_r, new_c in (r + 1, c), (r - 1, c), (r, c - 1), (r, c + 1):
-                max_gold = max(max_gold, backtrack(new_r, new_c))
+            for i in range(4):
+                max_gold = max(max_gold, backtrack(r + dirs[i], c + dirs[i + 1]))
             
             # Set the cell back to its original value
             grid[r][c] = original_val
             return max_gold + original_val
         
         m, n, ans = len(grid), len(grid[0]), 0
+        dirs = (0, -1, 0, 1, 0)
         
         # Search for the path with the maximum gold starting from each cell
         for i in range(m):
