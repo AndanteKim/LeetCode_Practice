@@ -1,37 +1,61 @@
 class Solution {
 private:
     int m, n;
-    const int directions[5]{-1, 0, 1, 0, -1};
-    int backtrack(vector<vector<int>>& grid, int row, int col){
-        // Base case: This is not in the matrix or has no gold
-        if (row < 0 || row >= m || col < 0 || col >= n || grid[row][col] == 0)
-            return 0;
+    const int directions[5]{0, 1, 0, -1, 0};
+    int bfsBacktrack(vector<vector<int>>& grid, int row, int col){
+        queue<tuple<int, int, int, bitset<1024>>> queue;
+        bitset<1024> visited;
+        int maxGold = 0;
+        visited[row * n + col] = 1;
+        queue.push({row, col, grid[row][col], visited});
         
-        // Mark the cell as visited and save the valuue
-        int originalValue = grid[row][col], maxGold = 0;
-        grid[row][col] = 0;
+        while (!queue.empty()){
+            auto [currR, currC, currG, currVis] = queue.front();
+            queue.pop();
+            maxGold = max(maxGold, currG);
+            
+            // Search for gold in each of the 4 neighbor cells
+            for (int i = 0; i < 4; ++i){
+                int nextR = currR + directions[i], nextC = currC + directions[i + 1];
+                
+                // If the next cell is in the matrix, has gold, 
+                // aand has not been visited, add it to the queue
+                if (nextR >= 0 && nextR < m && nextC >= 0 && nextC < n && grid[nextR][nextC] > 0 \
+                   && !currVis[nextR * n + nextC]){
+                    currVis[nextR * n + nextC] = 1;
+                    queue.push({nextR, nextC, currG + grid[nextR][nextC], currVis});
+                    currVis[nextR * n + nextC] = 0;
+                }
+            }
+        }
         
-        // Backtrack in each of four dirs
-        for (int i = 0; i < 4; ++i)
-            maxGold = max(maxGold, backtrack(grid, row + directions[i], col + directions[i + 1]));
-        
-        // Set the cell back to its original value
-        grid[row][col] = originalValue;
-        
-        return maxGold + originalValue;
+        return maxGold;
     }
     
 public:
     int getMaximumGold(vector<vector<int>>& grid) {
         this -> m = grid.size(), this -> n = grid[0].size();
-        int ans = 0;
+        
+        // Find the total amount of gold in the grid
+        int totalGold = 0;
+        for (int row = 0; row < m; ++row)
+            for (int col = 0; col < n; ++col)
+                totalGold += grid[row][col];
+        
+        int maxGold = 0;
         
         // Search for the path with the maximum gold starting from each cell
-        for (int i = 0; i < m; ++i){
-            for (int j = 0; j < n; ++j)
-                ans = max(ans, backtrack(grid, i, j));
+        for (int row = 0; row < m; ++row){
+            for (int col = 0; col < n; ++col){
+                if (grid[row][col] > 0){
+                    maxGold = max(maxGold, bfsBacktrack(grid, row, col));
+                    // If we found a path with the total gold, it's the max gold
+                    if (maxGold == totalGold)
+                        return totalGold;
+                }
+            }
         }
         
-        return ans;
+        return maxGold;
     }
 };
