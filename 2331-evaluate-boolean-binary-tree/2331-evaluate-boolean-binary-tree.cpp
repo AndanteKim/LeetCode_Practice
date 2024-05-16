@@ -10,16 +10,18 @@
  * };
  */
 class Solution {
-private:
-    bool dfs(TreeNode* curr){
-        // If it's leaf node
-        if (!(curr -> left && curr -> right)) return (curr -> val)? true : false;
-        
-        return (curr -> val == 2)? dfs(curr -> left) | dfs(curr -> right) : dfs(curr -> left) & dfs(curr -> right);
-    }
-    
 public:
     bool evaluateTree(TreeNode* root) {
-        return dfs(root);
+        // Handle the case for leaf nodes.
+        if (!(root -> left || root -> right)) return root -> val != 0;
+        
+        // Store evaluations for the left and right subtree.
+        bool evaluateRoot;
+        bool evaluateLeftSubtree = evaluateTree(root -> left), evaluateRightSubtree = evaluateTree(root -> right);
+        if (root -> val == 2)
+            evaluateRoot = evaluateLeftSubtree | evaluateRightSubtree;
+        else
+            evaluateRoot = evaluateLeftSubtree & evaluateRightSubtree;
+        return evaluateRoot;
     }
 };
