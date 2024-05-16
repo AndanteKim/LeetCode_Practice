@@ -6,16 +6,34 @@
 #         self.right = right
 class Solution:
     def evaluateTree(self, root: Optional[TreeNode]) -> bool:
-        if not (root.left or root.right):
-            # Handles the case for leaf nodes
-            return root.val != 0
+        stack, evaluated = [root], dict()
         
-        # Store the evaluations for the left substree and right subtree
-        evaluate_left_subtree = self.evaluateTree(root.left)
-        evaluate_right_subtree = self.evaluateTree(root.right)
-        if root.val == 2:
-            evaluate_root = evaluate_left_subtree or evaluate_right_subtree
-        else:
-            evaluate_root = evaluate_left_subtree and evaluate_right_subtree
+        while stack:
+            top_node = stack[-1]
             
-        return evaluate_root
+            # If the node is a leaf node, store its value in the evaluated dictionary
+            # and continue
+            if not (top_node.left or top_node.right):
+                stack.pop()
+                evaluated[top_node] = top_node.val == 1
+                continue
+                
+            # If both the children have already been evaluated, use their
+            # values to evaluate the current node.
+            if top_node.left in evaluated and top_node.right in evaluated:
+                stack.pop()
+                if top_node.val == 2:
+                    evaluated[top_node] = evaluated[top_node.left] or evaluated[top_node.right]
+                else:
+                    evaluated[top_node] = evaluated[top_node.left] and evaluated[top_node.right]
+            else:
+                # If both the children are not leaf nodes, push the current
+                # node along with its left and right child back into the stack.
+                if top_node.left:
+                    stack.append(top_node.left)
+                
+                if top_node.right:
+                    stack.append(top_node.right)
+        
+        return evaluated[root]
+            
