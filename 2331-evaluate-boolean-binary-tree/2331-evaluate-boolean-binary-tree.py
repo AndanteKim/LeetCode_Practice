@@ -6,11 +6,16 @@
 #         self.right = right
 class Solution:
     def evaluateTree(self, root: Optional[TreeNode]) -> bool:
-        def dfs(curr: Optional[TreeNode]) -> bool:
-            # If it's leaf node
-            if not (curr.left and curr.right):
-                return True if curr.val else False
+        if not (root.left or root.right):
+            # Handles the case for leaf nodes
+            return root.val != 0
+        
+        # Store the evaluations for the left substree and right subtree
+        evaluate_left_subtree = self.evaluateTree(root.left)
+        evaluate_right_subtree = self.evaluateTree(root.right)
+        if root.val == 2:
+            evaluate_root = evaluate_left_subtree or evaluate_right_subtree
+        else:
+            evaluate_root = evaluate_left_subtree and evaluate_right_subtree
             
-            return dfs(curr.left) | dfs(curr.right) if curr.val == 2 else dfs(curr.left) & dfs(curr.right)
-            
-        return dfs(root)
+        return evaluate_root
