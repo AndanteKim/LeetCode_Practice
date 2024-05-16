@@ -31,9 +31,9 @@ public:
             if (evaluated.find(topNode -> left) != evaluated.end() && evaluated.find(topNode -> right) != evaluated.end()){
                 stack.pop();
                 if (topNode -> val == 2)
-                    evaluated[topNode] = evaluated[topNode -> left] | evaluated[topNode -> right];
+                    evaluated[topNode] = evaluated[topNode -> left] || evaluated[topNode -> right];
                 else
-                    evaluated[topNode] = evaluated[topNode -> left] & evaluated[topNode -> right];
+                    evaluated[topNode] = evaluated[topNode -> left] && evaluated[topNode -> right];
             }
             else{
                 // If both the children are not leaf nodes, push the current
@@ -45,6 +45,6 @@ public:
             }
         }
         
-        return evaluated[root];
+        return evaluated[root] == 1;
     }
 };
