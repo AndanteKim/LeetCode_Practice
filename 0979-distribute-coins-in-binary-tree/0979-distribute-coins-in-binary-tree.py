@@ -6,22 +6,36 @@
 #         self.right = right
 class Solution:
     def distributeCoins(self, root: Optional[TreeNode]) -> int:
-        def dfs(curr: Optional[TreeNode]) -> int:
-            nonlocal ans
-            # base case
-            if not curr:
-                return 0
+        if not root:
+            return 0
+        
+        stack, visited = [root], []
+        
+        while stack:
+            node = stack.pop()
             
-            # Calculate the coins each subtree has available to exchange
-            left_coins = dfs(curr.left)
-            right_coins = dfs(curr.right)
+            visited.append(node)
             
-            # Add the total number of exchanges to move
-            ans += abs(left_coins) + abs(right_coins)
-            
-            # The number of coins current has available to exchange
-            return curr.val - 1 + left_coins + right_coins
+            if node.left:
+                stack.append(node.left)
+                
+            if node.right:
+                stack.append(node.right)
+        
         
         ans = 0
-        dfs(root)
+        while visited:
+            curr = visited.pop()
+            
+            if curr.left:
+                ans += abs(curr.left.val - 1)
+                curr.val += curr.left.val - 1
+            
+            if curr.right:
+                ans += abs(curr.right.val - 1)
+                curr.val += curr.right.val - 1
+                
         return ans
+    
+        
+        
