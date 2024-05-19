@@ -1,18 +1,21 @@
 class Solution:
     def maximumValueSum(self, nums: List[int], k: int, edges: List[List[int]]) -> int:
         n = len(nums)
-        dp = [[0] * 2 for _ in range(n + 1)]
+        net_change = [(nums[i] ^ k) - nums[i] for i in range(n)]
+        node_sum = sum(nums)
         
-        dp[n][1], dp[n][0] = 0, float('-inf')
+        net_change.sort(reverse = True)
         
-        for i in range(n - 1, -1, -1):
-            for is_even in range(2):
-                # Case 1: We perform an operation on this element
-                xor_done = dp[i + 1][is_even ^ 1] + (nums[i] ^ k)
+        for i in range(0, n, 2):
+            # If net_change coins odd number of elements break the loop
+            if i + 1 == n:
+                break
                 
-                # Case 2: We don't perform an operation on this element.
-                non_xor_done = dp[i + 1][is_even] + nums[i]
-                dp[i][is_even] = max(non_xor_done, xor_done)
-        
-        return dp[0][1]
+            pair_sum = net_change[i] + net_change[i + 1]
+            
+            # Include in node_sum if pair_sum is positive
+            if pair_sum > 0:
+                node_sum += pair_sum
+                
+        return node_sum
         
