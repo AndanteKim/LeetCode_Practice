@@ -15,7 +15,7 @@ public:
             if (i + 1 == n) break;
             long long pairSum = netChange[i] + netChange[i + 1];
             
-            // If pair of sum is positive, 
+            // If pair of sum is positive, include in nodeSum
             if (pairSum > 0) nodeSum += pairSum;
         }
         
