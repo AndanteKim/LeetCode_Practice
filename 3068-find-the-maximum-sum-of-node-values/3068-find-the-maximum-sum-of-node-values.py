@@ -7,7 +7,7 @@ class Solution:
         net_change.sort(reverse = True)
         
         for i in range(0, n, 2):
-            # If net_change coins odd number of elements break the loop
+            # If net_change contains odd number of elements break the loop
             if i + 1 == n:
                 break
                 
