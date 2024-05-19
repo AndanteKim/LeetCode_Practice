@@ -1,24 +1,29 @@
 class Solution {
 public:
     long long maximumValueSum(vector<int>& nums, int k, vector<vector<int>>& edges) {
-        int n = nums.size();
-        vector<int> netChange(n);
-        long long nodeSum = 0;
-        for (int i = 0; i < n; ++i){
-            netChange[i] = (nums[i] ^ k) - nums[i];
-            nodeSum += 1LL * nums[i];
-        }
-        sort(netChange.begin(), netChange.end(), greater<int>());
+        long long sumVal = 0;
+        int count = 0, positiveMin = (1 << 30), negativeMax = -1 * (1 << 30);;
         
-        for (int i = 0; i < n; i += 2){
-            // If netChange contains odd number of elements, break the loop
-            if (i + 1 == n) break;
-            long long pairSum = netChange[i] + netChange[i + 1];
+        for (int nodeVal:nums){
+            int operated = nodeVal ^ k;
+            sumVal += nodeVal;
             
-            // If pair of sum is positive, include in nodeSum
-            if (pairSum > 0) nodeSum += pairSum;
+            int netChange = operated - nodeVal;
+            
+            if (netChange > 0){
+                ++count;
+                positiveMin = min(positiveMin, netChange);
+                sumVal += netChange;
+            }
+            else
+                negativeMax = max(negativeMax, netChange);
         }
         
-        return nodeSum;
+        // If the number of positive net_change is even, return sumVal
+        if (count % 2 == 0)
+            return sumVal;
+        
+        // Otherwise return the maximum of both discussed cases.
+        return max(sumVal - positiveMin, sumVal + negativeMax);
     }
 };
