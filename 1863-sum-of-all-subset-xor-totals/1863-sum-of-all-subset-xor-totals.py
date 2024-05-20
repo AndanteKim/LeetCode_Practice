@@ -1,18 +1,10 @@
 class Solution:
     def subsetXORSum(self, nums: List[int]) -> int:
-        def generate_subsets(i: int, curr_xor: int) -> int:
-            # Return current_xor when all elements in nums are already considered
-            if i == n:
-                return curr_xor
-            
-            # Calculate sum of subset with current element
-            with_element = generate_subsets(i + 1, curr_xor ^ nums[i])
-            
-            # Calculate sum of subset without current element
-            without_element = generate_subsets(i + 1, curr_xor)
+        ans = 0
         
-            # Return sum of xor totals
-            return with_element + without_element
-        
-        n = len(nums)
-        return generate_subsets(0, 0)
+        # Capture each bit that is set in any of the elements
+        for num in nums:
+            ans |= num
+            
+        # Multiply by the number of subset XOR totals that will have each bit set
+        return ans << (len(nums) - 1)
