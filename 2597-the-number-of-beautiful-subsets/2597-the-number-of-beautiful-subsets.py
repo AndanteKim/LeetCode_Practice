@@ -1,28 +1,31 @@
 class Solution:
     def beautifulSubsets(self, nums: List[int], k: int) -> int:
+        # Frequency map to track elements
+        freq_map = defaultdict(int)
+        # Sort nums array
+        nums.sort()
         self.n = len(nums)
-        return self._count_beautiful_subsets(nums, k, 0, 0)
+        return self._count_beautiful_subsets(nums, k, freq_map, 0) - 1
     
-    def _count_beautiful_subsets(self, nums: List[int], diff: int, i: int, mask: int) -> int:
-        # Base case: Return 1 if mask is greater than 0 (non-empty subset)
+    def _count_beautiful_subsets(self, nums: List[int], diff: int, freq_map: DefaultDict[int, int], i: int) -> int:
+        # Base case: Return 1 for a subset of size 1
         if i == self.n:
-            return 1 if mask > 0 else 0
+            return 1
         
-        # Flag to check if the current subset is beautiful
-        is_beautiful = True
+        # Count subsets where nums[i] is not taken
+        total_count = self._count_beautiful_subsets(nums, diff, freq_map, i + 1)
         
-        # Check if the current number forms a beautiful pair with any
-        # previous number in the subset
-        for j in range(i):
-            if ((1 << j) & mask) == 0 or abs(nums[j] - nums[i]) != diff:
-                continue
-            else:
-                is_beautiful = False
-                break
+        # If nums[i] can be taken without violating the condition
+        if nums[i] - diff not in freq_map:
+            freq_map[nums[i]] += 1 # Mark nums[i] as taken
+            
+            # Recursively count subsetse where nums[i] is taken
+            total_count += self._count_beautiful_subsets(nums, diff, freq_map, i + 1)
+            
+            freq_map[nums[i]] -= 1 # Backtrack: mark nums[i] as not taken
+            
+            # Remove nums[i] from freq_map if its count becomes 0
+            if freq_map[nums[i]] == 0:
+                del freq_map[nums[i]]
         
-        # Recursively calculate beautiful subsets including and excluding
-        skip = self._count_beautiful_subsets(nums, diff, i + 1, mask)
-        take = (self._count_beautiful_subsets(nums, diff, i + 1, mask + (1 << i)) if is_beautiful else 0)
-        
-        return skip + take
-        
+        return total_count
