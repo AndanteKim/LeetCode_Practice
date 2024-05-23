@@ -24,7 +24,7 @@ private:
     
 public:
     int beautifulSubsets(vector<int>& nums, int k) {
-        // Frequency mapto traack elements
+        // Frequency map to track elements
         unordered_map<int, int> freqMap;
         this -> n = nums.size();
         // sort nums array
