@@ -1,30 +1,35 @@
 class Solution {
 private:
     int n;
-    int countBeautifulSubsets(vector<int>& nums, int diff, int i, int mask){
-        // Base case: Return 1 if mask is greater than 0 (non-empty subset)
+    int countBeautifulSubsets(vector<int>& nums, int diff, unordered_map<int, int>& freqMap, int i){
+        // Base case: Return 1 for a subset of size 1
         if (i == n)
-            return (mask > 0)? 1 : 0;
+            return 1;
         
-        // Flag to check if the current subset is beautiful
-        bool isBeautiful = true;
-        int take = 0;
+        // Count subsets where nums[i] isn't taken
+        int totalCount = countBeautifulSubsets(nums, diff, freqMap, i + 1);
         
-        // Check if the current number forms a beautiful pair with any previous
-        // number in the subset
-        for (int j = 0; j < i && isBeautiful; ++j){
-            isBeautiful = (((1 << j) & mask) == 0 || abs(nums[j] - nums[i]) != diff);
+        // If nums[i] can be taken without violating the condition
+        if (!freqMap[nums[i] - diff]){
+            ++freqMap[nums[i]]; // Mark nums[i] as taken
+            
+            // Recursively count subsets where nums[i] is taken
+            totalCount += countBeautifulSubsets(nums, diff, freqMap, i + 1);
+            
+            --freqMap[nums[i]]; // Backtrack: mark nums[i] as not taken
         }
-        
-        // Recursively calculate beautiful subsets including and excluding the current number
-        if (isBeautiful) take = countBeautifulSubsets(nums, diff, i + 1, mask | (1 << i));
-        int skip = countBeautifulSubsets(nums, diff, i + 1, mask);
-        return skip + take;
+            
+        return totalCount;
     }
     
 public:
     int beautifulSubsets(vector<int>& nums, int k) {
+        // Frequency mapto traack elements
+        unordered_map<int, int> freqMap;
         this -> n = nums.size();
-        return countBeautifulSubsets(nums, k, 0, 0);
+        // sort nums array
+        sort(nums.begin(), nums.end());
+        
+        return countBeautifulSubsets(nums, k, freqMap, 0) - 1;
     }
 };
