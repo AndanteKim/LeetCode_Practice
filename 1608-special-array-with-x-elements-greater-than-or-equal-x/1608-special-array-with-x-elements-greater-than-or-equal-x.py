@@ -1,16 +1,15 @@
 class Solution:
     def specialArray(self, nums: List[int]) -> int:
         n = len(nums)
-        check = [0] * (max(nums) + 1)
+        freq = [0] * (n + 1)
         
         for num in nums:
-            check[num] += 1
-            
-        for i in range(1, len(check)):
-            check[i] += check[i - 1]
+            freq[min(num, n)] += 1
         
-        for i in range(len(check) - 1, 0, -1):
-            if check[-1] - check[i - 1] == i:
+        num_greater_than_or_equal = 0
+        for i in range(n, 0, -1):
+            num_greater_than_or_equal += freq[i]
+            if i == num_greater_than_or_equal == i:
                 return i
         
         return -1
