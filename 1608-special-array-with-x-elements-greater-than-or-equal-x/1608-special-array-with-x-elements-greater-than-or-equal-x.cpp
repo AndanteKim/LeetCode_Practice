@@ -1,17 +1,30 @@
 class Solution {
+private:
+    int n;
+    int getFirstGreaterOrEqual(vector<int>& nums, int val){
+        int start = 0, end = n - 1, i = n;
+        
+        while (start <= end){
+            int mid = (start + end) >> 1;
+            
+            if (nums[mid] >= val){
+                i = mid;
+                end = mid - 1;
+            }
+            else start = mid + 1;
+        }
+        
+        return i;
+    }
+    
 public:
     int specialArray(vector<int>& nums) {
-        int n = nums.size();
+        this -> n = nums.size();
+        sort(nums.begin(), nums.end());
         
-        vector<int> freq(n + 1);
-        
-        for (int num : nums)
-            ++freq[min(n, num)];
-        
-        int numGreaterThanOrEqual = 0;
-        for (int i = n; i >= 0; --i){
-            numGreaterThanOrEqual += freq[i];
-            if (numGreaterThanOrEqual == i)
+        for (int i = 1; i <= n; ++i){
+            int k = getFirstGreaterOrEqual(nums, i);
+            if (n - k == i)
                 return i;
         }
         
