@@ -1,18 +1,29 @@
 class Solution:
+    def add_one(self, s: List[str]) -> None:
+        i = len(s) - 1
+        
+        # Iterating while the character is 1 and changing to 0
+        while i >= 0 and s[i] != '0':
+            s[i] = '0'
+            i -= 1
+        
+        if i < 0:
+            s.insert(0, "1")
+        else:
+            s[i] = "1"
+    
     def numSteps(self, s: str) -> int:
-        n, num = len(s), 0
+        s = list(s)
+        operations = 0
         
-        for i in range(n):
-            num += (ord(s[i]) - 48) * (2 ** (n - 1 - i))
+        while len(s) > 1:
+            n = len(s)
             
-        steps = 0
-        while num > 1:
-            # If num is even
-            if num % 2 == 0:
-                num >>= 1
-                
+            if s[n - 1] == '0':
+                s.pop()
             else:
-                num += 1
-            steps += 1
+                self.add_one(s)
         
-        return steps
+            operations += 1
+        
+        return operations
