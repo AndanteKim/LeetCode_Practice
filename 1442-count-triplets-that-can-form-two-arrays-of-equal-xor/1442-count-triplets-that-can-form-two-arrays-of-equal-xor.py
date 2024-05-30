@@ -1,27 +1,19 @@
 class Solution:
     def countTriplets(self, arr: List[int]) -> int:
-        n, count = len(arr), 0
+        prefix_xor = [0] + arr[:]
+        n = len(prefix_xor)
         
-        # Iterate over each possible starting index i
-        for start in range(n - 1):
-            # Initialize XOR value for the subarray from start to mid - 1
-            xor_A = 0
+        # Perform XOR on consecutive elements in the modified array
+        for i in range(1, n):
+            prefix_xor[i] ^= prefix_xor[i - 1]
             
-            # Iterate over each possible middle index j
-            for mid in range(start + 1, n):
-                # Update xor_A to include arr[mid - 1]
-                xor_A ^= arr[mid - 1]
-                
-                # Initialize XOR value for the subarray from mid to end
-                xor_B = 0
-                
-                # Iterate over each possible ending index k (starting from mid)
-                for end in range(mid, n):
-                    # Update xor_B to include arr[end]
-                    xor_B ^= arr[end]
-                    
-                    # Found a valid triple (start, mid, end)
-                    if xor_A == xor_B:
-                        count += 1
+        count = 0
+        
+        # Iterate through the modified array to count triplets
+        for start in range(n):
+            for end in range(start + 1, n):
+                if prefix_xor[start] == prefix_xor[end]:
+                    # Increment the result by the count of valid triplets
+                    count += end - start - 1
         
         return count
