@@ -1,23 +1,21 @@
 class Solution:
     def countTriplets(self, arr: List[int]) -> int:
-        prefix_xor = [0] + arr
-        size, count = len(prefix_xor), 0
+        n, count, prefix = len(arr), 0, 0
         
-        # Performing XOR operation on the array elements
-        for i in range(1, size):
-            prefix_xor[i] ^= prefix_xor[i - 1]
-            
         # Dictionaries to store counts and totals of XOR values encountered
         count_map, total_map = defaultdict(int), defaultdict(int)
+        count_map[0] = 1
         
         # Iterate through the array
-        for i in range(size):
+        for i in range(n):
+            # Calculate XOR prefix
+            prefix ^= arr[i]
+            
             # Calculating contribution of current element to the result
-            count += (count_map[prefix_xor[i]] * (i - 1) - total_map[prefix_xor[i]])
+            count += count_map[prefix] * i - total_map[prefix]
             
             # Updating total count of current XOR value
-            total_map[prefix_xor[i]] += i
-            count_map[prefix_xor[i]] += 1
-            
-        return count
+            total_map[prefix] += i + 1
+            count_map[prefix] += 1
         
+        return count
