@@ -1,26 +1,25 @@
 class Solution {
 public:
     int countTriplets(vector<int>& arr) {
-        vector<int> prefixXor(arr.begin(), arr.end());
-        prefixXor.insert(prefixXor.begin(), 0);
-        int n = prefixXor.size(), count = 0;
+        int n = arr.size(), count = 0, prefix = 0;
         
-        // Performing XOR operation on the array elements
-        for (int i = 1; i < n; ++i)
-            prefixXor[i] ^= prefixXor[i - 1];
-        
-        // Dictionaries to store counts and totals of XOR values encountered
+        // Maps to store counts and totals of XOR values encountered
         unordered_map<int, int> countMap, totalMap;
+        countMap[0] = 1;
         
         // Iterating through the array
         for (int i = 0; i < n; ++i){
+            // Calculating XOR prefix
+            prefix ^= arr[i];
+            
             // Calculating contribution of current element to the result
-            count += (countMap[prefixXor[i]] * (i - 1) - totalMap[prefixXor[i]]);
+            count += countMap[prefix] * i - totalMap[prefix]; 
             
             // Updating total count of current XOR value
-            totalMap[prefixXor[i]] += i;
-            ++countMap[prefixXor[i]];
+            totalMap[prefix] += i + 1;
+            ++countMap[prefix];
         }
+        
         return count;
     }
 };
