@@ -18,9 +18,9 @@ public:
         string kthLuckyNumber = "";
         for (int i = 0; i < c; ++i){
             if (x % 2 == 1)
-                kthLuckyNumber = "7" + kthLuckyNumber;
+                kthLuckyNumber.insert(0, "7");
             else
-                kthLuckyNumber = "4" + kthLuckyNumber;
+                kthLuckyNumber.insert(0, "4");
             x >>= 1;
         }
         
