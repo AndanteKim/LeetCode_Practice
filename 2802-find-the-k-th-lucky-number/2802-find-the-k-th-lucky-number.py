@@ -1,15 +1,13 @@
 class Solution:
     def kthLuckyNumber(self, k: int) -> str:
         # Increment k to account for 1-based indexing
-        k += 1;
+        k = k + 1
         
-        # For each digit in the binary representation of k except the most significant
-        # Pretend 4 to the result if the digit is 0 and 7 otherwise
-        kth_lucky_num = ""
+        # Convert k to a binary string (up to the most significant '1')
+        kth_lucky_num = bin(k)[3:]
         
-        while k > 1:
-            kth_lucky_num = "".join((("7" if k & 1 else "4"), kth_lucky_num))
-            k >>= 1
-            
+        # Replace '0' with '4' aand '1' with '7' in the binary string
+        kth_lucky_num = kth_lucky_num.replace('0', '4').replace('1', '7')
+        
         return kth_lucky_num
         
