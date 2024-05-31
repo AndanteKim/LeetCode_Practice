@@ -1,6 +1,6 @@
 class Solution:
     def singleNumber(self, nums: List[int]) -> List[int]:
-        # difference between two numbers (x and y) whih were seen only once
+        # difference between two numbers (x and y) which were seen only once
         bitmask = 0
         for num in nums:
             bitmask ^= num
