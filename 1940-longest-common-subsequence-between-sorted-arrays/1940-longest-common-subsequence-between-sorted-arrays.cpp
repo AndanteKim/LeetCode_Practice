@@ -5,13 +5,12 @@ public:
         vector<int> intersect(101), ans;
         
         for (vector<int>& arr : arrays){
-            for (int num : arr)
+            for (int num : arr){
                 ++intersect[num];
+                if (intersect[num] == rows)
+                    ans.push_back(num);
+            }
         }
-        
-        for (int i = 1; i <= 100; ++i)
-            if (intersect[i] == rows)
-                ans.push_back(i);
         
         return ans;
     }
