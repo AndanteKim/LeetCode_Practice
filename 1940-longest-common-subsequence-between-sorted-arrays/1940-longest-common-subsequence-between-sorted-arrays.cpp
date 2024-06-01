@@ -29,6 +29,7 @@ public:
         vector<int> longestCommonSubseq = arrays[0];
         
         for (int i = 1; i < arrays.size(); ++i){
+            if (longestCommonSubseq.size() == 0) return longestCommonSubseq;
             longestCommonSubseq = longestSeq(longestCommonSubseq, arrays[i]);
         }
         
