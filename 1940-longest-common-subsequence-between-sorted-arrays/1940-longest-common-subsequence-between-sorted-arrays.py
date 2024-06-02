@@ -1,31 +1,40 @@
 class Solution:
     def longestCommonSubsequence(self, arrays: List[List[int]]) -> List[int]:
-        def longest_seq(nums1: List[int], nums2: List[int]) -> List[int]:
-            longest_common_seq = []
-            first, second = 0, 0
-            
-            # Traverse through both arrays with two pointers
-            # Increment the pointer with a smaller value at that index
-            # When the values are equal, add to the longest common subsequence
-            while first < len(nums1) and second < len(nums2):
-                if nums1[first] < nums2[second]:
-                    first += 1
-                elif nums1[first] > nums2[second]:
-                    second += 1
-                else:
-                    longest_common_seq.append(nums1[first])
-                    first += 1
-                    second += 1
-            return longest_common_seq
-         
-        # Iterate through the rest of the arrays and
-        # If the common subsequence is empty, return immediately
-        # Else update the longest common subsequence
-        longest_common_subseq = arrays[0]
         
-        for i in range(1, len(arrays)):
+        def binary_search(target: int, nums: List[int]) -> bool:
+            left, right = 0, len(nums) - 1
+            
+            while left <= right:
+                mid = (left + right) >> 1
+                if nums[mid] > target:
+                    right = mid - 1
+                elif nums[mid] < target:
+                    left = mid + 1
+                else:
+                    return True
+            
+            return False
+        
+        shortest_arr = arrays[0]
+        for arr in arrays:
+            if len(arr) < len(shortest_arr):
+                shortest_arr = arr
+        
+        longest_common_subseq = shortest_arr
+        
+        for arr in arrays:
+            # There are no elements that are common to all of the arrays
             if len(longest_common_subseq) == 0:
                 return longest_common_subseq
-            longest_common_subseq = longest_seq(longest_common_subseq, arrays[i])
+            uncommon = []
             
+            # Remove any elements from the longest common subsequence
+            # that are not in current array
+            for num in longest_common_subseq:
+                if not binary_search(num, arr):
+                    uncommon.append(num)
+            
+            for num in uncommon:
+                longest_common_subseq.remove(num)
+                
         return longest_common_subseq
