@@ -1,36 +1,45 @@
 class Solution {
 private:
-    vector<int> longestSeq(vector<int>& nums1, vector<int>& nums2){
-        vector<int> longestCommonSeq;
-        int first = 0, second = 0;
+    bool binarySearch(int target, const vector<int>& nums){
+        int left = 0, right = nums.size() - 1;
         
-        // Traverse through both arrays with two pointers
-        // Increment the pointer with a small value at that index
-        // when the values are equal, add to the longest common subsequence.
-        while (first < nums1.size() && second < nums2.size()){
-            if (nums1[first] < nums2[second])
-                ++first;
-            else if (nums1[first] > nums2[second])
-                ++second;
-            else{
-                longestCommonSeq.push_back(nums1[first++]);
-                ++second;
-            }
+        while (left <= right){
+            int mid = (left + right) >> 1;
+            if (nums[mid] > target)
+                right = mid - 1;
+            else if (nums[mid] < target)
+                left = mid + 1;
+            else
+                return true;
         }
-        return longestCommonSeq;
+        
+        return false;
     }
     
 public:
     vector<int> longestCommonSubsequence(vector<vector<int>>& arrays) {
+        vector<int> shortestArrays = arrays[0];
         
-        // Iterate through the rest of the arrays and
-        // If the common subsequence is empty, return immediately 
-        // Else update the longest common subsequence.
-        vector<int> longestCommonSubseq = arrays[0];
+        for (const vector<int>& arr : arrays)
+            if (shortestArrays.size() > arr.size())
+                shortestArrays = arr;
         
-        for (int i = 1; i < arrays.size(); ++i){
-            if (longestCommonSubseq.size() == 0) return longestCommonSubseq;
-            longestCommonSubseq = longestSeq(longestCommonSubseq, arrays[i]);
+        vector<int> longestCommonSubseq = shortestArrays;
+        for (const vector<int>& arr : arrays){
+            // There are no elements that are common to all of the arrays
+            if (longestCommonSubseq.empty()) return longestCommonSubseq;
+            
+            // Remove any elemetns from the longest common subsequence
+            // that are not in current array
+            vector<int> uncommon;
+            for (int num : shortestArrays)
+                if (!binarySearch(num, arr))
+                    uncommon.push_back(num);
+            
+            for (int num : uncommon){
+                longestCommonSubseq.erase(remove(longestCommonSubseq.begin(), longestCommonSubseq.end(), num),
+                                         longestCommonSubseq.end());
+            }
         }
         
         return longestCommonSubseq;
