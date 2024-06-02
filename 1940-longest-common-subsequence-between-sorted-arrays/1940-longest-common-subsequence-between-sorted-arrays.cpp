@@ -29,7 +29,7 @@ public:
             // There are no elements that are common to all of the arrays
             if (longestCommonSubseq.empty()) return longestCommonSubseq;
             
-            // Remove any elemetns from the longest common subsequence
+            // Remove any elements from the longest common subsequence
             // that are not in current array
             vector<int> uncommon;
             for (int num : shortestArrays)
