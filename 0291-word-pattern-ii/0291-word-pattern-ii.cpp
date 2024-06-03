@@ -1,56 +1,59 @@
 class Solution {
 private:
-    int lenP, lenS;
-    
-    bool isMatch(int pIndex, int sIndex, string& pattern, string& s, unordered_map<char, string>& symbolMap, unordered_set<string>& wordSet){
+    bool isMatch(int pIndex, string& pattern, int sIndex, string& s, vector<string>& symbols, unordered_set<string>& wordSet){
         // Base case: reached end of pattern
-        if (pIndex == lenP)
-            return sIndex == lenS; // True iff also reached end of s
+        if (pIndex == pattern.size())
+            return sIndex == s.size(); // True iff also reached end of s
         
         // Get current pattern character
         char symbol = pattern[pIndex];
         
         // This symbol already has an associated word
-        if (symbolMap.find(symbol) != symbolMap.end()){
-            string word = symbolMap[symbol];
+        if (!(symbols[symbol - 97]).empty()){
+            string word = symbols[symbol - 97];
             // Check if it matches s[sIndex...sIndex + word.length()]
             if (s.compare(sIndex, word.size(), word))
                 return false;
             
-            // If it matches continue to match the rest
-            return isMatch(pIndex + 1, sIndex + word.size(), pattern, s, symbolMap, wordSet);
+            // If it matches, continue to match the rest
+            return isMatch(pIndex + 1, pattern, sIndex + word.size(), s, symbols, wordSet);
         }
         
-        // This symbol doesn' exist in the map
-        for (int k = sIndex + 1; k <= s.size(); ++k){
+        // Count the number of spots the remaining symbols in the pattern take
+        int filledSpots = 0;
+        for (int i = pIndex + 1; i < pattern.size(); ++i){
+            char p = pattern[i];
+            filledSpots += symbols[p - 'a'].empty() ? 1: symbols[p - 'a'].size();
+        }
+        
+        // This symbol doesn't have an associated word
+        for (int k = sIndex + 1; k <= s.size() - filledSpots; ++k){
             string newWord = s.substr(sIndex, k - sIndex);
             if (wordSet.find(newWord) != wordSet.end())
                 continue;
             
             // Create or update it
-            symbolMap[symbol] = newWord;
+            symbols[symbol - 'a'] = newWord;
             wordSet.insert(newWord);
             
             // Continue to match the rest
-            if (isMatch(pIndex + 1, k, pattern, s, symbolMap, wordSet))
+            if (isMatch(pIndex + 1, pattern, k, s, symbols, wordSet))
                 return true;
             
             // Backtracking
-            symbolMap.erase(symbol);
+            symbols[symbol - 'a'] = "";
             wordSet.erase(newWord);
         }
         
-        // No mapping were valid
+        // No mappings were valid
         return false;
     }
     
 public:
     bool wordPatternMatch(string pattern, string s) {
-        this -> lenP = pattern.size();
-        this -> lenS = s.size();
-        
-        unordered_map<char, string> symbolMap;
+        vector<string> symbols(26, "");
         unordered_set<string> wordSet;
-        return isMatch(0, 0, pattern, s, symbolMap, wordSet);
+        
+        return isMatch(0, pattern, 0, s, symbols, wordSet);
     }
 };
