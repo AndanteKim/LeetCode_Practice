@@ -1,48 +1,54 @@
 class Solution {
 public:
     string minWindow(string s, string t) {
-        if (s.empty() || t.empty())
-            return "";
+        if (s.empty() || t.empty()) return "";
         
-        unordered_map<char, int> dictT, windowCounts;
-        for (const char& c:t)
-            ++dictT[c];
+        // Dictionary which keeps a count of all the unique characters in t.
+        unordered_map<char, int> mappingT;
+        for (char& c:t) ++mappingT[c];
         
-        int required = dictT.size(), formed = 0, left = 0;
-        vector<pair<int, char>> filteredS;
-        
-        for (int i = 0; i < s.size(); ++i)
-            if (dictT.count(s[i]))
-                filteredS.push_back(make_pair(i, s[i]));
-        
-        int ans[3];
-        ans[0] = INT_MAX;
-        // Look for the characters only in the filtered list instead of entire s. This helps to reduce our search.
-        // Hence, we follow the sliding window approach on as small list.
-        for (int right = 0; right < filteredS.size(); ++right){
-            char ch = filteredS[right].second;
-            ++windowCounts[ch];
+        // map which keeps a count of all the unique characters in the current window
+        unordered_map<char, int> windowsCount;
+        // left and right pointer
+        int l = 0, r = 0;
             
-            if (windowCounts[ch] == dictT[ch]) ++formed;
+        // formed is used to keep track of how many unique characters in t
+        // are present in the current window in its desired frequency.
+        // e.g. if t is "AABC", then the window must have two A's, one B and one C/
+        // Thus formed would be = 3 when all these conditions are met.
+        // Required := Number of unique characters in t, which need to be present in the
+        // desired window.
+        int formed = 0, required = mappingT.size();
+        
+        // ans list of the form (window length, left, right)
+        vector<int> ans{INT_MAX, 0, 0};
+        
+        // Keep expanding the window once we're done contracting.
+        for (r = 0; r < s.size(); ++r){
+            // Add one characters from the right to the window
+            char c = s[r];
+            ++windowsCount[c];
             
-            // If the current window has all the characters in desired frequencies i.e. t is present in the window.
-            while (left <= right && formed == required){
-                ch = filteredS[left].second;
-                
+            // If the frequency of the current character added equals to the
+            // desired count in t, then increment the formed count by 1.
+            if (mappingT.count(c) && windowsCount[c] == mappingT[c]) ++formed;
+            
+            // Try and contract the window till the point where it ceases to be
+            // 'desirable'.
+            while (l <= r && formed == required){
                 // save the smallest window until now.
-                int end = filteredS[right].first, start = filteredS[left].first;
-                if (end - start + 1 < ans[0]){
-                    ans[0] = end - start + 1;
-                    ans[1] = start;
-                    ans[2] = end;
+                if (r - l + 1 < ans[0]) {
+                    ans[0] = r - l + 1; ans[1] = l, ans[2] = r;
                 }
-                --windowCounts[ch];
-                if (windowCounts[ch] < dictT[ch])
-                    --formed;
-                ++left;
+                
+                // The character at the position pointed by the 'left' pointer
+                // is no longer a part of the window.
+                // + Move the left pointer ahead, this would help to look for a new window.
+                c = s[l++];
+                --windowsCount[c];
+                if (mappingT.count(c) && windowsCount[c] < mappingT[c]) --formed;
             }
         }
-        
-        return ans[0] == INT_MAX? "":s.substr(ans[1], ans[2]-ans[1] + 1);
+        return ans[0] == INT_MAX? "" : s.substr(ans[1], ans[2] - ans[1] + 1);
     }
 };
