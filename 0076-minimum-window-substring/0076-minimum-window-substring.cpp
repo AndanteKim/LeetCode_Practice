@@ -21,7 +21,7 @@ public:
         int formed = 0, required = mappingT.size();
         
         // ans list of the form (window length, left, right)
-        vector<int> ans{INT_MAX, 0, 0};
+        int ans[3]{INT_MAX, 0, 0};
         
         // Keep expanding the window once we're done contracting.
         for (r = 0; r < s.size(); ++r){
