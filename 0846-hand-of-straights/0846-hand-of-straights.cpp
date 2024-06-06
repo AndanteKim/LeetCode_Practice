@@ -4,28 +4,25 @@ public:
         int handSize = hand.size();
         if (handSize % groupSize != 0) return false;
         
-        unordered_map<int, int> freq;
-        for (int h:hand) ++freq[h];
+        // Map to store the count of each card value
+        map<int, int> cardCount;
+        for (int h:hand) ++cardCount[h];
         
-        priority_queue<int, vector<int>, greater<int>> minHeap;
-        
-        for (auto& [k, _] : freq) minHeap.push(k);
-        
-        while (!minHeap.empty()){
-            int curr = minHeap.top();
+        // Process the cards until the map is empty
+        while (!cardCount.empty()){
+            // Get the smallest card value
+            int currCard = cardCount.begin() -> first;
             
-            
+            // Check each consecutive sequence of groupSize cards            
             for (int i = 0; i < groupSize; ++i){
-                int next = curr + i;
-                
-                if (freq[next] == 0)
+                // If a card is missing or has exhausted its occurrences                
+                if (cardCount[currCard + i] == 0)
                     return false;
-                --freq[next];
                 
-                if (freq[next] == 0){
-                    if (next != minHeap.top())
-                        return false;
-                    minHeap.pop();
+                --cardCount[currCard + i];
+                if (cardCount[currCard + i] < 1){
+                    // Remove the card value if its occurrences are exhausted
+                    cardCount.erase(currCard + i);
                 }
             }
         }
