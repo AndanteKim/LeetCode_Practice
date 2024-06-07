@@ -1,34 +1,28 @@
 class Solution {
 private:
     string shortestRoot(string& word, unordered_set<string>& mapSet){
-        string sub;
-        
-        for (int i = 0; i < word.size(); ++i){
-            sub = word.substr(0, i);
-            if (mapSet.find(sub) != mapSet.end())
-                return sub;
+        // Find the shortest root of the word in the dictionary
+        for (int i = 1; i <= word.size(); ++i){
+            string root = word.substr(0, i);
+            if (mapSet.find(root) != mapSet.end())
+                return root;
         }
         
+        // There is not a corresponding root in the dictionary
         return word;
     }
     
 public:
     string replaceWords(vector<string>& dictionary, string sentence) {
         unordered_set<string> mapSet(dictionary.begin(), dictionary.end());
-        vector<string> words;
-        string s;
-        stringstream ss(sentence);
-        while (ss >> s)
-            words.push_back(s);
+        istringstream sStream(sentence);
         
-        for (int word = 0; word < words.size(); ++word){
-            words[word] = shortestRoot(words[word], mapSet);
-        }
+        // Replace each word in sentence with the corresponding shortest root
+        string word, newSentence;
+        while (getline(sStream, word, ' '))
+            newSentence += shortestRoot(word, mapSet) + " ";
         
-        string ans = "";
-        for (string& word:words)
-            ans += word + ' ';
-        
-        return ans.substr(0, ans.size() - 1);
+        newSentence.pop_back(); // remove extra space
+        return newSentence;
     }
 };
