@@ -4,7 +4,7 @@ private:
         // Find the shortest root of the word in the dictionary
         for (int i = 1; i <= word.size(); ++i){
             string root = word.substr(0, i);
-            if (mapSet.find(root) != mapSet.end())
+            if (mapSet.contains(root))
                 return root;
         }
         
