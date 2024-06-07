@@ -47,7 +47,7 @@ public:
         for (string& s:dictionary)
             dictTrie -> insert(s);
         
-        // Replace eaach word in sentence with the corresponding shortest root
+        // Replace each word in sentence with the corresponding shortest root
         string word, newSentence = "";
         istringstream isStream(sentence);
         
