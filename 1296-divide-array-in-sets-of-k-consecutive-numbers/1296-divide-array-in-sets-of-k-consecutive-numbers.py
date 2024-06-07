@@ -3,23 +3,24 @@ class Solution:
         if len(nums) % k != 0:
             return False
         
-        freq, min_heap = Counter(nums), []
+        # Count to store the count of each freq's value
+        freq = Counter(nums)
         
-        for key in freq:
-            heappush(min_heap, key)
+        for num in nums:
+            start = num
             
-        while min_heap:
-            curr = min_heap[0]
-            
-            for nxt in range(curr, curr + k):
-                if freq[nxt] == 0:
-                    return False
+            # Find the start of the potential straight sequence
+            while freq[start - 1] != 0:
+                start -= 1
                 
-                freq[nxt] -= 1
-                
-                if freq[nxt] == 0:
-                    if nxt != heappop(min_heap):
-                        return False
+            # Process the sequence starting from start
+            while start <= num:
+                while freq[start]:
+                    # Check if we can form a consecutive sequence of k
+                    for nxt in range(start, start + k):
+                        if freq[nxt] == 0:
+                            return False
+                        freq[nxt] -= 1
+                start += 1
                 
         return True
-            
