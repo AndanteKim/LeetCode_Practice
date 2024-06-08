@@ -3,54 +3,45 @@ class Solution:
         if not t or not s:
             return ""
         
-        # Dictionary which keeps a count of all unique characters in t.
         dict_t = Counter(t)
-        
-        # Number of unique characters in t, which need to be present in the desired window.
         required = len(dict_t)
         
-        # left and right pointer
+        # Filter all the characters from s into a new list along with their index.
+        # The filtering criteria is that the character should be present in t.
+        filtered_s = []
+        for i, ch in enumerate(s):
+            if ch in dict_t:
+                filtered_s.append((i, ch))
+        
         l, r = 0, 0
-        
-        # formed is used to keep track of how many unique characters in t are present in the current window in its desired frequency.
-        # e.g. if t is "AABC", then the window must have two A's, one B and one C. Thus, formed would be = 3 when all
-        # these conditions are met.
         formed = 0
-        
-        # Dictionary which keeps a count of all the unique characters in the current window.
-        window_counts = {}
-        
-        # ans tuple of the form (window length, left, right)
+        window_counts = dict()
         ans = float('inf'), None, None
         
-        while r < len(s):
-            # Add one character from the right to the widnow
-            char = s[r]
-            window_counts[char] = window_counts.get(char, 0) + 1
+        # Look for the characters only in the filtered list instead of entire s. This helps to reduce our search.
+        # Hence, we follow the sliding window approach on as small list.
+        while r < len(filtered_s):
+            ch = filtered_s[r][1]
+            window_counts[ch] = window_counts.get(ch, 0) + 1
             
-            # If the frequency of the current character added equals to the desired count in t, then increment
-            # the formed count by 1
-            if char in dict_t and window_counts[char] == dict_t[char]:
+            if window_counts[ch] == dict_t[ch]:
                 formed += 1
-            
-            # Try and contract the window till the point where it ceases to be 'desirable'.
+                
+            # If the current window has all the characters in the desired frequencies i.e. t is present in the window
             while l <= r and formed == required:
-                char = s[l]
+                ch = filtered_s[l][1]
                 
                 # Save the smallest window until now.
-                if r - l + 1 < ans[0]:
-                    ans = (r - l + 1, l, r)
-                
-                # The character at the position pointed by the 'left' pointer is no longer a part of the window.
-                window_counts[char] -= 1
-                
-                if char in dict_t and window_counts[char] < dict_t[char]:
-                    formed -= 1
+                end = filtered_s[r][0]
+                start = filtered_s[l][0]
+                if end - start + 1 < ans[0]:
+                    ans = (end - start + 1, start, end)
                     
-                # Move the left pointer ahead, this would help to look for a new window
+                window_counts[ch] -= 1
+                if window_counts[ch] < dict_t[ch]:
+                    formed -= 1
                 l += 1
             
-            # Keep expanding the window once we're done contracting.
             r += 1
         
         return "" if ans[0] == float('inf') else s[ans[1] : ans[2] + 1]
