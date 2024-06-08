@@ -1,18 +1,22 @@
-class Solution:
-    def checkSubarraySum(self, nums: List[int], k: int) -> bool:
-        prefix_mod = 0
-        mod_seen = {0: -1}
+class Solution {
+public:
+    bool checkSubarraySum(vector<int>& nums, int k) {
+        unordered_map<int, int> modSeen{{0, -1}};
+        int prefixMod = 0;
         
-        for i in range(len(nums)):
-            prefix_mod = (prefix_mod + nums[i]) % k
+        for (int i = 0; i < nums.size(); ++i){
+            prefixMod = (prefixMod + nums[i]) % k;
             
-            if prefix_mod in mod_seen:
-                # ensures that the size of subarray is at least 2
-                if i - mod_seen[prefix_mod] > 1:
-                    return True
-                
-            else:
-                # mark the value of prefix_mod with the current index.
-                mod_seen[prefix_mod] = i
-                
-        return False
+            if (modSeen.contains(prefixMod)){
+                // Ensures that the size of subarray is at least two
+                if (i - modSeen[prefixMod] > 1)
+                    return true;
+            }
+            else
+                // Mark the value of prefix_mod with the current index
+                modSeen[prefixMod] = i;
+        }
+        
+        return false;
+    }
+};
