@@ -1,14 +1,15 @@
 class Solution:
     def numberOfSubstrings(self, s: str) -> int:
-        n = len(s)
-        ans, prefix_count = 0, [0] * 26
+        ans, freq_count = 0, [0] * 26
         
-        for i in range(len(s)):
-            # Increment the number of times we encountered the current letter so far.
-            prefix_count[ord(s[i]) - 97] += 1
+        # Count the frequency of each character in the string.
+        for ch in s:
+            freq_count[ord(ch) - 97] += 1
             
-            # Current letter can be paired with all the occurrences of it that
-            # comes before, including itself, to form a valid substring.
-            ans += prefix_count[ord(s[i]) - 97]
+        # Calculate the total number of valid substrings
+        for curr_count in freq_count:
+            # Using (curr_count + 1) choose 2 to calculate valid substrings
+            # for the current letter.
+            ans += ((curr_count + 1) * curr_count) >> 1
         
         return ans
