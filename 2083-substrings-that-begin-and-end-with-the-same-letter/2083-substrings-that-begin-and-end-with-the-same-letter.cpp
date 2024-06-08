@@ -9,7 +9,7 @@ public:
             ++freqCount[c - 'a'];
         }
         
-        // Calculate the total numberf of valid substrings.
+        // Calculate the total number of valid substrings.
         for (int currCount:freqCount){
             // Using (currCount + 1) choose 2 to calcualte valid substrings
             // for the current letter.
