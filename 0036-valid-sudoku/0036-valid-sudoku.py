@@ -1,33 +1,34 @@
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
-        n = len(board)
+        n = 9
         
-        # Use hash set to record the status
-        rows, cols, boxes = [set() for _ in range(n)], [set() for _ in range(n)], [set() for _ in range(n)]
+        # Use an array to record the status
+        rows, cols = [[0] * n for _ in range(n)], [[0] * n for _ in range(n)]
+        boxes = [[0] * n for _ in range(n)]
         
         for i in range(n):
             for j in range(n):
-                val = board[i][j]
-                
                 # Check if the position is filled with number
-                if val == ".":
+                if board[i][j] == '.':
                     continue
+                    
+                pos = int(board[i][j]) - 1
                 
                 # Check the row
-                if val in rows[i]:
+                if rows[i][pos] == 1:
                     return False
-                rows[i].add(val)
+                rows[i][pos] = 1
                 
                 # Check the column
-                if val in cols[j]:
+                if cols[j][pos] == 1:
                     return False
-                cols[j].add(val)
+                cols[j][pos] = 1
                 
                 # Check the box
-                boxes_i = (i // 3) * 3 + j // 3
-                if val in boxes[boxes_i]:
+                idx = (i // 3) * 3 + j // 3
+                if boxes[idx][pos] == 1:
                     return False
-                boxes[boxes_i].add(val)
+                boxes[idx][pos] = 1
                 
         return True
-        
+                
