@@ -1,10 +1,8 @@
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         n = 9
-        
-        # Use an array to record the status
-        rows, cols = [[0] * n for _ in range(n)], [[0] * n for _ in range(n)]
-        boxes = [[0] * n for _ in range(n)]
+        # Use binary number to check previous occurrence
+        rows, cols, boxes = [0] * n, [0] * n, [0] * n
         
         for i in range(n):
             for j in range(n):
@@ -15,20 +13,20 @@ class Solution:
                 pos = int(board[i][j]) - 1
                 
                 # Check the row
-                if rows[i][pos] == 1:
+                if rows[i] & (1 << pos):
                     return False
-                rows[i][pos] = 1
+                rows[i] |= (1 << pos)
                 
-                # Check the column
-                if cols[j][pos] == 1:
+                # Check the col
+                if cols[j] & (1 << pos):
                     return False
-                cols[j][pos] = 1
+                cols[j] |= (1 << pos)
                 
                 # Check the box
-                idx = (i // 3) * 3 + j // 3
-                if boxes[idx][pos] == 1:
+                boxes_idx = (i // 3) * 3 + (j // 3)
+                
+                if boxes[boxes_idx] & (1 << pos):
                     return False
-                boxes[idx][pos] = 1
-                
+                boxes[boxes_idx] |= (1 << pos)
+                    
         return True
-                
