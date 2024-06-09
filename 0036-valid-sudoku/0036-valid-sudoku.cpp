@@ -1,10 +1,10 @@
 class Solution {
 public:
     bool isValidSudoku(vector<vector<char>>& board) {
-        int n = board.size();
-        vector<int> rows(n), cols(n), boxes(n);
-        
+        const int n = 9;
         // Use binary number to check previous occurrence
+        int rows[n]{0}, cols[n]{0}, boxes[n]{0};
+        
         for (int i = 0; i < n; ++i){
             for (int j = 0; j < n; ++j){
                 // Check if the position is filled with number
