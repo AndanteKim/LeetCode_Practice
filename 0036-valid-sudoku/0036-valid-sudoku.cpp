@@ -2,32 +2,29 @@ class Solution {
 public:
     bool isValidSudoku(vector<vector<char>>& board) {
         int n = board.size();
-        
-        // Use hash set to record the status
-        unordered_set<char> rows[n], cols[n], boxes[n];
+        vector<vector<int>> rows(n, vector<int>(n)), cols(n, vector<int>(n)), boxes(n, vector<int>(n));
         
         for (int i = 0; i < n; ++i){
             for (int j = 0; j < n; ++j){
-                char val = board[i][j];
+                if (board[i][j] == '.') continue;
                 
-                // Check if the position is filled with number
-                if (val == '.') continue;
+                int pos = (int)(board[i][j] - 48) - 1;
                 
-                // Check the row
-                if (rows[i].contains(val))
+                // Check the rows
+                if (rows[i][pos] == 1)
                     return false;
-                rows[i].insert(val);
+                rows[i][pos] = 1;
                 
-                // Check the column
-                if (cols[j].contains(val))
+                // Check the columns
+                if (cols[j][pos] == 1)
                     return false;
-                cols[j].insert(val);
+                cols[j][pos] = 1;
                 
-                // Check the box
+                // Check the boxes
                 int boxesIdx = (i / 3) * 3 + (j / 3);
-                if (boxes[boxesIdx].contains(val))
+                if (boxes[boxesIdx][pos] == 1)
                     return false;
-                boxes[boxesIdx].insert(val);
+                boxes[boxesIdx][pos] = 1;
             }
         }
         
