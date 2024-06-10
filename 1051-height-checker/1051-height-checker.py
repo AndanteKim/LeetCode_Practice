@@ -1,18 +1,9 @@
 class Solution:
     def heightChecker(self, heights: List[int]) -> int:
-        n, ans = max(heights), 0
-        count = [0] * (n + 1)
+        ans, sorted_heights = 0, sorted(heights)
         
-        for height in heights:
-            count[height] += 1
-        
-        i = 1
-        for height in heights:
-            while count[i] == 0:
-                i += 1
-            
-            if height != i:
+        for i in range(len(heights)):
+            if sorted_heights[i] != heights[i]:
                 ans += 1
-            count[i] -= 1
                 
         return ans
