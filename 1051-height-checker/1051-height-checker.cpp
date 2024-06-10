@@ -1,17 +1,13 @@
 class Solution {
 public:
     int heightChecker(vector<int>& heights) {
-        int n = *max_element(heights.begin(), heights.end());
-        vector<int> countSort(n + 1);
-        for (int height:heights) ++countSort[height];
+        vector<int> sortedHeights = heights;
+        sort(sortedHeights.begin(), sortedHeights.end());
         
-        int curr = 1, ans = 0;
-        for (int height : heights){
-            while (countSort[curr] == 0) ++curr;
-            
-            if (height != curr) ++ans;
-            --countSort[curr];
-        }
+        int ans = 0;
+        for (int i = 0; i < heights.size(); ++i)
+            if (sortedHeights[i] != heights[i])
+                ++ans;
         
         return ans;
     }
