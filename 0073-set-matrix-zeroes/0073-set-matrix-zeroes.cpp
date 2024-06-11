@@ -1,27 +1,22 @@
 class Solution {
 public:
     void setZeroes(vector<vector<int>>& matrix) {
-        bitset<201> mask;
-        int m = matrix.size(), n = matrix[0].size();
+        int R = matrix.size(), C = matrix[0].size();set<int> rows, cols;
         
-        for (int i = 0; i < m; ++i){
-            bool zero = false;
-            for (int j = 0; j < n; ++j)
-                if (!matrix[i][j]){
-                    mask.set(j);
-                    zero = true;
+        // Essentially, we mark the rows and columns that are to be made zero
+        for (int i = 0; i < R; ++i){
+            for (int j = 0; j < C; ++j)
+                if (matrix[i][j] == 0){
+                    rows.insert(i);
+                    cols.insert(j);
                 }
-            
-            if (zero){
-                memset(&matrix[i][0], '\0', sizeof(int) * n);
-            }
         }
         
-        for (int j = 0; j < n; ++j){
-            if (mask.test(j)){
-                for (int i = 0; i < m; ++i) matrix[i][j] = 0;
-            }
+        // Iterate over the array once again, and using rows and cols sets, update the elements
+        for (int i = 0; i < R; ++i){
+            for (int j = 0; j < C; ++j)
+                if (rows.contains(i) || cols.contains(j))
+                    matrix[i][j] = 0;
         }
-        
     }
 };
