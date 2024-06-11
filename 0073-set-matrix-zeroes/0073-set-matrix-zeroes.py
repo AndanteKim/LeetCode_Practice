@@ -3,17 +3,18 @@ class Solution:
         """
         Do not return anything, modify matrix in-place instead.
         """
-        m, n, flatten = len(matrix), len(matrix[0]), 0
+        R, C = len(matrix), len(matrix[0])
+        rows, cols = set(), set()
         
-        for i in range(m):
-            for j in range(n):
-                if matrix[i][j] == 0 and flatten & (1 << (n * i + j)) == 0:
-                    for col in range(n):
-                        if matrix[i][col] != 0:
-                            flatten |= (1 << (n * i + col))
-                            matrix[i][col] = 0
+        # Essentially, we mark the rows and columns that are to be made zero
+        for i in range(R):
+            for j in range(C):
+                if matrix[i][j] == 0:
+                    rows.add(i)
+                    cols.add(j)
                     
-                    for row in range(m):
-                        if matrix[row][j] != 0:
-                            flatten |= (1 << (n * row + j))
-                            matrix[row][j] = 0
+        # Iterate over the array once again and using the rows and cols sets, update the elements
+        for i in range(R):
+            for j in range(C):
+                if i in rows or j in cols:
+                    matrix[i][j] = 0
