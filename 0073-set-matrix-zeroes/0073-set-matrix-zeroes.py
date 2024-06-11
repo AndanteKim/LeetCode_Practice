@@ -1,20 +1,22 @@
-class Solution:
-    def setZeroes(self, matrix: List[List[int]]) -> None:
-        """
-        Do not return anything, modify matrix in-place instead.
-        """
-        R, C = len(matrix), len(matrix[0])
-        rows, cols = set(), set()
+class Solution {
+public:
+    void setZeroes(vector<vector<int>>& matrix) {
+        int R = matrix.size(), C = matrix[0].size();set<int> rows, cols;
         
-        # Essentially, we mark the rows and columns that are to be made zero
-        for i in range(R):
-            for j in range(C):
-                if matrix[i][j] == 0:
-                    rows.add(i)
-                    cols.add(j)
-                    
-        # Iterate over the array once again and using the rows and cols sets, update the elements
-        for i in range(R):
-            for j in range(C):
-                if i in rows or j in cols:
-                    matrix[i][j] = 0
+        // Essentially, we mark the rows and columns that are to be made zero
+        for (int i = 0; i < R; ++i){
+            for (int j = 0; j < C; ++j)
+                if (matrix[i][j] == 0){
+                    rows.insert(i);
+                    cols.insert(j);
+                }
+        }
+        
+        // Iterate over the array once again, and using rows and cols sets, update the elements
+        for (int i = 0; i < R; ++i){
+            for (int j = 0; j < C; ++j)
+                if (rows.contains(i) || cols.contains(j))
+                    matrix[i][j] = 0;
+        }
+    }
+};
