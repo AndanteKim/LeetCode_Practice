@@ -13,7 +13,7 @@ public:
                 // patch miss to the array
                 miss += miss;
 
-                // increase the number
+                // increase the answer
                 ++patches;
             }
             
