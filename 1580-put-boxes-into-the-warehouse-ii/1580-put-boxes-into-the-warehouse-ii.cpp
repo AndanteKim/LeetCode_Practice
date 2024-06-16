@@ -25,8 +25,11 @@ public:
         sort(effectiveHeights.begin(), effectiveHeights.end());
         int ans = 0, boxIdx = 0;
         
+        // Try to place each box in the warehouse
+        // from the smallest room to the largest
         for (int i = 0; i < n; ++i){
             if (boxIdx < boxes.size() && boxes[boxIdx] <= effectiveHeights[i]){
+                // Place the box and move to the next one
                 ++ans;
                 ++boxIdx;
             }
