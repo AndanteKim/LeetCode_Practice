@@ -1,37 +1,24 @@
 class Solution:
     def maxBoxesInWarehouse(self, boxes: List[int], warehouse: List[int]) -> int:
-        n = len(warehouse)
-        min_height = float('inf')
-        effective_heights = [0] * n
-        
-        # Preprocess the height of the warehouse rooms to
-        # get usable heights from the left end
-        
-        for i in range(n):
-            min_height = min(min_height, warehouse[i])
-            effective_heights[i] = min_height
-        
-        min_height = float('inf')
-        
-        # Update the effective heights considering the right end
-        for i in range(n - 1, -1, -1):
-            min_height = min(min_height, warehouse[i])
-            effective_heights[i] = max(effective_heights[i], min_height)
-            
-        # Sort the effective heights of the warehouse rooms
-        effective_heights.sort()
-        
-        # Sort the boxes by height
+        # sort boxes by height
         boxes.sort()
+        warehouse_sz = len(warehouse)
+        left_idx, right_idx = 0, warehouse_sz - 1
+        box_count, box_idx = 0, len(boxes) - 1
         
-        ans, box_idx = 0, 0
+        # Iterate through the boxes from the largest to smallest
+        while left_idx <= right_idx and box_idx >= 0:
+            # Check if the current box can fit in the
+            # leftmost available room
+            if boxes[box_idx] <= warehouse[left_idx]:
+                box_count += 1
+                left_idx += 1
+                
+            # Check if the current box can fit in the
+            # rightmost available room
+            elif boxes[box_idx] <= warehouse[right_idx]:
+                box_count += 1
+                right_idx -= 1
+            box_idx -= 1 
         
-        # Try to place each box in the warehouse from
-        # the smallest room to the largest
-        for i in range(n):
-            if box_idx < len(boxes) and boxes[box_idx] <= effective_heights[i]:
-                # Place the box and move to the next one
-                ans += 1
-                box_idx += 1
-        
-        return ans
+        return box_count
