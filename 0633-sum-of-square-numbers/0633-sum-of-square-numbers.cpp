@@ -5,8 +5,9 @@ public:
         int b = INT_MAX;
         for (int a = 0; a <= c && b >= a * a; ++a){
             b = c - (a * a);
-            int sqrtB = sqrt(b);
-            if (a * a + sqrtB * sqrtB == c) return true;
+            
+            double sqrtB = sqrt(b);
+            if (sqrtB == (int)sqrtB) return true;
         }
         
         return false;
