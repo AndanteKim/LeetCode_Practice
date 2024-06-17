@@ -1,23 +1,15 @@
 class Solution:
     def judgeSquareSum(self, c: int) -> bool:
-        # s:= start, e:= end, t:= target
-        def binary_search(s: int, e: int, t: int) -> bool:
-            if s > e:
-                return False
-            
-            mid = s + ((e - s) >> 1)
-            if mid * mid == t:
-                return True
-            
-            if mid * mid > t:
-                return binary_search(s, mid - 1, t)
-            return binary_search(mid + 1, e, t)
-        
-        for a in range(c + 1):
-            if a * a > c:
+        for i in range(2, c + 1):
+            if i * i > c:
                 break
-            b = c - a * a
-            if binary_search(0, b, b):
-                return True
-            
-        return False
+                
+            count = 0
+            if c % i == 0:
+                while c % i == 0:
+                    count += 1
+                    c //= i
+                if i % 4 == 3 and count % 2:
+                    return False
+                
+        return c % 4 != 3
