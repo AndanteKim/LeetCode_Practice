@@ -1,26 +1,21 @@
 class Solution {
-private:
-    bool binarySearch(int start, int end, int target){
-        if (start > end) return false;
-        
-        int mid = start + ((end - start) >> 1);
-        if ((long long)mid * mid == target) return true;
-        
-        if ((long long)mid * mid > target)
-            return binarySearch(start, mid - 1, target);
-        
-        return binarySearch(mid + 1, end, target);
-    }
-    
 public:
     bool judgeSquareSum(int c) {
-        
-        for (long long a = 0; a * a <= c; ++a){
-            int b = c - (int)a * a;
-            if (binarySearch(0, b, b))
-                return true;
+        for (int i = 2; i * i <= c; ++i){
+            int count = 0;
+            
+            if (c % i == 0){
+                while (c % i == 0){
+                    ++count;
+                    c /= i;
+                }
+                
+                if ((count % 2) && (i % 4 == 3))
+                    return false;
+            }
+            
         }
         
-        return false;
+        return c % 4 != 3;
     }
 };
