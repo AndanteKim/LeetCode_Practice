@@ -6,9 +6,9 @@ public:
         
         for (int num : nums){
             if (!numSets.count(num - 1)){
-                int currentStreak = 0, currentNum = num; 
+                int currentStreak = 1, currentNum = num; 
                 
-                while (numSets.count(currentNum++))
+                while (numSets.count((currentNum++) + 1))
                     ++currentStreak;
                 
                 longestStreak = max(longestStreak, currentStreak);
