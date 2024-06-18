@@ -1,18 +1,20 @@
 class Solution:
     def maxProfitAssignment(self, difficulty: List[int], profit: List[int], worker: List[int]) -> int:
-        job_profile = [(difficulty[i], profit[i]) for i in range(len(difficulty))]
+        # Find maximum ability in the worker array
+        max_ability = max(worker)
+        jobs = [0] * (max_ability + 1)
         
-        # Sort both worker and job_profile arrays
-        worker.sort()
-        job_profile.sort()
+        for i in range(len(difficulty)):
+            if difficulty[i] <= max_ability:
+                jobs[difficulty[i]] = max(jobs[difficulty[i]], profit[i])
         
-        net_profit, max_profit, idx = 0, 0, 0
+        # Take maxima of prefixes
+        for i in range(1, max_ability + 1):
+            jobs[i] = max(jobs[i], jobs[i - 1])
+            
+        net_profit = 0
         for ability in worker:
-            # While the index has not reached the end and worker can pick a job
-            # with greater difficulty move ahead.
-            while idx < len(difficulty) and ability >= job_profile[idx][0]:
-                max_profit = max(max_profit, job_profile[idx][1])
-                idx += 1
-            net_profit += max_profit
+            net_profit += jobs[ability]
             
         return net_profit
+            
