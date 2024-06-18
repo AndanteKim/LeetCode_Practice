@@ -5,10 +5,10 @@ public:
         unordered_set<int> numSets(nums.begin(), nums.end());
         
         for (int num : nums){
-            if (!numSets.contains(num - 1)){
+            if (!numSets.count(num - 1)){
                 int currentStreak = 0, currentNum = num; 
                 
-                while (numSets.contains(currentNum++))
+                while (numSets.count(currentNum++))
                     ++currentStreak;
                 
                 longestStreak = max(longestStreak, currentStreak);
