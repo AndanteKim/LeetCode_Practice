@@ -9,7 +9,7 @@ class UnionFind:
             self.root[x] = self.find(self.root[x])
         return self.root[x]
     
-    def union_sets(self, x: int, y: int):
+    def union_sets(self, x: int, y: int) -> None:
         root_x, root_y = self.find(x), self.find(y)
         
         if self.rank[root_x] > self.rank[root_y]:
