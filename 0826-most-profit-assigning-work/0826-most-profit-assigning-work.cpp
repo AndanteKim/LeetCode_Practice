@@ -1,34 +1,22 @@
 class Solution {
 public:
     int maxProfitAssignment(vector<int>& difficulty, vector<int>& profit, vector<int>& worker) {
-        vector<pair<int, int>> jobProfile{{0, 0}};
-        
+        vector<pair<int, int>> jobProfile;
         for (int i = 0; i < difficulty.size(); ++i)
-            jobProfile.push_back({profit[i], difficulty[i]});
+            jobProfile.push_back({difficulty[i], profit[i]});
         
-        // sort in decreasing order of profit
-        sort(jobProfile.begin(), jobProfile.end(), [](pair<int, int>& p1, pair<int, int>& p2){return p1.first > p2.first;});
+        // Sort both jobProfile and worker arrays by increasing order
+        sort(jobProfile.begin(), jobProfile.end());
+        sort(worker.begin(), worker.end());
         
-        for (int i = 1; i < jobProfile.size(); ++i)
-            jobProfile[i] = pair<int, int>{jobProfile[i].first, min(jobProfile[i - 1].second, jobProfile[i].second)};
-        
-        int netProfit = 0;
+        int idx = 0, maxProfit = 0, netProfit = 0;
         for (int ability : worker){
-            int l = 0, r = jobProfile.size() - 1, jobProfit = 0;
+            // While the index has not reached the end and worker can pick a job
+            // with greater difficulty move ahead.
+            while (idx < jobProfile.size() && jobProfile[idx].first <= ability)
+                maxProfit = max(maxProfit, jobProfile[idx++].second);
             
-            // Maximize profit using binary search
-            while (l <= r){
-                int mid = l + ((r - l) >> 1);
-                
-                if (jobProfile[mid].second <= ability){
-                    r = mid - 1;
-                    jobProfit = max(jobProfit, jobProfile[mid].first);
-                }
-                else l = mid + 1;
-            }
-
-            // Add profit of each worker to total profit.
-            netProfit += jobProfit;
+            netProfit += maxProfit;
         }
         
         return netProfit;
