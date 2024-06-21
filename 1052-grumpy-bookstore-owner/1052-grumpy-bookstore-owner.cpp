@@ -18,7 +18,7 @@ public:
             unrealizedCustomer += customers[i] * grumpy[i];
             unrealizedCustomer -= customers[i - minutes] * grumpy[i - minutes];
             
-            // Update the maximuum unrealized customers
+            // Update the maximum unrealized customers
             maxUnrealizedCustomer = max(maxUnrealizedCustomer, unrealizedCustomer);
         }
         
