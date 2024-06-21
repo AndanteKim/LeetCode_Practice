@@ -13,7 +13,7 @@ public:
         // Slide the 'minutes' window across the rest of the customers array 
         for (int i = minutes; i < customers.size(); ++i){
             // Add the current 'minute's unsatisfied customers if the owner is
-            // grumpy and remove the customers that are out oof the current
+            // grumpy and remove the customers that are out of the current
             // window
             unrealizedCustomer += customers[i] * grumpy[i];
             unrealizedCustomer -= customers[i - minutes] * grumpy[i - minutes];
