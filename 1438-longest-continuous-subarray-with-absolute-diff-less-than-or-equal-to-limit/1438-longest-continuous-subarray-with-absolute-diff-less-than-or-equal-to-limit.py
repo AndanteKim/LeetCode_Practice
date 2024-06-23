@@ -11,7 +11,7 @@ class Solution:
             # Check if the absolutue difference between the maximum and minimum values in the current window
             # exceeds the limit
             while -max_heap[0][0] - min_heap[0][0] > limit:
-                # Move the left poinnter to the right until the condition is satisfied.
+                # Move the left pointer to the right until the condition is satisfied.
                 # This ensures we remove the element causing the violation
                 left = min(max_heap[0][1], min_heap[0][1]) + 1
                 
