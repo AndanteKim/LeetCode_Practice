@@ -1,31 +1,30 @@
 class Solution:
     def minKBitFlips(self, nums: List[int], k: int) -> int:
-        # Keeps track of flipped states
-        flipped = [False] * len(nums)
-        
-        # Tracks valid flips within the past window
-        valid_flips_from_past_window = 0
-        
-        # Counts total flips needed
-        flip_count = 0
+        n = len(nums)
+        flip_queue = deque() # Queue to keep track of flips
+        flipped, res = 0, 0  # Current flip state, total number of flips
         
         for i in range(len(nums)):
+            # Remove the effect of the oldest flip if it's out of the current window
             if i >= k:
-                # Decrease count of valid flips from the past window if needed
-                if flipped[i - k]:
-                    valid_flips_from_past_window -= 1
-                    
-            # Check if current bit needs to be flipped
-            if valid_flips_from_past_window % 2 == nums[i]:
-                # If flipping the window extends beyond the array length.
-                # return -1
-                if i + k > len(nums):
+                flipped ^= flip_queue[0]
+                
+            # If the current bit is 0 (i.e., it needs to be flipped)
+            if flipped == nums[i]:
+                # If we cannot flip a subarray starting at index i
+                if i + k > n:
                     return -1
                 
-                # Increment the count of valid flips and
-                # mark current as flipped
-                valid_flips_from_past_window += 1
-                flipped[i] = True
-                flip_count += 1
+                # Add a flip at this position
+                flip_queue.append(1)
+                flipped ^= 1 # Toggle the flipped state
+                res += 1    # Increment the flip count
+            else:
+                flip_queue.append(0)
                 
-        return flip_count
+            # Remove the oldest flip effect if the queue is larger than k
+            if len(flip_queue) > k:
+                flip_queue.popleft()
+                
+        return res
+                
