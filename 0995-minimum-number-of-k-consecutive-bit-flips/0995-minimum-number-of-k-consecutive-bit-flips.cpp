@@ -1,34 +1,36 @@
 class Solution {
 public:
     int minKBitFlips(vector<int>& nums, int k) {
-        // validFlipsFromPastWindow := tracks valid flips within the past window
-        // flipCount := counts totaal flips needed
-        int n = nums.size(), flipCount = 0, validFlipsFromPastWindow = 0;
-        // Keep track of flipped states
-        vector<bool> flipped(n);
+        int n = nums.size();
+        // Queue to keep track of flips
+        // Current flip state
+        int res = 0, flipped = 0;
+        // Total number of flips
+        deque<int> flipQueue;
         
         for (int i = 0; i < n; ++i){
+            // Remove the effect of the oldest flip if it's out of the current
+            // window
             if (i >= k){
-                // Decrease the count of valid flips from the past window if needed
-                if (flipped[i - k])
-                    --validFlipsFromPastWindow;
+                flipped ^= flipQueue.front();
+                flipQueue.pop_front();
             }
             
-            // Check if the current bit needs to be flipped
-            if (validFlipsFromPastWindow % 2 == nums[i]){
-                // If flipping the window extends beyond the array length
-                // return -1
+            // If the current bit is 0, it needs to be flipped
+            if (flipped == nums[i]){
+                // If we cannot flip a subarray starting at index i
                 if (i + k > n)
                     return -1;
-                
-                // Increment the count of valid flips and
-                // mark current as flipped
-                flipped[i] = true;
-                ++validFlipsFromPastWindow;
-                ++flipCount;
+                // Add a flip at this position
+                flipQueue.push_back(1);
+                // Toggle the flipped state
+                flipped ^= 1;
+                // Increment the flip count
+                ++res;
             }
+            else flipQueue.push_back(0);
         }
         
-        return flipCount;
+        return res;
     }
 };
