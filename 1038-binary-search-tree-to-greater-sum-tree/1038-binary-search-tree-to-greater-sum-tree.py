@@ -6,22 +6,41 @@
 #         self.right = right
 class Solution:
     def bstToGst(self, root: TreeNode) -> TreeNode:
-        st, node_sum, node = [], 0, root
-        
-        while st or node:
-            while node:
-                st.append(node)
-                node = node.right
+        # Get the node with the smallest value greater than this one.
+        def get_successor(node: TreeNode) -> TreeNode:
+            succ = node.right
+            while succ.left and succ.left != node:
+                succ = succ.left
                 
-            # Store the top value of stack in node and pop it
-            node = st.pop()
-            
-            # Update the value of node.
-            node_sum += node.val
-            node.val = node_sum
-            
-            # Move to the left child of node.
-            node = node.left
-            
-        return root
+            return succ
         
+        total, node = 0, root
+        
+        while node:
+            # If there is no right subtree, then we can visit this node and
+            # continue traversing left.
+            if not node.right:
+                total += node.val
+                node.val = total
+                node = node.left
+            
+            # If there a right subtree, then there is a node that has a greater
+            # value than the current one. Therefore, we must travese that node first.
+            else:
+                succ = get_successor(node)
+                # If there is no left subtree (or right subtree, because we're
+                # in this branch of control flow), make a temporary connection
+                # back to the current node.
+                if not succ.left:
+                    succ.left = node
+                    node = node.right
+                
+                # If there is a left subtree, it's a link thaat we created on
+                # a previous pass, so we should unlink it and visit this node.
+                else:
+                    succ.left = None
+                    total += node.val
+                    node.val = total
+                    node = node.left
+                    
+        return root
