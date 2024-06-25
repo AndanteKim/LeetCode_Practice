@@ -10,29 +10,47 @@
  * };
  */
 class Solution {
+private:
+    TreeNode* getSuccessor(TreeNode* node){
+        TreeNode* succ = node -> right;
+        
+        // Get the node with the smallest value greater than this one.
+        while (succ -> left && succ -> left != node)
+            succ = succ -> left;
+        
+        return succ;
+    }
+    
 public:
     TreeNode* bstToGst(TreeNode* root) {
-        stack<TreeNode*> st;
+        int total = 0;
         TreeNode* node = root;
-        int nodeSum = 0;
         
-        
-        while (!st.empty() || node){
-            while (node){
-                st.push(node);
-                node = node -> right;
+        while (node){
+            // If there is no right subtree, then we visit this node and
+            // continue traversing left
+            if (!node -> right){
+                total += node -> val;
+                node -> val = total;
+                node = node -> left;
             }
-            
-            // Store the top value of stack in node and pop it.
-            node = st.top();
-            st.pop();
-            
-            // Update value of node.
-            nodeSum += node -> val;
-            node -> val = nodeSum;
-            
-            // Move to the left child of node.
-            node = node -> left;
+            else{
+                TreeNode* succ = getSuccessor(node);
+                // If there is no left subtree (or right subtree, because we're in
+                // this branch of control flow), make a temporary connection.
+                if (!succ -> left){
+                    succ -> left = node;
+                    node = node -> right;
+                }
+                // If there is a left subtree, it's a link that we created on a
+                // previous pass, so we should unlink it and visit this node.
+                else{
+                    succ -> left = nullptr;
+                    total += node -> val;
+                    node -> val = total;
+                    node = node -> left;
+                }
+            }
         }
         
         return root;
