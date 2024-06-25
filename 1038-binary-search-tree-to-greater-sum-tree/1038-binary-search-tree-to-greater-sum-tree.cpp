@@ -11,23 +11,22 @@
  */
 class Solution {
 private:
-    void inorder(TreeNode* curr, vector<TreeNode*>& traversal){
-        if (!curr) return;
+    void helper(TreeNode* node, int& nodeSum){
+        // If the node is null, make no changes 
+        if (!node) return;
         
-        inorder(curr -> left, traversal);
-        traversal.push_back(curr);
-        inorder(curr -> right, traversal);
+        helper(node -> right, nodeSum);
+        nodeSum += node -> val;
+        // Update the value of root.
+        node -> val = nodeSum;
+        helper(node -> left, nodeSum);
     }
     
 public:
     TreeNode* bstToGst(TreeNode* root) {
-        vector<TreeNode*> traversal;
-        inorder(root, traversal);
-        
-        for (int i = traversal.size() - 2; i >= 0; --i){
-            traversal[i] -> val += traversal[i + 1] -> val;
-        }
-        
+        // Initialize a local variable nodeSum.
+        int nodeSum = 0;
+        helper(root, nodeSum);
         return root;
     }
 };
