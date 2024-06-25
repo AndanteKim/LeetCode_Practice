@@ -24,8 +24,8 @@ class Solution:
                 node.val = total
                 node = node.left
             
-            # If there a right subtree, then there is a node that has a greater
-            # value than the current one. Therefore, we must travese that node first.
+            # If there is a right subtree, then there is a node that has a greater
+            # value than the current one. Therefore, we must traverse that node first.
             else:
                 succ = get_successor(node)
                 # If there is no left subtree (or right subtree, because we're
@@ -35,7 +35,7 @@ class Solution:
                     succ.left = node
                     node = node.right
                 
-                # If there is a left subtree, it's a link thaat we created on
+                # If there is a left subtree, it's a link that we created on
                 # a previous pass, so we should unlink it and visit this node.
                 else:
                     succ.left = None
