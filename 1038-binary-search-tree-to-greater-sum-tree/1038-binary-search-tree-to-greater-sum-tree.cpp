@@ -11,42 +11,24 @@
  */
 class Solution {
 private:
-    // Store the inorder traversal in an array
-    vector<int> inorderTraversal;
-    void inorder(TreeNode* root){
-        if (!root) return;
+    vector<TreeNode*> inorder(TreeNode* curr){
+        if (!curr) return {};
         
-        inorder(root -> left);
-        inorderTraversal.push_back(root -> val);
-        inorder(root -> right);
-    }
-    
-    // Function to modify the values in the tree.
-    void replaceValues(TreeNode* root){
-        if (!root) return;
+        vector<TreeNode*> traversal = inorder(curr -> left);
+        traversal.push_back(curr);
+        vector<TreeNode*> right = inorder(curr -> right);
+        traversal.insert(traversal.end(), right.begin(), right.end());
         
-        replaceValues(root -> left);
-        replaceValues(root -> right);
-        
-        // Replace the node with values greater than the current value
-        int nodeSum = 0;
-        for (int i : inorderTraversal){
-            if (i > root -> val)
-                nodeSum += i;
-            else
-                break;
-        }
-        
-        root -> val += nodeSum;
+        return traversal;
     }
     
 public:
     TreeNode* bstToGst(TreeNode* root) {
-        inorder(root);
-        // Reverse the array to get descending order
-        reverse(inorderTraversal.begin(), inorderTraversal.end());
-        // Modify the values in the tree
-        replaceValues(root);
+        vector<TreeNode*> inorderTraversal = inorder(root);
+        
+        for (int i = inorderTraversal.size() - 2; i >= 0; --i){
+            inorderTraversal[i] -> val += inorderTraversal[i + 1] -> val;
+        }
         
         return root;
     }
