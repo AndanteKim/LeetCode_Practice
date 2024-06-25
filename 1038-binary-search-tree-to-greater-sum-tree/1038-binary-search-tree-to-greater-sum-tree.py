@@ -6,40 +6,14 @@
 #         self.right = right
 class Solution:
     def bstToGst(self, root: TreeNode) -> TreeNode:
-        # Store the inorder traversal in an array.
-        self.inorder_traversal = []
-        self.inorder(root)
+        def dfs(curr: TreeNode) -> List[TreeNode]:
+            if not curr:
+                return []
+            
+            return dfs(curr.left) + [curr] + dfs(curr.right)
         
-        # Reverse the array to get descending order.
-        self.inorder_traversal.reverse()
-        
-        # Modify the values in the tree.
-        self.replace_values(root)
+        inorder = dfs(root)
+        for i in range(len(inorder) - 2, -1, -1):
+            inorder[i].val += inorder[i + 1].val
         
         return root
-    
-    def inorder(self, root: TreeNode) -> None:
-        if not root:
-            return
-            
-        self.inorder(root.left)
-        self.inorder_traversal.append(root.val)
-        self.inorder(root.right)
-        
-    # Function to modify the values in the tree.
-    def replace_values(self, root: TreeNode) -> None:
-        if not root:
-            return
-        
-        self.replace_values(root.left)
-        self.replace_values(root.right)
-        
-        # Replace node with values greater than the current value.
-        node_sum = 0
-        for i in self.inorder_traversal:
-            if i > root.val:
-                node_sum += i
-            else:
-                break
-                
-        root.val += node_sum
