@@ -6,14 +6,22 @@
 #         self.right = right
 class Solution:
     def bstToGst(self, root: TreeNode) -> TreeNode:
-        def dfs(curr: TreeNode) -> List[TreeNode]:
-            if not curr:
-                return []
+        st, node_sum, node = [], 0, root
+        
+        while st or node:
+            while node:
+                st.append(node)
+                node = node.right
+                
+            # Store the top value of stack in node and pop it
+            node = st.pop()
             
-            return dfs(curr.left) + [curr] + dfs(curr.right)
-        
-        inorder = dfs(root)
-        for i in range(len(inorder) - 2, -1, -1):
-            inorder[i].val += inorder[i + 1].val
-        
+            # Update the value of node.
+            node_sum += node.val
+            node.val = node_sum
+            
+            # Move to the left child of node.
+            node = node.left
+            
         return root
+        
