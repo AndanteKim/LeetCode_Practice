@@ -11,23 +11,21 @@
  */
 class Solution {
 private:
-    vector<TreeNode*> inorder(TreeNode* curr){
-        if (!curr) return {};
+    void inorder(TreeNode* curr, vector<TreeNode*>& traversal){
+        if (!curr) return;
         
-        vector<TreeNode*> traversal = inorder(curr -> left);
+        inorder(curr -> left, traversal);
         traversal.push_back(curr);
-        vector<TreeNode*> right = inorder(curr -> right);
-        traversal.insert(traversal.end(), right.begin(), right.end());
-        
-        return traversal;
+        inorder(curr -> right, traversal);
     }
     
 public:
     TreeNode* bstToGst(TreeNode* root) {
-        vector<TreeNode*> inorderTraversal = inorder(root);
+        vector<TreeNode*> traversal;
+        inorder(root, traversal);
         
-        for (int i = inorderTraversal.size() - 2; i >= 0; --i){
-            inorderTraversal[i] -> val += inorderTraversal[i + 1] -> val;
+        for (int i = traversal.size() - 2; i >= 0; --i){
+            traversal[i] -> val += traversal[i + 1] -> val;
         }
         
         return root;
