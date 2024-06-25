@@ -10,23 +10,31 @@
  * };
  */
 class Solution {
-private:
-    void helper(TreeNode* node, int& nodeSum){
-        // If the node is null, make no changes 
-        if (!node) return;
-        
-        helper(node -> right, nodeSum);
-        nodeSum += node -> val;
-        // Update the value of root.
-        node -> val = nodeSum;
-        helper(node -> left, nodeSum);
-    }
-    
 public:
     TreeNode* bstToGst(TreeNode* root) {
-        // Initialize a local variable nodeSum.
+        stack<TreeNode*> st;
+        TreeNode* node = root;
         int nodeSum = 0;
-        helper(root, nodeSum);
+        
+        
+        while (!st.empty() || node){
+            while (node){
+                st.push(node);
+                node = node -> right;
+            }
+            
+            // Store the top value of stack in node and pop it.
+            node = st.top();
+            st.pop();
+            
+            // Update value of node.
+            nodeSum += node -> val;
+            node -> val = nodeSum;
+            
+            // Move to the left child of node.
+            node = node -> left;
+        }
+        
         return root;
     }
 };
