@@ -10,39 +10,68 @@
  * };
  */
 class Solution {
-private:
-    void inorder(TreeNode* node, vector<int>& traversal){
-        // Perform an inorder traversal to store the elements in sorted order
-        if (!node) return;
-        inorder(node -> left, traversal);
-        traversal.push_back(node -> val);
-        inorder(node -> right, traversal);
-    }
-    
-    TreeNode* createBalancedTree(vector<int>& inorderTraversal, int start, int end){
-        // Base case: If the start index is greater than the end index, return
-        // nullptr
-        if (start > end) return nullptr;
-        
-        // Find the middle element of the current range
-        int mid = start + ((end - start) >> 1);
-        
-        // Recursively construct the left and right subtrees
-        TreeNode* leftSubtree = createBalancedTree(inorderTraversal, start, mid - 1);
-        TreeNode* rightSubtree = createBalancedTree(inorderTraversal, mid + 1, end);
-        
-        // Create a new node with the middle element and attach the subtrees
-        return new TreeNode(inorderTraversal[mid], leftSubtree, rightSubtree);
-    }
-    
 public:
     TreeNode* balanceBST(TreeNode* root) {
-        // Create a vector to store the inorder traversal of the BST
-        vector<int> inorderTraversal;
-        inorder(root, inorderTraversal);
-        int n = inorderTraversal.size();
+        if (!root) return nullptr;
         
-        // Construct and return the balanced tree
-        return createBalancedTree(inorderTraversal, 0, n - 1);
+        // Step1: Create a backbone (vine)
+        // Temporary dummy node
+        TreeNode* vineHead = new TreeNode();
+        vineHead -> right = root;
+        TreeNode* curr = vineHead;
+        while (curr -> right){
+            if (curr -> right -> left)
+                rightRotate(curr, curr -> right);
+            else
+                curr = curr -> right;
+        }
+        
+        // Step2: Count the nodes
+        int nodeCount = 0;
+        curr = vineHead -> right;
+        while (curr){
+            ++nodeCount;
+            curr = curr -> right;
+        }
+        
+        // Step3: Create a balanced BST
+        int m = pow(2, floor(log2(nodeCount + 1))) - 1;
+        makeRotations(vineHead, nodeCount - m);
+        while (m > 1){
+            m >>= 1;
+            makeRotations(vineHead, m);
+        }
+        
+        TreeNode* balancedRoot = vineHead -> right;
+        // Delete the temporary dummy node
+        delete vineHead;
+        return balancedRoot;
+    }
+    
+private:
+    // Function to perform a right rotation
+    void rightRotate(TreeNode* parent, TreeNode* node){
+        TreeNode* tmp = node -> left;
+        node -> left = tmp -> right;
+        tmp -> right = node;
+        parent -> right = tmp;
+    }
+    
+    // Function to perform a left rotation
+    void leftRotate(TreeNode* parent, TreeNode* node){
+        TreeNode* tmp = node -> right;
+        node -> right = tmp -> left;
+        tmp -> left = parent -> right;
+        parent -> right = tmp;
+    }
+    
+    // Function to perform a series of left rotations to balance the vine
+    void makeRotations(TreeNode* vineHead, int count){
+        TreeNode* curr = vineHead;
+        for (int i = 0; i < count; ++i){
+            TreeNode* tmp = curr -> right;
+            leftRotate(curr, tmp);
+            curr = curr -> right;
+        }
     }
 };
