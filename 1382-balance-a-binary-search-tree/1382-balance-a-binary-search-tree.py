@@ -6,33 +6,58 @@
 #         self.right = right
 class Solution:
     def balanceBST(self, root: TreeNode) -> TreeNode:
-        def inorder_traversal(curr: TreeNode) -> List[int]:
-            if not curr:
-                return []
-
-            return inorder_traversal(curr.left) + [curr.val] + inorder_traversal(curr.right)
-        
-        
-        inorder = inorder_traversal(root)
-        n = len(inorder)
-        
-        # Construct and return the balanced BST
-        return self.create_balanced_bst(inorder, 0, n - 1)
-    
-    def create_balanced_bst(self, inorder: List[int], start: int, end: int) -> TreeNode:
-        # Base case: If the start index is greater than the end index, return None.
-        if start > end:
+        if not root:
             return None
         
-        # Find the middle element of the current range
-        mid = start + ((end - start) >> 1)
-        
-        # Recursively construct the left and right subtrees
-        left_subtree = self.create_balanced_bst(inorder, start, mid - 1)
-        right_subtree = self.create_balanced_bst(inorder, mid + 1, end)
-        
-        # Create a new node with the middle element and attach the subtrees
-        node = TreeNode(inorder[mid], left_subtree, right_subtree)
-        
-        return node
+        # Step 1: Create the backbone (vine)
+        # Temporary dummy node
+        vine_head = TreeNode(0)
+        vine_head.right = root
+        curr = vine_head
+        while curr.right:
+            if curr.right.left:
+                self.right_rotate(curr, curr.right)
+            else:
+                curr = curr.right
+                
+        # Step 2: Count the nodes
+        node_count = 0
+        curr = vine_head.right
+        while curr:
+            node_count += 1
+            curr = curr.right
             
+        # Step 3: Create a balanced BST
+        m = 2 ** int(log2(node_count + 1)) - 1
+        self.make_rotations(vine_head, node_count - m)
+        while m > 1:
+            m >>= 1
+            self.make_rotations(vine_head, m)
+            
+        balanced_root = vine_head.right
+        # Delete the temporary dummy node
+        vine_head = None
+        return balanced_root
+    
+    # Function to perform a right rotation    
+    def right_rotate(self, parent: TreeNode, node: TreeNode) -> None:
+        tmp = node.left
+        node.left = tmp.right
+        tmp.right = node
+        parent.right = tmp
+        
+    # Function to perform a left rotation
+    def left_rotate(self, parent: TreeNode, node: TreeNode) -> None:
+        tmp = node.right
+        node.right = tmp.left
+        tmp.left = node
+        parent.right = tmp
+        
+    # Function to perform a series of left rotations to balance the vine
+    def make_rotations(self, vine_head: TreeNode, count: int) -> None:
+        curr = vine_head
+        for _ in range(count):
+            tmp = curr.right
+            self.left_rotate(curr, tmp)
+            curr = curr.right
+    
