@@ -1,10 +1,5 @@
 class Solution:
     def findCenter(self, edges: List[List[int]]) -> int:
-        graph = defaultdict(int)
+        first_edge, second_edge = edges[0], edges[1]
         
-        # edge = n - 1
-        for start, end in edges:
-            graph[start] += 1
-            graph[end] += 1
-        
-        return max(graph, key = graph.get)
+        return first_edge[0] if first_edge[0] in second_edge else first_edge[1]
