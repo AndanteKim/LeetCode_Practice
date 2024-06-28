@@ -1,12 +1,6 @@
 class Solution {
 public:
     int evalRPN(vector<string>& tokens) {
-        unordered_map<string, function<int(int, int)>> ops{
-            {"+", [](int a, int b){return a + b;}},
-            {"-", [](int a, int b){return a - b;}},
-            {"*", [](int a, int b){return a * b;}},
-            {"/", [](int a, int b){return a / b;}}
-        };
         unordered_set<string> arithmetic{"+", "-", "*", "/"};
         
         stack<int> stk;
@@ -14,10 +8,24 @@ public:
             if (arithmetic.count(token)){
                 int second = stk.top();
                 stk.pop();
-                int first = stk.top();
+                int first = stk.top(), res;
                 stk.pop();
+                switch(token[0]){
+                    case '+':
+                        res = first + second;
+                        break;
+                    case '-':
+                        res = first - second;
+                        break;
+                    case '*':
+                        res = first * second;
+                        break;
+                    case '/':
+                        res = first / second;
+                        break;
+                } 
                 
-                stk.push(ops[token](first, second));
+                stk.push(res);
             }
             else stk.push(stoi(token));
         }
