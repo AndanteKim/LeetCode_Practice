@@ -7,7 +7,7 @@ class Solution:
             "/": lambda x, y: int(x / y)
         }
         
-        ans, stack, first, second = 0, [], None, None
+        stack, first, second = [], None, None
         
         for token in tokens:
             if token in {"+", "-", "*", "/"}:
