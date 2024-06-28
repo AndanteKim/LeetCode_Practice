@@ -1,25 +1,27 @@
 class Solution {
 public:
     int evalRPN(vector<string>& tokens) {
-        unordered_map<string, function<int(int, int)>> operations;
-        operations["+"] = [](int a, int b){return a + b;};
-        operations["-"] = [](int a, int b){return a - b;};
-        operations["*"] = [](int a, int b){return a * b;};
-        operations["/"] = [](int a, int b){return a / b;};
+        unordered_map<string, function<int(int, int)>> ops{
+            {"+", [](int a, int b){return a + b;}},
+            {"-", [](int a, int b){return a - b;}},
+            {"*", [](int a, int b){return a * b;}},
+            {"/", [](int a, int b){return a / b;}}
+        };
+        unordered_set<string> arithmetic{"+", "-", "*", "/"};
         
-        stack<int> st;
-        for (string& token:tokens){
-            if (operations.find(token) != operations.end()){
-                int n2 = st.top();
-                st.pop();
-                int n1 = st.top();
-                st.pop();
-                st.push(operations[token](n1, n2));
+        stack<int> stk;
+        for (string& token : tokens){
+            if (arithmetic.count(token)){
+                int second = stk.top();
+                stk.pop();
+                int first = stk.top();
+                stk.pop();
+                
+                stk.push(ops[token](first, second));
             }
-            else
-                st.push(stoi(token));
+            else stk.push(stoi(token));
         }
         
-        return st.top();
+        return stk.top();
     }
 };
