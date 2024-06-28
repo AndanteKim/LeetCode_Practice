@@ -9,10 +9,9 @@ public:
         }
         
         sort(degree.begin(), degree.end());
-        long long ans = 0;
-        int val = 1;
+        long long ans = 0, val = 1;
         for (int d : degree)
-            ans += (long long)d * (val++);
+            ans += d * (val++);
         
         return ans;
     }
