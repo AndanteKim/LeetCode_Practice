@@ -1,27 +1,17 @@
 class Solution:
     def maximumImportance(self, n: int, roads: List[List[int]]) -> int:
-        adj = defaultdict(list)
+        degree = [0] * n
         
-        for start, end in roads:
-            adj[start].append(end)
-            adj[end].append(start)
+        for edge in roads:
+            degree[edge[0]] += 1
+            degree[edge[1]] += 1
             
-        pairs = []
-        for node in adj:
-            heappush(pairs, (-len(adj[node]), node))
+        degree.sort()
         
-        val, importance = n, [0] * n
-        while pairs and val >= 1:
-            importance[heappop(pairs)[1]] = val
-            val -= 1
+        val, total_importance = 1, 0
         
-        ans, visited = 0, [False] * n
+        for d in degree:
+            total_importance += val * d
+            val += 1
         
-        for node in range(n):
-            if not visited[node]:
-                visited[node] = True
-                
-                for neighbor in adj[node]:
-                    ans += importance[node] + importance[neighbor]
-                    
-        return ans >> 1
+        return total_importance
