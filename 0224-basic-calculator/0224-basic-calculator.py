@@ -1,56 +1,36 @@
 class Solution:
-    def evaluate_expr(self, stack: List[int]) -> int:
-        # If stack is empty or the expression starts with
-        # a symbol, then append 0 to the stack.
-        # i.e. [1, '-', 2, '-'] becomes [1, '-', 2, '-', 0]
-        if not stack or type(stack[-1]) == str:
-            stack.append(0)
-            
-        res = stack.pop()
-        
-        # Evaluate the expression til we get corresponding ')'
-        while stack and stack[-1] != ')':
-            sign = stack.pop()
-            if sign == '+':
-                res += stack.pop()
-            else:
-                res -= stack.pop()
-                
-        return res
-    
     def calculate(self, s: str) -> int:
-        stack = []
-        n, operand = 0, 0
+        st, i, n = [], 0, len(s)
+        total, sign = 0, 1
         
-        for i in range(len(s) - 1, -1, -1):
-            ch = s[i]
-            
-            if ch.isdigit():
-                # Forming the operand - in reverse order.
-                operand = (10 ** n * int(ch)) + operand
-                n += 1
-            
-            elif ch != " ":
-                if n:
-                    # Save the operand on the stack
-                    # As we encounter some non-digit
-                    stack.append(operand)
-                    n, operand = 0, 0
+        while i < n:
+            if s[i].isdigit():
+                num = 0
+                while i < n and s[i].isdigit():
+                    num = num * 10 + ord(s[i]) - ord('0')
+                    i += 1
                     
-                if ch == '(':
-                    res = self.evaluate_expr(stack)
-                    stack.pop()
-                    
-                    # Append the evaluated result to the stack.
-                    # This result could be of a sub-expression within the parenthesis.
-                    stack.append(res)
-                # For other non-digits just push onto the stack.
-                else:
-                    stack.append(ch)
-                    
-        # Push the last operand to stack, if any.
-        if n:
-            stack.append(operand)
-        
-        # Evaluate any left overs in the stack.
-        return self.evaluate_expr(stack)
+                # As for loop also increase i, so if we don't decrease i here
+                # a sign will be skipped
+                total += num * sign
+                sign = 1
+                
+            elif s[i] == '(':
+                # saving current state of (total, sign) in stack
+                st.append((total, sign))
+                
+                # Resetting sum and sign for inner bracket calculation
+                total, sign = 0, 1
+                i += 1
+                
+            elif s[i] == ')':
+                total = st[-1][0] + total * st[-1][1]
+                st.pop()
+                i += 1
+            elif s[i] == '-':
+                sign *= -1
+                i += 1
+            else:
+                i += 1
+                
+        return total
