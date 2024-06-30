@@ -12,23 +12,46 @@
 class Solution {
 public:
     vector<TreeNode*> splitBST(TreeNode* root, int target) {
-        // Base case: if root is nullptr
-        if (!root) return vector<TreeNode*>{nullptr, nullptr};
+        // Initialize an array to store the two split trees
+        vector<TreeNode*> ans{nullptr, nullptr};
         
-        // If the root's val is greater than target
-        if (root -> val > target){
-            vector<TreeNode*> left = splitBST(root -> left, target);
-            root -> left = left[1];
-            return vector<TreeNode*>{left[0], root};
+        // If the root is null, return the empty array
+        if (!root) return ans;
+        
+        // Stack to traverse the tree and find the split point
+        stack<TreeNode*> stk;
+        
+        
+        // Find the node with the closest value to the taarget.
+        while (root){
+            stk.push(root);
+            if (root -> val > target)
+                root = root -> left;
+            else
+                root = root -> right;
         }
         
-        // Otherwise, recursively split right subtree.
-        else{
-            vector<TreeNode*> right = splitBST(root -> right, target);
-            root -> right = right[0];
-            return vector<TreeNode*>{root, right[1]};
+        // Process nodes in reverse order from the stack to perform the split
+        while (!stk.empty()){
+            TreeNode* curr = stk.top(); stk.pop();
+            
+            if (curr -> val > target){
+                // Assign current node's left child to the subtree
+                // containing nodes greater than the target
+                curr -> left = ans[1];
+                
+                // Current node becomes the new root of this subtree
+                ans[1] = curr;
+            }
+            else{
+                // Assign current node's right child to the subtree
+                // containing nodes smaller than the target
+                curr -> right = ans[0];
+                // current node becomes the new root of this subtree
+                ans[0] = curr;
+            }
         }
         
-        return vector<TreeNode*>{};
+        return ans;
     }
 };
