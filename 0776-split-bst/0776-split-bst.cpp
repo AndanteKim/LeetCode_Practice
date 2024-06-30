@@ -12,46 +12,43 @@
 class Solution {
 public:
     vector<TreeNode*> splitBST(TreeNode* root, int target) {
-        // Initialize an array to store the two split trees
-        vector<TreeNode*> ans{nullptr, nullptr};
+        // Create dummy nodes to hold the split tree parts
+        TreeNode *dummySM = new TreeNode(), *dummyLG = new TreeNode();
+        TreeNode *currSM = dummySM, *currLG = dummyLG;
         
-        // If the root is null, return the empty array
-        if (!root) return ans;
+        // Start traversal from the root
+        TreeNode *curr = root, *nextNode = nullptr;
         
-        // Stack to traverse the tree and find the split point
-        stack<TreeNode*> stk;
-        
-        
-        // Find the node with the closest value to the taarget.
-        while (root){
-            stk.push(root);
-            if (root -> val > target)
-                root = root -> left;
-            else
-                root = root -> right;
-        }
-        
-        // Process nodes in reverse order from the stack to perform the split
-        while (!stk.empty()){
-            TreeNode* curr = stk.top(); stk.pop();
-            
-            if (curr -> val > target){
-                // Assign current node's left child to the subtree
-                // containing nodes greater than the target
-                curr -> left = ans[1];
+        while (curr){
+            if (curr -> val <= target){
+                // Attach the current node to the tree with values
+                // less than or equal to the target
+                currSM -> right = curr;
+                currSM = curr;
                 
-                // Current node becomes the new root of this subtree
-                ans[1] = curr;
+                // Move to the right subtree
+                nextNode = curr -> right;
+                
+                // Clear the right pointer of current node
+                currSM -> right = nullptr;
+                curr = nextNode;
             }
             else{
-                // Assign current node's right child to the subtree
-                // containing nodes smaller than the target
-                curr -> right = ans[0];
-                // current node becomes the new root of this subtree
-                ans[0] = curr;
+                // Attach the current node to the tree with values
+                // greater to the target
+                currLG -> left = curr;
+                currLG = curr;
+                
+                // Move to the left subtree
+                nextNode = curr -> left;
+                
+                // Clear the left pointer of current node
+                currLG -> left = nullptr;
+                curr = nextNode;
             }
         }
         
-        return ans;
+        // Return the split parts as a list.
+        return vector<TreeNode*>{dummySM -> right, dummyLG -> left};
     }
 };
