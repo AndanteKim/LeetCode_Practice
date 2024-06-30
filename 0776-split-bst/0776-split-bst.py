@@ -6,38 +6,39 @@
 #         self.right = right
 class Solution:
     def splitBST(self, root: Optional[TreeNode], target: int) -> List[Optional[TreeNode]]:
-        # List to store the two split trees
-        ans = [None, None]
+        # Create dummy nodes to hold the split tree parts
+        dummy_sm, dummy_lg = TreeNode(0), TreeNode(0)
+        curr_sm, curr_lg = dummy_sm, dummy_lg
         
-        # If root is None, return the empty list
-        if not root:
-            return ans
+        # Start traversal from the root
+        curr, next_node = root, None
         
-        # Stack to traverse the tree and find the split point
-        stack = []
-        
-        # Find the node with the value closest to the target
-        while root:
-            stack.append(root)
-            if root.val > target:
-                root = root.left
-            else:
-                root = root.right
+        while curr:
+            if curr.val <= target:
+                # Attach the current node to the tree
+                # with values less than or equal to the target
+                curr_sm.right = curr
+                curr_sm = curr
                 
-        # Process nodes in reverse order from the staack to perform the split
-        while stack:
-            curr = stack.pop()
-            if curr.val > target:
-                # Assign current node's left child to the subtree
-                # containing nodes greater than the target
-                curr.left = ans[1]
-                # Current node becomes the new root of this subtree
-                ans[1] = curr
-            else:
-                # Assign current node's right child to the subtree
-                # containing nodes smaller than the target
-                curr.right = ans[0]
-                # Current node becomes the new root of this subtree
-                ans[0] = curr
+                # Move to the right subtree
+                next_node = curr.right
                 
-        return ans
+                # Clear the right pointer of current node
+                curr_sm.right = None
+                curr = next_node
+            else:
+                # Attach the current node to the treee
+                # with values greater to the target
+                curr_lg.left = curr
+                curr_lg = curr
+                
+                # Move to the left subtree
+                next_node = curr.left
+                
+                # Clear the left pointer of current node
+                curr_lg.left = None
+                curr = next_node
+                
+        # Return the split parts as a list
+        return [dummy_sm.right, dummy_lg.left]
+        
