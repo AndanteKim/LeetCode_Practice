@@ -6,23 +6,38 @@
 #         self.right = right
 class Solution:
     def splitBST(self, root: Optional[TreeNode], target: int) -> List[Optional[TreeNode]]:
-        # Base case: if root is None, return two None values
+        # List to store the two split trees
+        ans = [None, None]
+        
+        # If root is None, return the empty list
         if not root:
-            return [None, None]
+            return ans
         
-        # If root's value is greater than target,
-        # recursively split left subtree
-        if root.val > target:
-            left = self.splitBST(root.left, target)
-            
-            # Attach the right part of the split to root's left subtree
-            root.left = left[1]
-            return [left[0], root]
+        # Stack to traverse the tree and find the split point
+        stack = []
         
-        # Otherwise, recursively split right subtree
-        else:
-            right = self.splitBST(root.right, target)
-            # Attach the left part of the split to root's right subtree
-            root.right = right[0]
-            return [root, right[1]]
-        
+        # Find the node with the value closest to the target
+        while root:
+            stack.append(root)
+            if root.val > target:
+                root = root.left
+            else:
+                root = root.right
+                
+        # Process nodes in reverse order from the staack to perform the split
+        while stack:
+            curr = stack.pop()
+            if curr.val > target:
+                # Assign current node's left child to the subtree
+                # containing nodes greater than the target
+                curr.left = ans[1]
+                # Current node becomes the new root of this subtree
+                ans[1] = curr
+            else:
+                # Assign current node's right child to the subtree
+                # containing nodes smaller than the target
+                curr.right = ans[0]
+                # Current node becomes the new root of this subtree
+                ans[0] = curr
+                
+        return ans
