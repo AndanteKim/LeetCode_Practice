@@ -11,43 +11,23 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode *curr1 = l1, *curr2 = l2;
-        int digit = 0, carry = 0;
-        ListNode *curr = new ListNode();
-        ListNode *ans = curr;
+        ListNode *sentinel = new ListNode();
+        ListNode *curr = sentinel;
+        int carry = 0;
         
-        // Two pointer
-        while (curr1 || curr2){
-            // If both curr1 and curr2 are not nullptr
-            if (curr1 && curr2){
-                digit = (curr1 -> val + curr2 -> val + carry) % 10;
-                carry = (curr1 -> val + curr2 -> val + carry) / 10;
-            }
-            // If only curr1 is not nullptr
-            else if (curr1){
-                digit = (curr1 -> val + carry) % 10;
-                carry = (curr1 -> val + carry) / 10;
-            }
-            // If only curr2 is not nullptr
-            else{
-                digit = (curr2 -> val + carry) % 10;
-                carry = (curr2 -> val + carry) / 10;
-            }
+        while (l1 || l2 || carry != 0){
+            int l1Val = (l1)? l1 -> val : 0, l2Val = (l2)? l2 -> val : 0;
+            int total = (l1Val + l2Val + carry) % 10;
+            carry = (l1Val + l2Val + carry) / 10;
             
-            curr -> val = digit;
-            if (curr1) curr1 = curr1 -> next;
-            if (curr2) curr2 = curr2 -> next;
-            if (curr1 || curr2){
-                curr -> next = new ListNode();
-                curr = curr -> next;
-            }
+            curr -> next = new ListNode(total);
+            curr = curr -> next;
+            
+            (l1)? l1 = l1 -> next : l1 = nullptr;
+            (l2)? l2 = l2 -> next : l2 = nullptr;
+            
         }
         
-        // If carry still remains
-        if (carry){
-            curr -> next = new ListNode(carry);
-        }
-        
-        return ans;
+        return sentinel -> next;
     }
 };
