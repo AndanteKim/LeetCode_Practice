@@ -1,25 +1,33 @@
-# Definition for singly-linked list.
-# class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
-class Solution:
-    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
-        sentinel = ListNode()
-        curr, carry = sentinel, 0
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *sentinel = new ListNode();
+        ListNode *curr = sentinel;
+        int carry = 0;
         
-        while l1 or l2 or carry != 0:
-            l1val = l1.val if l1 else 0
-            l2val = l2.val if l2 else 0
+        while (l1 || l2 || carry != 0){
+            int l1Val = (l1)? l1 -> val : 0, l2Val = (l2)? l2 -> val : 0;
+            int total = (l1Val + l2Val + carry) % 10;
+            carry = (l1Val + l2Val + carry) / 10;
             
-            total = l1val + l2val + carry
-            carry = total // 10
-            new_node = ListNode(total % 10)
-            curr.next = new_node
-            curr = new_node
+            curr -> next = new ListNode(total);
+            curr = curr -> next;
             
-            # Move on to next node for each
-            l1 = l1.next if l1 else None
-            l2 = l2.next if l2 else None
+            (l1)? l1 = l1 -> next : l1 = nullptr;
+            (l2)? l2 = l2 -> next : l2 = nullptr;
             
-        return sentinel.next
+        }
+        
+        return sentinel -> next;
+    }
+};
