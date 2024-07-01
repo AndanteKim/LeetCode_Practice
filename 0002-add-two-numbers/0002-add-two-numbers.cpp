@@ -11,23 +11,21 @@
 class Solution {
 public:
     ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
-        ListNode *sentinel = new ListNode();
-        ListNode *curr = sentinel;
-        int carry = 0;
+        // Recursion : base case
+        if (!(l1 || l2))
+            return nullptr;
+        else if (!l1 && l2)
+            return l2;
+        else if (l1 && !l2)
+            return l1;
         
-        while (l1 || l2 || carry != 0){
-            int l1Val = (l1)? l1 -> val : 0, l2Val = (l2)? l2 -> val : 0;
-            int total = (l1Val + l2Val + carry) % 10;
-            carry = (l1Val + l2Val + carry) / 10;
-            
-            curr -> next = new ListNode(total);
-            curr = curr -> next;
-            
-            (l1)? l1 = l1 -> next : l1 = nullptr;
-            (l2)? l2 = l2 -> next : l2 = nullptr;
-            
+        ListNode* next = addTwoNumbers(l1 -> next, l2 -> next);
+        int total = l1 -> val + l2 -> val;
+        if (total >= 10){
+            total %= 10;
+            next = addTwoNumbers(next, new ListNode(1));
         }
         
-        return sentinel -> next;
+        return new ListNode(total, next);
     }
 };
