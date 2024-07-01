@@ -28,8 +28,8 @@ public:
         else if (rank[groupA] < rank[groupB])
             root[groupA] = groupB;
         else{
-            root[groupA] = groupB;
-            ++rank[groupB];
+            root[groupB] = groupA;
+            ++rank[groupA];
         }
         
         return true;
