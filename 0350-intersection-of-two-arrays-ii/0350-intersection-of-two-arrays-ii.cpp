@@ -1,23 +1,21 @@
 class Solution {
 public:
     vector<int> intersect(vector<int>& nums1, vector<int>& nums2) {
-        unordered_map<int, int> freq1, freq2;
-        unordered_set<int> intersection;
-        for (int num : nums1) {
-            ++freq1[num];
-            intersection.insert(num);
-        }
-        for (int num : nums2){
-            ++freq2[num];
-            intersection.insert(num);
+        if (nums1.size() > nums2.size())
+            return intersect(nums2, nums1);
+        
+        unordered_map<int, int> m;
+        for (int n : nums1)
+            ++m[n];
+        
+        int k = 0;
+        for (int n : nums2){
+            auto it = m.find(n);
+            if (it != end(m) && --it -> second >= 0){
+                nums1[k++] = n;
+            }
         }
         
-        vector<int> ans;
-        for (int n : intersection){
-            for (int i = 0; i < min(freq1[n], freq2[n]); ++i)
-                ans.push_back(n);
-        }
-        
-        return ans;
+        return vector<int>(begin(nums1), begin(nums1) + k);
     }
 };
