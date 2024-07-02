@@ -1,18 +1,19 @@
 class Solution:
     def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        if len(nums1) > len(nums2):
-            return self.intersect(nums2, nums1)
+        nums1.sort()
+        nums2.sort()
         
-        d = defaultdict(int)
+        i, j, k = 0, 0, 0
         
-        for n in nums1:
-            d[n] += 1
-            
-        k = 0
-        for n in nums2:
-            if n in d and d[n] > 0:
-                nums1[k] = n
-                d[n] -= 1
+        while i < len(nums1) and j < len(nums2):
+            if nums1[i] < nums2[j]:
+                i += 1
+            elif nums1[i] > nums2[j]:
+                j += 1
+            else:
+                nums1[k] = nums1[i]
                 k += 1
-            
+                i += 1
+                j += 1
+                
         return nums1[:k]
