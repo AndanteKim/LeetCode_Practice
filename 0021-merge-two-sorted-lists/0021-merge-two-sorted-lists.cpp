@@ -11,34 +11,19 @@
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
-        ListNode* sentinel = new ListNode();
-        ListNode* curr = sentinel;
+        // Recursion
+        if (!list1)
+            return list2;
         
-        // Running until both list1 and list2 are exhausted(equal to nullptr)
-        while (list1 || list2){
-            if (list1 && list2){
-                if (list1 -> val >= list2 -> val){
-                    curr -> next = list2;
-                    list2 = list2 -> next;
-                }
-                else{
-                    curr -> next = list1;
-                    list1 = list1 -> next;
-                }
-            }
-            else if (list1){
-                curr -> next = list1;
-                list1 = list1 -> next;
-            }
-            else{
-                curr -> next = list2;
-                list2 = list2 -> next;
-            }
-            
-            // Move to the next pointer
-            curr = curr -> next;
+        else if (!list2)
+            return list1;
+        else if (list1 -> val < list2 -> val){
+            list1 -> next = mergeTwoLists(list1 -> next, list2);
+            return list1;
         }
-        
-        return sentinel -> next;
+        else{
+            list2 -> next = mergeTwoLists(list1, list2 -> next);
+            return list2;
+        }
     }
 };
