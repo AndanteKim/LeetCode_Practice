@@ -1,22 +1,18 @@
 class Solution:
     def intersect(self, nums1: List[int], nums2: List[int]) -> List[int]:
-        freq1, freq2, union = defaultdict(int), defaultdict(int), set()
+        if len(nums1) > len(nums2):
+            return self.intersect(nums2, nums1)
         
-        for num in nums1:
-            freq1[num] += 1
-            union.add(num)
+        d = defaultdict(int)
         
-        for num in nums2:
-            freq2[num] += 1
-            union.add(num)
+        for n in nums1:
+            d[n] += 1
             
-        ans = []
-        for n in union:
-            for _ in range(min(freq1[n], freq2[n])):
-                ans.append(n)
-                
-        return ans
-        
-        
+        k = 0
+        for n in nums2:
+            if n in d and d[n] > 0:
+                nums1[k] = n
+                d[n] -= 1
+                k += 1
             
-        
+        return nums1[:k]
