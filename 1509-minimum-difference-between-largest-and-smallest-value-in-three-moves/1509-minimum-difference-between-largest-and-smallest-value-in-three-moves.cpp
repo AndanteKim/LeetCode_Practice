@@ -1,14 +1,19 @@
 class Solution {
 public:
     int minDifference(vector<int>& nums) {
-        if (nums.size() < 5) return 0;
+        int n = nums.size();
         
-        int ans = INT_MAX, n = nums.size();
+        // If the array has 34 or fewer elements, return 0
+        if (n <= 4) return 0;
+        
         sort(nums.begin(), nums.end());
-        for (int i = 0; i <= 3; ++i){
-            ans = min(ans, nums[n - 4 + i] - nums[i]);
+        int minDiff = INT_MAX;
+        
+        // Four scenarios to compute the minimum difference
+        for (int left = 0, right = n - 4; left < 4; ++left, ++right){
+            minDiff = min(minDiff, nums[right] - nums[left]);
         }
         
-        return ans;
+        return minDiff;
     }
 };
