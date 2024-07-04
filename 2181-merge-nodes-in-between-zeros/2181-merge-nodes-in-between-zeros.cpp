@@ -11,25 +11,30 @@
 class Solution {
 public:
     ListNode* mergeNodes(ListNode* head) {
-        // dummy node
-        ListNode* sentinel = new ListNode();
-        sentinel -> next = head;
+        // Initialize a sentinel / dummy node with the first non-zero value.
+        ListNode* modify = head -> next;
+        ListNode* nextSum = modify;
         
-        ListNode* prev = sentinel, *root = head;
-        int curr = 0;
-        
-        while (root){
-            if (root -> val == 0 && curr > 0){
-                root -> val = curr;
-                curr = 0;
-                prev -> next = root;
-                prev = root;
+        while (nextSum){
+            int sum = 0;
+            
+            // Find the sum of all nodes until you encounter a 0.
+            while (nextSum -> val != 0){
+                sum += nextSum -> val;
+                nextSum = nextSum -> next;
             }
-            else
-                curr += root -> val;
-            root = root -> next;
+            
+            // Assign the sum to the current node's value.
+            modify -> val = sum;
+            
+            // Move nextSum to the first non-zero value of the next block.
+            nextSum = nextSum -> next;
+            
+            // Move modify also to this node.
+            modify -> next = nextSum;
+            modify = modify -> next;
         }
         
-        return sentinel -> next;
+        return head -> next;
     }
 };
