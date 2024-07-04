@@ -5,7 +5,7 @@
 #         self.next = next
 class Solution:
     def mergeNodes(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        # Staart with the first non-zero value.
+        # Start with the first non-zero value.
         head = head.next
         if not head:
             return head
