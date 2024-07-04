@@ -11,30 +11,25 @@
 class Solution {
 public:
     ListNode* mergeNodes(ListNode* head) {
-        // Initialize a sentinel / dummy node with the first non-zero value.
-        ListNode* modify = head -> next;
-        ListNode* nextSum = modify;
+        // Start with the first non-zero value
+        head = head -> next;
+        if (!head)
+            return head;
         
-        while (nextSum){
-            int sum = 0;
-            
-            // Find the sum of all nodes until you encounter a 0.
-            while (nextSum -> val != 0){
-                sum += nextSum -> val;
-                nextSum = nextSum -> next;
-            }
-            
-            // Assign the sum to the current node's value.
-            modify -> val = sum;
-            
-            // Move nextSum to the first non-zero value of the next block.
-            nextSum = nextSum -> next;
-            
-            // Move modify also to this node.
-            modify -> next = nextSum;
-            modify = modify -> next;
+        // Initialize a dummy head node.
+        ListNode* temp = head;
+        int sum = 0;
+        while (temp -> val != 0){
+            sum += temp -> val;
+            temp = temp -> next;
         }
         
-        return head -> next;
+        // Store the sum in head's value.
+        head -> val = sum;
+        
+        // Store head's next node as the recursive result for temp node.
+        head -> next = mergeNodes(temp);
+        
+        return head;
     }
 };
