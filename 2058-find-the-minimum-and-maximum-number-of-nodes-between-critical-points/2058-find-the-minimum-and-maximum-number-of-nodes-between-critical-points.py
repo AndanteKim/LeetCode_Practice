@@ -5,42 +5,37 @@
 #         self.next = next
 class Solution:
     def nodesBetweenCriticalPoints(self, head: Optional[ListNode]) -> List[int]:
-        if not head:
-            return [-1, -1]
+        ans = [-1, -1]
         
-        min_idx, max_idx = [], []
-        local_min, local_max = float('inf'), float('-inf')
-        curr, prev, i = head.next, head, 2
+        # Initialize minimum distance to the maximum possible value
+        min_dist = float("inf")
         
-        while curr.next:
-            # If it's local minima
-            if curr.val < prev.val <= curr.next.val or curr.val < curr.next.val <= prev.val:
-                min_idx.append(i)
-            # If it's local maxima
-            elif curr.val > prev.val >= curr.next.val or curr.val > curr.next.val >= prev.val:
-                max_idx.append(i)
-            curr = curr.next
-            prev = prev.next
-            i += 1
+        # Pointers to track the previous node, current node, and indices
+        prev_node, curr_node = head, head.next
+        curr_idx, prev_critical_idx = 1, 0
+        first_critical_idx = 0
         
-        merged, i, j = [], 0, 0
-        while i < len(min_idx) and j < len(max_idx):
-            if min_idx[i] <= max_idx[j]:
-                merged.append(min_idx[i])
-                i += 1
-            else:
-                merged.append(max_idx[j])
-                j += 1
-        
-        if i < len(min_idx):
-            merged.extend(min_idx[i:])
-        if j < len(max_idx):
-            merged.extend(max_idx[j:])
+        while curr_node.next:
+            # Check if the current node is a local maxima or minima
+            if (curr_node.val < prev_node.val and curr_node.val < curr_node.next.val)\
+            or (curr_node.val > prev_node.val and curr_node.val > curr_node.next.val):
+                # If this is the first critical point found
+                if prev_critical_idx == 0:
+                    prev_critical_idx = curr_idx
+                    first_critical_idx = curr_idx
+                else:
+                    # Calculate the minimum distaance between critical points
+                    min_dist = min(min_dist, curr_idx - prev_critical_idx)
+                    prev_critical_idx = curr_idx
+                    
+            # Move to the next node and update indices
+            curr_idx += 1
+            prev_node = curr_node
+            curr_node = curr_node.next
             
-        if len(merged) < 2:
-            return [-1, -1]
-        ans = [float('inf'), merged[-1] - merged[0]]
-        for k in range(len(merged) - 1):
-            ans[0] = min(ans[0], merged[k + 1] - merged[k])
-        
+        # If at least two critical points were found
+        if min_dist != float("inf"):
+            max_dist = prev_critical_idx - first_critical_idx
+            ans = [min_dist, max_dist]
+            
         return ans
