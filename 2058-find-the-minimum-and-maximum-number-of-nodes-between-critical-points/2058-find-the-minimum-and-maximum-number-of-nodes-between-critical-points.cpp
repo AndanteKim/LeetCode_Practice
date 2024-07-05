@@ -11,35 +11,43 @@
 class Solution {
 public:
     vector<int> nodesBetweenCriticalPoints(ListNode* head) {
-        if (!head) return {-1, -1};
+        vector<int> ans{-1, -1};
         
-        vector<int> merged;
-        ListNode *curr = head -> next, *prev = head;
-        int i = 2;
+        // Pointers to track the previous node, current node, and indices
+        ListNode* curr = head -> next, *prev = head;
+        int prevCriticalIdx = 0, currIdx = 1, firstCriticalIdx = 0;
+        
+        // Intialize minimum distance to the maximum possible value
+        int minDist = INT_MAX;
         
         while (curr -> next){
-            // If it's local minima
-            if ((curr -> val < prev -> val && prev -> val <= curr -> next -> val) || (curr -> val < curr -> next -> val\
-                                                                                     && curr -> next -> val <= prev -> val))
-                merged.push_back(i);
+            // Check if the current node is a local maxima or minima
+            if ((curr -> val < prev -> val && curr -> val < curr -> next -> val)\
+                || (curr -> val > prev -> val && curr -> val > curr -> next -> val)){
+                
+                // If this is the first critical point found
+                if (firstCriticalIdx == 0){
+                    firstCriticalIdx = currIdx;
+                    prevCriticalIdx = currIdx;
+                }
+                else{
+                    // Calculate the minimum distance between critical points
+                    minDist = min(minDist, currIdx - prevCriticalIdx);
+                    prevCriticalIdx = currIdx;
+                }
+            }
             
-            // If it's local maxima
-            else if ((curr -> val > prev -> val && prev -> val >= curr -> next -> val) || (curr -> val > curr -> next -> val\
-                                                                                          && curr -> next -> val >= prev -> val))
-                merged.push_back(i);
-            
+            // Move to the next node and update indices
+            prev = curr;
             curr = curr -> next;
-            prev = prev -> next;
-            ++i;
+            ++currIdx;
         }
-      
-        if (merged.size() < 2)
-            return {-1, -1};
         
-        vector<int> ans{INT_MAX, merged.back() - merged[0]};
-        
-        for (int k = 0; k < merged.size() - 1; ++k)
-            ans[0] = min(ans[0], merged[k + 1] - merged[k]);
+        // If at least two critical points were found
+        if (minDist != INT_MAX){
+            ans[0] = minDist;
+            ans[1] = prevCriticalIdx - firstCriticalIdx;
+        }
         
         return ans;
     }
