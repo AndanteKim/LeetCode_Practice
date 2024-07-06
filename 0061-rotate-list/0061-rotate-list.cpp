@@ -9,32 +9,39 @@
  * };
  */
 class Solution {
+private:
+    ListNode* rec(ListNode* head, int k){
+        if (k == 0) return head;
+        
+        ListNode* curr = head, *prev = head;
+        
+        while (curr -> next){
+            prev = curr;
+            curr = curr -> next;
+        }
+        
+        curr -> next = head;
+        prev -> next = nullptr;
+        head = curr;
+        curr = prev;
+        
+        return rec(head, k - 1);
+    }
+    
 public:
     ListNode* rotateRight(ListNode* head, int k) {
-        // Base case
-        if (!(head && head -> next))
-            return head;
+        // Recursive approach
+        if (!head) return head;
+
+        ListNode *curr = head;
+        int size = 0;
         
-        // close the linked list into the ring
-        ListNode* oldTail = head;
-        int n = 1;
-        while (oldTail -> next){
-            ++n;
-            oldTail = oldTail -> next;
+        while (curr){
+            ++size;
+            curr = curr -> next;
         }
-        oldTail -> next = head;
         
-        // Find the new tail: (n - k % n - 1)th node
-        // and new head: (n - k % n)th node
-        ListNode* newTail = head;
-        for (int i = 0; i < n - k % n - 1; ++i)
-            newTail = newTail -> next;
-        
-        ListNode* newHead = newTail -> next;
-        
-        // Break the ring
-        newTail -> next = nullptr;
-        
-        return newHead;
+        k %= size;
+        return rec(head, k);
     }
 };
