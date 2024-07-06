@@ -11,40 +11,30 @@
 class Solution {
 public:
     ListNode* rotateRight(ListNode* head, int k) {
-        // Base case: If head or next pointer of head is nullptr
+        // Base case
         if (!(head && head -> next))
             return head;
         
-        // Find the length of head
-        int n = 0;
-        ListNode *curr = head;
-        while (curr){
+        // close the linked list into the ring
+        ListNode* oldTail = head;
+        int n = 1;
+        while (oldTail -> next){
             ++n;
-            curr = curr -> next;
+            oldTail = oldTail -> next;
         }
+        oldTail -> next = head;
         
-        // To shorten rotation and avoid repetition, we'll apply k % n
-        k %= n;
-        ListNode *prev;
+        // Find the new tail: (n - k % n - 1)th node
+        // and new head: (n - k % n)th node
+        ListNode* newTail = head;
+        for (int i = 0; i < n - k % n - 1; ++i)
+            newTail = newTail -> next;
         
-        // Rotate the linked list until k is running out
-        while (k-- > 0){
-            curr = head;
-            
-            // Check the end of linked list and its previous pointer.
-            while (curr -> next){
-                prev = curr;
-                curr = curr -> next;
-            }
-            
-            // switch pointer for each previous node and the end of node
-            prev -> next = nullptr;
-            curr -> next = head;
-            
-            // reset the pointer of head
-            head = curr;
-        }
+        ListNode* newHead = newTail -> next;
         
-        return head;
+        // Break the ring
+        newTail -> next = nullptr;
+        
+        return newHead;
     }
 };
