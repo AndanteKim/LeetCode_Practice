@@ -1,9 +1,15 @@
 class Solution:
     def numWaterBottles(self, numBottles: int, numExchange: int) -> int:
-        ans, empty = 0, 0
-        while numBottles > 0:
-            ans += numBottles
-            numBottles, empty = divmod((numBottles + empty), numExchange)
+        consumed_bottles = 0
+
+        while numBottles >= numExchange:
+            # Maximum number of times we can consume numExchange
+            # number of bottles using numBottles
+            K = numBottles // numExchange
             
-        return ans
+            consumed_bottles += numExchange * K
+            numBottles -= numExchange * K
+            
+            numBottles += K
         
+        return consumed_bottles + numBottles
