@@ -1,22 +1,12 @@
 class Solution {
 public:
     int findTheWinner(int n, int k) {
-        queue<int> q;
-        for (int i = 1; i <= n; ++i) q.push(i);
+        int ans = 0;
         
-        int count = 1;
-        while (q.size() > 1){
-            int curr = q.front(); q.pop();
-            
-            if (count == k){
-                count = 1;
-            }
-            else{
-                ++count;
-                q.push(curr);
-            }
-        }
+        for (int i = 2; i <= n; ++i)
+            ans = (ans + k) % i;
         
-        return q.front();
+        // Add 1 to convert back to 1-indexing
+        return ans + 1;
     }
 };
