@@ -9,29 +9,36 @@
  * };
  */
 class Solution {
+private:
+    // Recursively delete duplicates based on the frequency map
+    ListNode* deleteDuplicates(ListNode* head, unordered_map<int, int>& freq){
+        // base case
+        if (!head) return nullptr;
+        
+        // Recursive call for the next node
+        ListNode* updatedNextNode = deleteDuplicates(head -> next, freq);
+        
+        head -> next = updatedNextNode;
+        
+        // If the current node is a duplicate, return the updated next node
+        if (freq[head -> val] > 1)
+            return updatedNextNode;
+        
+        // Otherwise, return the current node
+        return head;
+    }
+    
 public:
     ListNode* deleteDuplicatesUnsorted(ListNode* head) {
-        ListNode* curr = head;
-        unordered_map<int, int> seen;
+        unordered_map<int, int> freq;
+        ListNode *curr = head;
         
+        // Count the frequency of each value in the list
         while (curr){
-            ++seen[curr -> val];
+            ++freq[curr -> val];
             curr = curr -> next;
         }
         
-        ListNode* sentinel = new ListNode();
-        sentinel -> next = head;
-        ListNode* pred = sentinel;
-        curr = head;
-        
-        while (curr){
-            if (seen[curr -> val] >= 2)
-                pred -> next = curr -> next;
-            else
-                pred = pred -> next;
-            curr = curr -> next;
-        }
-        
-        return sentinel -> next;
+        return deleteDuplicates(head, freq);
     }
 };
