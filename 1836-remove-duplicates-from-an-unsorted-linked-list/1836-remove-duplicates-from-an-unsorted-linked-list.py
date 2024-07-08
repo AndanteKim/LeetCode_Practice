@@ -5,22 +5,27 @@
 #         self.next = next
 class Solution:
     def deleteDuplicatesUnsorted(self, head: ListNode) -> ListNode:
-        curr, seen = head, dict()
+        curr, freq = head, dict()
         
         while curr:
-            seen[curr.val] = seen.get(curr.val, 0) + 1
-            curr = curr.next
-        
-        sentinel = ListNode()
-        sentinel.next = head
-        pred, curr = sentinel, head
-        
-        while curr:
-            if seen[curr.val] >= 2:
-                pred.next = curr.next
-            else:
-                pred = pred.next
-            
+            freq[curr.val]= freq.get(curr.val, 0) + 1
             curr = curr.next
             
-        return sentinel.next
+        return self.delete_duplicates(head, freq)
+    
+    # Recursively delete duplicates based on the frequency map.
+    def delete_duplicates(self, head: ListNode, freq: Dict[int, int]) -> ListNode:
+        if not head:
+            return None
+        
+        # Recursive call for the next node
+        updated_next_node = self.delete_duplicates(head.next, freq)
+        head.next = updated_next_node
+        
+        # If the current node is a duplicate, return the updated next node
+        if freq[head.val] > 1:
+            return updated_next_node
+        
+        # Otherwise, return the current node
+        return head
+        
