@@ -1,22 +1,19 @@
 class Solution:
     def averageWaitingTime(self, customers: List[List[int]]) -> float:
-        n, total, finish_time = len(customers), 0, 0
+        next_idle_time, net_wait_time = 0, 0
         
-        for i in range(n):
-            curr_arr, curr_req = customers[i][0], customers[i][1]
+        for customer in customers:
+            # The next idle time for the chef is given by the time of delivery
+            # of currrent customer's order.
+            next_idle_time = max(customer[0], next_idle_time) + customer[1]
             
-            # add the rest of time
-            if curr_arr < finish_time:
-                total += finish_time - curr_arr
-                
-            # check the current time
-            curr_time = max(curr_arr, finish_time)
+            # The wait time for the current customer is the difference between
+            # his delivery time and arrival time.
+            net_wait_time += next_idle_time - customer[0]
             
-            # add prepared time in total
-            total += curr_req
-            
-            finish_time = curr_time + curr_req
+        # Divide by total customers to get average.
+        average_wait_time = net_wait_time / len(customers)
         
-        return total / n
-                
-                
+        return average_wait_time
+        
+            
