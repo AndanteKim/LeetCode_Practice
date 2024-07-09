@@ -6,18 +6,28 @@
 #         self.right = right
 class Solution:
     def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:
-        def build(stop: int) -> Optional[TreeNode]:
-            if inorder and inorder[-1] != stop:
-                root = TreeNode(preorder.pop())
-                root.left = build(root.val)
-                inorder.pop()
-                root.right = build(stop)
-                return root
+        def array_to_tree(left: int, right: int) -> Optional[TreeNode]:
+            nonlocal preorder_index
+            # base case: if there is no elements to construct the tree
+            if left > right:
+                return None
             
-            return None
+            # select the preorder_index element as the root and increment it
+            root_val = preorder[preorder_index]
+            root = TreeNode(root_val)
+            preorder_index += 1
+            
+            # build left and right subtree
+            # excluding inorder_index_maa[root_val] element because it's the root
+            root.left = array_to_tree(left, inorder_index_map[root_val] - 1)
+            root.right = array_to_tree(inorder_index_map[root_val] + 1, right)
+            
+            return root
         
-        # Recursion without map
-        preorder.reverse()
-        inorder.reverse()
+        inorder_index_map = dict()
+        # Build a hash map to store value -> its index relations
+        for idx, val in enumerate(inorder):
+            inorder_index_map[val] = idx
+        preorder_index = 0
         
-        return build(None)
+        return array_to_tree(0, len(preorder) - 1)
