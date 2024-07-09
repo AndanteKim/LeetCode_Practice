@@ -1,8 +1,5 @@
 class Solution:
     def averageWaitingTime(self, customers: List[List[int]]) -> float:
-        if len(customers) == 1:
-            return customers[0][1]
-        
         n, total, finish_time = len(customers), 0, 0
         
         for i in range(n):
