@@ -11,33 +11,27 @@
  */
 class Solution {
 private:
-    int preorderIndex = 0;
-    TreeNode* arrayToTree(int left, int right, unordered_map<int, int>& inorderIndexMap, vector<int>& preorder){
-        // Base case: if there are no elements to construct the tree
-        if (left > right)
-            return nullptr;
+    TreeNode* build(int stop, vector<int>& preorder, vector<int>& inorder){
+        if (!inorder.empty() && inorder.back() != stop){
+            TreeNode* root = new TreeNode(preorder.back());
+            preorder.pop_back();
+            root -> left = build(root -> val, preorder, inorder);
+            
+            inorder.pop_back();
+            root -> right = build(stop, preorder, inorder);
+            
+            return root;
+        }
         
-        // select the preorderIndex element as the root and increment it
-        int rootVal = preorder[preorderIndex++];
-        TreeNode* root = new TreeNode(rootVal);
-        
-        // build left and right subtree
-        // excluding inorderIndexMap[rootVal] element because it's the root 
-        root -> left = arrayToTree(left, inorderIndexMap[rootVal] - 1, inorderIndexMap, preorder);
-        root -> right = arrayToTree(inorderIndexMap[rootVal] + 1, right, inorderIndexMap, preorder);
-        
-        return root;
+        return nullptr;
     }
     
 public:
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        unordered_map<int, int> inorderIndexMap;
+        // recursion without map
+        reverse(preorder.begin(), preorder.end());
+        reverse(inorder.begin(), inorder.end());
         
-
-        // Build a hashmap to store value -> its index relations
-        for (int i = 0; i < inorder.size(); ++i)
-            inorderIndexMap[inorder[i]] = i;
-        
-        return arrayToTree(0, preorder.size() - 1, inorderIndexMap, preorder);
+        return build(-3001, preorder, inorder);
     }
 };
