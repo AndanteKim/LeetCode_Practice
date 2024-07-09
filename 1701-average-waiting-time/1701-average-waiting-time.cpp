@@ -1,20 +1,21 @@
 class Solution {
 public:
     double averageWaitingTime(vector<vector<int>>& customers) {
-        int n = customers.size(), finishTime = 0;
-        double total = 0.0;
+        int nextIdleTime = 0, n = customers.size();
+        double netWaitTime = 0.0;
         
         for (auto& customer : customers){
-            int currArr = customer[0], currRequired = customer[1];
-            if (currArr < finishTime)
-                total += finishTime - currArr;
-                
-            int currTime = max(currArr, finishTime);
-            total += currRequired;
+            // The next idle time for the chef is given by the time of delivery
+            // of current customer's order.
+            nextIdleTime = max(nextIdleTime, customer[0]) + customer[1];
             
-            finishTime = currTime + currRequired;
+            // The wait time for the current customer is the difference between
+            // his delivery time and arrival time.
+            netWaitTime += nextIdleTime - customer[0];
         }
         
-        return total / n;
+        // Divide by total customers to get average.
+        double averageWaitTime = netWaitTime / n;
+        return averageWaitTime;
     }
 };
