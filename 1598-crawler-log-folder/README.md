@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/crawler-log-folder/">1598. Crawler Log Folder</a></h2><h3>Easy</h3><hr><div><p>The Leetcode file system keeps a log each time some user performs a <em>change folder</em> operation.</p>
+<h2><a href="https://leetcode.com/problems/crawler-log-folder/solution/">1598. Crawler Log Folder</a></h2><h3>Easy</h3><hr><div><p>The Leetcode file system keeps a log each time some user performs a <em>change folder</em> operation.</p>
 
 <p>The operations are described below:</p>
 
