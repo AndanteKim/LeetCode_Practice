@@ -10,28 +10,33 @@
  * };
  */
 class Solution {
-private:
-    TreeNode* build(int stop, vector<int>& preorder, vector<int>& inorder){
-        if (!inorder.empty() && inorder.back() != stop){
-            TreeNode* root = new TreeNode(preorder.back());
-            preorder.pop_back();
-            root -> left = build(root -> val, preorder, inorder);
-            
-            inorder.pop_back();
-            root -> right = build(stop, preorder, inorder);
-            
-            return root;
-        }
-        
-        return nullptr;
-    }
-    
 public:
     TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
-        // recursion without map
-        reverse(preorder.begin(), preorder.end());
-        reverse(inorder.begin(), inorder.end());
+        // Iterative
+        // base case
+        if (preorder.empty()) return nullptr;
         
-        return build(-3001, preorder, inorder);
+        TreeNode* root = new TreeNode(preorder[0]);
+        int pre = 1, ino = 0;
+        stack<TreeNode*> stk;
+        stk.push(root);
+        
+        while (pre < preorder.size()){
+            TreeNode* curr = new TreeNode(preorder[pre++]), *prev = nullptr;
+            
+            while (!stk.empty() && stk.top() -> val == inorder[ino]){
+                prev = stk.top();
+                stk.pop();
+                ++ino;
+            }
+            
+            if (prev)
+                prev -> right = curr;
+            else
+                stk.top() -> left = curr;
+            stk.push(curr);
+        }
+        
+        return root;
     }
 };
