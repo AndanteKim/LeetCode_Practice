@@ -1,30 +1,24 @@
 class Solution {
 public:
     string reverseParentheses(string s) {
-        stack<string> stk;
+        string ans = "";
+        stack<int> stk;
         
         for (char& c : s){
-            if (c == ')'){
-                string curr = "";
-                while (!stk.empty() && stk.top() != "("){
-                    curr.append(stk.top()); stk.pop();
-                }
-                
-                if (!stk.empty() && stk.top() == "(")
-                    stk.pop();
-                reverse(curr.begin(), curr.end());
-                stk.push(curr);
+            // Store the current length as the start index
+            // for future reversal
+            if (c == '(')
+                stk.push(ans.size());
+            else if (c == ')'){
+                int start = stk.top(); stk.pop();
+                // Reverse the substring between the matching parenthesis
+                reverse(ans.begin() + start, ans.end());
             }
-            else stk.push(string(1, c));
+            else
+                // Append non-parentheses characters to the processed list
+                ans.push_back(c);
         }
         
-        string ans = "";
-        while (!stk.empty()){
-            ans.append(stk.top());
-            stk.pop();
-        }
-        
-        reverse(ans.begin(), ans.end());
         return ans;
     }
 };
