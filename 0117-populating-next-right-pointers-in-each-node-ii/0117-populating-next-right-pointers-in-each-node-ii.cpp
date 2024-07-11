@@ -47,10 +47,10 @@ public:
         // and hence its the leftmost node for that level
         leftmost = root;
         
-        // Vairable to keep track of leading node on the "current" level
+        // Variable to keep track of leading node on the "current" level
         Node* curr = leftmost;
         
-        // We have no idead about the structure of the tree,
+        // We have no idea about the structure of the tree,
         // so, we keep going until we find the last level.
         // The nodes on the last level won't have any children
         while (leftmost){
