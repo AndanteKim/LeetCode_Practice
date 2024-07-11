@@ -1,21 +1,28 @@
 class Solution:
     def reverseParentheses(self, s: str) -> str:
-        stack, ans = [], []
+        n = len(s)
+        open_parentheses_idx = []
+        pair = [0] * n
         
-        for c in s:
-            if c == '(':
-                # Store the current length as the start index
-                # for future reversal
-                stack.append(len(ans))
-            elif c == ')':
-                start = stack.pop()
+        # First pass: Pair up parentheses
+        for i in range(n):
+            if s[i] == "(":
+                open_parentheses_idx.append(i)
+            if s[i] == ")":
+                j = open_parentheses_idx.pop()
+                pair[i] = j
+                pair[j] = i
                 
-                # Reverse the substring between the matching parenthesis
-                ans[start:] = ans[start:][::-1]
-                
+        # Second pass: Build the result string
+        ans = []
+        curr_idx, dirs = 0, 1
+        
+        while curr_idx < n:
+            if s[curr_idx] == "(" or s[curr_idx] == ")":
+                curr_idx = pair[curr_idx]
+                dirs = -dirs
             else:
-                # Append non-parenthesis characters to the processed list
-                ans.append(c)
-                
+                ans.append(s[curr_idx])
+            curr_idx += dirs
+            
         return "".join(ans)
-        
