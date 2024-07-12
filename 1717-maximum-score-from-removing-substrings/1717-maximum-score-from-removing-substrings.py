@@ -1,36 +1,35 @@
 class Solution:
     def maximumGain(self, s: str, x: int, y: int) -> int:
-        ans = 0
-        high_priority = "ab" if x > y else "ba"
-        low_priority = "ba" if high_priority == "ab" else "ab"
+        ans, s = 0, list(s)
         
-        # First pass: remove high priority pair
-        str_after_first_pass = self.remove_substr(s, high_priority)
-        removed_pairs_count = (len(s) - len(str_after_first_pass)) >> 1
-        
-        # Calculate score from the first pass
-        ans += removed_pairs_count * max(x, y)
-        
-        # Second pass: remove low priority pair
-        str_after_second_pass = self.remove_substr(str_after_first_pass, low_priority)
-        removed_pairs_count = (len(str_after_first_pass) - len(str_after_second_pass)) >> 1
-        
-        # Caculate score from second pass
-        ans += removed_pairs_count * min(x, y)
+        if x > y:
+            # Remove "ab" first (higher points), then "ba"
+            ans += self.remove_substr(s, "ab", x)
+            ans += self.remove_substr(s, "ba", y)
+        else:
+            # Remove "ba" first (higher, or equal points), then "ab"
+            ans += self.remove_substr(s, "ba", y)
+            ans += self.remove_substr(s, "ab", x)
         
         return ans
     
-    def remove_substr(self, input: str, target: str) -> str:
-        stack = []
+    def remove_substr(self, input: str, target: str, points_per_removal: int) -> str:
+        total, write_idx = 0, 0
         
-        # Iterate through each character in the input string
-        for c in input:
-            # Check if current character forms the target pair with the top of the stack
-            if (c == target[1] and stack and stack[-1] == target[0]):
-                stack.pop() # Remove the matching character from the stack
-            else:
-                stack.append(c)
+        # Iterate through the string
+        for read_idx in range(len(input)):
+            # Add the current character"
+            input[write_idx] = input[read_idx]
+            write_idx += 1
+            
+            # Check if we've written at least 2 characters and
+            # they match the target substring
+            if (write_idx > 1 and input[write_idx - 2] == target[0] and\
+                input[write_idx - 1] == target[1]):
+                write_idx -= 2
+                total += points_per_removal
                 
-        # Reconstruct the remaining string after removing target pairs
-        return "".join(stack)
+        # Trim the list to remove any leftover characters
+        del input[write_idx:]
         
+        return total
