@@ -5,27 +5,38 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def flattenTree(self, node: Optional[TreeNode]) -> Optional[TreeNode]:
+        # Handle the null scenario
+        if not node:
+            return None
+        
+        # For a leaf node, we simple return the
+        # node as is.
+        if not (node.left or node.right):
+            return node
+        
+        # Recursively flatten the left subtree
+        left_tail = self.flattenTree(node.left)
+        
+        # Recursively flatten the right subtree
+        right_tail = self.flattenTree(node.right)
+        
+        # If there was a left subtree, we shuffle the connections
+        # around so that there is nothing on the left side
+        # anymore.
+        if left_tail:
+            left_tail.right = node.right
+            node.right = node.left
+            node.left = None
+            
+        # We need to return the "rightmost" node after we are
+        # done wiring the new connections.
+        return right_tail if right_tail else left_tail
+        
+    
     def flatten(self, root: Optional[TreeNode]) -> None:
         """
         Do not return anything, modify root in-place instead.
         """
-        def preorder(curr: Optional[TreeNode]) -> None:
-            if not curr:
-                return
-            flatten.append(curr.val)
-            preorder(curr.left)
-            preorder(curr.right)
-        
-        if not root:
-            return root
-        
-        curr, flatten = root, []
-        preorder(curr)
-        
-        curr = root
-        curr.left, curr.right = None, None
-        for elem in flatten[1:]:
-            curr.right = TreeNode(elem)
-            curr = curr.right
+        self.flattenTree(root)
             
-        return root
