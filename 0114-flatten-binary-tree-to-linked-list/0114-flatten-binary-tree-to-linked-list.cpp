@@ -10,38 +10,59 @@
  * };
  */
 class Solution {
-private:
-    TreeNode* flattenTree(TreeNode* node){
-        // Handle the null scenario
-        if (!node) return nullptr;
-        
-        // For a leaf node, we simply return the node as is.
-        if (!(node -> left || node -> right))
-            return node;
-        
-        // Recursively flatten the left subtree
-        TreeNode* leftTail = flattenTree(node -> left);
-        
-        // Recursively flatten the right subtree
-        TreeNode* rightTail = flattenTree(node -> right);
-        
-        // If there was a left subtree, we shuffle the connections
-        // around, so that there is nothing on the left side
-        // anymore.
-        if (leftTail){
-            leftTail -> right = node -> right;
-            node -> right = node -> left;
-            node -> left = nullptr;
-        }
-        
-        // We need to return the "rightmost" node after we are
-        // done wiring the new connections.
-        return (rightTail)? rightTail : leftTail;
-    }
-    
-    
 public:
     void flatten(TreeNode* root) {
-        this -> flattenTree(root);
+        // Iterative
+        if (!root) return;
+        
+        stack<pair<TreeNode*, int>> stk;
+        int START = 1, END = 2;
+        stk.push({root, START});
+        TreeNode* tailNode = nullptr;
+        
+        while (!stk.empty()){
+            auto [currNode, recursionState] = stk.top(); stk.pop();
+            
+            // We reached a leaf node. Record this as a tail node
+            // and move on.
+            if (!(currNode -> left || currNode -> right)){
+                tailNode = currNode;
+                continue;
+            }
+            
+            // If the node is in the START state, it means we still
+            // haven't processed it's left child yet.
+            if (recursionState == START){
+                // If the current node has a left child, we add it
+                // to the stack AFTER adding the current node again
+                // to the stack with the END recursion state.
+                if (currNode -> left){
+                    stk.push({currNode, END});
+                    stk.push({currNode -> left, START});
+                }
+                else if (currNode -> right)
+                    // In case the current node didn't have a left child
+                    // we will add it's right child.
+                    stk.push({currNode -> right, START});
+            }
+            else{
+                // If the current node is in the END recursion state,
+                // that means we did process one of it's children. Left
+                // if it existed, else right.
+                TreeNode* rightNode = currNode -> right;
+                
+                // If there was a left child, there must have been a leaf
+                // node and so, we would have set the tailNode
+                if (tailNode){
+                    tailNode -> right = currNode -> right;
+                    currNode -> right = currNode -> left;
+                    currNode -> left = nullptr;
+                    rightNode = tailNode -> right;
+                }
+                
+                if (rightNode) stk.push({rightNode, START});
+            }
+            
+        }
     }
 };
