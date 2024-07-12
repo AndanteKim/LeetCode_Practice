@@ -1,39 +1,42 @@
 class Solution {
 private:
-    string removeSubstr(string& input, string& target){
-        string stack = "";
+    int removeSubstr(string& s, string target, int ptPerRemoval){
+        int writeIdx = 0, total = 0;
         
-        // Iterate through each character in the input string
-        for (char& c : input){
-            // Check if current character forms the target pair with the top of
-            // the stack
-            if (c == target.back() && !stack.empty() && stack.back() == target[0])
-                stack.pop_back(); // Remove the matching character from the stack
-            else
-                stack.push_back(c);
+        // Iterate through the string
+        for (int readIdx = 0; readIdx < s.size(); ++readIdx){
+            // Add the current character
+            s[writeIdx++] = s[readIdx];
+            
+            // Check if we've written at least two characters and
+            // they match the target substring
+            if (writeIdx > 1 && s[writeIdx - 2] == target[0] &&\
+               s[writeIdx - 1] == target[1]){
+                writeIdx -= 2; // Move write index back to remove the match
+                total += ptPerRemoval;
+            }
         }
-        return stack;
+        
+        // Trim the string to remove any leftover characters
+        s.erase(s.begin() + writeIdx, s.end());
+        
+        return total;
     }
-    
+        
 public:
     int maximumGain(string s, int x, int y) {
-        string highPriorityPair = (x > y)? "ab" : "ba";
-        string lowPriorityPair = (highPriorityPair == "ab")? "ba" : "ab";
         int ans = 0;
         
-        // First pass: remove the high priority pair
-        string StrAfterFirstPass = removeSubstr(s, highPriorityPair);
-        
-        // Calculate score from the first pass
-        int removedPairsCount = (s.size() - StrAfterFirstPass.size()) >> 1;
-        ans += removedPairsCount * max(x, y);
-        
-        // Second pass: remove the low priority pair
-        string StrAfterSecondPass = removeSubstr(StrAfterFirstPass, lowPriorityPair);
-        removedPairsCount = (StrAfterFirstPass.size() - StrAfterSecondPass.size()) >> 1;
-        
-        // Calculate score from second pass
-        ans += removedPairsCount * min(x, y);
+        if (x > y){
+            // Remove "ab" first (higher points), then "ba" 
+            ans += removeSubstr(s, "ab", x);
+            ans += removeSubstr(s, "ba", y);
+        }
+        else{
+            // Remove "ba" first (higher or equal points), then "ab"
+            ans += removeSubstr(s, "ba", y);
+            ans += removeSubstr(s, "ab", x);
+        }
         
         return ans;
     }
