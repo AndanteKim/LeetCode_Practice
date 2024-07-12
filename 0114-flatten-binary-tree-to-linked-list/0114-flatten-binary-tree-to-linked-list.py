@@ -11,49 +11,21 @@ class Solution:
         """
         # Handle the null scenario
         if not root:
-            return None
+            return
         
-        START, END = 1, 2
-        
-        tail_node, stack = None, [(root, START)]
-        
-        while stack:
-            curr_node, recursion_state = stack.pop()
-            
-            # We reached a lead node. Record this as a tail
-            # node and move on.
-            if not (curr_node.left or curr_node.right):
-                tail_node = curr_node
-                continue
-            
-            # If the node is in the START state, it means we still
-            # haven't processed it's left child yet.
-            if recursion_state == START:
-                
-                # If the current node has a left child, we add it
-                # to the stack AFTER adding the current node again
-                # to the stack with the END recursion state.
-                if curr_node.left:
-                    stack.append((curr_node, END))
-                    stack.append((curr_node.left, START))
-                elif curr_node.right:
-                    # In case, the current node didn't have a left child
-                    # we will add it's right child
-                    stack.append((curr_node.right, START))
-            else:
-                # If the current node is in the END recursion state,
-                # that means we did process one of it's children. Left
-                # if it existsed, else right
-                right_node = curr_node.right
-                
-                # If there was a left child, there must have been a leaf
-                # node and so, we would have set the tail_node
-                if tail_node:
-                    # Establish the proper connections.
-                    tail_node.right = curr_node.right
-                    curr_node.right = curr_node.left
-                    curr_node.left = None
-                    right_node = tail_node.right
+        node = root
+        while node:
+            # If the node has a left child
+            if node.left:
+                # Find the rightmost node
+                rightmost = node.left
+                while rightmost.right:
+                    rightmost = rightmost.right
                     
-                if right_node:
-                    stack.append((right_node, START))
+                # Rewire the connections
+                rightmost.right = node.right
+                node.right = node.left
+                node.left = None
+                
+            # move on to the right side of the tree
+            node = node.right
