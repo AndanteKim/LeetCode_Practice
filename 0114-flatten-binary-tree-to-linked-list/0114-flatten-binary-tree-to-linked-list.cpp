@@ -12,57 +12,27 @@
 class Solution {
 public:
     void flatten(TreeNode* root) {
-        // Iterative
+        // base case: if the root is nullptr
         if (!root) return;
         
-        stack<pair<TreeNode*, int>> stk;
-        int START = 1, END = 2;
-        stk.push({root, START});
-        TreeNode* tailNode = nullptr;
+        TreeNode* node = root;
         
-        while (!stk.empty()){
-            auto [currNode, recursionState] = stk.top(); stk.pop();
+        // Morris traversal
+        while (node){
             
-            // We reached a leaf node. Record this as a tail node
-            // and move on.
-            if (!(currNode -> left || currNode -> right)){
-                tailNode = currNode;
-                continue;
-            }
-            
-            // If the node is in the START state, it means we still
-            // haven't processed it's left child yet.
-            if (recursionState == START){
-                // If the current node has a left child, we add it
-                // to the stack AFTER adding the current node again
-                // to the stack with the END recursion state.
-                if (currNode -> left){
-                    stk.push({currNode, END});
-                    stk.push({currNode -> left, START});
-                }
-                else if (currNode -> right)
-                    // In case the current node didn't have a left child
-                    // we will add it's right child.
-                    stk.push({currNode -> right, START});
-            }
-            else{
-                // If the current node is in the END recursion state,
-                // that means we did process one of it's children. Left
-                // if it existed, else right.
-                TreeNode* rightNode = currNode -> right;
+            if (node -> left){
+                // Find the rightmost node
+                TreeNode* rightmost = node -> left;
+                while (rightmost -> right) rightmost = rightmost -> right;
                 
-                // If there was a left child, there must have been a leaf
-                // node and so, we would have set the tailNode
-                if (tailNode){
-                    tailNode -> right = currNode -> right;
-                    currNode -> right = currNode -> left;
-                    currNode -> left = nullptr;
-                    rightNode = tailNode -> right;
-                }
-                
-                if (rightNode) stk.push({rightNode, START});
+                // Rewire the connections
+                rightmost -> right = node -> right;
+                node -> right = node -> left;
+                node -> left = nullptr;
             }
             
+            // Move on to the right side of the tree
+            node = node -> right;
         }
     }
 };
