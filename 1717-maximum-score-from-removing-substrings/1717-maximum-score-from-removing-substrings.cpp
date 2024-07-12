@@ -1,42 +1,43 @@
 class Solution {
-private:
-    int removeSubstr(string& s, string target, int ptPerRemoval){
-        int writeIdx = 0, total = 0;
-        
-        // Iterate through the string
-        for (int readIdx = 0; readIdx < s.size(); ++readIdx){
-            // Add the current character
-            s[writeIdx++] = s[readIdx];
+public:
+    int maximumGain(string s, int x, int y) {
+        // Ensure that "ab" always has more points than "ba".
+        if (x < y){
+            // Reverse the string to maintain logic
+            reverse(s.begin(), s.end());
             
-            // Check if we've written at least two characters and
-            // they match the target substring
-            if (writeIdx > 1 && s[writeIdx - 2] == target[0] &&\
-               s[writeIdx - 1] == target[1]){
-                writeIdx -= 2; // Move write index back to remove the match
-                total += ptPerRemoval;
+            // Swap points
+            swap(x, y);
+        }
+        
+        int ans = 0, aCount = 0, bCount = 0;
+        
+        for (char& c : s){
+            if (c == 'a'){
+                ++aCount;
+            }
+            else if (c == 'b'){
+                if (aCount > 0){
+                    // Can form "ab", remove it and add points
+                    --aCount;
+                    ans += x;
+                }
+                else
+                    // Can't form "ab", keep "b" for potential future "ba"
+                    ++bCount;
+            }
+            else{
+                // Non 'a' or 'b' character encountered
+                // Calculate points for any remaining "ba" pairs
+                ans += min(aCount, bCount) * y;
+                
+                // Reset counters for the next segment
+                aCount = 0; bCount = 0;
             }
         }
         
-        // Trim the string to remove any leftover characters
-        s.erase(s.begin() + writeIdx, s.end());
-        
-        return total;
-    }
-        
-public:
-    int maximumGain(string s, int x, int y) {
-        int ans = 0;
-        
-        if (x > y){
-            // Remove "ab" first (higher points), then "ba" 
-            ans += removeSubstr(s, "ab", x);
-            ans += removeSubstr(s, "ba", y);
-        }
-        else{
-            // Remove "ba" first (higher or equal points), then "ab"
-            ans += removeSubstr(s, "ba", y);
-            ans += removeSubstr(s, "ab", x);
-        }
+        // Calculate points for any remaining "ba" pairs at the end
+        ans += min(aCount, bCount) * y;
         
         return ans;
     }
