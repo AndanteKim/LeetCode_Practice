@@ -1,42 +1,38 @@
 class Solution:
     def survivedRobotsHealths(self, positions: List[int], healths: List[int], directions: str) -> List[int]:
-        pairs = [(pos, hp, sign) for pos, hp, sign in zip(positions, healths, directions)]
-        pairs.sort()
-        pos_idx, idx_hp = dict(), [0] * len(positions)
-        for i in range(len(positions)):
-            pos_idx[positions[i]] = i
-            idx_hp[i] = healths[i]
+        n, ans = len(positions), []
+        indices, stack = list(range(n)), []
         
-        stack = []
-        for pos, hp, sign in pairs:
-            
-            broken = False
-            while not broken and stack and ((stack[-1][0] == pos and stack[-1][2] == sign) or \
-                                            (stack[-1][2] == 'R' and sign == 'L')):
-                if stack[-1][1] >= hp:
-                    broken = True
-                    prev_pos, prev_hp, prev_sign = stack.pop()
-                    if prev_hp > hp:
-                        prev_hp -= 1
-                        idx_hp[pos_idx[prev_pos]] = prev_hp
-                        stack.append((prev_pos, prev_hp, prev_sign))
-                    else:
-                        idx_hp[pos_idx[prev_pos]] = 0
-                    idx_hp[pos_idx[pos]] = 0
+        # Sort indices based on their positions
+        indices.sort(key = lambda x: positions[x])
+        
+        for curr_idx in indices:
+            # Add right-moving robots to the stack
+            if directions[curr_idx] == "R":
+                stack.append(curr_idx)
                 
-                else:
-                    hp -= 1
-                    idx_hp[pos_idx[pos]] = hp
-                    prev_pos, _, _ = stack.pop()
-                    idx_hp[pos_idx[prev_pos]] = 0
-            
-            if not broken:
-                stack.append((pos, hp, sign))
-        
-        ans = []
-        for hp in idx_hp:
-            if hp == 0:
-                continue
-            ans.append(hp)
-        
+            else:
+                while stack and healths[curr_idx] > 0:
+                    # Pop the top robot from the stack for collision check
+                    top_idx = stack.pop()
+                    
+                    if healths[top_idx] > healths[curr_idx]:
+                        # Top robot survivies, current robot is destroyed
+                        healths[top_idx] -= 1
+                        healths[curr_idx] = 0
+                        stack.append(top_idx)
+                    elif healths[top_idx] < healths[curr_idx]:
+                        # Current robot survives, top robot is destroyed
+                        healths[curr_idx] -= 1
+                        healths[top_idx] = 0
+                    else:
+                        # Both robots are destroyed
+                        healths[curr_idx] = 0
+                        healths[top_idx] = 0
+                        
+        # Collect surviving robots
+        for idx in range(n):
+            if healths[idx] > 0:
+                ans.append(healths[idx])
+                
         return ans
