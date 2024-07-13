@@ -10,38 +10,71 @@
  * };
  */
 class Solution {
-public:
-    int countNodes(TreeNode* root) {
-        if (!root) return 0;
+private:
+    int computeDepth(TreeNode* node){
+        /*
+        Return the depth in O(d) time.
+        */
         
-        int ans = 0;
+        int d = 0;
+        while (node -> left){
+            ++d;
+            node = node -> left;
+        }
         
-        // Morris traversal for optimized space
-        while (root){
-            if (root -> left){
-                TreeNode* predecessor = root -> left;
-                
-                while (predecessor -> right && predecessor -> right != root)
-                    predecessor = predecessor -> right;
-                
-                // Link the root to the predecessor's next
-                if (!predecessor -> right){
-                    predecessor -> right = root;
-                    root = root -> left;
-                    ++ans;
-                }
-                else{
-                    // Unlink the root to the predecessor's next
-                    predecessor -> right = nullptr;
-                    root = root -> right;
-                }
+        return d;
+    }
+    
+    bool exists(int idx, int d, TreeNode* node){
+        /*
+        Last level nodes are enumerated from 0 to (1 << d) - 1 (left -> right).
+        Return true if last level node idx exists.
+        Binary search with O(d) complexity
+        */
+        int left = 0, right = (1 << d) - 1;
+        
+        for (int i = 0; i < d; ++i){
+            int pivot = left + ((right - left) >> 1);
+            if (idx <= pivot){
+                node = node -> left;
+                right = pivot;
             }
             else{
-                root = root -> right;
-                ++ans;
+                node = node -> right;
+                left = pivot + 1;
             }
         }
         
-        return ans;
+        return node? true : false;
+    }
+    
+public:
+    int countNodes(TreeNode* root) {
+        // If the tree is empty
+        if (!root)
+            return 0;
+        
+        int d = computeDepth(root);
+        // If the tree contains 1 node.
+        if (d == 0) return 1;
+        
+        // Last level nodes are enumerated from 0 to (1 << d) - 1 (left -> right).
+        // Perform binary search to check how many nodes exist.
+        int left = 1, right = (1 << d) - 1;
+        TreeNode* node = root;
+        
+        while (left <= right){
+            int pivot = left + ((right - left) >> 1);
+            
+            if (exists(pivot, d, root)){
+                left = pivot + 1;
+            }
+            else
+                right = pivot - 1;
+        }
+        
+        // The tree contains (1 << d) - 1 nodes on the first (d - 1) levels
+        // and left nodes on the last level.
+        return ((1 << d) - 1) + left;
     }
 };
