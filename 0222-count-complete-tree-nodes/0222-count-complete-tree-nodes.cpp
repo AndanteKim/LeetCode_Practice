@@ -58,7 +58,7 @@ public:
         // If the tree contains 1 node.
         if (d == 0) return 1;
         
-        // Last level nodes are enumerated from 0 to (1 << d) - 1 (left -> right).
+        // Last level nodes are enumerated from 1 to (1 << d) - 1 (left -> right).
         // Perform binary search to check how many nodes exist.
         int left = 1, right = (1 << d) - 1;
         TreeNode* node = root;
