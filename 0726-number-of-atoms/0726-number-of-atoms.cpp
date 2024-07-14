@@ -1,92 +1,67 @@
 class Solution {
-private:
-    // Current index. It should be global as needs 
-    // to be updated in the recursive function
-    int n, idx = 0;
-    map<string, int> parseFormula(string& formula){
-        // Local variable
-        string currAtom = "", currCnt = "";
-        map<string, int> currMap;
+public:
+    string countOfAtoms(string formula) {
+        // Stack to keep track of the atoms and their counts
+        stack<map<string, int>> stk;
+        stk.push(map<string, int> ());
         
-        while (idx < n){
-            // Uppercase letter
-            if (isupper(formula[idx])){
-                // Save the previous atom and count.
-                if (!currAtom.empty()){
-                    if (currCnt.empty()) ++currMap[currAtom];
-                    else
-                        currMap[currAtom] += stoi(currCnt);
-                }
-                
-                currAtom = formula[idx++];
-                currCnt = "";
+        // Index to keep track of the current character.
+        int index = 0, n = formula.size();
+        
+        while (index < n){
+            // If left parentheses, insert a new hashmp to the stack. It will
+            // keep track of the atoms and their counts in the nested formula.
+            if (formula[index] == '('){
+                stk.push(map<string, int> ());
+                ++index;
             }
             
-            // Lowercase letter
-            else if (islower(formula[idx])){
-                currAtom += formula[idx++];
-            }
-            
-            // Digit. Concentrate the count
-            else if (isdigit(formula[idx])){
-                currCnt += formula[idx++];
-            }
-            
-            // Left parentheses
-            else if (formula[idx] == '('){
-                ++idx;
-                map<string, int> nestedMap = parseFormula(formula);
-                for (auto& [atom, cnt] : nestedMap)
-                    currMap[atom] += cnt;
-            }
-            
-            // Right parentheses
-            else if (formula[idx] == ')'){
-                // Save the last atom and count of nested formula
-                if (!currAtom.empty()){
-                    if (currCnt.empty())
-                        ++currMap[currAtom];
-                    else
-                        currMap[currAtom] += stoi(currCnt);
-                }
-                
-                ++idx;
+            // Right parentheses, pop the top element from the stack.
+            // Multiply the count with the multiplicity of the nested formula.
+            else if (formula[index] == ')'){
+                map<string, int> currMap = stk.top(); stk.pop();
                 string multiplier = "";
+                ++index;
                 
-                while (idx < n && isdigit(formula[idx])){
-                    multiplier += formula[idx++];
+                while (index < n && isdigit(formula[index])){
+                    multiplier += formula[index++];
                 }
                 
                 if (!multiplier.empty()){
                     int mult = stoi(multiplier);
-                    for (auto& [atom, cnt] : currMap)
-                        currMap[atom] = cnt * mult;
+                    for (auto& [atom, _] : currMap)
+                        currMap[atom] *= mult;
                 }
                 
-                return currMap;
+                for (auto& [atom, count] : currMap)
+                    stk.top()[atom] += count;
             }
+            // Otherwise, it must be a upper letter. Extract the complete
+            // atom with frequency, and update the most recent hashmap.
+            else{
+                string currAtom;
+                currAtom += formula[index++];
+                
+                while (index < n && islower(formula[index]))
+                    currAtom += formula[index++];
+                
+                string currCnt = "";
+                while (index < n && isdigit(formula[index]))
+                    currCnt += formula[index++];
+                
+                if (currCnt.empty()){
+                    ++stk.top()[currAtom];
+                }
+                else stk.top()[currAtom] += stoi(currCnt);
+            }
+            
         }
         
-        // Save the last atom and count
-        if (!currAtom.empty()){
-            if (currCnt.empty())
-                ++currMap[currAtom];
-            else
-                currMap[currAtom] += stoi(currCnt);
-        }
-        
-        return currMap;
-    }
-    
-public:
-    string countOfAtoms(string formula) {
-        this -> n = formula.size();
         string ans = "";
-        map<string, int> finalMap = parseFormula(formula);
-        
-        for (auto& [atom, val] : finalMap){
+        for (auto& [atom, val] : stk.top()){
             ans += atom;
-            if (val > 1) ans += to_string(val);
+            if (val > 1)
+                ans += to_string(val);
         }
         
         return ans;
