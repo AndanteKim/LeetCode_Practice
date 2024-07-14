@@ -1,86 +1,61 @@
 class Solution:
     def countOfAtoms(self, formula: str) -> str:
-        n = len(formula)
+        # Stack to keep track of the atoms and their counts
+        stack = [defaultdict(int)]
         
-        # Current index. It should be global as needs
-        # to be updated in the recursive function
-        self.index = 0
-        
-        # Recursively parse the formula
-        def parse_formula() -> DefaultDict[int, int]:
-            # Local variable
-            curr_map = defaultdict(int)
-            curr_atom, curr_cnt = "", ""
-            
-            # Iterate until the end of the formula
-            while self.index < n:
-                # Uppercase Letter
-                if formula[self.index].isupper():
-                    # Save the previous atom and count
-                    if curr_atom:
-                        if curr_cnt == "":
-                            curr_map[curr_atom] += 1
-                        else:
-                            curr_map[curr_atom] += int(curr_cnt)
-                            
-                    curr_atom = formula[self.index]
-                    curr_cnt = ""
-                    self.index += 1
-                    
-                # lowercase letter
-                elif formula[self.index].islower():
-                    curr_atom += formula[self.index]
-                    self.index += 1
-                
-                # Digit. Concatenate the count
-                elif formula[self.index].isdigit():
-                    curr_cnt += formula[self.index]
-                    self.index += 1
-                    
-                # Left Parenthesis
-                elif formula[self.index] == '(':
-                    self.index += 1
-                    nested_map = parse_formula()
-                    for atom in nested_map:
-                        curr_map[atom] += nested_map[atom]
-                        
-                # Right Parenthesis
-                elif formula[self.index] == ')':
-                    # Save the last atom and count of nested formula
-                    if curr_atom:
-                        if curr_cnt == "":
-                            curr_map[curr_atom] += 1
-                        else:
-                            curr_map[curr_atom] += int(curr_cnt)
-                            
-                    self.index += 1
-                    multiplier = ""
-                    while self.index < n and formula[self.index].isdigit():
-                        multiplier += formula[self.index]
-                        self.index += 1
-                        
-                    if multiplier:
-                        multiplier = int(multiplier)
-                        for atom in curr_map:
-                            curr_map[atom] *= multiplier
-                            
-                    return curr_map
-                
-            # Save the last atom and count
-            if curr_atom:
-                if curr_cnt == "":
-                    curr_map[curr_atom] += 1
-                else:
-                    curr_map[curr_atom] += int(curr_cnt)
-                    
-            return curr_map
+        # Index to keep track of the current character
+        index = 0
         
         # Parse the formula
-        final_map = parse_formula()
-        
+        while index < len(formula):
+            # If left parenthesis, insert a new hashmap to the staxk. It will
+            # keep track of the atoms and their counts in the nested formula
+            if formula[index] == '(':
+                stack.append(defaultdict(int))
+                index += 1
+                
+            # If right parenthesis, pop the top element from the stack
+            # Multiply the count with the multiplicity of the nested formula
+            elif formula[index] == ')':
+                curr_map = stack.pop()
+                index += 1
+                
+                multiplier = ""
+                while index < len(formula) and formula[index].isdigit():
+                    multiplier += formula[index]
+                    index += 1
+                      
+                if multiplier:
+                    multiplier = int(multiplier)
+                    for atom in curr_map:
+                        curr_map[atom] *= multiplier
+                        
+                for atom in curr_map:
+                    stack[-1][atom] += curr_map[atom]
+                    
+            # Otherwise, it must be a upper letter. Extract the complete
+            # atom with frequency, and update the most recent hashmap.
+            else:
+                curr_atom = formula[index]
+                index += 1
+                
+                while index < len(formula) and formula[index].islower():
+                    curr_atom += formula[index]
+                    index += 1
+                
+                curr_cnt = ""
+                while index < len(formula) and formula[index].isdigit():
+                    curr_cnt += formula[index]
+                    index += 1
+                    
+                if curr_cnt == "":
+                    stack[-1][curr_atom] += 1
+                else:
+                    stack[-1][curr_atom] += int(curr_cnt)
+                    
         # Sort the final map
-        final_map = dict(sorted(final_map.items()))
-
+        final_map = dict(sorted(stack[0].items()))
+        
         # Generate the answer string
         ans = ""
         for atom in final_map:
