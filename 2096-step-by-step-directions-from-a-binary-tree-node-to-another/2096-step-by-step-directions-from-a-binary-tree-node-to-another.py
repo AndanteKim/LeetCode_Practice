@@ -5,58 +5,89 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def bfs(self, root: Optional[TreeNode]) -> Dict[TreeNode, TreeNode]:
-        ancestors, queue = dict(), deque([(root, None)])
+    def _backtrack_path(self, node: Optional[TreeNode], path_tracker: Dict[TreeNode, Tuple[TreeNode, str]]) -> str:
+        path = []
         
-        while queue:
-            child, parent = queue.popleft()
+        # Construct the path
+        while node in path_tracker:
+            # Add the directions in reverse order and move on to the previous node
+            path.append(path_tracker[node][1])
+            node = path_tracker[node][0]
+        
+        path.reverse()
+        return "".join(path)
+    
+    def _populate_parent_map(self, node: Optional[TreeNode], parent_map: Dict[int, TreeNode]) -> None:
+        if not node:
+            return
+        
+        # Add children to the map and recurse further
+        if node.left:
+            parent_map[node.left.val] = node
+            self._populate_parent_map(node.left, parent_map)
             
-            ancestors[child] = parent
+        if node.right:
+            parent_map[node.right.val] = node
+            self._populate_parent_map(node.right, parent_map)
             
-            if child.left:
-                queue.append((child.left, child))
-                
-            if child.right:
-                queue.append((child.right, child))
-                
-        return ancestors
+    def _find_start_node(self, node: Optional[TreeNode], start_value: int) -> TreeNode:
+        if not node:
+            return None
+        
+        if node.val == start_value:
+            return node
+        
+        left_result = self._find_start_node(node.left, start_value)
+        
+        # If left subtree returns a node, it must be start node. Return it
+        # Otherwise, return whatever is returned by right subtree.
+        if left_result:
+            return left_result
+        
+        return self._find_start_node(node.right, start_value)
+    
     
     def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
-        ancestors, ans = self.bfs(root), ""
-        queue, start, dest = deque([root]), None, None
-        while queue:
-            curr = queue.popleft()
-                
-            if curr.val == startValue:
-                start = curr
-                break
-            
-            if curr.left:
-                queue.append(curr.left)
-                
-            if curr.right:
-                queue.append(curr.right)
+        # Map to store the parent nodes
+        parent_map = dict()
         
-        curr_point, seen = "", {start.val}
-        while start:
-            queue = deque([(start, curr_point)])
+        # Find the start node and populate parent map
+        start_node = self._find_start_node(root, startValue)
+        self._populate_parent_map(root, parent_map)
+        
+        # Perform BFS to find the path
+        q = deque([start_node])
+        visited_nodes = set()
+        # Key: next node, Value: <current node, direction>
+        path_tracker = dict()
+        visited_nodes.add(start_node)
+        
+        while q:
+            curr_element = q.popleft()
             
-            while queue:
-                curr, status = queue.popleft()
-                
-                if curr.val == destValue:
-                    return status
-                
-                if curr.left and curr.left.val not in seen:
-                    queue.append((curr.left, status + 'L'))
-                    seen.add((curr.left.val))
+            # If destination is reached, return the path
+            if curr_element.val == destValue:
+                return self._backtrack_path(curr_element, path_tracker)
+            
+            # Check and add parent node
+            if curr_element.val in parent_map:
+                parent_node = parent_map[curr_element.val]
+                if parent_node not in visited_nodes:
+                    q.append(parent_node)
+                    path_tracker[parent_node] = (curr_element, "U")
+                    visited_nodes.add(parent_node)
                     
-                if curr.right and curr.right.val not in seen:
-                    queue.append((curr.right, status + 'R'))
-                    seen.add((curr.right.val))
+            # Check and add left child
+            if curr_element.left and curr_element.left not in visited_nodes:
+                q.append(curr_element.left)
+                path_tracker[curr_element.left] = (curr_element, "L")
+                visited_nodes.add(curr_element.left)
                 
-            curr_point += 'U'
-            start = ancestors[start]
-            
+            # Check and add right child
+            if curr_element.right and curr_element.right not in visited_nodes:
+                q.append(curr_element.right)
+                path_tracker[curr_element.right] = (curr_element, "R")
+                visited_nodes.add(curr_element.right)
+                
+        # This line should never be reached if the tree is valid
         return ""
-        
