@@ -6,33 +6,40 @@
 #         self.right = right
 class Solution:
     def delNodes(self, root: Optional[TreeNode], to_delete: List[int]) -> List[TreeNode]:
+        if not root:
+            return []
+        
         to_delete_set, forest = set(to_delete), []
         
-        root = self._process_node(root, to_delete_set, forest)
+        queue = deque([root])
         
-        # If the root is not deleted, add it to the forest
-        if root:
+        while queue:
+            curr = queue.popleft()
+            
+            if curr.left:
+                queue.append(curr.left)
+                
+                # Disconnect the left child if it needs to be deleted
+                if curr.left.val in to_delete_set:
+                    curr.left = None
+                   
+            if curr.right:
+                queue.append(curr.right)
+                
+                # Disconnect the right child if it needs to be deleted
+                if curr.right.val in to_delete_set:
+                    curr.right = None
+                    
+            # If the current node needs to be deleted, add its non-null children to the forest
+            if curr.val in to_delete_set:
+                if curr.left:
+                    forest.append(curr.left)
+                
+                if curr.right:
+                    forest.append(curr.right)
+        
+        # Ensure the root is added to the forest if it's not to be deleted.
+        if root.val not in to_delete_set:
             forest.append(root)
             
         return forest
-    
-    def _process_node(self, node: TreeNode, to_delete_set: Set[int], forest: List[TreeNode]) -> TreeNode:
-        if not node:
-            return None
-        
-        node.left = self._process_node(node.left, to_delete_set, forest)
-        node.right = self._process_node(node.right, to_delete_set, forest)
-        
-        # Node Evaluation: Check if the current node needs to be deleted
-        if node.val in to_delete_set:
-            # If the node has left or right children, add them to the forest
-            if node.left:
-                forest.append(node.left)
-                
-            if node.right:
-                forest.append(node.right)
-            
-            # Delete the current node by returning None to its parent
-            return None
-        
-        return node
