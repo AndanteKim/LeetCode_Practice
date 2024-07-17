@@ -5,54 +5,34 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def find_ancestors(self, root: TreeNode) -> Dict[TreeNode, TreeNode]:
-        if not root:
-            return dict()
-        
-        ancestors = dict()
-        queue = deque([(root, None, None)])
-        while queue:
-            child, parent, dirs = queue.popleft()
-            
-            ancestors[child] = (parent, dirs)
-            
-            if child.left:
-                queue.append((child.left, child, "L"))
-                
-            if child.right:
-                queue.append((child.right, child, "R"))
-                
-        return ancestors
-    
     def delNodes(self, root: Optional[TreeNode], to_delete: List[int]) -> List[TreeNode]:
-        candidates = set(to_delete)
-        ans = [] if root.val in candidates else [root]
-        ancestors, queue = self.find_ancestors(root), deque([root])
+        to_delete_set, forest = set(to_delete), []
         
-        while queue:
-            node, is_cut = queue.popleft(), False
+        root = self._process_node(root, to_delete_set, forest)
+        
+        # If the root is not deleted, add it to the forest
+        if root:
+            forest.append(root)
             
-            if node.val in candidates:
-                is_cut = True
-                parent, direction = ancestors[node]
-
-                if parent and direction == "L":
-                    parent.left = None
-                elif parent and direction == "R":
-                    parent.right = None
-                
-                candidates.remove(node.val)
-                
+        return forest
+    
+    def _process_node(self, node: TreeNode, to_delete_set: Set[int], forest: List[TreeNode]) -> TreeNode:
+        if not node:
+            return None
+        
+        node.left = self._process_node(node.left, to_delete_set, forest)
+        node.right = self._process_node(node.right, to_delete_set, forest)
+        
+        # Node Evaluation: Check if the current node needs to be deleted
+        if node.val in to_delete_set:
+            # If the node has left or right children, add them to the forest
             if node.left:
-                queue.append(node.left)
-                
-                if is_cut and node.left.val not in candidates:
-                    ans.append(node.left)
+                forest.append(node.left)
                 
             if node.right:
-                queue.append(node.right)
-                
-                if is_cut and node.right.val not in candidates:
-                    ans.append(node.right)
-                    
-        return ans
+                forest.append(node.right)
+            
+            # Delete the current node by returning None to its parent
+            return None
+        
+        return node
