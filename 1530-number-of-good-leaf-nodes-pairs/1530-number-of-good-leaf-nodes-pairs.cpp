@@ -11,80 +11,54 @@
  */
 class Solution {
 private:
-    void findAncestor(TreeNode* node, unordered_map<TreeNode*, TreeNode*>& ancestors){
-        if (!node) return;
-        queue<pair<TreeNode*, TreeNode*>> q;
-        q.push({node, nullptr});
+    void traverseTree(TreeNode* curr, TreeNode* prev, unordered_map<TreeNode*, vector<TreeNode*>>& graph, unordered_set<TreeNode*>& leaves){
+        if (!curr) return;
         
-        while (!q.empty()){
-            auto [child, parent] = q.front(); q.pop();
-            
-            ancestors[child] = parent;
-            
-            if (child -> left)
-                q.push({child -> left, child});
-            
-            if (child -> right)
-                q.push({child -> right, child});
+        if (!(curr -> left || curr -> right)){
+            leaves.insert(curr);                                      
         }
         
-    }
-    
-    void findLeaves(TreeNode* node, unordered_set<TreeNode*>& leaves){
-        if (!node) return;
-        
-        queue<TreeNode*> q;
-        q.push(node);
-        while (!q.empty()){
-            auto curr = q.front(); q.pop();
-            
-            if (!(curr -> left || curr -> right))
-                leaves.insert(curr);
-            
-            if (curr -> left)
-                q.push(curr -> left);
-            
-            if (curr -> right)
-                q.push(curr -> right);
+        if (prev){
+            graph[prev].push_back(curr);
+            graph[curr].push_back(prev);
         }
+        
+        traverseTree(curr -> left, curr, graph, leaves);
+        traverseTree(curr -> right, curr, graph, leaves);
     }
-    
     
 public:
     int countPairs(TreeNode* root, int distance) {
-        unordered_map<TreeNode*, TreeNode*> ancestors;
+        unordered_map<TreeNode*, vector<TreeNode*>> graph;
         unordered_set<TreeNode*> leaves;
-        unordered_map<TreeNode*, unordered_set<TreeNode*>> pairs;
-        findAncestor(root, ancestors);
-        findLeaves(root, leaves);
+        traverseTree(root, nullptr, graph, leaves);
         int ans = 0;
         
-        for (TreeNode* node : leaves){
-            TreeNode* origin = node;
-            int start = distance;
+        for (TreeNode* leaf : leaves){
+            queue<TreeNode*> queue;
+            queue.push(leaf);
+            unordered_set<TreeNode*> seen;
+            seen.insert(leaf);
             
-            while (start > 0 && node){
-                queue<pair<TreeNode*, int>> q;
-                q.push({node, start});
+            // Go through all nodes that are within the given distance of
+            // the current leaf node.
+            for (int i = 0; i <= distance; ++i){
+                int sz = queue.size();
                 
-                while (!q.empty()){
-                    auto [curr, remain] = q.front(); q.pop();
+                for (int j = 0; j < sz; ++j){
+                    TreeNode* curr = queue.front(); queue.pop();
                     
-                    if (origin != curr && leaves.count(curr) && !pairs[origin].count(curr)){
-                        pairs[origin].insert(curr);
-                        ++ans;
-                        continue;
+                    if (leaves.count(curr) && curr != leaf) ++ ans;
+                    
+                    if (graph.count(curr)){
+                        for (TreeNode* neighbor : graph[curr]){
+                            if (!seen.count(neighbor)){
+                                seen.insert(neighbor);
+                                queue.push(neighbor);
+                            }
+                        }
                     }
-                    
-                    if (remain == 0) continue;
-                    
-                    if (curr -> left) q.push({curr -> left, remain - 1});
-                    
-                    if (curr -> right) q.push({curr -> right, remain - 1});
                 }
-                
-                node = ancestors[node];
-                --start;
             }
         }
         
