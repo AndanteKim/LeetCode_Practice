@@ -34,7 +34,7 @@ public:
         traverseTree(root, nullptr, graph, leaves);
         int ans = 0;
         
-        for (TreeNode* leaf : leaves){
+        for (auto& leaf : leaves){
             queue<TreeNode*> queue;
             queue.push(leaf);
             unordered_set<TreeNode*> seen;
@@ -51,7 +51,7 @@ public:
                     if (leaves.count(curr) && curr != leaf) ++ ans;
                     
                     if (graph.count(curr)){
-                        for (TreeNode* neighbor : graph[curr]){
+                        for (auto& neighbor : graph[curr]){
                             if (!seen.count(neighbor)){
                                 seen.insert(neighbor);
                                 queue.push(neighbor);
