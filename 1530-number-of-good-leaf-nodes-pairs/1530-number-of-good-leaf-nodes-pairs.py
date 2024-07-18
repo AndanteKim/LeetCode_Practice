@@ -5,66 +5,51 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def find_ancestor(self, node: TreeNode) -> Dict[TreeNode, TreeNode]:
-        queue = deque([(node, None)])
-        ancestors = dict()
+    def _traverse_tree(self, curr: TreeNode, prev: TreeNode, graph: Dict[TreeNode, List[TreeNode]], leaves: Set[TreeNode]) -> None:
+        if not curr:
+            return
         
-        while queue:
-            child, parent = queue.popleft()
-            ancestors[child] = parent
+        if not (curr.left or curr.right):
+            leaves.add(curr)
+        
+        if prev:
+            if prev not in graph:
+                graph[prev] = []
+            graph[prev].append(curr)
             
-            if child.left:
-                queue.append((child.left, child))
-                
-            if child.right:
-                queue.append((child.right, child))
+            if curr not in graph:
+                graph[curr] = []
+            graph[curr].append(prev)
             
-        return ancestors
+        self._traverse_tree(curr.left, curr, graph, leaves)
+        self._traverse_tree(curr.right, curr, graph, leaves)
     
-    def find_leaves(self, node: TreeNode) -> Set[TreeNode]:
-        leaves, queue = set(), deque([node])
-        
-        while queue:
-            curr = queue.popleft()
-            
-            if not (curr.left or curr.right):
-                leaves.add(curr)
-            
-            if curr.left:
-                queue.append(curr.left)
-                
-            if curr.right:
-                queue.append(curr.right)
-        
-        return leaves
-        
     def countPairs(self, root: TreeNode, distance: int) -> int:
-        ancestors = self.find_ancestor(root)
-        leaves, pairs, ans = self.find_leaves(root), defaultdict(set), 0
-        for node in leaves:
-            origin, start = node, distance
-            
-            while start > 0 and node:
-                queue = deque([(node, start)])
-                
-                while queue:
-                    curr, remain = queue.popleft()
-                    
-                    if origin != curr and curr in leaves and curr not in pairs[origin]:
-                        pairs[origin].add(curr)
-                        ans += 1
-                        continue
-                    
-                    if remain == 0:
-                        continue
-                    
-                    if curr.left:
-                        queue.append((curr.left, remain - 1))
-                    
-                    if curr.right:
-                        queue.append((curr.right, remain - 1))
-                
-                node = ancestors[node]
-                start -= 1
+        graph = dict()
+        leaves = set()
+        self._traverse_tree(root, None, graph, leaves)
         
+        ans = 0
+        
+        for leaf in leaves:
+            queue, seen = deque(), set()
+            queue.append(leaf)
+            seen.add(leaf)
+            
+            for _ in range(distance + 1):
+                # Clear all nodes in the queue (distance i away from leaf node)
+                # Add the nodes' neighbors (distance i + 1 away from leaf node)
+                sz = len(queue)
+                for __ in range(sz):
+                    curr = queue.popleft()
+                    if curr in leaves and curr != leaf:
+                        ans += 1
+                    
+                    if curr in graph:
+                        for neighbor in graph[curr]:
+                            if neighbor not in seen:
+                                seen.add(neighbor)
+                                queue.append(neighbor)
+                            
         return ans >> 1
+            
