@@ -11,57 +11,50 @@
  */
 class Solution {
 private:
-    void traverseTree(TreeNode* curr, TreeNode* prev, unordered_map<TreeNode*, vector<TreeNode*>>& graph, unordered_set<TreeNode*>& leaves){
-        if (!curr) return;
+    vector<int> postOrder(TreeNode* curr, int distance){
+        if (!curr)
+            return vector<int>(12);
         
         if (!(curr -> left || curr -> right)){
-            leaves.insert(curr);                                      
+            vector<int> current(12);
+            // Leaf node's distance from itself is 0
+            current[0] = 1;
+            return current;
         }
         
-        if (prev){
-            graph[prev].push_back(curr);
-            graph[curr].push_back(prev);
+        // Leaf node count for a given distance i
+        vector<int> left = postOrder(curr -> left, distance);
+        vector<int> right = postOrder(curr -> right, distance);
+        
+        vector<int> current(12);
+        
+        // Combine the counts from the left and right subtree and shift by
+        // + 1 distance
+        for (int i = 0; i < 10; ++i){
+            current[i + 1] = left[i] + right[i];
         }
         
-        traverseTree(curr -> left, curr, graph, leaves);
-        traverseTree(curr -> right, curr, graph, leaves);
-    }
-    
-public:
-    int countPairs(TreeNode* root, int distance) {
-        unordered_map<TreeNode*, vector<TreeNode*>> graph;
-        unordered_set<TreeNode*> leaves;
-        traverseTree(root, nullptr, graph, leaves);
-        int ans = 0;
+        // Intialize to total number of good leaf nodes pairs from left and
+        // right subtrees.
+        current[11] += left[11] + right[11];
         
-        for (auto& leaf : leaves){
-            queue<TreeNode*> queue;
-            queue.push(leaf);
-            unordered_set<TreeNode*> seen;
-            seen.insert(leaf);
-            
-            // Go through all nodes that are within the given distance of
-            // the current leaf node.
-            for (int i = 0; i <= distance; ++i){
-                int sz = queue.size();
-                
-                for (int j = 0; j < sz; ++j){
-                    TreeNode* curr = queue.front(); queue.pop();
-                    
-                    if (leaves.count(curr) && curr != leaf) ++ ans;
-                    
-                    if (graph.count(curr)){
-                        for (auto& neighbor : graph[curr]){
-                            if (!seen.count(neighbor)){
-                                seen.insert(neighbor);
-                                queue.push(neighbor);
-                            }
-                        }
-                    }
+        // Iterate through possible leaf node distance pairs
+        for (int d1 = 0; d1 <= distance; ++d1){
+            for (int d2 = 0; d2 <= distance; ++d2){
+                if (2 + d1 + d2 <= distance){
+                    // If the total path distance is less than the given
+                    // distance limit, then add to the total number of good
+                    // pairs.
+                    current[11] += left[d1] * right[d2];
                 }
             }
         }
         
-        return ans >> 1;
+        return current;
+    }
+    
+public:
+    int countPairs(TreeNode* root, int distance) {
+        return postOrder(root, distance)[11];
     }
 };
