@@ -5,51 +5,40 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def _traverse_tree(self, curr: TreeNode, prev: TreeNode, graph: Dict[TreeNode, List[TreeNode]], leaves: Set[TreeNode]) -> None:
+    def _post_order(self, curr: TreeNode, distance: int) -> List[int]:
         if not curr:
-            return
+            return [0] * 12
         
-        if not (curr.left or curr.right):
-            leaves.add(curr)
+        elif not (curr.left or curr.right):
+            curr = [0] * 12
+            # Leaf node's distance from itself is 0
+            curr[0] = 1
+            return curr
         
-        if prev:
-            if prev not in graph:
-                graph[prev] = []
-            graph[prev].append(curr)
+        # Leaf node count for a given distance i
+        left = self._post_order(curr.left, distance)
+        right = self._post_order(curr.right, distance)
+        
+        curr = [0] * 12
+        
+        # Combine the counts from the left and right subtree and shift by
+        # +1 distance
+        for i in range(10):
+            curr[i + 1] += left[i] + right[i]
             
-            if curr not in graph:
-                graph[curr] = []
-            graph[curr].append(prev)
-            
-        self._traverse_tree(curr.left, curr, graph, leaves)
-        self._traverse_tree(curr.right, curr, graph, leaves)
+        # Initialize to total number of good leaf nodes pairs from left and right subtrees.
+        curr[11] = left[11] + right[11]
+        
+        # Iterate through possible leaf node distance pairs
+        for d1 in range(distance + 1):
+            for d2 in range(distance + 1):
+                if 2 + d1 + d2 <= distance:
+                    # If the total path distance is less than the given distance limit,
+                    # then add to the total number of good pairs
+                    curr[11] += left[d1] * right[d2]
+                    
+        return curr
+    
     
     def countPairs(self, root: TreeNode, distance: int) -> int:
-        graph = dict()
-        leaves = set()
-        self._traverse_tree(root, None, graph, leaves)
-        
-        ans = 0
-        
-        for leaf in leaves:
-            queue, seen = deque(), set()
-            queue.append(leaf)
-            seen.add(leaf)
-            
-            for _ in range(distance + 1):
-                # Clear all nodes in the queue (distance i away from leaf node)
-                # Add the nodes' neighbors (distance i + 1 away from leaf node)
-                sz = len(queue)
-                for __ in range(sz):
-                    curr = queue.popleft()
-                    if curr in leaves and curr != leaf:
-                        ans += 1
-                    
-                    if curr in graph:
-                        for neighbor in graph[curr]:
-                            if neighbor not in seen:
-                                seen.add(neighbor)
-                                queue.append(neighbor)
-                            
-        return ans >> 1
-            
+        return self._post_order(root, distance)[11]
