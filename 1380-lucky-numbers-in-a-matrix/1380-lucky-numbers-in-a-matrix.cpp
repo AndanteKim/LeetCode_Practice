@@ -1,39 +1,32 @@
 class Solution {
 public:
     vector<int> luckyNumbers (vector<vector<int>>& matrix) {
-        int m = matrix.size(), n = matrix[0].size();
-        vector<int> ans;
-        vector<pair<int, int>> candidates;
-        pair<int, int> curr;
+        int N = matrix.size(), M = matrix[0].size();
         
-        for (int i = 0; i < m; ++i){
-            int minRow = INT_MAX;
-            curr = {0, 0};
-            
-            for (int j = 0; j < n; ++j){
-                if (minRow > matrix[i][j]){
-                    curr = {i, j};
-                    minRow = matrix[i][j];
-                }
-            }
-            
-            candidates.push_back(curr);
+        vector<int> rowMin;
+        for (int i = 0; i < N; ++i){
+            int rMin = INT_MAX;
+            for (int j = 0; j < M; ++j)
+                rMin = min(rMin, matrix[i][j]);
+            rowMin.push_back(rMin);
         }
         
-        for (auto& [i, j] : candidates){
-            int maxCol = INT_MIN;
-            curr = {0, 0};
-            for (int k = 0; k < m; ++k){
-                if (maxCol < matrix[k][j]){
-                    curr = {k, j};
-                    maxCol = matrix[k][j];
-                }
-            }
-            
-            if (matrix[i][j] == maxCol)
-                ans.push_back(matrix[i][j]);
+        vector<int> colMax;
+        for (int i = 0; i < M; ++i){
+            int cMax = INT_MIN;
+            for (int j = 0; j < N; ++j)
+                cMax = max(cMax, matrix[j][i]);
+            colMax.push_back(cMax);
         }
         
-        return ans;
+        vector<int> luckyNumbers;
+        for (int i = 0; i < N; ++i){
+            for (int j = 0; j < M; ++j){
+                if (rowMin[i] == matrix[i][j] && colMax[j] == matrix[i][j])
+                    luckyNumbers.push_back(matrix[i][j]);
+            }
+        }
+        
+        return luckyNumbers;
     }
 };
