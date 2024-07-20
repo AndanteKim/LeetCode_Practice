@@ -1,32 +1,23 @@
 class Solution {
 public:
     vector<int> luckyNumbers (vector<vector<int>>& matrix) {
-        int N = matrix.size(), M = matrix[0].size();
+        int m = matrix.size(), n = matrix[0].size();
+        int rMinMax = INT_MIN;
         
-        vector<int> rowMin;
-        for (int i = 0; i < N; ++i){
-            int rMin = INT_MAX;
-            for (int j = 0; j < M; ++j)
-                rMin = min(rMin, matrix[i][j]);
-            rowMin.push_back(rMin);
+        for (int i = 0; i < m; ++i){
+            int rMin = *min_element(matrix[i].begin(), matrix[i].end());
+            rMinMax = max(rMin, rMinMax);
         }
         
-        vector<int> colMax;
-        for (int i = 0; i < M; ++i){
+        int cMaxMin = INT_MAX;
+        for (int i = 0; i < n; ++i){
             int cMax = INT_MIN;
-            for (int j = 0; j < N; ++j)
+            for (int j = 0; j < m; ++j)
                 cMax = max(cMax, matrix[j][i]);
-            colMax.push_back(cMax);
+            
+            cMaxMin = min(cMax, cMaxMin);
         }
         
-        vector<int> luckyNumbers;
-        for (int i = 0; i < N; ++i){
-            for (int j = 0; j < M; ++j){
-                if (rowMin[i] == matrix[i][j] && colMax[j] == matrix[i][j])
-                    luckyNumbers.push_back(matrix[i][j]);
-            }
-        }
-        
-        return luckyNumbers;
+        return (rMinMax == cMaxMin)? vector<int>{rMinMax} : vector<int>{};
     }
 };
