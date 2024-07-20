@@ -5,74 +5,39 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def bfs(self, root: Optional[TreeNode]) -> Dict[TreeNode, TreeNode]:
-        queue, ancestors = deque([(root, None)]), dict()
-        
-        # Find the depth
-        while queue:
-            child, parent = queue.popleft()
-            ancestors[child] = parent
-            
-            if child.left:
-                queue.append((child.left, child))
-            
-            if child.right:
-                queue.append((child.right, child))
-        
-        return ancestors
-
     def findDistance(self, root: Optional[TreeNode], p: int, q: int) -> int:
-        ancestors = self.bfs(root)
-        tree_p, tree_q = None, None
-        queue = deque([root])
+        # Find the lowest common ancestor of p and q
+        lca = self.__find_LCA(root, p, q)
+        return self.__depth(lca, p) + self.__depth(lca, q)
+    
+    # Function to find the LCA of the given nodes
+    def __find_LCA(self, root: Optional[TreeNode], p: int, q: int) -> TreeNode:
+        if not root or root.val == p or root.val == q:
+            return root
         
-        while queue:
-            node = queue.popleft()
-            
-            if node.val == p:
-                tree_p = node
-                
-            if node.val == q:
-                tree_q = node
-            
-            if node.left:
-                queue.append(node.left)
-            
-            if node.right:
-                queue.append(node.right)
-            
-        curr_p, curr_q, ans = tree_p, tree_q, 0
-        dist = 0
-        while curr_p and curr_p != curr_q:
-            curr_p = ancestors[curr_p]
-            dist += 1
+        left = self.__find_LCA(root.left, p, q)
+        right = self.__find_LCA(root.right, p, q)
         
-        if curr_p:
-            return dist
-            
-        dist, curr_p = 0, tree_p
-        while curr_q and curr_p != curr_q:
-            curr_q = ancestors[curr_q]
-            dist += 1
+        if left and right:
+            return root
         
-        if curr_q:
-            return dist
-            
-        curr_p, curr_q, p_dist, q_dist = tree_p, tree_q, 0, 0
+        return left if left else right
+    
+    # Function to find the depth of the node with respect to LCA.
+    def __depth(self, root: TreeNode, target: int, curr_depth = 0):
+        # Node not found
+        if not root:
+            return -1
         
-        while curr_p != curr_q:
-            if ancestors[curr_p] and ancestors[curr_p] != curr_q:
-                curr_p = ancestors[curr_p]
-                p_dist += 1
-            elif ancestors[curr_p] == curr_q:
-                p_dist += 1
-                break
-            
-            if ancestors[curr_q] and ancestors[curr_q] != curr_p:
-                curr_q = ancestors[curr_q]
-                q_dist += 1
-            elif ancestors[curr_q] == curr_p:
-                q_dist += 1
-                break
+        if root.val == target:
+            return curr_depth
         
-        return p_dist + q_dist
+        # Check left subtree
+        left_depth = self.__depth(root.left, target, curr_depth + 1)
+        
+        if left_depth != -1:
+            return left_depth
+        
+        # If not in left subtree, it's guaranteed to be in the right subtree
+        return self.__depth(root.right, target, curr_depth + 1)
+    
