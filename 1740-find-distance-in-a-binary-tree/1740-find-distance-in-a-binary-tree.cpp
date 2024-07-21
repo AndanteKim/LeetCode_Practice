@@ -11,42 +11,54 @@
  */
 class Solution {
 private:
-    // Function to find the LCA of the given node.
-    TreeNode* find_LCA(TreeNode* node, int p, int q){
-        if (!node || node -> val == p || node -> val == q)
-            return node;
+    TreeNode* findLCA(TreeNode* root, int p, int q){
+        if (!root || root -> val == p || root -> val == q)
+            return root;
         
-        TreeNode* left = find_LCA(node -> left, p, q);
-        TreeNode* right = find_LCA(node -> right, p, q);
+        TreeNode* left = findLCA(root -> left, p, q);
+        TreeNode* right = findLCA(root -> right, p, q);
         
         if (left && right)
-            return node;
+            return root;
         
         return left? left : right;
     }
     
-    // Function to find the depth of the node with respect to LCA
-    int findDepth(TreeNode* node, int target, int currDepth = 0){
-        // Node not found
-        if (!node)
-            return -1;
-        
-        if (node -> val == target)
-            return currDepth;
-        
-        // Check left subtree
-        int leftDepth = findDepth(node -> left, target, currDepth + 1);
-        if (leftDepth != -1)
-            return leftDepth;
-        
-        // If not in the left subtree, it's guaranteed to be in the right subtree.
-        return findDepth(node -> right, target, currDepth + 1);
-    }
-    
 public:
     int findDistance(TreeNode* root, int p, int q) {
-        // Find the lowest common ancestor of p and q
-        TreeNode* lca = find_LCA(root, p, q);
-        return findDepth(lca, p, 0) + findDepth(lca, q, 0);
+        TreeNode* lca = findLCA(root, p, q);
+        
+        queue<TreeNode*> queue;
+        queue.push(lca);
+        int dist = 0, depth = 0;
+        bool foundP = false, foundQ = false;
+        
+        while (!queue.empty() && !(foundP && foundQ)){
+            int sz = queue.size();
+            
+            for (int i = 0; i < sz; ++i) {
+                // Dequeue the node
+                TreeNode* node = queue.front(); queue.pop();
+            
+                if (node -> val == p){
+                    dist += depth;
+                    foundP = true;
+                }
+            
+                if (node -> val == q){
+                    dist += depth;
+                    foundQ = true;
+                }
+                
+                // Enqueue the left child
+                if (node -> left) queue.push(node -> left);
+                
+                // Enqueue the right child
+                if (node -> right) queue.push(node -> right);
+            }
+            ++depth;
+        }
+        
+        return dist;
     }
 };
