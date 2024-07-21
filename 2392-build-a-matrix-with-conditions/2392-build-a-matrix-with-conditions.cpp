@@ -1,7 +1,7 @@
 class Solution {
 private:
     vector<int> topoSort(vector<vector<int>>& edges, int n){
-        unordered_map<int, vector<int>> adj;
+        vector<vector<int>> adj(n + 1);
         
         // Build adjacency list
         for (vector<int>& e: edges){
@@ -30,7 +30,7 @@ private:
         return order;
     }
     
-    void dfs(int node, unordered_map<int, vector<int>>& adj, vector<int>& visited, vector<int>& order, \
+    void dfs(int node, vector<vector<int>>& adj, vector<int>& visited, vector<int>& order, \
             bool& hasCycle){
         // Mark node as visiting
         visited[node] = 1;
@@ -66,18 +66,12 @@ public:
         // If no topological sort exists, return empty array.
         if (orderRows.empty() || orderCols.empty()) return vector<vector<int>> {};
         
-        unordered_map<int, int> numRows, numCols;
-        for (int i = 0; i < orderRows.size(); ++i)
-            numRows[orderRows[i]] = i;
-        
-        for (int i = 0; i < orderCols.size(); ++i)
-            numCols[orderCols[i]] = i;
-        
         vector matrix(k, vector<int>(k));
-        for (int num = 1; num <= k; ++num){
-            if (numRows.count(num) && numCols.count(num)){
-                matrix[numRows[num]][numCols[num]] = num;
-            }
+        for (int i = 0; i < k; ++i){
+            for (int j = 0; j < k; ++j)
+                if (orderRows[i] == orderCols[j]){
+                    matrix[i][j] = orderRows[i];
+                }
         }
         
         return matrix;
