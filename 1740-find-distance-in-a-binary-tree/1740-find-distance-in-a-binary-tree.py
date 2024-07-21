@@ -5,44 +5,30 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def find_LCA(self, root: TreeNode, p: int, q: int) -> TreeNode:
-        if not root or root.val == p or root.val == q:
-            return root
+    # Private helper function
+    def __distance(self, root: Optional[TreeNode], p: int, q: int, depth: int) -> int:
+        if not root or p == q:
+            return 0
         
-        left = self.find_LCA(root.left, p, q)
-        right = self.find_LCA(root.right, p, q)
+        # If either p or q is found, calculate the ret_dist as the maximum
+        # of depth and ret_dist value for left and right subtrees.
+        if root.val == p or root.val == q:
+            left = self.__distance(root.left, p, q, 1)
+            right = self.__distance(root.right, p, q, 1)
+            
+            return max(left, right) if left > 0 or right > 0 else depth
         
-        if left and right:
-            return root
+        # Otherwise, calculate the ret_dist as sum of ret_dist of left
+        # and right subtree.
+        left = self.__distance(root.left, p, q, depth + 1)
+        right = self.__distance(root.right, p, q, depth + 1)
         
-        return left if left else right
-    
+        ret_dist = left + right
+        
+        # If current node is the LCA, subtract twice of depth.
+        if left != 0 and right != 0:
+            ret_dist -= 2 * depth
+        return ret_dist
     
     def findDistance(self, root: Optional[TreeNode], p: int, q: int) -> int:
-        lca = self.find_LCA(root, p, q)
-        bfs = deque([lca])
-        dist, depth = 0, 0
-        found_p, found_q = False, False
-        
-        while bfs and not ( found_p and found_q):
-            sz = len(bfs)
-            for _ in range(sz):
-                # Dequeue the node
-                node = bfs.popleft()
-                if node.val == p:
-                    dist += depth
-                    found_p = True
-                    
-                if node.val == q:
-                    dist += depth
-                    found_q = True
-                    
-                if node.left:
-                    bfs.append(node.left) # Enqueue left child
-                    
-                if node.right:
-                    bfs.append(node.right) # Enqueue right child
-                    
-            depth += 1
-            
-        return dist
+        return self.__distance(root, p, q, 0)
