@@ -11,54 +11,35 @@
  */
 class Solution {
 private:
-    TreeNode* findLCA(TreeNode* root, int p, int q){
-        if (!root || root -> val == p || root -> val == q)
-            return root;
+    // Private helper function
+    int distance(TreeNode* root, int p, int q, int depth){
+        if (!root || p == q)
+            return 0;
         
-        TreeNode* left = findLCA(root -> left, p, q);
-        TreeNode* right = findLCA(root -> right, p, q);
+        // If either p or q is found, calculate the retDistance the maximum
+        // of depth and retDistance for left and right subtrees.
+        if (root -> val == p || root -> val == q){
+            int left = distance(root -> left, p, q, 1);
+            int right = distance(root -> right, p, q, 1);
+            
+            return (left > 0 || right > 0)? max(left, right) : depth;
+        }
         
-        if (left && right)
-            return root;
+        // Otherwise, calculate the retDistance as sum of retDistance of left
+        // and right subtree.
+        int left = distance(root -> left, p, q, depth + 1);
+        int right = distance(root -> right, p, q, depth + 1);
         
-        return left? left : right;
+        int retDistance = left + right;
+        
+        // If the current node is the LCA, subtract twice of depth.
+        if (left != 0 && right != 0) retDistance -= 2 * depth;
+        
+        return retDistance;
     }
     
 public:
     int findDistance(TreeNode* root, int p, int q) {
-        TreeNode* lca = findLCA(root, p, q);
-        
-        queue<TreeNode*> queue;
-        queue.push(lca);
-        int dist = 0, depth = 0;
-        bool foundP = false, foundQ = false;
-        
-        while (!queue.empty() && !(foundP && foundQ)){
-            int sz = queue.size();
-            
-            for (int i = 0; i < sz; ++i) {
-                // Dequeue the node
-                TreeNode* node = queue.front(); queue.pop();
-            
-                if (node -> val == p){
-                    dist += depth;
-                    foundP = true;
-                }
-            
-                if (node -> val == q){
-                    dist += depth;
-                    foundQ = true;
-                }
-                
-                // Enqueue the left child
-                if (node -> left) queue.push(node -> left);
-                
-                // Enqueue the right child
-                if (node -> right) queue.push(node -> right);
-            }
-            ++depth;
-        }
-        
-        return dist;
+        return distance(root, p, q, 0);
     }
 };
