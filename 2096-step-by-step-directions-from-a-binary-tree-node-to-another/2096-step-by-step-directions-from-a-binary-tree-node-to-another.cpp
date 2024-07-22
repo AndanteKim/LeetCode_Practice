@@ -11,99 +11,60 @@
  */
 class Solution {
 private:
-    string backtrackPath(TreeNode* node, unordered_map<TreeNode*, pair<TreeNode*, string>>& pathTracker){
-        string path = "";
+    TreeNode* findLowestLCA(TreeNode* root, int v1, int v2){
+        if (!root) return nullptr;
         
-        // Construct the path
-        while (pathTracker.count(node)){
-            // Add the directions in reverse order and move on to the previous node.
-            path += pathTracker[node].second;
-            node = pathTracker[node].first;
-        }
+        if (root -> val == v1 || root -> val == v2) return root;
         
-        reverse(path.begin(), path.end());
-        return path;
+        TreeNode* left = findLowestLCA(root -> left, v1, v2);
+        TreeNode* right = findLowestLCA(root -> right, v1, v2);
+        
+        // If there exists both left and right, then return the lowest ancestor
+        if (left && right) return root;
+        
+        return left? left : right;
     }
     
-    void populateParentMap(TreeNode* node, unordered_map<int, TreeNode*>& parentMap){
-        if (!node) return;
+    bool findPath(TreeNode* node, int target, string& path){
+        if (!node) return false;
         
-        // Add children to the map and recurse further
-        if (node -> left){
-            parentMap[node -> left -> val] = node;
-            populateParentMap(node -> left, parentMap);
-        }
+        if (node -> val == target)
+            return true;
         
-        if (node -> right){
-            parentMap[node -> right -> val] = node;
-            populateParentMap(node -> right, parentMap);
-        }
-    }
-    
-    TreeNode* findStartNode(TreeNode* node, int startValue){
-        if (!node) return nullptr;
+        // Try left subtree
+        path.push_back('L');
+        bool left = findPath(node -> left, target, path);
         
-        if (node -> val == startValue) return node;
+        if (left) return true;
+        path.pop_back(); // Remove the last character
         
-        TreeNode* leftResult = findStartNode(node -> left, startValue);
-        // If left subtree returns a node, it must be a start node. Return it. Otherwise, return whatever
-        // is returned by right subtree.
-        if (leftResult) return leftResult;
+        // Try right subtree
+        path.push_back('R');
+        bool right = findPath(node -> right, target, path);
         
-        return findStartNode(node -> right, startValue);
+        if (right) return true;
+        path.pop_back(); // Remove the last character
+        
+        return false;
     }
     
 public:
     string getDirections(TreeNode* root, int startValue, int destValue) {
-        // Map to store the parent nodes
-        unordered_map<int, TreeNode*> parentMap;
+        // Find the Lowest Common Ancestor (LCA) of start and destination nodes
+        TreeNode* lca = findLowestLCA(root, startValue, destValue);
+        string pathToStart, pathToDest;
         
-        // Find the start node and populate the parent map
-        TreeNode* startNode = findStartNode(root, startValue);
-        populateParentMap(root, parentMap);
+        // Find paths from LCA to start and destination nodes
+        findPath(lca, startValue, pathToStart);
+        findPath(lca, destValue, pathToDest);
+        string ans = "";
         
-        // Perform BFS to find the path.
-        queue<TreeNode*> q;
-        q.push(startNode);
-        unordered_set<TreeNode*> visitedNodes;
+        // Add "U" for each step to go up from start to LCA
+        ans.append(pathToStart.size(), 'U');
         
-        // Key: next node, Value: {current node, direction}
-        unordered_map<TreeNode*, pair<TreeNode*, string>> pathTracker;
-        visitedNodes.insert(startNode);
+        // Append the path from LCA to destination
+        ans.append(pathToDest);
         
-        while (!q.empty()){
-            TreeNode* currNode = q.front(); q.pop();
-            
-            // If the destination is reached, return the path.
-            if (currNode -> val == destValue)
-                return backtrackPath(currNode, pathTracker);
-            
-            // Check and add parent node
-            if (parentMap.count(currNode -> val)){
-                TreeNode* parentNode = parentMap[currNode -> val];
-                if (!visitedNodes.count(parentNode)){
-                    q.push(parentNode);
-                    pathTracker[parentNode] = {currNode, "U"};
-                    visitedNodes.insert(parentNode);
-                }
-            }
-            
-            // Check and add left child
-            if (currNode -> left && !visitedNodes.count(currNode -> left)){
-                q.push(currNode -> left);
-                pathTracker[currNode -> left] = {currNode, "L"};
-                visitedNodes.insert(currNode -> left);
-            }
-            
-            // Check and add right child
-            if (currNode -> right && !visitedNodes.count(currNode -> right)){
-                q.push(currNode -> right);
-                pathTracker[currNode -> right] = {currNode, "R"};
-                visitedNodes.insert(currNode -> right);
-            }
-        }
-        
-        // This line should never be reached if the tree is valid.
-        return "";
+        return ans;
     }
 };
