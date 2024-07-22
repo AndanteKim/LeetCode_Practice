@@ -7,7 +7,7 @@ class Solution:
             adj[u].append((v, toll))
             adj[v].append((u, toll))
             
-        # Min-heap priority qyeye to store tuples of (cost, city, discounts used)
+        # Min-heap priority queue to store tuples of (cost, city, discounts used)
         pq = [(0, 0, 0)]
         
         # 2D array to track minimum distance to each city with a given number of discounts used
