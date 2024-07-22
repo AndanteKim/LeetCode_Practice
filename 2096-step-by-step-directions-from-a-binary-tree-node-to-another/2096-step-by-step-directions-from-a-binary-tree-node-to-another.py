@@ -5,89 +5,63 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def _backtrack_path(self, node: Optional[TreeNode], path_tracker: Dict[TreeNode, Tuple[TreeNode, str]]) -> str:
-        path = []
+    def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
+        # Find the Lowest Common Ancestor(LCA) of start and destination nodes
+        LCA = self._find_lowest_LCA(root, startValue, destValue)
         
-        # Construct the path
-        while node in path_tracker:
-            # Add the directions in reverse order and move on to the previous node
-            path.append(path_tracker[node][1])
-            node = path_tracker[node][0]
+        path_to_start, path_to_dest = [], []
         
-        path.reverse()
-        return "".join(path)
+        # Find paths from LCA to start and destination nodes
+        self._find_path(LCA, startValue, path_to_start)
+        self._find_path(LCA, destValue, path_to_dest)
+        
+        directions = []
+        
+        # Add "U" for each step to go up from start to LCA
+        directions.extend("U" * len(path_to_start))
+        
+        # Append the path from LCA to destination
+        directions.extend(path_to_dest)
+        
+        return "".join(directions)
     
-    def _populate_parent_map(self, node: Optional[TreeNode], parent_map: Dict[int, TreeNode]) -> None:
-        if not node:
-            return
-        
-        # Add children to the map and recurse further
-        if node.left:
-            parent_map[node.left.val] = node
-            self._populate_parent_map(node.left, parent_map)
-            
-        if node.right:
-            parent_map[node.right.val] = node
-            self._populate_parent_map(node.right, parent_map)
-            
-    def _find_start_node(self, node: Optional[TreeNode], start_value: int) -> TreeNode:
+    def _find_lowest_LCA(self, node: TreeNode, v1: int, v2: int) -> TreeNode:
         if not node:
             return None
         
-        if node.val == start_value:
+        if node.val == v1 or node.val == v2:
             return node
         
-        left_result = self._find_start_node(node.left, start_value)
+        left_lca = self._find_lowest_LCA(node.left, v1, v2)
+        right_lca = self._find_lowest_LCA(node.right, v1, v2)
         
-        # If left subtree returns a node, it must be start node. Return it
-        # Otherwise, return whatever is returned by right subtree.
-        if left_result:
-            return left_result
+        if not left_lca:
+            return right_lca
+        elif not right_lca:
+            return left_lca
+        else:
+            return node # Both values found, this is the LCA
         
-        return self._find_start_node(node.right, start_value)
-    
-    
-    def getDirections(self, root: Optional[TreeNode], startValue: int, destValue: int) -> str:
-        # Map to store the parent nodes
-        parent_map = dict()
+    def _find_path(self, node: TreeNode, target: int, path: List[str]) -> bool:
+        if not node:
+            return False
         
-        # Find the start node and populate parent map
-        start_node = self._find_start_node(root, startValue)
-        self._populate_parent_map(root, parent_map)
+        if node.val == target:
+            return True
         
-        # Perform BFS to find the path
-        q = deque([start_node])
-        visited_nodes = set()
-        # Key: next node, Value: <current node, direction>
-        path_tracker = dict()
-        visited_nodes.add(start_node)
+        # Try left subtree
+        path.append("L")
+        if self._find_path(node.left, target, path):
+            return True
+        path.pop() # Remove last character
         
-        while q:
-            curr_element = q.popleft()
-            
-            # If destination is reached, return the path
-            if curr_element.val == destValue:
-                return self._backtrack_path(curr_element, path_tracker)
-            
-            # Check and add parent node
-            if curr_element.val in parent_map:
-                parent_node = parent_map[curr_element.val]
-                if parent_node not in visited_nodes:
-                    q.append(parent_node)
-                    path_tracker[parent_node] = (curr_element, "U")
-                    visited_nodes.add(parent_node)
-                    
-            # Check and add left child
-            if curr_element.left and curr_element.left not in visited_nodes:
-                q.append(curr_element.left)
-                path_tracker[curr_element.left] = (curr_element, "L")
-                visited_nodes.add(curr_element.left)
-                
-            # Check and add right child
-            if curr_element.right and curr_element.right not in visited_nodes:
-                q.append(curr_element.right)
-                path_tracker[curr_element.right] = (curr_element, "R")
-                visited_nodes.add(curr_element.right)
-                
-        # This line should never be reached if the tree is valid
-        return ""
+        # Try right subtree
+        path.append("R")
+        if self._find_path(node.right, target, path):
+            return True
+        path.pop() # Remove last character
+        
+        return False
+        
+        
+        
