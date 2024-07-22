@@ -11,38 +11,21 @@
  */
 class Solution {
 private:
-    TreeNode* findLowestLCA(TreeNode* root, int v1, int v2){
-        if (!root) return nullptr;
-        
-        if (root -> val == v1 || root -> val == v2) return root;
-        
-        TreeNode* left = findLowestLCA(root -> left, v1, v2);
-        TreeNode* right = findLowestLCA(root -> right, v1, v2);
-        
-        // If there exists both left and right, then return the lowest ancestor
-        if (left && right) return root;
-        
-        return left? left : right;
-    }
-    
     bool findPath(TreeNode* node, int target, string& path){
         if (!node) return false;
         
-        if (node -> val == target)
-            return true;
+        if (node -> val == target) return true;
         
         // Try left subtree
         path.push_back('L');
-        bool left = findPath(node -> left, target, path);
-        
-        if (left) return true;
+        if (findPath(node -> left, target, path))
+            return true;
         path.pop_back(); // Remove the last character
         
         // Try right subtree
         path.push_back('R');
-        bool right = findPath(node -> right, target, path);
-        
-        if (right) return true;
+        if (findPath(node -> right, target, path))
+            return true;
         path.pop_back(); // Remove the last character
         
         return false;
@@ -50,21 +33,26 @@ private:
     
 public:
     string getDirections(TreeNode* root, int startValue, int destValue) {
-        // Find the Lowest Common Ancestor (LCA) of start and destination nodes
-        TreeNode* lca = findLowestLCA(root, startValue, destValue);
-        string pathToStart, pathToDest;
+        string pathStart = "", pathDest = "";
         
-        // Find paths from LCA to start and destination nodes
-        findPath(lca, startValue, pathToStart);
-        findPath(lca, destValue, pathToDest);
-        string ans = "";
+        // Find paths from root to start and destination nodes
+        findPath(root, startValue, pathStart);
+        findPath(root, destValue, pathDest);
         
-        // Add "U" for each step to go up from start to LCA
-        ans.append(pathToStart.size(), 'U');
+        string directions = "";
+        int commonPathLength = 0;
         
-        // Append the path from LCA to destination
-        ans.append(pathToDest);
+        // Find the lenght of the common path
+        while (commonPathLength < pathStart.size() && commonPathLength < pathDest.size() && \
+              pathStart[commonPathLength] == pathDest[commonPathLength])
+            ++commonPathLength;
         
-        return ans;
+        // Add "U" for each step to go up from start to common ancestor
+        directions.append(pathStart.size() - commonPathLength, 'U');
+        
+        // Add directions from common ancestor to destination
+        directions.append(pathDest.substr(commonPathLength, pathDest.size() - commonPathLength));
+        
+        return directions;
     }
 };
