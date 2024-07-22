@@ -16,13 +16,13 @@ public:
         dist[0][0] = 0;
         
         // Min-heap priority queue to store vectors of (cost, city, used discounts)
-        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
-        pq.push({0, 0, 0});
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
+        // Start from city 0 with cost 0 and 0 discounts used
+        pq.push(make_tuple(0, 0, 0));
         
         while (!pq.empty()){
-            auto it = pq.top(); pq.pop();
-            
-            int currCost = it[0], city = it[1], usedDiscounts = it[2];
+            int currCost, city, usedDiscounts;
+            tie(currCost, city, usedDiscounts) = pq.top(); pq.pop();
             
             // Skip processing if already visited with the same number of discounts used
             if (visited[city][usedDiscounts])
@@ -35,7 +35,7 @@ public:
                 // Case 1: Move to the neighbor without using a discount
                 if (currCost + toll < dist[neighbor][usedDiscounts]){
                     dist[neighbor][usedDiscounts] = currCost + toll;
-                    pq.push({currCost + toll, neighbor, usedDiscounts});
+                    pq.push(make_tuple(currCost + toll, neighbor, usedDiscounts));
                 }
                 
                 // Case 2: Move to the neighbor using a discount if available
@@ -43,7 +43,7 @@ public:
                     int newCost = currCost + (toll >> 1);
                     if (newCost < dist[neighbor][usedDiscounts + 1]){
                         dist[neighbor][usedDiscounts + 1] = newCost;
-                        pq.push({newCost, neighbor, usedDiscounts + 1});
+                        pq.push(make_tuple(newCost, neighbor, usedDiscounts + 1));
                     }
                 }
             }
