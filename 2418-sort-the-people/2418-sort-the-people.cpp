@@ -1,18 +1,21 @@
 class Solution {
 public:
     vector<string> sortPeople(vector<string>& names, vector<int>& heights) {
-        vector<pair<string, int>> p;
+        int n = names.size();
         
-        for (int i = 0; i < names.size(); ++i){
-            p.push_back({names[i], heights[i]});
-        }
+        // Create a map to store height-name pairs
+        map<int, string> heightToNames;
+        for (int i = 0; i < n; ++i)
+            heightToNames[heights[i]] = names[i];
         
-        sort(p.begin(), p.end(), [](pair<string, int>& a, pair<string, int>& b){return a.second > b.second;});
+        // Populate the map with height asa key and name as value
+        sort(heights.begin(), heights.end(), [](int a, int b){return a > b;});
         
         vector<string> ans;
         
-        for (int i = 0; i < p.size(); ++i)
-            ans.push_back(p[i].first);
+        // Populate sorted_names vector in descending order of height
+        for (int h : heights)
+            ans.push_back(heightToNames[h]);
         
         return ans;
     }
