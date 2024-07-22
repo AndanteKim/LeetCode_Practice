@@ -1,34 +1,29 @@
 class Solution {
 public:
     int minimumCost(int n, vector<vector<int>>& highways, int discounts) {
-        // Construct a graph from the given highways array
+        // Construct the graph from the given highways array
         vector<vector<pair<int, int>>> adj(n);
-        
-        for (vector<int>& highway : highways){
+        for (vector<int>& highway: highways){
             int u = highway[0], v = highway[1], toll = highway[2];
-            adj[u].push_back({v, toll});
-            adj[v].push_back({u, toll});
+            adj[u].push_back(make_pair(v, toll));
+            adj[v].push_back(make_pair(u, toll));
         }
         
-        // 2D array to track minimum distance to each city with a given number of discounts used
-        vector dist(n, vector<int>(discounts + 1, INT_MAX));
-        vector visited(n, vector<bool>(discounts + 1, false));
-        dist[0][0] = 0;
-        
-        // Min-heap priority queue to store vectors of (cost, city, used discounts)
-        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
+        // Min-heap priority queue to store tuples of (cost, city, used discounts)
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<>> pq;
         // Start from city 0 with cost 0 and 0 discounts used
         pq.push(make_tuple(0, 0, 0));
         
+        // 2D array to track minimum distance to each city with a given number
+        // of discounts used
+        vector dist(n, vector<int>(discounts + 1, INT_MAX));
+        dist[0][0] = 0;
         while (!pq.empty()){
             int currCost, city, usedDiscounts;
             tie(currCost, city, usedDiscounts) = pq.top(); pq.pop();
             
-            // Skip processing if already visited with the same number of discounts used
-            if (visited[city][usedDiscounts])
-                continue;
-            
-            visited[city][usedDiscounts] = true;
+            // If this cost is already higher than the known minimum, skip it
+            if (currCost > dist[city][usedDiscounts]) continue;
             
             // Explore all neighbors of the current city
             for (auto& [neighbor, toll] : adj[city]){
@@ -49,8 +44,10 @@ public:
             }
         }
         
-        // Find the minimum cost to reach city n - 1 with any number of discounts used
+        // Find the minimum cost to reach city n - 1 with any number of discounts
+        // used
         int minCost = *min_element(dist[n - 1].begin(), dist[n - 1].end());
+        
         return (minCost == INT_MAX)? -1 : minCost;
     }
 };
