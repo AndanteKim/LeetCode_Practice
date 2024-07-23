@@ -6,35 +6,36 @@
 #         self.right = right
 class Solution:
     def createBinaryTree(self, descriptions: List[List[int]]) -> Optional[TreeNode]:
-        # Step 1: Organize data
-        all_nodes, children = set(), set()
-        parents_to_children = defaultdict(list)
+        # Maps values to TreeNode pointers
+        node_map = dict()
         
+        # Store values which are children in the descriptions
+        children = set()
+        
+        # Iterate through description to create nodes and set up tree structure
+        # Extract parent value, child value, and whether
+        # it's a left child (1) or right child (0)
         for parent, child, is_left in descriptions:
-            # Store child information under parent node
-            parents_to_children[parent].append((child, is_left))
+            # Create parent and child nodes if not already created
+            if parent not in node_map:
+                node_map[parent] = TreeNode(parent)
             
-            all_nodes.add(parent)
-            all_nodes.add(child)
+            if child not in node_map:
+                node_map[child] = TreeNode(child)
+                
+            # Attach child node to parent's left or right branch
+            if is_left:
+                node_map[parent].left = node_map[child]
+            else:
+                node_map[parent].right = node_map[child]
+                
+            # Mark child as a child in the set
             children.add(child)
             
-        # Step 2: Find the root
-        root_val = (all_nodes - children).pop()
-        
-        # Step 3 & 4: Build the tree using DFS
-        def dfs(val: int) -> TreeNode:
-            # Create new TreeNode for current value
-            node = TreeNode(val)
+        # Find and return the root node
+        for node in node_map.values():
+            if node.val not in children:
+                return node # Root node found
             
-            # If current node has children, recursively build them
-            if val in parents_to_children:
-                for child, is_left in parents_to_children[val]:
-                    # Attach child node based on is_left flag
-                    if is_left:
-                        node.left = dfs(child)
-                    else:
-                        node.right = dfs(child)
-                        
-            return node
-        
-        return dfs(root_val)
+        return None # Should not occur according to problem statement
+             
