@@ -1,22 +1,17 @@
 class Solution {
 public:
     vector<int> frequencySort(vector<int>& nums) {
-        map<int, int> counter;
-        for (int num : nums)
-            ++counter[num];
+        unordered_map<int, int> freq;
+        for (int num: nums)
+            ++freq[num];
         
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> minHeap;
-        vector<int> ans;
+        sort(nums.begin(), nums.end(), [&freq](int a, int b){
+            if (freq[a] == freq[b])
+                return a > b;
+            
+            return freq[a] < freq[b];
+        });
         
-        for (auto& [n, freq] : counter)
-            minHeap.push({freq, -n});
-        
-        while (!minHeap.empty()){
-            for (int i = 0; i < minHeap.top().first; ++i)
-                ans.push_back(-minHeap.top().second);
-            minHeap.pop();
-        }
-        
-        return ans;
+        return nums;
     }
 };
