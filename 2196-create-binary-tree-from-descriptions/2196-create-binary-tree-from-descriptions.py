@@ -6,36 +6,35 @@
 #         self.right = right
 class Solution:
     def createBinaryTree(self, descriptions: List[List[int]]) -> Optional[TreeNode]:
-        # Sets to track unique childre n and parents
-        children, parents = set(), set()
-        
-        # Dictionary to store parent to children relationships
-        parent_to_children = defaultdict(list)
+        # Step 1: Organize data
+        all_nodes, children = set(), set()
+        parents_to_children = defaultdict(list)
         
         for parent, child, is_left in descriptions:
-            parents.add(parent)
+            # Store child information under parent node
+            parents_to_children[parent].append((child, is_left))
+            
+            all_nodes.add(parent)
+            all_nodes.add(child)
             children.add(child)
-            parent_to_children[parent].append((child, is_left))
             
-        # Find the root node by checking which node is
-        # in parents but not in children
-        for parent in parents.copy():
-            if parent in children:
-                parents.remove(parent)
+        # Step 2: Find the root
+        root_val = (all_nodes - children).pop()
         
-        root = TreeNode(next(iter(parents)))
-        queue = deque([root])
-        
-        while queue:
-            parent = queue.popleft()
+        # Step 3 & 4: Build the tree using DFS
+        def dfs(val: int) -> TreeNode:
+            # Create new TreeNode for current value
+            node = TreeNode(val)
             
-            # Iterate over children of current parent
-            for child_val, is_left in parent_to_children.get(parent.val, []):
-                child = TreeNode(child_val)
-                queue.append(child)
-                if is_left:
-                    parent.left = child
-                else:
-                    parent.right = child
-                    
-        return root
+            # If current node has children, recursively build them
+            if val in parents_to_children:
+                for child, is_left in parents_to_children[val]:
+                    # Attach child node based on is_left flag
+                    if is_left:
+                        node.left = dfs(child)
+                    else:
+                        node.right = dfs(child)
+                        
+            return node
+        
+        return dfs(root_val)
