@@ -23,6 +23,7 @@ public:
             int parent = d[0], child = d[1], isLeft = d[2];
             children.insert(child);
             parents.insert(parent);
+            parents.insert(child);
             parentToChildren[parent].push_back({child, isLeft});
         }
         
