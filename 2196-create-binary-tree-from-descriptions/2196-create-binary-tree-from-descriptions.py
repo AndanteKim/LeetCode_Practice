@@ -6,39 +6,36 @@
 #         self.right = right
 class Solution:
     def createBinaryTree(self, descriptions: List[List[int]]) -> Optional[TreeNode]:
-        root, seen, ancestors = None, dict(), dict()
+        # Sets to track unique childre n and parents
+        children, parents = set(), set()
         
-        for p, c, is_left in descriptions:
-            if p in seen:
-                tree_p, tree_c = seen[p], None
-                if c in seen:
-                    tree_c = seen[c]
-                else:
-                    tree_c = TreeNode(c)
-                
+        # Dictionary to store parent to children relationships
+        parent_to_children = defaultdict(list)
+        
+        for parent, child, is_left in descriptions:
+            parents.add(parent)
+            children.add(child)
+            parent_to_children[parent].append((child, is_left))
+            
+        # Find the root node by checking which node is
+        # in parents but not in children
+        for parent in parents.copy():
+            if parent in children:
+                parents.remove(parent)
+        
+        root = TreeNode(next(iter(parents)))
+        queue = deque([root])
+        
+        while queue:
+            parent = queue.popleft()
+            
+            # Iterate over children of current parent
+            for child_val, is_left in parent_to_children.get(parent.val, []):
+                child = TreeNode(child_val)
+                queue.append(child)
                 if is_left:
-                    tree_p.left = tree_c
+                    parent.left = child
                 else:
-                    tree_p.right = tree_c
-                ancestors[tree_c] = tree_p
-                
-            else:
-                tree_p, tree_c = TreeNode(p), None
-                if c in seen:
-                    tree_c = seen[c]
-                else:
-                    tree_c = TreeNode(c)
+                    parent.right = child
                     
-                if is_left:
-                    tree_p.left = tree_c
-                else:
-                    tree_p.right = tree_c
-                
-                ancestors[tree_c] = tree_p
-            seen[c], seen[p] = tree_c, tree_p
-        
-        for tree in seen.values():
-            if tree not in ancestors:
-                root = tree
-
         return root
