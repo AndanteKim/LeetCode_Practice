@@ -12,36 +12,48 @@
 class Solution {
 public:
     TreeNode* createBinaryTree(vector<vector<int>>& descriptions) {
-        TreeNode* root = nullptr;
-        unordered_map<int, TreeNode*> seen;
-        unordered_map<TreeNode*, TreeNode*> ancestors;
+        // Sets to track unique children and parents
+        unordered_set<int> children, parents;
         
-        for (vector<int>& description : descriptions){
-            int p = description[0], c = description[1], isLeft = description[2];
-            TreeNode* treeP = nullptr, *treeC = nullptr;
-            
-            if (seen.count(p)){
-                treeP = seen[p];
-                treeC = seen.count(c)? seen[c] : new TreeNode(c);
-                
-                if (isLeft) treeP -> left = treeC;
-                else treeP -> right = treeC;
-            }
-            else{
-                treeP = new TreeNode(p);
-                treeC = seen.count(c)? seen[c] : new TreeNode(c);
-                
-                if (isLeft) treeP -> left = treeC;
-                else treeP -> right = treeC;
-            }
-            
-            ancestors[treeC] = treeP;
-            seen[c] = treeC, seen[p] = treeP;
+        // unordered map to store parent to children relationships
+        unordered_map<int, vector<pair<int, int>>> parentToChildren;
+        
+        // Build a graph from parent to child, and add nodes to hashsets
+        for (vector<int>& d : descriptions){
+            int parent = d[0], child = d[1], isLeft = d[2];
+            children.insert(child);
+            parents.insert(parent);
+            parentToChildren[parent].push_back({child, isLeft});
         }
         
-        for (auto&[n, node] : seen){
-            if (ancestors.find(node) == ancestors.end()){
-                root = node;
+        // Find the root node by checking which node is in parents, but not in
+        // children
+        unordered_set<int> parentsCp(parents.begin(), parents.end());
+        for (int p : parentsCp){
+            if (children.count(p)){
+                parents.erase(p);
+            }
+        }
+        
+        TreeNode* root = new TreeNode(*parents.begin());
+        
+        // Starting from root, use BFS to contsruct binary tree
+        queue<TreeNode*> q;
+        q.push(root);
+        
+        while (!q.empty()){
+            TreeNode* parent = q.front(); q.pop();
+            
+            // Iterate over children of current parent
+            for (auto& [childVal, isLeft] : parentToChildren[parent -> val]){
+                TreeNode* child = new TreeNode(childVal);
+                
+                // Attach child node to its parent based on isLeft flag
+                if (isLeft)
+                    parent -> left = child;
+                else
+                    parent -> right = child;
+                q.push(child);
             }
         }
         
