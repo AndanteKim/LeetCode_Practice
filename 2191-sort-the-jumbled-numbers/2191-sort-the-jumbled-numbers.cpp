@@ -4,23 +4,33 @@ public:
         vector<pair<int, int>> storePairs;
         
         for (int i = 0; i < nums.size(); ++i){
-            // Convert current value to string
-            string num = to_string(nums[i]), formed = "";
             
-            for (int j = 0; j < num.size(); ++j)
-                formed += to_string(mapping[num[j] - 48]);
+            // Start making changes from the units place.
+            int temp = nums[i], place = 1;
             
-            // Store the mapped value and push a pair consisting of mapped value
-            // original value's index.
-            storePairs.push_back({stoi(formed), i});
+            // If the value initially is 0, return mapping[0] and index.
+            if (temp == 0){
+                storePairs.push_back({mapping[0], i});
+                continue;
+            }
+            
+            // Repeat the process for units, tenths, hundredths, .., places.
+            int mappedValue = 0;
+            while (temp != 0){
+                mappedValue = place * mapping[temp % 10] + mappedValue;
+                place *= 10;
+                temp /= 10;
+            }
+            
+            storePairs.push_back({mappedValue, i});
         }
         
-        sort(storePairs.begin(), storePairs.end());
-        
         // Sort the array in non-decreasing order by the first value (default).
+        sort(storePairs.begin(), storePairs.end());
         vector<int> ans;
-        for (auto& [_, idx]: storePairs)
+        for (auto& [_, idx] : storePairs)
             ans.push_back(nums[idx]);
+        
         return ans;
     }
 };
