@@ -1,17 +1,22 @@
 class Solution:
     def sortJumbled(self, mapping: List[int], nums: List[int]) -> List[int]:
-        reflected = defaultdict(list)
+        store_pairs = []
         
-        for num in nums:
-            digits, order, origin = 0, 0, num
+        for i in range(len(nums)):
+            # Convert current value to string
+            num = str(nums[i])
+            formed = ""
             
-            while origin > 0:
-                order += mapping[origin % 10] * (10 ** digits)
-                origin //= 10
-                digits += 1
-            if num == 0:
-                reflected[mapping[num]].append(num)
-            else:
-                reflected[order].append(num)
+            for j in range(len(num)):
+                formed += str(mapping[int(num[j])])
+            
+            # Store the mapped value.
+            mapped_value = int(formed)
+            # Push a pair consisting of mapped value and original value's index.
+            store_pairs.append((mapped_value, i))
+            
+        # Sort the array in non-decreasing order by the first value (default).
+        store_pairs.sort()
         
-        return [val for k in sorted(reflected.keys()) for val in reflected[k]]
+        return [nums[pair[1]] for pair in store_pairs]
+        
