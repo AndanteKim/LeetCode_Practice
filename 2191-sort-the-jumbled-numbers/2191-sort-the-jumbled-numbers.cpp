@@ -1,29 +1,26 @@
 class Solution {
 public:
     vector<int> sortJumbled(vector<int>& mapping, vector<int>& nums) {
-        map<int, vector<int>> reflected;
+        vector<pair<int, int>> storePairs;
         
-        for (int num: nums){
-            if (num == 0){
-                reflected[mapping[num]].push_back(num);
-                continue;
-            }
+        for (int i = 0; i < nums.size(); ++i){
+            // Convert current value to string
+            string num = to_string(nums[i]), formed = "";
             
-            int digits = 1, origin = num, newN = 0;
-            while (origin > 0){
-                newN += mapping[origin % 10] * digits;
-                digits *= 10;
-                origin /= 10;
-            }
+            for (int j = 0; j < num.size(); ++j)
+                formed += to_string(mapping[num[j] - 48]);
             
-            reflected[newN].push_back(num);
+            // Store the mapped value and push a pair consisting of mapped value
+            // original value's index.
+            storePairs.push_back({stoi(formed), i});
         }
         
+        sort(storePairs.begin(), storePairs.end());
+        
+        // Sort the array in non-decreasing order by the first value (default).
         vector<int> ans;
-        for (auto& [_, l]: reflected){
-            for (int n:l)
-                ans.push_back(n);
-        }
+        for (auto& [_, idx]: storePairs)
+            ans.push_back(nums[idx]);
         return ans;
     }
 };
