@@ -59,6 +59,6 @@ class Solution:
             # Update the city with the fewest reachable cities
             if reachable_count <= fewest_reachable_count:
                 fewest_reachable_count = reachable_count
-                city_with_fewest_count = i
+                city_with_fewest_reachable = i
                 
-        return city_with_fewest_count
+        return city_with_fewest_reachable
