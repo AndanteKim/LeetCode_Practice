@@ -1,63 +1,64 @@
 class Solution:
-    # Dijkstra's algorithm to find shortest paths from a source city
-    def dijkstra(self, n: int, adj: List[List[tuple]], distances: List[int], source: int) -> None:
-        # Priority queue to process nodes with the smallest distance first
-        pq = [(0, source)]
-        distances[:] = [float('inf')] * n
-        distances[source] = 0    # Distance to itself is zero
-        # Process nodes in priority order
-        while pq:
-            curr_dist, curr_city = heappop(pq)
-            if curr_dist > distances[curr_city]:
-                continue
-                
-            # Update distances to neighboring cities
-            for neighbor, w in adj[curr_city]:
-                if distances[neighbor] > curr_dist + w:
-                    distances[neighbor] = curr_dist + w
-                    heappush(pq, (distances[neighbor], neighbor))
-                    
-    # Determine the city with the fewest number of reachable cities within the distance threshold
-    def get_city_with_fewest_reachable(self, n: int, matrix: List[List[int]], threshold: int) -> int:
-        city_with_fewest_reachable = -1
-        fewest_reachable_cnt = n
-        
-        # Count number of cities reachable within the distance threshold for each city
-        for i in range(n):
-            reachable_cnt = 0
-            for j in range(n):
-                if i != j and matrix[i][j] <= threshold:
-                    reachable_cnt += 1
-                    
-            # Update the city with the fewest reachable cities
-            if reachable_cnt <= fewest_reachable_cnt:
-                fewest_reachable_cnt = reachable_cnt
-                city_with_fewest_reachable = i
-                
-        return city_with_fewest_reachable
-        
-    
     def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
-        # Adjacency list to store the graph
-        adj = [[] for _ in range(n)]
+        self.n = n
+        # Large value to represent infinity
+        inf = int(1e9) + 7
         
         # Matrix to store the shortest path distances from each city
-        shortest_path = [[float("inf")] * n for _ in range(n)]
+        matrix = [[inf] * n for _ in range(n)]
         
-        # Initialize adjacency list and shortest path matrix
+        # Initialize the shortest path matrix
         for i in range(n):
-            shortest_path[i][i] = 0 # Distance to itself it zero
-        
-        # Populate the adjacency list with edges for undirected graph
-        for start, end, weight in edges:
-            adj[start].append((end, weight))
-            adj[end].append((start, weight))
+            matrix[i][i] = 0
             
-        # Compute the shortest paths from each city using Dijkstra's algorithm
+        # Populate the matrix with initial edge weights
+        for start, end, weight in edges:
+            matrix[start][end] = weight
+            matrix[end][start] = weight # For undirected graph
+            
+        # Compute the shortest paths from each city using Bellman-Ford algorithm
         for i in range(n):
-            self.dijkstra(n, adj, shortest_path[i], i)
-        
+            self.bellman_ford(edges, matrix[i], i)
+            
         # Find the city with the fewest number of reachable cities within the distance threshold
-        return self.get_city_with_fewest_reachable(n, shortest_path, distanceThreshold)
+        return self.getCityWithFewestReachable(matrix, distanceThreshold)
     
-    
+    # Bellman-Ford algorithm to find the shortest paths from a source city
+    def bellman_ford(self, edges: List[List[int]], distances: List[int], source: int) -> None:
+        # Initialize distances from the source
+        distances[:] = [float('inf')] * self.n
+        distances[source] = 0   # Distance to source itself is zero
+        
+        # Relax edges up to n - 1 times with early stopping
+        for _ in range(self.n - 1):
+            updated = False
+            for start, end, weight in edges:
+                if distances[start] != float('inf') and distances[start] + weight < distances[end]:
+                    distances[end] = distances[start] + weight
+                    updated = True
+                    
+                if distances[end] != float('inf') and distances[end] + weight < distances[start]:
+                    distances[start] = distances[end] + weight
+                    updated = True
+                    
+            if not updated:
+                break   # Stop early if no updates
+            
+    # Determine the city with the fewest number of reachable cities within the distance threshold
+    def getCityWithFewestReachable(self, matrix: List[List[int]], threshold: int) -> int:
+        cityWithFewestReachable = -1
+        fewestReachableCount = self.n
+        
+        # Count number of cities reachable within the distance threshold for each city
+        for i in range(self.n):
+            reachableCount = 0
+            for j in range(self.n):
+                if i != j and matrix[i][j] <= threshold:
+                    reachableCount += 1
+                    
+            # Update the city with the fewest reachable cities
+            if reachableCount <= fewestReachableCount:
+                fewestReachableCount = reachableCount
+                cityWithFewestReachable = i
+                
+        return cityWithFewestReachable
