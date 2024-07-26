@@ -1,64 +1,64 @@
 class Solution:
     def findTheCity(self, n: int, edges: List[List[int]], distanceThreshold: int) -> int:
         self.n = n
-        # Large value to represent infinity
-        inf = int(1e9) + 7
+        # Adjacency list to store the graph
+        adj = [[] for _ in range(n)]
         
         # Matrix to store the shortest path distances from each city
-        matrix = [[inf] * n for _ in range(n)]
+        matrix = [[float("inf")] * n for _ in range(n)]
         
-        # Initialize the shortest path matrix
+        # Initialize adjacency list and shortest path matrix
         for i in range(n):
-            matrix[i][i] = 0
+            matrix[i][i] = 0    # Dist to itself is zero
             
-        # Populate the matrix with initial edge weights
+        # Populate the adjacency list with edges
         for start, end, weight in edges:
-            matrix[start][end] = weight
-            matrix[end][start] = weight # For undirected graph
+            adj[start].append((end, weight))
+            adj[end].append((start, weight))    # For undirected
             
-        # Compute the shortest paths from each city using Bellman-Ford algorithm
+        # Compute the shortest paths from each city using SPFA algorithm
         for i in range(n):
-            self.bellman_ford(edges, matrix[i], i)
+            self.spfa(adj, matrix[i], i)
             
         # Find the city with the fewest number of reachable cities within the distance threshold
-        return self.getCityWithFewestReachable(matrix, distanceThreshold)
+        return self.get_city_with_fewest_reachable(matrix, distanceThreshold)
     
-    # Bellman-Ford algorithm to find the shortest paths from a source city
-    def bellman_ford(self, edges: List[List[int]], distances: List[int], source: int) -> None:
-        # Initialize distances from the source
-        distances[:] = [float('inf')] * self.n
-        distances[source] = 0   # Distance to source itself is zero
+    # SPFA algorithm to find the shortest paths from a source city
+    def spfa(self, adj: List[List[tuple]], distances: List[int], source: int) -> None:
+        # Queue to process nodes with updated the shortest path distances
+        queue = deque([source])
+        update_count = [0] * self.n
         
-        # Relax edges up to n - 1 times with early stopping
-        for _ in range(self.n - 1):
-            updated = False
-            for start, end, weight in edges:
-                if distances[start] != float('inf') and distances[start] + weight < distances[end]:
-                    distances[end] = distances[start] + weight
-                    updated = True
+        # Process nodes in queue
+        while queue:
+            curr_city = queue.popleft()
+            for neighbor, weight in adj[curr_city]:
+                if distances[neighbor] > distances[curr_city] + weight:
+                    distances[neighbor] = distances[curr_city] + weight
+                    queue.append(neighbor)
+                    update_count[neighbor] += 1
                     
-                if distances[end] != float('inf') and distances[end] + weight < distances[start]:
-                    distances[start] = distances[end] + weight
-                    updated = True
+                    # Detect negative weight cycles
+                    """
+                    if update_count[neighbor] > n:
+                        print("Negative weight cycle detected")
+                    """
                     
-            if not updated:
-                break   # Stop early if no updates
-            
     # Determine the city with the fewest number of reachable cities within the distance threshold
-    def getCityWithFewestReachable(self, matrix: List[List[int]], threshold: int) -> int:
-        cityWithFewestReachable = -1
-        fewestReachableCount = self.n
+    def get_city_with_fewest_reachable(self, matrix: List[List[int]], threshold: int) -> int:
+        city_with_fewest_reachable = -1
+        fewest_reachable_count = self.n
         
-        # Count number of cities reachable within the distance threshold for each city
+        # Count the number of cities reachable within the distance threshold for each city
         for i in range(self.n):
-            reachableCount = 0
+            reachable_count = 0
             for j in range(self.n):
                 if i != j and matrix[i][j] <= threshold:
-                    reachableCount += 1
+                    reachable_count += 1
                     
             # Update the city with the fewest reachable cities
-            if reachableCount <= fewestReachableCount:
-                fewestReachableCount = reachableCount
-                cityWithFewestReachable = i
+            if reachable_count <= fewest_reachable_count:
+                fewest_reachable_count = reachable_count
+                city_with_fewest_count = i
                 
-        return cityWithFewestReachable
+        return city_with_fewest_count
