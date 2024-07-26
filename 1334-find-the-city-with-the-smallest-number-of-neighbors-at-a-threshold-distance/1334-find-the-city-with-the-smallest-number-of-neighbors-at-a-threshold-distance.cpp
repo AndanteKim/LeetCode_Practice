@@ -1,37 +1,39 @@
 class Solution {
 private:
+    // Large value to represent infinity
+    const int inf = 1e9 + 7;
     int n;
     
-    // Dijkstra's algorithm to find the shortest paths from a source city
-    void dijkstra(vector<int>& distances, const vector<vector<pair<int, int>>>& adj, int source){
-        // Priority queue to process nodes with the smallest distance first
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
-        pq.push({0, source});
-        
-        //Process nodes in priority order
-        while (!pq.empty()){
-            auto [currDist, currCity] = pq.top(); pq.pop();
-            
-            if (currDist > distances[currCity])
-                continue;
-            
-            // Update distances to neighboring cities
-            for (const auto& [neighbor, weight] : adj[currCity]){
-                if (distances[neighbor] > currDist + weight){
-                    distances[neighbor] = currDist + weight;
-                    pq.push({currDist + weight, neighbor});
+    // Bellman-Fod algorithm to find shortest paths from a source city
+    void bellmanFord(vector<int>& distances, vector<vector<int>>& edges, int source){
+        // Relax edges up to n - 1 times 
+        for (int i = 0; i < n - 1; ++i){
+            bool updated = false;
+            for (vector<int>& edge : edges){
+                int start = edge[0], end = edge[1], weight = edge[2];
+                
+                // Update the shortest path distances if a shorter path is found
+                if (distances[start] != inf && distances[start] + weight < distances[end]){
+                    distances[end] = distances[start] + weight;
+                    updated = true;
+                }
+                
+                if (distances[end] != inf && distances[end] + weight < distances[start]){
+                    distances[start] = distances[end] + weight;
+                    updated = true;
                 }
             }
+            if (!updated)
+                break;
         }
     }
     
     // Determine the city with the fewest number of reachable cities within the
     // distance threshold
-    int cityWithFewestReachable(vector<vector<int>>& matrix, int threshold){
-        int fewestReachableCount = n, cityWithReachable = -1;
+    int getCityWithFewestReachable(vector<vector<int>>& matrix, int threshold){
+        int cityWithFewestReachable = -1, fewestReachableCount = n;
         
-        // Count number of cities reachable within the distance threshold for
-        // each city
+        // Count the number of cities reachable within the distance threshold for each city.
         for (int i = 0; i < n; ++i){
             int reachableCount = 0;
             for (int j = 0; j < n; ++j){
@@ -42,39 +44,35 @@ private:
             // Update the city with the fewest reachable cities
             if (reachableCount <= fewestReachableCount){
                 fewestReachableCount = reachableCount;
-                cityWithReachable = i;
+                cityWithFewestReachable = i;
             }
         }
         
-            
-        return cityWithReachable;
+        return cityWithFewestReachable;
     }
     
 public:
     int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
-        // Adjacency list to store the graph
-        vector<vector<pair<int, int>>> adj(n);
         this -> n = n;
+        // Matrix to store the shortest path distances from each city
+        vector matrix(n, vector<int>(n, inf));
         
-        // Populate the adjacency list with edges
-        for (const auto& edge : edges){
-            adj[edge[0]].push_back({edge[1], edge[2]});
-            adj[edge[1]].push_back({edge[0], edge[2]}); // For undirected graph
+        // Initialize the shortest path matrix
+        for (int i = 0; i < n; ++i)
+            matrix[i][i] = 0;
+        
+        // Populate the matrix with initial edge weights
+        for (vector<int>& edge : edges){
+            int start = edge[0], end = edge[1], weight = edge[2];
+            matrix[start][end] = weight;
+            matrix[end][start] = weight;    // For undirected graph
         }
         
-        // Matrix to store the shortest path distances from each city.
-        vector matrix(n, vector<int>(n, INT_MAX));
-        
-        // Initialize adjacency list and shortest path matrix.
+        // Compute the shortest paths from each city using Bellman-Fod algorithm
         for (int i = 0; i < n; ++i)
-            matrix[i][i] = 0;   // Distance to itself is zero
+            bellmanFord(matrix[i], edges, i);
         
-        // Compute the shortest paths from each city using Dijkstra's algorithm
-        for (int node = 0; node < n; ++node)
-            dijkstra(matrix[node], adj, node);  
-        
-        // Find the city with the fewest number of reachable cities within the
-        // distance threshold
-        return cityWithFewestReachable(matrix, distanceThreshold);
+        // Find the city with the fewest number of cities within the distance threshold
+        return getCityWithFewestReachable(matrix, distanceThreshold);
     }
 };
