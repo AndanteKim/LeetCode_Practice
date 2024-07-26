@@ -1,39 +1,40 @@
 class Solution {
 private:
-    // Large value to represent infinity
-    const int inf = 1e9 + 7;
     int n;
     
-    // Bellman-Fod algorithm to find shortest paths from a source city
-    void bellmanFord(vector<int>& distances, vector<vector<int>>& edges, int source){
-        // Relax edges up to n - 1 times 
-        for (int i = 0; i < n - 1; ++i){
-            bool updated = false;
-            for (vector<int>& edge : edges){
-                int start = edge[0], end = edge[1], weight = edge[2];
-                
-                // Update the shortest path distances if a shorter path is found
-                if (distances[start] != inf && distances[start] + weight < distances[end]){
-                    distances[end] = distances[start] + weight;
-                    updated = true;
-                }
-                
-                if (distances[end] != inf && distances[end] + weight < distances[start]){
-                    distances[start] = distances[end] + weight;
-                    updated = true;
+    // SPFA algorithm to find the shortest paths from a source city
+    void spfa(vector<vector<pair<int, int>>>& adj, vector<int>& distances, int source){
+        // Queue to process nodes with updated shortest path distances
+        queue<int> queue;
+        queue.push(source);
+        vector<int> updateCount(n, 0);
+        
+        // Process nodes in queue
+        while (!queue.empty()){
+            int currCity = queue.front(); queue.pop();
+            
+            for (auto& [neighbor, weight] : adj[currCity]){
+                if (distances[neighbor] > distances[currCity] + weight){
+                    distances[neighbor] = distances[currCity] + weight;
+                    queue.push(neighbor);
+                    ++updateCount[neighbor];
+                    
+                    // Detect negative weight cycles (not expected in this problem).
+                    if (updateCount[neighbor] > n)
+                        cout << "Negative cycle detected" << "\n";
                 }
             }
-            if (!updated)
-                break;
         }
     }
     
     // Determine the city with the fewest number of reachable cities within the
-    // distance threshold
+    // distances threshold
     int getCityWithFewestReachable(vector<vector<int>>& matrix, int threshold){
-        int cityWithFewestReachable = -1, fewestReachableCount = n;
+        int cityWithFewestReachable = -1;
+        int fewestReachableCount = n;
         
-        // Count the number of cities reachable within the distance threshold for each city.
+        // Count number of cities reachable within the distance threshold for
+        // each city
         for (int i = 0; i < n; ++i){
             int reachableCount = 0;
             for (int j = 0; j < n; ++j){
@@ -51,28 +52,34 @@ private:
         return cityWithFewestReachable;
     }
     
+    
 public:
     int findTheCity(int n, vector<vector<int>>& edges, int distanceThreshold) {
+        // Adjacency list to store the graph
         this -> n = n;
+        vector adj(n, vector<pair<int, int>>());
+        
         // Matrix to store the shortest path distances from each city
-        vector matrix(n, vector<int>(n, inf));
+        vector matrix(n, vector<int>(n, 1e9 + 7));
         
-        // Initialize the shortest path matrix
+        // Intialize adjacency list and the shortest path
         for (int i = 0; i < n; ++i)
-            matrix[i][i] = 0;
+            matrix[i][i] = 0;   // Distance to itself is zero
         
-        // Populate the matrix with initial edge weights
+        // Populate the adjacency list with edges
         for (vector<int>& edge : edges){
             int start = edge[0], end = edge[1], weight = edge[2];
-            matrix[start][end] = weight;
-            matrix[end][start] = weight;    // For undirected graph
+            adj[start].push_back({end, weight});
+            adj[end].push_back({start, weight});    // For Undirected graph
         }
         
-        // Compute the shortest paths from each city using Bellman-Fod algorithm
-        for (int i = 0; i < n; ++i)
-            bellmanFord(matrix[i], edges, i);
         
-        // Find the city with the fewest number of cities within the distance threshold
+        // Compute the shortest paths from each city using SPFA algorithm
+        for (int i = 0; i < n; ++i)
+            spfa(adj, matrix[i], i);
+        
+        // Find the city with the fewest number of reachable cities within the
+        // distance threshold
         return getCityWithFewestReachable(matrix, distanceThreshold);
     }
 };
