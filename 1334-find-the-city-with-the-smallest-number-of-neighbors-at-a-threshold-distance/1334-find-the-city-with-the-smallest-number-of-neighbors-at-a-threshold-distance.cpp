@@ -3,7 +3,7 @@ private:
     int n;
     
     // Dijkstra's algorithm to find the shortest paths from a source city
-    void dijkstra(vector<int>& distances, vector<vector<pair<int, int>>>& adj, int source){
+    void dijkstra(vector<int>& distances, const vector<vector<pair<int, int>>>& adj, int source){
         // Priority queue to process nodes with the smallest distance first
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<>> pq;
         pq.push({0, source});
@@ -16,17 +16,19 @@ private:
                 continue;
             
             // Update distances to neighboring cities
-            distances[currCity] = currDist;
-            for (auto& [neighbor, weight] : adj[currCity]){
-                pq.push({currDist + weight, neighbor});
+            for (const auto& [neighbor, weight] : adj[currCity]){
+                if (distances[neighbor] > currDist + weight){
+                    distances[neighbor] = currDist + weight;
+                    pq.push({currDist + weight, neighbor});
+                }
             }
         }
     }
     
     // Determine the city with the fewest number of reachable cities within the
     // distance threshold
-    int getTheCityWithInThreshold(vector<vector<int>>& matrix, int threshold){
-        int minReachableCount = INT_MAX, reachableCity = -1;
+    int cityWithFewestReachable(vector<vector<int>>& matrix, int threshold){
+        int fewestReachableCount = n, cityWithReachable = -1;
         
         // Count number of cities reachable within the distance threshold for
         // each city
@@ -38,14 +40,14 @@ private:
             }
             
             // Update the city with the fewest reachable cities
-            if (reachableCount <= minReachableCount){
-                minReachableCount = reachableCount;
-                reachableCity = i;
+            if (reachableCount <= fewestReachableCount){
+                fewestReachableCount = reachableCount;
+                cityWithReachable = i;
             }
         }
         
             
-        return reachableCity;
+        return cityWithReachable;
     }
     
 public:
@@ -55,7 +57,7 @@ public:
         this -> n = n;
         
         // Populate the adjacency list with edges
-        for (auto& edge : edges){
+        for (const auto& edge : edges){
             adj[edge[0]].push_back({edge[1], edge[2]});
             adj[edge[1]].push_back({edge[0], edge[2]}); // For undirected graph
         }
@@ -73,6 +75,6 @@ public:
         
         // Find the city with the fewest number of reachable cities within the
         // distance threshold
-        return getTheCityWithInThreshold(matrix, distanceThreshold);
+        return cityWithFewestReachable(matrix, distanceThreshold);
     }
 };
