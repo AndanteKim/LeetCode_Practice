@@ -1,67 +1,57 @@
 class Solution {
 public:
     string countOfAtoms(string formula) {
+        // Regular expression to extract atom, count, (, ), multiplier
+        regex reg("([A-Z][a-z]*)(\\d*)|(\\()||(\\))(\\d*)");
+        sregex_iterator it(formula.begin(), formula.end(), reg);
+        sregex_iterator end;
+        
         // Stack to keep track of the atoms and their counts
-        stack<map<string, int>> stk;
-        stk.push(map<string, int> ());
+        stack<unordered_map<string, int>> st;
+        st.push(unordered_map<string, int>());
         
-        // Index to keep track of the current character.
-        int index = 0, n = formula.size();
-        
-        while (index < n){
-            // If left parentheses, insert a new hashmp to the stack. It will
-            // keep track of the atoms and their counts in the nested formula.
-            if (formula[index] == '('){
-                stk.push(map<string, int> ());
-                ++index;
-            }
+        // Parse the formula
+        while (it != end){
+            smatch match = *it;
+            string atom = match[1].str();
+            string count = match[2].str();
+            string left = match[3].str();
+            string right = match[4].str();
+            string multiplier = match[5].str();
             
-            // Right parentheses, pop the top element from the stack.
-            // Multiply the count with the multiplicity of the nested formula.
-            else if (formula[index] == ')'){
-                map<string, int> currMap = stk.top(); stk.pop();
-                string multiplier = "";
-                ++index;
-                
-                while (index < n && isdigit(formula[index])){
-                    multiplier += formula[index++];
-                }
-                
+            // If atom, add it to the top hashmap
+            if (!atom.empty())
+                st.top()[atom] += count.empty()? 1 : stoi(count);
+            // If left parenthesis, insert a new hashmap to the stack
+            else if (!left.empty())
+                st.push(unordered_map<string, int>());
+            // If right parenthesis, pop the top element from the stack
+            // Multiply the count with the attached multiplicity
+            // Add the count to the current formula
+            else if (!right.empty()){
+                unordered_map<string, int> currMap = st.top();
+                st.pop();
                 if (!multiplier.empty()){
                     int mult = stoi(multiplier);
-                    for (auto& [atom, _] : currMap)
-                        currMap[atom] *= mult;
+                    for (auto& [atom, count] : currMap)
+                        currMap[atom] = count * mult;
                 }
                 
                 for (auto& [atom, count] : currMap)
-                    stk.top()[atom] += count;
+                    st.top()[atom] += count;
             }
-            // Otherwise, it must be a upper letter. Extract the complete
-            // atom with frequency, and update the most recent hashmap.
-            else{
-                string currAtom;
-                currAtom += formula[index++];
-                
-                while (index < n && islower(formula[index]))
-                    currAtom += formula[index++];
-                
-                string currCnt = "";
-                while (index < n && isdigit(formula[index]))
-                    currCnt += formula[index++];
-                
-                if (currCnt.empty()){
-                    ++stk.top()[currAtom];
-                }
-                else stk.top()[currAtom] += stoi(currCnt);
-            }
-            
+            ++it;
         }
         
+        // Sort the final map
+        map<string, int> finalMap(st.top().begin(), st.top().end());
+        
+        // Generate the answer string
         string ans = "";
-        for (auto& [atom, val] : stk.top()){
+        for (auto& [atom, count] : finalMap){
             ans += atom;
-            if (val > 1)
-                ans += to_string(val);
+            if (count > 1)
+                ans += to_string(count);
         }
         
         return ans;
