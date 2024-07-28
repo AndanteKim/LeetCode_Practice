@@ -1,57 +1,36 @@
 class Solution:
     def countOfAtoms(self, formula: str) -> str:
+        # Regular expression to extract atom, count, (, ), multiplier
+        # Every element of matcher will be a quintuplea
+        regex = r"([A-Z][a-z]*)(\d*)|(\()|(\))(\d*)"
+        matcher = re.findall(regex, formula)
+        
         # Stack to keep track of the atoms and their counts
         stack = [defaultdict(int)]
         
-        # Index to keep track of the current character
-        index = 0
-        
+        print(matcher)
         # Parse the formula
-        while index < len(formula):
-            # If left parenthesis, insert a new hashmap to the staxk. It will
-            # keep track of the atoms and their counts in the nested formula
-            if formula[index] == '(':
+        for atom, count, left, right, multiplier in matcher:
+            # If atom, add it to the top hashmap
+            if atom:
+                stack[-1][atom] += int(count) if count else 1
+                
+            # If left parenthesis, insert a new hashmap to the stack
+            elif left:
                 stack.append(defaultdict(int))
-                index += 1
                 
             # If right parenthesis, pop the top element from the stack
-            # Multiply the count with the multiplicity of the nested formula
-            elif formula[index] == ')':
+            # Multiply the count with the attached multiplicity.
+            # Add the count to the current formula
+            elif right:
                 curr_map = stack.pop()
-                index += 1
-                
-                multiplier = ""
-                while index < len(formula) and formula[index].isdigit():
-                    multiplier += formula[index]
-                    index += 1
-                      
                 if multiplier:
                     multiplier = int(multiplier)
                     for atom in curr_map:
                         curr_map[atom] *= multiplier
-                        
+                    
                 for atom in curr_map:
                     stack[-1][atom] += curr_map[atom]
-                    
-            # Otherwise, it must be a upper letter. Extract the complete
-            # atom with frequency, and update the most recent hashmap.
-            else:
-                curr_atom = formula[index]
-                index += 1
-                
-                while index < len(formula) and formula[index].islower():
-                    curr_atom += formula[index]
-                    index += 1
-                
-                curr_cnt = ""
-                while index < len(formula) and formula[index].isdigit():
-                    curr_cnt += formula[index]
-                    index += 1
-                    
-                if curr_cnt == "":
-                    stack[-1][curr_atom] += 1
-                else:
-                    stack[-1][curr_atom] += int(curr_cnt)
                     
         # Sort the final map
         final_map = dict(sorted(stack[0].items()))
