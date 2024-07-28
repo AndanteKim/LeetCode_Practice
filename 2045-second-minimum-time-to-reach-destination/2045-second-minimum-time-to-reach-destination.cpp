@@ -20,7 +20,7 @@ public:
             
             int timeTaken = (freq == 1)? dist1[node] : dist2[node];
             
-            // If timeTaken is in the red bracket
+            // If timeTaken falls under the red bracket, wait until the path turns green.
             if ((timeTaken / change) % 2)
                 timeTaken = change * (timeTaken / change + 1) + time;
             else
