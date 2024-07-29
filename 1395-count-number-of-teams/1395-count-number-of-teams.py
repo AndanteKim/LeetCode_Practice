@@ -34,7 +34,7 @@ class Solution:
         inc_cache[curr_idx][team_sz] = valid_teams
         return valid_teams
     
-    def _cnt_dec_teams(self, rating: List[int], curr_idx, team_sz: int, dec_cache: List[List[int]]) -> int:
+    def _cnt_dec_teams(self, rating: List[int], curr_idx: int, team_sz: int, dec_cache: List[List[int]]) -> int:
         # Base case: reached end of array
         if curr_idx == self.n:
             return 0
