@@ -1,30 +1,47 @@
 class Solution:
     def numTeams(self, rating: List[int]) -> int:
-        n, teams = len(rating), 0
+        # Find the maximum rating
+        max_rating = max(rating)
         
-        # Iterate through each soldier as the middle soldier
-        for mid in range(n):
-            left_smaller, right_larger = 0, 0
+        # Initialize Binary Indexed Trees for left and right sides
+        left_BIT = [0] * (max_rating + 1)
+        right_BIT = [0] * (max_rating + 1)
+        
+        # Popula the right BIT with all ratings initially
+        for r in rating:
+            self._update_BIT(right_BIT, r, 1)
             
-            # Count soldiers with smaller ratings on the left side of the current soldier
-            for left in range(mid - 1, -1, -1):
-                if rating[left] < rating[mid]:
-                    left_smaller += 1
+        teams = 0
+        for curr in rating:
+            # Remove current rating from right BIT
+            self._update_BIT(right_BIT, curr, -1)
             
-            # Count soldiers with larger ratings on the right side of the current soldier
-            for right in range(mid + 1, n):
-                if rating[right] > rating[mid]:
-                    right_larger += 1
-                    
-            # Calculate and add the number of ascending rating teams (small-mid-large)
-            teams += left_smaller * right_larger
+            # Count soldiers with smaller and larger ratings on both sides
+            smaller_ratings_left = self._get_prefix_sum(left_BIT, curr - 1)
+            smaller_ratings_right = self._get_prefix_sum(right_BIT, curr - 1)
             
-            # Calculate soldiers with larger ratings on the left and smaller ratings on the right
-            left_larger = mid - left_smaller
-            right_smaller = n - mid - 1 - right_larger
+            larger_ratings_left = self._get_prefix_sum(left_BIT, max_rating) - self._get_prefix_sum(left_BIT, curr)
+            larger_ratings_right = self._get_prefix_sum(right_BIT, max_rating) - self._get_prefix_sum(right_BIT, curr)
             
-            # Calculate and add the number of descending rating teams (large-mid-small)
-            teams += left_larger * right_smaller
+            # Count increasing and decreasing sequences
+            teams += smaller_ratings_left * larger_ratings_right
+            teams += larger_ratings_left * smaller_ratings_right
             
-        # Return the total number of valid teams
+            # Add current rating to left BIT
+            self._update_BIT(left_BIT, curr, 1)
+            
         return teams
+    
+    # Update the Binary Indexed Tree
+    def _update_BIT(self, BIT: List[int], index: int, value: int) -> None:
+        while index < len(BIT):
+            BIT[index] += value
+            index += index & (-index)   # Move to the next relevant index in BIT
+            
+    # Get the sum of all elements up to the given in the BIT
+    def _get_prefix_sum(self, BIT: List[int], index: int) -> int:
+        total = 0
+        while index > 0:
+            total += BIT[index]
+            index -= index & (-index)   # Move to the parent in BIT
+        return total
