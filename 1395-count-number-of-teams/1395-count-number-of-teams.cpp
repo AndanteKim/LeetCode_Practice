@@ -1,38 +1,35 @@
 class Solution {
 public:
     int numTeams(vector<int>& rating) {
-        // Bottom Up(tabulation)
         int n = rating.size(), teams = 0;
         
-        // Tables for increasing and decreasing sequences
-        vector<vector<int>> increasingTeams(n, vector<int>(4)), decreasingTeams(n, vector<int>(4));
-        
-        // Fill the base cases. (Each soldier is a sequence of length 1)
-        for (int i = 0; i < n; ++i){
-            increasingTeams[i][1] = 1;
-            decreasingTeams[i][1] = 1;
-        }
-        
-        // Fill the tables
-        for (int count = 2; count < 4; ++count){
-            for (int i = 0; i < n; ++i){
-                for (int j = i + 1; j < n; ++j){
-                    // Increasing
-                    if (rating[i] < rating[j])
-                        increasingTeams[j][count] += increasingTeams[i][count - 1];
-                    
-                    // Decreasing
-                    if (rating[i] > rating[j])
-                        decreasingTeams[j][count] += decreasingTeams[i][count - 1];
-                }
+        // Iterate through each soldier as the middle soldier
+        for (int mid = 0; mid < n; ++mid){
+            int leftSmaller = 0, rightLarger = 0;
+            
+            // Count soldiers with smaller ratings on the left side of the current soldier
+            for (int left = mid - 1; left >= 0; --left){
+                if (rating[left] < rating[mid])
+                    ++leftSmaller;
             }
+            
+            // Count soldiers with larger ratings on the right side of the current soldier
+            for (int right = mid + 1; right < n; ++right){
+                if (rating[mid] < rating[right])
+                    ++rightLarger;
+            }
+            
+            // Calculate and add the number of ascending rating teams(small-mid-larger)
+            teams += leftSmaller * rightLarger;
+            
+            // Calculate solders with larger ratings on the left and smaller ratings on the right
+            int leftLarger = mid - leftSmaller, rightSmaller = n - 1 - mid - rightLarger;
+            
+            // Calculate and add the number of descending rating teams (large-mid-small)
+            teams += leftLarger * rightSmaller;
         }
         
-        // Sum up the result (All sequences of length 3)
-        for (int i = 0; i < n; ++i){
-            teams += increasingTeams[i][3] + decreasingTeams[i][3];
-        }
-        
+        // Return the total number of valid teams
         return teams;
     }
 };
