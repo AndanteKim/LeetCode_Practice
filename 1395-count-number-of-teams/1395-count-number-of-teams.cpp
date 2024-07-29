@@ -1,35 +1,53 @@
 class Solution {
-public:
-    int numTeams(vector<int>& rating) {
-        int n = rating.size(), teams = 0;
-        
-        // Iterate through each soldier as the middle soldier
-        for (int mid = 0; mid < n; ++mid){
-            int leftSmaller = 0, rightLarger = 0;
-            
-            // Count soldiers with smaller ratings on the left side of the current soldier
-            for (int left = mid - 1; left >= 0; --left){
-                if (rating[left] < rating[mid])
-                    ++leftSmaller;
-            }
-            
-            // Count soldiers with larger ratings on the right side of the current soldier
-            for (int right = mid + 1; right < n; ++right){
-                if (rating[mid] < rating[right])
-                    ++rightLarger;
-            }
-            
-            // Calculate and add the number of ascending rating teams(small-mid-larger)
-            teams += leftSmaller * rightLarger;
-            
-            // Calculate solders with larger ratings on the left and smaller ratings on the right
-            int leftLarger = mid - leftSmaller, rightSmaller = n - 1 - mid - rightLarger;
-            
-            // Calculate and add the number of descending rating teams (large-mid-small)
-            teams += leftLarger * rightSmaller;
+private:
+    // Update the Binary Indexed Tree
+    void updateBIT(vector<int>& BIT, int index, int value){
+        while (index < BIT.size()){
+            BIT[index] += value;
+            index += index & (-index);  // Move on to the next relevant index in BIT
+        }
+    }
+    
+    // Get the sum of all elements up to the given index in the BIT
+    int getPrefixSum(vector<int>& BIT, int index){
+        int sum = 0;
+        while (index > 0){
+            sum += BIT[index];
+            index -= index & (-index);  // Move to the parent node in BIT
         }
         
-        // Return the total number of valid teams
+        return sum;
+    }
+    
+public:
+    int numTeams(vector<int>& rating) {
+        // Find the maximum string
+        int maxRating = *max_element(rating.begin(), rating.end());
+        
+        // Initialize Binary Indexed Trees for left and right sides
+        vector<int> leftBIT(maxRating + 1), rightBIT(maxRating + 1);
+        
+        // Populate the right BIT with all ratings initially
+        for (int r : rating)
+            updateBIT(rightBIT, r, 1);
+        
+        int teams = 0;
+        for (int curr : rating){
+            // Remove current rating from right BIT
+            updateBIT(rightBIT, curr, -1);
+            
+            // Count soldiers with smaller and larger ratings on both sides
+            int leftSmallest = getPrefixSum(leftBIT, curr - 1), rightSmallest = getPrefixSum(rightBIT, curr - 1);
+            int leftLargest = getPrefixSum(leftBIT, maxRating) - getPrefixSum(leftBIT, curr);
+            int rightLargest = getPrefixSum(rightBIT, maxRating) - getPrefixSum(rightBIT, curr);
+            
+            // Count increasing and decreasing sequences
+            teams += leftSmallest * rightLargest + leftLargest * rightSmallest;
+            
+            // Add current rating to left BIT
+            updateBIT(leftBIT, curr, 1);
+        }
+        
         return teams;
     }
 };
