@@ -1,59 +1,36 @@
 class Solution {
-private:
-    int n;
-    int countIncreasing(int currIndex, int teamSize, const vector<int>& rating, vector<vector<int>>& increasingCache){
-        // Base case: reached end of array
-        if (currIndex == n)
-            return 0;
-        
-        // Base case: found a valid team of size 3
-        if (teamSize == 3)
-            return 1;
-        
-        // Return cached result if available
-        if (increasingCache[currIndex][teamSize] != -1)
-            return increasingCache[currIndex][teamSize];
-        
-        int validTeams = 0;
-        // Recursively count teams with increasing ratings
-        for (int nextIndex = currIndex + 1; nextIndex < n; ++nextIndex){
-            if (rating[currIndex] < rating[nextIndex])
-                validTeams += countIncreasing(nextIndex, teamSize + 1, rating, increasingCache);
-        }
-        
-        // Cache and return the result
-        return increasingCache[currIndex][teamSize] = validTeams;
-    }
-    
-    int countDecreasing(int currIndex, int teamSize, const vector<int>& rating, vector<vector<int>>& decreasingCache){
-        // Base case: reached end of array
-        if (currIndex == n) return 0;
-        
-        // Base case: found a valid team size 3
-        if (teamSize == 3) return 1;
-        
-        // Return cached result if available
-        if (decreasingCache[currIndex][teamSize] != -1)
-            return decreasingCache[currIndex][teamSize];
-        
-        int validTeams = 0;
-        // Recursively count teams with decreasing ratings
-        for (int nextIndex = currIndex + 1; nextIndex < n; ++nextIndex){
-            if (rating[currIndex] > rating[nextIndex])
-                validTeams += countDecreasing(nextIndex, teamSize + 1, rating, decreasingCache);
-        }
-        
-        return decreasingCache[currIndex][teamSize] = validTeams;
-    }
-    
 public:
     int numTeams(vector<int>& rating) {
-        this -> n = rating.size();
-        vector increasingCache(n, vector<int>(4, -1)), decreasingCache(n, vector<int>(4, -1));
+        // Bottom Up(tabulation)
+        int n = rating.size(), teams = 0;
         
-        int teams = 0;
-        for (int startIndex = 0; startIndex < n; ++startIndex){
-            teams += countIncreasing(startIndex, 1, rating, increasingCache) + countDecreasing(startIndex, 1, rating, decreasingCache);
+        // Tables for increasing and decreasing sequences
+        vector<vector<int>> increasingTeams(n, vector<int>(4)), decreasingTeams(n, vector<int>(4));
+        
+        // Fill the base cases. (Each soldier is a sequence of length 1)
+        for (int i = 0; i < n; ++i){
+            increasingTeams[i][1] = 1;
+            decreasingTeams[i][1] = 1;
+        }
+        
+        // Fill the tables
+        for (int count = 2; count < 4; ++count){
+            for (int i = 0; i < n; ++i){
+                for (int j = i + 1; j < n; ++j){
+                    // Increasing
+                    if (rating[i] < rating[j])
+                        increasingTeams[j][count] += increasingTeams[i][count - 1];
+                    
+                    // Decreasing
+                    if (rating[i] > rating[j])
+                        decreasingTeams[j][count] += decreasingTeams[i][count - 1];
+                }
+            }
+        }
+        
+        // Sum up the result (All sequences of length 3)
+        for (int i = 0; i < n; ++i){
+            teams += increasingTeams[i][3] + decreasingTeams[i][3];
         }
         
         return teams;
