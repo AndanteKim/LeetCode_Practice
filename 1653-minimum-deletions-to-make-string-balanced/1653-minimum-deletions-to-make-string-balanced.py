@@ -1,15 +1,16 @@
 class Solution:
     def minimumDeletions(self, s: str) -> int:
-        n, stack, delete_count = len(s), [], 0
+        n, b_cnt = len(s), 0
+        dp = [0] * (n + 1)
         
-        # Iterate through each character in the string
+        # dp[i]: The number of deletions required to
+        # balance the substring s[0, i)
         for i in range(n):
-            # If the stack is not empty, top of stack is 'b',
-            # and current char is 'a'
-            if stack and s[stack[-1]] == 'b' and s[i] == 'a':
-                stack.pop()     # Remove 'b' from stack
-                delete_count += 1   # Increment deletion count
-            else:
-                stack.append(i)     # Append current character to stack
-        
-        return delete_count
+            if s[i] == 'b':
+                dp[i + 1] = dp[i]
+                b_cnt += 1
+            else:    
+                # Two cases: remove 'a' or keep 'a'
+                dp[i + 1] = min(dp[i] + 1, b_cnt)
+                
+        return dp[n]
