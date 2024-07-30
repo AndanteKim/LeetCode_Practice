@@ -1,16 +1,21 @@
 class Solution {
 public:
     int minimumDeletions(string s) {
-        int n = s.size(), aCount = count(s.begin(), s.end(), 'a'), bCount = 0;
-        int minDeletions = n;
+        int n = s.size(), deleteCount = 0;
+        stack<int> st;
         
-        // Second pass: Iterate through the string to compute minimum deletions
+        // Iterate through each character in the string
         for (int i = 0; i < n; ++i){
-            if (s[i] == 'a') --aCount;
-            minDeletions = min(minDeletions, aCount + bCount);
-            if (s[i] == 'b') ++bCount;
+            // If stack is not empty, top of stack is 'b',
+            // current character is 'a'.
+            if (!st.empty() && s[st.top()] == 'b' && s[i] == 'a'){
+                st.pop();   // Remove 'b' from stack
+                ++deleteCount;  // Increment deletion count
+            }
+            else
+                st.push(i);     // Append current character to stack
         }
         
-        return minDeletions;
+        return deleteCount;
     }
 };
