@@ -1,22 +1,13 @@
 class Solution {
 public:
     int minimumDeletions(string s) {
-        int n = s.size();
-        vector<int> countA(n);
-        int aCount = 0;
+        int n = s.size(), aCount = count(s.begin(), s.end(), 'a'), bCount = 0;
+        int minDeletions = n;
         
-        // First pass: Compute countA storing the number of 
-        // 'a' character to the right of the current position
-        for (int i = n - 1; i >= 0; --i){
-            countA[i] = aCount;
-            if (s[i] == 'a')
-                ++aCount;
-        }
-        
-        // Second pass: Compute minimum deletions on the fly
-        int bCount = 0, minDeletions = n;
+        // Second pass: Iterate through the string to compute minimum deletions
         for (int i = 0; i < n; ++i){
-            minDeletions = min(minDeletions, countA[i] + bCount);
+            if (s[i] == 'a') --aCount;
+            minDeletions = min(minDeletions, aCount + bCount);
             if (s[i] == 'b') ++bCount;
         }
         
