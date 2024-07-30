@@ -1,23 +1,28 @@
 class Solution:
     def minimumDeletions(self, s: str) -> int:
-        def dp(i: int, prev: int, length: int, memo: List[List[int]]) -> int:
-            if i == n:
-                return 0
-            
-            if memo[i][ord(s[prev]) - 97] != -1:
-                return memo[i][ord(s[prev]) - 97]
-            
-            min_delete = float('inf')
-            
-            if s[prev] > s[i]:
-                min_delete = min(1 + dp(i + 1, prev, length, memo), length + dp(i + 1, i, 0, memo))
-            else:
-                min_delete = min(dp(i + 1, i, length + 1, memo), 1 + dp(i + 1, prev, length, memo))
-            
-            memo[i][ord(s[prev]) - 97] = min_delete
-            return min_delete
-        
         n = len(s)
-        memo = [[-1] * 2 for _ in range(n + 1)]
+        cnt_a, cnt_b = [0] * n, [0] * n
+        b_cnt = 0
         
-        return dp(0, 0, 0, memo)
+        # First pass: Compute cnt_b storing the number of
+        # 'b' characters to the left of the current position
+        for i in range(n):
+            cnt_b[i] = b_cnt
+            if s[i] == 'b':
+                b_cnt += 1
+                
+        a_cnt = 0
+        # Second pass: Compute cnt_a storing the number of
+        # 'a' characters to the right of the current position
+        for i in range(n - 1, -1, -1):
+            cnt_a[i] = a_cnt
+            if s[i] == 'a':
+                a_cnt += 1
+                
+        min_deletions = n
+        
+        # Third pass: Iterate through the string to find the minimum deletions
+        for i in range(n):
+            min_deletions = min(min_deletions, cnt_a[i] + cnt_b[i])
+            
+        return min_deletions
