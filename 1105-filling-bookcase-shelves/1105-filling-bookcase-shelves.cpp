@@ -25,7 +25,7 @@ private:
 public:
     int minHeightShelves(vector<vector<int>>& books, int shelfWidth) {
         this -> n = books.size(), this -> shelfWidth = shelfWidth;
-        vector<vector<int>> memo(n + 1, vector<int> (shelfWidth + 1, -1));
+        vector<vector<int>> memo(n, vector<int> (shelfWidth + 1, -1));
         
         return dp(0, shelfWidth, 0, books, memo);
     }
