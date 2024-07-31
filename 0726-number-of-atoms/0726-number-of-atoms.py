@@ -1,71 +1,40 @@
 class Solution:
     def countOfAtoms(self, formula: str) -> str:
-        # For every index, store the valid multiplier
-        muls, running_mul = [], 1
-        
-        # Stack to take care of nested formula
-        stack = [1]
-        
-        # Preprocess the formula and extract all multipliers
-        curr_num = ""
-        for i in range(len(formula) - 1, -1, -1):
-            if formula[i].isdigit():
-                curr_num += formula[i]
-                
-            # If we encountered a letter, then the scanned
-            # number was count and not multiplier. Discard it.
-            elif formula[i].isalpha():
-                curr_num = ""
-                
-            # If we encounter a right parenthesis, then the
-            # scanned number was a multiplier. Store it.
-            elif formula[i] == ')':
-                curr_multiplier = int(curr_num[::-1]) if curr_num else 1
-                running_mul *= curr_multiplier
-                stack.append(curr_multiplier)
-                curr_num = ""
-                
-            # If we encounter a left parenthesis, then the
-            # most recent multiplier will cease to exist.
-            elif formula[i] == '(':
-                running_mul //= stack.pop()
-                curr_num = ""
-                
-            # For every index, store the valid multiplier
-            muls.append(running_mul)
-            
-        # Reverse the muls
-        muls = muls[::-1]
+        # Every element of matcher will be a quintuple
+        matcher = re.findall(r"([A-Z][a-z]*)(\d*)|(\()|(\))(\d*)", formula)
+        matcher.reverse()
         
         # Map to store the count of atoms
         final_map = defaultdict(int)
         
-        # Traverse left to right in the formula
-        i = 0
-        while i < len(formula):
-            # If upper case letter, extract the entire atom
-            if formula[i].isupper():
-                curr_atom = formula[i]
-                curr_count = ""
-                i += 1
-                
-                while i < len(formula) and formula[i].islower():
-                    curr_atom += formula[i]
-                    i += 1
-                  
-                # Extract the count
-                while i < len(formula) and formula[i].isdigit():
-                    curr_count += formula[i]
-                    i += 1
-                
-                # Update the final map
-                if curr_count:
-                    final_map[curr_atom] += int(curr_count) * muls[i - 1]
+        # Stack to keep track of the nested multiplicities
+        stack = [1]
+        
+        # Current multiplicity
+        running_mul = 1
+        
+        # Parse the formula
+        for atom, count, left, right, multiplier in matcher:
+            # If atom, add it to the final map
+            if atom:
+                if count:
+                    final_map[atom] += int(count) * running_mul
                 else:
-                    final_map[curr_atom] += 1 * muls[i - 1]
+                    final_map[atom] += 1 * running_mul
                     
-            else:
-                i += 1
+            # If the right parenthesis, multiply the running_mul
+            elif right:
+                if not multiplier:
+                    multiplier = 1
+                else:
+                    multiplier = int(multiplier)
+                    
+                running_mul *= multiplier
+                stack.append(multiplier)
+            
+            # If left parenthesis, divide the running_mul
+            elif left:
+                running_mul //= stack.pop()
                 
         # Sort the final map
         final_map = dict(sorted(final_map.items()))
@@ -78,3 +47,4 @@ class Solution:
                 ans += str(final_map[atom])
                 
         return ans
+        
