@@ -1,57 +1,61 @@
 class Solution {
 public:
     string countOfAtoms(string formula) {
-        // Regular expression to extract atom, count, (, ), multiplier
-        regex reg("([A-Z][a-z]*)(\\d*)|(\\()||(\\))(\\d*)");
-        sregex_iterator it(formula.begin(), formula.end(), reg);
-        sregex_iterator end;
+        // For multiplier
+        int runningMul = 1;
+        stack<int> st;
+        st.push(1);
         
-        // Stack to keep track of the atoms and their counts
-        stack<unordered_map<string, int>> st;
-        st.push(unordered_map<string, int>());
+        // Map to store the count of atoms
+        map<string, int> finalMap;
         
-        // Parse the formula
-        while (it != end){
-            smatch match = *it;
-            string atom = match[1].str();
-            string count = match[2].str();
-            string left = match[3].str();
-            string right = match[4].str();
-            string multiplier = match[5].str();
+        // Strings to take care of current atom and count
+        string currAtom = "", currCount = "";
+        
+        // Index to traverse the formula in reverse and parse the formula
+        for (int i = formula.size() - 1; i >= 0; --i){
+            // If digit, update the count
+            if (isdigit(formula[i]))
+                currCount = formula[i] + currCount;
             
-            // If atom, add it to the top hashmap
-            if (!atom.empty())
-                st.top()[atom] += count.empty()? 1 : stoi(count);
-            // If left parenthesis, insert a new hashmap to the stack
-            else if (!left.empty())
-                st.push(unordered_map<string, int>());
-            // If right parenthesis, pop the top element from the stack
-            // Multiply the count with the attached multiplicity
-            // Add the count to the current formula
-            else if (!right.empty()){
-                unordered_map<string, int> currMap = st.top();
-                st.pop();
-                if (!multiplier.empty()){
-                    int mult = stoi(multiplier);
-                    for (auto& [atom, count] : currMap)
-                        currMap[atom] = count * mult;
-                }
+            // If lowercase letter, prepend to the currAtom
+            else if (islower(formula[i]))
+                currAtom = formula[i] + currAtom;
+            
+            // If uppercase letter, prepend and update the finalMap
+            else if (isupper(formula[i])){
+                currAtom = formula[i] + currAtom;
+                if (!currCount.empty())
+                    finalMap[currAtom] += stoi(currCount) * runningMul;
+                else
+                    finalMap[currAtom] += 1 * runningMul;
                 
-                for (auto& [atom, count] : currMap)
-                    st.top()[atom] += count;
+                currAtom.clear(), currCount.clear();
             }
-            ++it;
+            
+            // If the right parenthesis, the currCount if any
+            // will be considered a multiplier
+            else if (formula[i] == ')'){
+                int currMultiplier = (!currCount.empty())? stoi(currCount) : 1;
+                st.push(currMultiplier);
+                runningMul *= currMultiplier;
+                currCount.clear();
+            }
+            
+            // If the left parenthesis, update the runningMul
+            else if (formula[i] == '('){
+                runningMul /= st.top();
+                st.pop();
+            }
+            
         }
-        
-        // Sort the final map
-        map<string, int> finalMap(st.top().begin(), st.top().end());
         
         // Generate the answer string
         string ans = "";
-        for (auto& [atom, count] : finalMap){
+        for (auto& [atom, val] : finalMap){
             ans += atom;
-            if (count > 1)
-                ans += to_string(count);
+            if (val > 1)
+                ans += to_string(val);
         }
         
         return ans;
