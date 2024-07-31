@@ -1,72 +1,49 @@
 class Solution {
 public:
     string countOfAtoms(string formula) {
-        // For every index, store the valid multiplier
-        int runningMul = 1;
-        vector<int> muls(formula.size());
-        
-        // Stack to take care of nested formula
-        stack<int> st;
-        st.push(1);
-        
-        // Preprocess the formula and extract all multipliers
-        string currNum = "";
-        for (int i = formula.size() - 1; i >= 0; --i){
-            if (isdigit(formula[i])) currNum = formula[i] + currNum;
-            
-            // If we encountered a letter, then the scanned
-            // number was count and not a multiplier. Discard it.
-            else if (isalpha(formula[i])) currNum = "";
-            
-            // If we encounter a right parenthesis, then the
-            // scanned number was multiplier. Store it.
-            else if (formula[i] == ')'){
-                int currMultiplier = (!currNum.empty())? stoi(currNum) : 1;
-                runningMul *= currMultiplier;
-                st.push(currMultiplier);
-                currNum.clear();
-            }
-            
-            // If we encounter a left parenthesis, then the
-            // most recent multiplier will cease to exist.
-            else if (formula[i] == '('){
-                runningMul /= st.top();
-                st.pop();
-                currNum.clear();
-            }
-            muls[i] = runningMul;
+        // Every element of matcher will be a quintuple
+        regex reg("([A-Z][a-z]*)(\\d*)|(\\()|(\\))(\\d*)");
+        sregex_iterator it(formula.begin(), formula.end(), reg);
+        sregex_iterator end;
+        vector<tuple<string, string, string, string, string>> matcher;
+        while (it != end){
+            matcher.push_back({(*it)[1], (*it)[2], (*it)[3], (*it)[4], (*it)[5]});
+            ++it;
         }
+        reverse(matcher.begin(), matcher.end());
         
-        
-        int i = 0;
         // Map to store the count of atoms
         map<string, int> finalMap;
         
-        // Traverse left to right in the formula
-        while (i < formula.size()){
-            // If upper case letter, extract the entire atom
-            if (isupper(formula[i])){
-                string currAtom = "", currCount = "";
-                currAtom.push_back(formula[i]);
-                ++i;
-                
-                while (i < formula.size() && islower(formula[i])){
-                    currAtom += formula[i];
-                    ++i;
-                }
-                
-                // Extract the count
-                while (i < formula.size() && isdigit(formula[i])){
-                    currCount += formula[i];
-                    ++i;
-                }
-                
-                // Update the final map
-                int count = currCount.empty()? 1: stoi(currCount);
-                finalMap[currAtom] += count * muls[i - 1];
+        // Stack to keep track of the nested multiplicities
+        stack<int> st;
+        st.push(1);
+        
+        // Current Multiplicity
+        int runningMul = 1;
+        
+        // Parse the formula
+        for (auto& quintuple : matcher){
+            string atom = get<0>(quintuple), count = get<1>(quintuple), left = get<2>(quintuple);
+            string right = get<3>(quintuple), multiplier = get<4>(quintuple);
+            
+            // If atom, add it to the final map
+            if (!atom.empty()){
+                int cnt = (count.empty())? 1 : stoi(count);
+                finalMap[atom] += cnt * runningMul;
             }
-            else
-                ++i;
+            // If the right parenthesis, multiply the runningMul
+            else if (!right.empty()){
+                int currMultiplier = (multiplier.empty())? 1 : stoi(multiplier);
+                runningMul *= currMultiplier;
+                st.push(currMultiplier);
+            }
+            
+            // If left parenthesis, divide the runningMul
+            else if (!left.empty()){
+                runningMul /= st.top();
+                st.pop();
+            }
         }
         
         // Generate the answer string
