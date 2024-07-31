@@ -1,45 +1,53 @@
 class Solution:
     def countOfAtoms(self, formula: str) -> str:
-        # Regular expression to extract atom, count, (, ), multiplier
-        # Every element of matcher will be a quintuplea
-        regex = r"([A-Z][a-z]*)(\d*)|(\()|(\))(\d*)"
-        matcher = re.findall(regex, formula)
+        # For multipliers
+        stack, running_mul = [1], 1
         
-        # Stack to keep track of the atoms and their counts
-        stack = [defaultdict(int)]
+        # Map to store the count of atoms
+        final_map = defaultdict(int)
         
-        print(matcher)
-        # Parse the formula
-        for atom, count, left, right, multiplier in matcher:
-            # If atom, add it to the top hashmap
-            if atom:
-                stack[-1][atom] += int(count) if count else 1
+        # Strings to take care of current atom and count
+        curr_atom, curr_count = "", ""
+        
+        # Index to traverse the formula in reverse and parse the formula
+        for index in range(len(formula) - 1, -1, -1):
+            # If digit, update the count
+            if formula[index].isdigit():
+                curr_count = formula[index] + curr_count
                 
-            # If left parenthesis, insert a new hashmap to the stack
-            elif left:
-                stack.append(defaultdict(int))
+            # If lowercase letter, prepend to the curr_atom
+            elif formula[index].islower():
+                curr_atom = formula[index] + curr_atom
                 
-            # If right parenthesis, pop the top element from the stack
-            # Multiply the count with the attached multiplicity.
-            # Add the count to the current formula
-            elif right:
-                curr_map = stack.pop()
-                if multiplier:
-                    multiplier = int(multiplier)
-                    for atom in curr_map:
-                        curr_map[atom] *= multiplier
+            # If uppercase letter, prepend and update the finalMap
+            elif formula[index].isupper():
+                curr_atom = formula[index] + curr_atom
+                
+                if curr_count:
+                    final_map[curr_atom] += int(curr_count) * running_mul
+                else:
+                    final_map[curr_atom] += 1 * running_mul
                     
-                for atom in curr_map:
-                    stack[-1][atom] += curr_map[atom]
-                    
-        # Sort the final map
-        final_map = dict(sorted(stack[0].items()))
+                curr_atom, curr_count = "", ""
+                
+            # If the right parenthesis, the curr_count if any
+            # will be considered a multiplier
+            elif formula[index] == ')':
+                curr_multiplier = int(curr_count) if curr_count else 1
+                stack.append(curr_multiplier)
+                running_mul *= curr_multiplier
+                curr_count = ""
+                
+            # If left parenthesis, update the running_mul
+            elif formula[index] == '(':
+                running_mul //= stack.pop()
+                
+        final_map = dict(sorted(final_map.items()))
         
-        # Generate the answer string
         ans = ""
-        for atom in final_map:
+        for atom, val in final_map.items():
             ans += atom
-            if final_map[atom] > 1:
-                ans += str(final_map[atom])
-                
+            if val > 1:
+                ans += str(val)
+        
         return ans
