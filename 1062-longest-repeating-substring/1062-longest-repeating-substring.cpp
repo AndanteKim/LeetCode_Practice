@@ -1,35 +1,22 @@
 class Solution {
-private:
-    bool hasRepeatingSubstr(string& s, int length){
-        unordered_set<string> seen;
-        for (int i = 0; i <= s.size() - length; ++i){
-            // Extract a substring of the given length
-            string subStr = s.substr(i, length);
-            
-            // Check if the substring has been seen before
-            if (seen.count(subStr))
-                return true;
-            
-            seen.insert(subStr);
-        }
-        
-        return false;
-    }
-    
 public:
     int longestRepeatingSubstring(string s) {
-        int start = 1, end = s.size() - 1;
+        int n = s.size(), maxLen = 0;
+        vector dp(n + 1, vector<int>(n + 1));
         
-        while (start <= end){
-            int mid = (start + end) >> 1;
-            
-            // Check if there's a repeating substring of length mid
-            if (hasRepeatingSubstr(s, mid))
-                start = mid + 1;    // Try longer substrings
-            else
-                end = mid - 1;      // Try shorter substrings
+        // Populate the DP array
+        for (int i = 1; i <= n; ++i){
+            for (int j = i + 1; j <= n; ++j){
+                // Check if the characters match and update the DP value
+                if (s[i - 1] == s[j - 1]){
+                    dp[i][j] = dp[i - 1][j - 1] + 1;
+                    
+                    // Update the max length
+                    maxLen = max(maxLen, dp[i][j]);
+                }
+            }
         }
         
-        return start - 1;
+        return maxLen;
     }
 };
