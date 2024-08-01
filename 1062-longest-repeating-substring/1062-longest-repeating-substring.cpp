@@ -19,7 +19,7 @@ public:
             // increase maxLen and restart
             if (seen.find(currSubstr) != seen.end()){
                 start = -1;     // Restart search for new length
-                //seen.clear();
+                seen.clear();
                 ++maxLen;
             }
             else
