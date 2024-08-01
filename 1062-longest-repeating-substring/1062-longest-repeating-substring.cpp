@@ -2,23 +2,31 @@ class Solution {
 public:
     int longestRepeatingSubstring(string s) {
         unordered_set<string> seen;
-        int length = s.size() - 1;
+        int start = 0, length = s.size(), maxLen = 0;
         
-        for (int maxLen = length; maxLen >= 0; --maxLen){
-            seen.clear();
-            for (int start = 0; start <= s.size() - maxLen; ++start){
-                int end = start;
-                // Extract substring of length maxLen
-                string currSubstr = s.substr(end, maxLen);
-                
-                // If the substring is already in the set,
-                // it means we've found a repeating substring
-                if (seen.count(currSubstr)) return maxLen;
-                
-                seen.insert(currSubstr);
+        while (start < length){
+            int end = start;
+            
+            // Stop if it's not possible to find a longer
+            // repeating substring
+            if (end + maxLen >= length)
+                return maxLen;
+            
+            // Generate substrings of length maxLen + 1
+            string currSubstr = s.substr(end, maxLen + 1);
+            
+            // If a repeating substring is found,
+            // increase maxLen and restart
+            if (seen.find(currSubstr) != seen.end()){
+                start = -1;     // Restart search for new length
+                //seen.clear();
+                ++maxLen;
             }
+            else
+                seen.insert(currSubstr);
+            ++start;
         }
         
-        return 0;
+        return maxLen;
     }
 };
