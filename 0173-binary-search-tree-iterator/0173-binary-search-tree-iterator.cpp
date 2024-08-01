@@ -11,39 +11,43 @@
  */
 class BSTIterator {
 private:
-    // Pointer to the next smallest element in the BST
-    int index = -1;
+    // Stack for the recursion simulation
+    stack<TreeNode*> st;
     
-    // Array containing all the nodes in the sorted order
-    vector<int> nodesSorted;
-    
-    void inorder(TreeNode* root){
-        if (!root) return;
-        
-        inorder(root -> left);
-        nodesSorted.push_back(root -> val);
-        inorder(root -> right);
+    void leftmostInorder(TreeNode* root){
+        // For a given node, add all the elements in the leftmost branch of the 
+        // tree under it to the stack.
+        while (root){
+            st.push(root);
+            root = root -> left;
+        }
     }
     
 public:
     BSTIterator(TreeNode* root) {
-        this -> nodesSorted = vector<int>();
-        // Call to flatten the input binary search tree
-        inorder(root);
+        leftmostInorder(root);
     }
     
     int next() {
         /*
-        @return the next smallest number 
+        @ return the smallest number
         */
-        return nodesSorted[++index];
+        // Node at the top of the stack is the next smallest element
+        TreeNode* topmostNode = st.top(); st.pop();
+        
+        // Need to maintain the invariant. If the node has a right child, call
+        // the helper function for the right child.
+        if (topmostNode -> right)
+            leftmostInorder(topmostNode -> right);
+        
+        return topmostNode -> val;
     }
     
     bool hasNext() {
         /*
-        @return whether we have a next smallest number
+        @ return whether we have a next smallest number
         */
-        return index + 1 < nodesSorted.size();
+        return !st.empty();
     }
 };
 
