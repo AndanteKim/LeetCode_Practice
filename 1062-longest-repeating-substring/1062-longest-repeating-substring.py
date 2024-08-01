@@ -1,28 +1,25 @@
 class Solution:
     def longestRepeatingSubstring(self, s: str) -> int:
-        start, length = 0, len(s)
-        max_len, seen = 0, set()
+        n, suffixes = len(s), []
         
-        while start < length:
-            end = start
-            # Stop if it's not possible to find a
-            # longer repeating substring
-            if end + max_len >= length:
-                return max_len
+        # Create suffix array by stroing all suffixes of the string
+        for i in range(n):
+            suffixes.append(s[i:])
             
-            # Generate substrings of length max_length + 1
-            curr_substr = s[end : end + max_len + 1]
+        # Sort the suffix array
+        suffixes.sort()
+        max_len = 0
+        
+        # Compare adjacent suffixes to find the longest common prefix
+        for i in range(1, n):
+            j = 0
             
-            # If a repeating substring is found,
-            # increase max_len and restart
-            if curr_substr in seen:
-                start = -1  # Restart search for new length
-                seen.clear()
-                max_len += 1
+            # Compare characters one by one until
+            # they differ or end of one suffix is reached
+            while (j < min(len(suffixes[i]), len(suffixes[i - 1])) and suffixes[i][j]  == suffixes[i - 1][j]):
+                j += 1
                 
-            else:
-                seen.add(curr_substr)
-                
-            start += 1
+            # Update max_length with the length of the common prefix
+            max_len = max(max_len, j)
             
         return max_len
