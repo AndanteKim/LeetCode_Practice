@@ -1,30 +1,28 @@
 class Solution {
 public:
     int longestRepeatingSubstring(string s) {
-        unordered_set<string> seen;
-        int start = 0, length = s.size(), maxLen = 0;
+        int n = s.size();
+        vector<string> suffixes;
         
-        while (start < length){
-            int end = start;
+        // Create suffix array by storing all suffixes of the string
+        for (int i = 0; i < n; ++i)
+            suffixes.push_back(s.substr(i));
+        
+        // Sort the suffix array
+        sort(suffixes.begin(), suffixes.end());
+        int maxLen = 0;
+        
+        // Compare adjacent suffixes to find the longest common prefix
+        for (int i = 1; i < n; ++i){
+            int j = 0;
             
-            // Stop if it's not possible to find a longer
-            // repeating substring
-            if (end + maxLen >= length)
-                return maxLen;
+            // Compare characters one by one until they differ or end of one
+            // suffix is reached
+            while (j < min(suffixes[i].size(), suffixes[i - 1].size()) && suffixes[i][j] == suffixes[i - 1][j])
+                ++j;
             
-            // Generate substrings of length maxLen + 1
-            string currSubstr = s.substr(end, maxLen + 1);
-            
-            // If a repeating substring is found,
-            // increase maxLen and restart
-            if (seen.find(currSubstr) != seen.end()){
-                start = -1;     // Restart search for new length
-                seen.clear();
-                ++maxLen;
-            }
-            else
-                seen.insert(currSubstr);
-            ++start;
+            // Update max length with the length of the common prefix
+            maxLen = max(maxLen, j);
         }
         
         return maxLen;
