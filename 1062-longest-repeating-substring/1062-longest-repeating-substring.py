@@ -1,21 +1,28 @@
 class Solution:
     def longestRepeatingSubstring(self, s: str) -> int:
-        seen = set()
-        length = len(s) - 1
+        start, length = 0, len(s)
+        max_len, seen = 0, set()
         
-        for max_len in range(length, 0, -1):
-            seen.clear()
+        while start < length:
+            end = start
+            # Stop if it's not possible to find a
+            # longer repeating substring
+            if end + max_len >= length:
+                return max_len
             
-            for start in range(len(s) - max_len + 1):
-                end = start
-                # Extract substring of length max_length
-                curr_substr = s[end : end + max_len]
+            # Generate substrings of length max_length + 1
+            curr_substr = s[end : end + max_len + 1]
+            
+            # If a repeating substring is found,
+            # increase max_len and restart
+            if curr_substr in seen:
+                start = -1  # Restart search for new length
+                seen.clear()
+                max_len += 1
                 
-                # If the substring is already in the set,
-                # it means we've found a repeating substring
-                if curr_substr in seen:
-                    return max_len
-                
+            else:
                 seen.add(curr_substr)
                 
-        return 0
+            start += 1
+            
+        return max_len
