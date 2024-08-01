@@ -11,36 +11,39 @@
  */
 class BSTIterator {
 private:
-    priority_queue<int, vector<int>, greater<int>> minHeap;
+    // Pointer to the next smallest element in the BST
+    int index = -1;
+    
+    // Array containing all the nodes in the sorted order
+    vector<int> nodesSorted;
+    
+    void inorder(TreeNode* root){
+        if (!root) return;
+        
+        inorder(root -> left);
+        nodesSorted.push_back(root -> val);
+        inorder(root -> right);
+    }
     
 public:
     BSTIterator(TreeNode* root) {
-        stack<TreeNode*> st;
-        st.push(root);
-        
-        while (!st.empty()){
-            TreeNode* node = st.top(); st.pop();
-            minHeap.push(node -> val);
-            
-            if (node -> left)
-                st.push(node -> left);
-            
-            if (node -> right)
-                st.push(node -> right);
-        }
+        this -> nodesSorted = vector<int>();
+        // Call to flatten the input binary search tree
+        inorder(root);
     }
     
     int next() {
-        int nxt = -1;
-        if (hasNext()){
-            nxt = minHeap.top();
-            minHeap.pop();
-        }
-        return nxt;
+        /*
+        @return the next smallest number 
+        */
+        return nodesSorted[++index];
     }
     
     bool hasNext() {
-        return minHeap.size() > 0;
+        /*
+        @return whether we have a next smallest number
+        */
+        return index + 1 < nodesSorted.size();
     }
 };
 
