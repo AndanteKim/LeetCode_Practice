@@ -1,40 +1,52 @@
 class Solution {
 private:
-    int minSwapsHelper(vector<int>& data, int val){
-        int n = data.size();
-        vector<int> rightSuffixSum(n + 1);
+    // Helper function to calculate the minimum swaps required to group all
+    // 'val' together
+    int minSwapsHelper(vector<int>& nums, int val){
+        int total = 0, n = nums.size();
         
-        // Construct the suffix sum array for counting opposite values (val ^ 1)
+        // Count the total number of 'val' in the array
         for (int i = n - 1; i >= 0; --i){
-            rightSuffixSum[i] = rightSuffixSum[i + 1];
-            if (data[i] == (val ^ 1))
-                ++rightSuffixSum[i];
+            if (nums[i] == val)
+                ++total;
         }
         
-        // Total zeros in the array if 'val' is 1 (or vice versa)
-        int totalSwaps = rightSuffixSum[0];
+        // If there's no 'val' or the array is full of 'val', no swaps are
+        // needed
+        if (total == 0 || total == n)
+            return 0;
         
-        // Track current number of required swaps in the current segment
-        int currSwap = 0;
-        int minSwap = totalSwaps - rightSuffixSum[n - totalSwaps];
+        int start = 0, end = 0;
+        int maxVal = 0, currVal = 0;
         
-        // Iterate to find the minimum swaps by sliding
-        // the potential block of grouped 'val'
-        for (int i = 0; i < totalSwaps; ++i){
-            if (data[i] == (val ^ 1))
-                ++currSwap;
-            int remaining = totalSwaps - i - 1;
-            int requiredSwaps = ((i + 1) - currSwap) + (remaining - rightSuffixSum[n - remaining]);
-            minSwap = min(minSwap, requiredSwaps);
+        // Initial window setup: count the number of 'val' in the first window
+        // of size 'total'
+        while (end < total){
+            if (nums[end++] == val)
+                ++currVal;    
         }
         
-        return minSwap;
+        maxVal = max(maxVal, currVal);
+        
+        // Slide the window across the array to find the maximum number of
+        // 'val' in any window
+        while (end < n){
+            if (nums[start++] == val) --currVal;
+            
+            if (nums[end++] == val) ++currVal;
+            
+            maxVal = max(maxVal, currVal);
+        }
+        
+        return total - maxVal;
     }
     
 public:
     int minSwaps(vector<int>& nums) {
-        int op1 = minSwapsHelper(nums, 0);  // Groups all 0s together
-        int op2 = minSwapsHelper(nums, 1);  // Groups all 1s together
+        // Calculate the minimum swaps needed to group all 1s or all 0s
+        // together
+        int op1 = minSwapsHelper(nums, 0);   // Grouping 0s together
+        int op2 = minSwapsHelper(nums, 1);   // Grouping 1s together
         
         return min(op1, op2);
     }
