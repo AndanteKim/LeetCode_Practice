@@ -33,8 +33,8 @@ private:
     
 public:
     int minSwaps(vector<int>& nums) {
-        int op1 = minSwapsHelper(nums, 0);  // Groups 0's altogether
-        int op2 = minSwapsHelper(nums, 1);  // Groups 1's altogether
+        int op1 = minSwapsHelper(nums, 0);  // Groups all 0s together
+        int op2 = minSwapsHelper(nums, 1);  // Groups all 1s together
         
         return min(op1, op2);
     }
