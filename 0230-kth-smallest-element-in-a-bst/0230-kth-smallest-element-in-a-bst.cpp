@@ -10,26 +10,23 @@
  * };
  */
 class Solution {
-private:
-    int ans = -1, k = 1;
-    void inorder(TreeNode* node, int target){
-        if (!node) return;
-        
-        inorder(node -> left, target);
-        if (k == target){
-            ans = node -> val;
-            ++k;
-            return;
-        }
-        ++k;
-        inorder(node -> right, target);
-    }
-    
-    
 public:
     int kthSmallest(TreeNode* root, int k) {
-        inorder(root, k);
+        stack<TreeNode*> st;
+        while (true){
+            while (root){
+                st.push(root);
+                root = root -> left;
+            }
+            
+            root = st.top();
+            st.pop();
+            --k;
+            if (k == 0)
+                return root -> val;
+            root = root -> right;
+        }
         
-        return ans;
+        return -1;
     }
 };
