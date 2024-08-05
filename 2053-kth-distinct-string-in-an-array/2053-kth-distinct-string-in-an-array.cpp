@@ -7,10 +7,13 @@ public:
             ++freq[s];
         
         vector<string> distinct;
-        for (string& s : arr)
+        for (string& s : arr){
             if (freq[s] == 1)
-                distinct.push_back(s);
+                --k;
+            if (k == 0)
+                return s;
+        }
         
-        return (distinct.size() >= k)? distinct[k - 1] : "";
+        return "";
     }
 };
