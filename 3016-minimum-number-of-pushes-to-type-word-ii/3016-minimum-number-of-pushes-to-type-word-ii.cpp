@@ -1,24 +1,22 @@
 class Solution {
 public:
     int minimumPushes(string word) {
-        int ans = 0, start = 2, push = 1;
-        priority_queue<int, vector<int>> pq;
-        unordered_map<char, int> count;
+        // Frequency vector to store the number for each characters
+        vector<int> freq(26);
         
-        for (char& c : word)
-            ++count[c];
+        for (char &c : word)
+            ++freq[c - 'a'];
         
-        for (auto& [_, val] : count)
-            pq.push(val);
+        // Sort the frequency in descending order
+        sort(freq.begin(), freq.end(), [](int a, int b){return a > b;});
         
-        while (!pq.empty()){
-            ans += pq.top() * push;
-            pq.pop();
-            ++start;
-            if (start > 9){
-                start = 2;
-                ++push;
-            }
+        int ans = 0;
+        
+        // Calculate the total number of presses
+        for (int i = 0; i < 26; ++i){
+            if (freq[i] == 0)
+                break;
+            ans += ((i / 8) + 1) * freq[i];
         }
         
         return ans;
