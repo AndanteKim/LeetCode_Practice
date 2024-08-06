@@ -1,22 +1,17 @@
 class Solution:
     def minimumPushes(self, word: str) -> int:
-        # Frequency list to store count of each letter
-        freq = [0] * 26
+        # Frequency map to store count of each letter
+        freq_map = Counter(word)
         
-        # Count occurrences of each letter
-        for c in word:
-            freq[ord(c) - 97] += 1
-            
-        # Sort frequencies in descending order
-        freq.sort(reverse = True)
+        # Priority queue to store frequencies in descending order
+        pq = [-freq for freq in freq_map.values()]
+        heapify(pq)
         
-        ans = 0
+        ans, i = 0, 0
         
         # Calculate total number of presses
-        for i in range(26):
-            if freq[i] == 0:
-                break
-                
-            ans += ((i // 8) + 1) * freq[i]
+        while pq:
+            ans += (1 + (i // 8)) * -heappop(pq)
+            i += 1
             
         return ans
