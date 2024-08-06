@@ -3,56 +3,42 @@ class Solution:
         """
         Do not return anything, modify board in-place instead.
         """
-        if not board or not board[0]:
+        if not board and not board[0]:
             return
         
         self.m, self.n = len(board), len(board[0])
         
-        # Step 1). retrieve all border cells
-        borders = []
-        for i in range(self.m):
-            borders.append((i, 0))
-            borders.append((i, self.n - 1))
+        # Step1). retrieve all border cells
+        borders = list(product(range(self.m), [0, self.n - 1])) + list(product([0, self.m - 1], range(self.n)))
         
-        for j in range(self.n):
-            borders.append((0, j))
-            borders.append((self.m - 1, j))
-        
-        # Step 2). mark the "escaped" cells, with any placeholder, e.g. 'E'
-        for r, c in borders:
-            self.BFS(board, r, c)
+        # Step2). mark the "escaped" cells, with any placeholder, e.g. 'E'
+        for row, col in borders:
+            self.DFS(board, row, col)
             
-        # Step 3). flip the captured cells ('O' -> 'X') and the escaped one ('E' -> 'O')
+        # Step3). flip the captured cells ('O' -> 'X') and the escaped one ('E' -> 'O')
         for i in range(self.m):
             for j in range(self.n):
                 if board[i][j] == 'O':
-                    board[i][j] = 'X'  # captured
-                    
+                    board[i][j] = 'X'   # captured
+                
                 elif board[i][j] == 'E':
                     board[i][j] = 'O'   # escaped
+                    
+                    
+    def DFS(self, board: List[List[int]], row: int, col: int) -> None:
+        if (board[row][col] != 'O'):
+            return
+        board[row][col] = 'E'
         
-    def BFS(self, board: List[List[int]], row: int, col: int) -> None:
-        queue = deque([(row, col)])
+        if col < self.n - 1:
+            self.DFS(board, row, col + 1)
         
-        while queue:
-            (r, c) = queue.popleft()
+        if row < self.m - 1:
+            self.DFS(board, row + 1, col)
             
-            if board[r][c] != 'O':
-                continue
-                
-            # Mark this cell as escaped
-            board[r][c] = 'E'
+        if col > 0:
+            self.DFS(board, row, col - 1)
             
-            # Check its neighbor cells
-            if c < self.n - 1:
-                queue.append((r, c + 1))
-                
-            if r < self.m - 1:
-                queue.append((r + 1, c))
-                
-            if c > 0:
-                queue.append((r, c - 1))
-            
-            if r > 0:
-                queue.append((r - 1, c))
-                
+        if row > 0:
+            self.DFS(board, row - 1, col)
+       
