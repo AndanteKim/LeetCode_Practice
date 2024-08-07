@@ -1,43 +1,50 @@
 class Solution:
-    # Arrays to store words for numbers less than 10, 20, and 100
-    below_ten = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"]
-    below_twenty = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",\
-                       "Seventeen", "Eighteen", "Nineteen"]
-    below_hundred = ["", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty",\
-                        "Ninety"]
-    
-    # Main function to convert a number to English words
     def numberToWords(self, num: int) -> str:
-        # Handle the special case where the number is zero.
+        # Handle the special case where the number is zero
         if num == 0:
             return "Zero"
         
-        # Call the helper function to start the conversion
-        return self._convert_to_words(num)
-    
-    # Recursive function to convert numbers to words
-    # Handles numbers based on their ranges: <10, <20, <100, <1_000_000, <1_000_000_000, and >= 1_000_000_000
-    def _convert_to_words(self, num: int) -> str:
-        if num < 10:
-            return self.below_ten[num]
+        # Arrays to store words for single digits, tens, and thousands
+        ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",\
+               "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen",\
+               "Sixteen", "Seventeen", "Eighteen", "Nineteen"]
         
-        if num < 20:
-            return self.below_twenty[num - 10]
+        tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", \
+               "Eighty", "Ninety"]
+        thousands = ["", "Thousand", "Million", "Billion"]
         
-        if num < 100:
-            return self.below_hundred[num // 10] + (" " + self._convert_to_words(num % 10) if num % 10 != 0 else "")
+        # StringBuilder to accumulate the result
+        ans, group_idx = "", 0
         
-        if num < 1000:
-            return self._convert_to_words(num // 100) + " Hundred" + (" " + self._convert_to_words(num % 100) if num % 100 != 0 else "")
-        
-        if num < 1_000_000:
-            return self._convert_to_words(num // 1000) + " Thousand" + (" " + self._convert_to_words(num % 1000) if num % 1000 != 0 else "")
-        
-        if num < 1_000_000_000:
-            return self._convert_to_words(num // 1_000_000) + " Million" + (" " + self._convert_to_words(num % 1_000_000) if num % 1_000_000 != 0 else "")
-        
-        return self._convert_to_words(num // 1_000_000_000) + " Billion" + (" " + self._convert_to_words(num % 1_000_000_000) if num % 1_000_000_000 != 0 else "")
-        
-        
-        
-        
+        # Process the number in chunks of 1000
+        while num > 0:
+            # Process the last three digits
+            if num % 1000 != 0:
+                group_res = ""
+                part = num % 1000
+                
+                # Handle hundreds:
+                if part >= 100:
+                    group_res += ones[part // 100] + " Hundred "
+                    part %= 100
+                    
+                # Handle tens and units
+                if part >= 20:
+                    group_res += tens[part // 10] + " "
+                    part %= 10
+                
+                # Handle units
+                if part > 0:
+                    group_res += ones[part] + " "
+                    
+                # Append the scale (thousand, million, billion) for the current group
+                group_res += thousands[group_idx] + " "
+                
+                # Insert the group result at the beginning of the final result
+                ans = group_res + ans
+                
+            # Move to the next chunk of 1000
+            num //= 1000
+            group_idx += 1
+            
+        return ans.strip()
