@@ -1,50 +1,29 @@
 class Solution:
+    # Dictionary to store words for numbers
+    n_to_words = {
+        1_000_000_000: "Billion", 1_000_000: "Million", 1000: "Thousand", 100: "Hundred",\
+        90: "Ninety", 80: "Eighty", 70: "Seventy", 60: "Sixty", 50: "Fifty", 40: "Forty",\
+        30: "Thirty", 20: "Twenty", 19: "Nineteen", 18: "Eighteen", 17: "Seventeen",\
+        16: "Sixteen", 15: "Fifteen", 14: "Fourteen", 13: "Thirteen", 12: "Twelve", \
+        11: "Eleven", 10: "Ten", 9: "Nine", 8: "Eight", 7: "Seven", 6: "Six", 5: "Five",\
+        4: "Four", 3: "Three", 2: "Two", 1: "One"
+    }
     def numberToWords(self, num: int) -> str:
-        # Handle the special case where the number is zero
         if num == 0:
             return "Zero"
         
-        # Arrays to store words for single digits, tens, and thousands
-        ones = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight",\
-               "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen",\
-               "Sixteen", "Seventeen", "Eighteen", "Nineteen"]
-        
-        tens = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", \
-               "Eighty", "Ninety"]
-        thousands = ["", "Thousand", "Million", "Billion"]
-        
-        # StringBuilder to accumulate the result
-        ans, group_idx = "", 0
-        
-        # Process the number in chunks of 1000
-        while num > 0:
-            # Process the last three digits
-            if num % 1000 != 0:
-                group_res = ""
-                part = num % 1000
+        for val, word in self.n_to_words.items():
+            # Check if the number is greater than or equal to the current unit
+            if num >= val:
+                # Convert the quotient to words if the current unit is 100 or greater
+                prefix = (self.numberToWords(num // val) + " ") if num >= 100 else ""
                 
-                # Handle hundreds:
-                if part >= 100:
-                    group_res += ones[part // 100] + " Hundred "
-                    part %= 100
-                    
-                # Handle tens and units
-                if part >= 20:
-                    group_res += tens[part // 10] + " "
-                    part %= 10
+                # Get the word for the current unit
+                unit = word
                 
-                # Handle units
-                if part > 0:
-                    group_res += ones[part] + " "
-                    
-                # Append the scale (thousand, million, billion) for the current group
-                group_res += thousands[group_idx] + " "
+                # Convert the remainder to words if it's not zero
+                suffix = "" if num % val == 0 else " " + self.numberToWords(num % val)
                 
-                # Insert the group result at the beginning of the final result
-                ans = group_res + ans
+                return prefix + unit + suffix
                 
-            # Move to the next chunk of 1000
-            num //= 1000
-            group_idx += 1
-            
-        return ans.strip()
+        return ""        
