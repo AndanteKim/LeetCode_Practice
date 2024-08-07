@@ -1,57 +1,35 @@
 class Solution {
+private:
+    // Dictionaries to store words for numbers
+    vector<pair<int, string>> nToWords{
+        {1'000'000'000, "Billion"}, {1'000'000, "Million"}, {1'000, "Thousand"}, {100, "Hundred"},\
+        {90, "Ninety"}, {80, "Eighty"}, {70, "Seventy"}, {60, "Sixty"}, {50, "Fifty"}, {40, "Forty"},\
+        {30, "Thirty"}, {20, "Twenty"}, {19, "Nineteen"}, {18, "Eighteen"}, {17, "Seventeen"}, \
+        {16, "Sixteen"}, {15, "Fifteen"}, {14, "Fourteen"}, {13, "Thirteen"}, {12, "Twelve"}, \
+        {11, "Eleven"}, {10, "Ten"}, {9, "Nine"}, {8, "Eight"}, {7, "Seven"}, {6, "Six"},\
+        {5, "Five"}, {4, "Four"}, {3, "Three"}, {2, "Two"}, {1, "One"}
+    };
+    
 public:
     string numberToWords(int num) {
-        // Handle the special case where the number is zero.
-        if (num == 0)
-            return "Zero";
+        if (num == 0) return "Zero";
         
-        // Arrays to store words for single digits, tens, and thousands
-        const vector<string> ones {"", "One", "Two", "Three", "Four", "Five", "Six", "Seven", \
-                             "Eight", "Nine", "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen",\
-                             "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"};
-        const vector<string> tens {"", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy",\
-                             "Eighty", "Ninety"};
-        const vector<string> thousands {"", "Thousand", "Million", "Billion"};
-        
-        // StringBuilder to accumulate the result
-        string ans = "";
-        int groupIndex = 0;
-        
-        // Process the number in chunks of 1000
-        while (num > 0){
-            // Process the last three digits
-            if (num % 1000 != 0){
-                string groupResult = "";
-                int part = num % 1000;
-                
-                // Handle hundreds
-                if (part >= 100){
-                    groupResult += ones[part / 100] + " Hundred ";
-                    part %= 100;
-                }
-                
-                // Handle tens and units
-                if (part >= 20){
-                    groupResult += tens[part / 10] + " ";
-                    part %= 10;
-                }
-                
-                // Handle units
-                if (part > 0)
-                    groupResult += ones[part] + " ";
-                
-                // Append the scale (thousand, million, billion) for the current group
-                groupResult += thousands[groupIndex] + " ";
-                
-                // Insert the group result at the beginning of the final result
-                ans = groupResult + ans;
-            }
+        for (auto& [val, word] : nToWords){
+            // Check if the number is greater than or equal to the current unit
+            if (num >= val){
+                // Convert the quotient to words if the current unit is 100 or greater
+                string prefix = (num >= 100? numberToWords(num / val) + " " : "");
             
-            // Move to the next chunk of 1000
-            num /= 1000;
-            ++groupIndex;
+                // Get the word for the current unit
+                string unit = word;
+            
+                // Convert the remainder to words if it's not zero
+                string suffix = (num % val != 0? " " + numberToWords(num % val) : "");
+            
+                return prefix + unit + suffix;
+            }
         }
         
-        return ans.substr(0, ans.find_last_not_of(" ") + 1); // Remove trailing spaces
+        return "";
     }
 };
