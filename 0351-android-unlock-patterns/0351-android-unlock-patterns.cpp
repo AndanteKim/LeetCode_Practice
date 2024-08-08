@@ -1,89 +1,59 @@
 class Solution {
 private:
-    // All possible sing-step moves on the lock pattern grid
-    // Each array represents a move as {row change, column change}
-    const vector<pair<int, int>> SINGLE_STEP_MOVES{
-        // Adjacent moves (right, left, down, up)
-        {0, 1}, {0, -1}, {1, 0}, {-1, 0},\
-        // Diagonal moves
-        {-1, -1}, {1, 1}, {-1, 1}, {1, -1},\
-        
-        // Extended moves (knight-like moves)
-        {2, -1}, {2, 1}, {-2, -1}, {-2, 1},\
-        {1, 2}, {1, -2}, {-1, 2}, {-1, -2}
-    };
-    
-    // Moves that require a dot to be visited in between
-    // These moves "jump" over a dot, which must have been previously visited
-    const vector<pair<int, int>> SKIP_DOT_MOVES{
-        // Straight skip moves (e.g., 1 to 3, 4 to 6)
-        {2, 0}, {-2, 0}, {0, 2}, {0, -2},\
-        
-        // Diagonal skip moves (e.g., 1 to 9, 3 to 7)
-        {-2, -2}, {2, 2}, {-2, 2}, {2, -2}
-    };
-    
     int m, n;
     
-    // Helper method to check if a move is valid
-    bool isValid(int row, int col, vector<vector<bool>>& visited){
-        // A move is valid if it's within the grid and the dot hasn't been
-        // visited
-        return 0 <= row && row < 3 && 0 <= col && col < 3 && !visited[row][col];
-    }
-    
-    int countPatternsFromDot(int currLength, int currRow, int currCol, vector<vector<bool>>& visited){
-        // Base case: If current pattern length exceeds n, stop exploring
-        if (currLength > n)
+    int countPatternsFromNumber(int currNum, int currLen, vector<vector<int>>& jump, vector<bool>& visited){
+        // Base case: If current pattern length exceeds max length, stop exploring
+        if (currLen > n)
             return 0;
         
         int validPatterns = 0;
-        // If current pattern length within the valid range, count it.
-        if (currLength >= m)
+        // If current pattern length is within the valid range, count it
+        if (currLen >= m)
             ++validPatterns;
         
-        // Mark current dot as visited
-        visited[currRow][currCol] = true;
+        visited[currNum] = true;
         
-        // Explore all single-step moves
-        for (auto& [dr, dc] : SINGLE_STEP_MOVES){
-            int newRow = currRow + dr, newCol = currCol + dc;
-            if (isValid(newRow, newCol, visited))
-                // Recursively count patterns from the new position
-                validPatterns += countPatternsFromDot(currLength + 1, newRow, newCol, visited);
-        }
-        
-        // Explore all skip-dot moves
-        for (auto& [dr, dc] : SKIP_DOT_MOVES){
-            int newRow = currRow + dr, newCol = currCol + dc;
+        // Explore all possible next numbers
+        for (int nextNum = 1; nextNum < 10; ++nextNum){
+            int jumpOverNum = jump[currNum][nextNum];
             
-            if (isValid(newRow, newCol, visited)){
-                // Check if the middle dot has been visited
-                int midRow = currRow + (dr >> 1), midCol = currCol + (dc >> 1);
-                if (visited[midRow][midCol])
-                    // If middle dot is visited, this move is valid
-                    validPatterns += countPatternsFromDot(currLength + 1, newRow, newCol, visited);
-            }
+            // Check if the next number is unvisited and either:
+            // 1. There's no number to jump over, or
+            // 2. The number to jump over has been visited
+            if (!visited[nextNum] && (jumpOverNum == 0 || visited[jumpOverNum]))
+                validPatterns += countPatternsFromNumber(nextNum, currLen + 1, jump, visited);
         }
         
-        // Backtrack: unmark the current dot before returning
-        visited[currRow][currCol] = false;
+        // Backtrack: unmark the current number before returning
+        visited[currNum] = false;
         return validPatterns;
     }
-        
+    
 public:
     int numberOfPatterns(int m, int n) {
+        vector<vector<int>> jump(10, vector<int>(10));
         int ans = 0;
         this -> m = m, this -> n = n;
         
-        // Start from each of the 9 dots on the grid
-        for (int i = 0; i < 3; ++i){
-            for (int j = 0; j < 3; ++j){
-                vector<vector<bool>> visited(3, vector<bool>(3));
-                // Count patterns starting from this dot
-                ans += countPatternsFromDot(1, i, j, visited);
-            }
-        }
+        // Initialize the jump over numbers for all valid jumps
+        jump[1][3] = jump[3][1] = 2;
+        jump[4][6] = jump[6][4] = 5;
+        jump[7][9] = jump[9][7] = 8;
+        jump[1][7] = jump[7][1] = 4;
+        jump[2][8] = jump[8][2] = 5;
+        jump[3][9] = jump[9][3] = 6;
+        jump[1][9] = jump[9][1] = jump[3][7] = jump[7][3] = 5;
+        
+        vector<bool> visited(10);
+        // Count patterns starting from corner numbers (1, 3, 7, 9) and multiply by 4 due to symmetry
+        ans += countPatternsFromNumber(1, 1, jump, visited) * 4;
+        
+        // Count patterns starting from edge numbers (2, 4, 6, 8) and multiply by 4 due to symmetry
+        ans += countPatternsFromNumber(2, 1, jump, visited) * 4;
+        
+        // Count patterns starting from center number (5)
+        ans += countPatternsFromNumber(5, 1, jump, visited);
         
         return ans;
     }
