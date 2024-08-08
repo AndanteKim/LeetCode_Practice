@@ -1,47 +1,29 @@
 class Solution {
 public:
     vector<vector<int>> spiralMatrixIII(int rows, int cols, int rStart, int cStart) {
-        int count = 0, currR = rStart, currC = cStart, magnitude = 1;
-        vector<vector<int>> ans;
+        // Store all possible directions in an array.
+        vector<pair<int, int>> dir{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
         
-        while (count < rows * cols){
-            // Right
-            for (int c = 0; c < magnitude && count < rows * cols; ++c){
-                if (0 <= currR && currR < rows && 0 <= currC && currC < cols){
-                    ans.push_back({currR, currC});    
-                    ++count;
+        vector<vector<int>> ans;
+        // Initial step size is 1, value of d represents the current direction.
+        int step = 1, direction = 0;
+        
+        while (ans.size() < rows * cols){
+            // direction = 0 -> East, direction = 1 -> South
+            // direction = 2 -> West, direction = 3 -> North
+            for (int i = 0; i < 2; ++i){
+                for (int j = 0; j < step; ++j){
+                    // Validate the current position
+                    if (0 <= rStart && rStart < rows && 0 <= cStart && cStart < cols)
+                        ans.push_back({rStart, cStart});
+                        
+                    // Make changes to the current position.
+                    rStart += dir[direction].first;
+                    cStart += dir[direction].second;
                 }
-                ++currC;
+                direction = (direction + 1) % 4;
             }
-            
-            // Down
-            for (int r = 0; r < magnitude && count < rows * cols; ++r){
-                if (0 <= currR && currR < rows && 0 <= currC && currC < cols){
-                    ans.push_back({currR, currC});    
-                    ++count;
-                }
-                ++currR;
-            }
-            
-            ++magnitude;
-            // Left
-            for (int c = 0; c < magnitude && count < rows * cols; ++c){
-                if (0 <= currR && currR < rows && 0 <= currC && currC < cols){
-                    ans.push_back({currR, currC});
-                    ++count;
-                }
-                --currC;
-            }
-            
-            // Up
-            for (int r = 0; r < magnitude && count < rows * cols; ++r){
-                if (0 <= currR && currR < rows && 0 <= currC && currC < cols){
-                    ans.push_back({currR, currC});    
-                    ++count;
-                }
-                --currR;
-            }
-            ++magnitude;
+            ++step;
         }
         
         return ans;
