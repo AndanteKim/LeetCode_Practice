@@ -1,59 +1,30 @@
 class Solution {
 private:
-    int m, n;
     bool isMagicSquare(vector<vector<int>>& grid, int row, int col){
-        vector<bool> seen(10);
-        for (int i = 0; i < 3; ++i){
-            for (int j = 0; j < 3; ++j){
-                int num = grid[row + i][col + j];
-                if (num < 1 || num > 9)
-                    return false;
-                if (seen[num]) return false;
-                seen[num] = true;
-            }
+        // The sequences are each repeated twice to account for
+        // the different possible starting points of the sequence
+        // in the magic square
+        string sequence = "2943816729438167", sequenceRev = "7618349276183492";
+        string border = "";
+        
+        // Flattened indices for bordering elements of 3x3 grid
+        vector<int> borderIndices {0, 1, 2, 5, 8, 7, 6, 3};
+        for (int i : borderIndices){
+            border += to_string(grid[row + (i / 3)][col + (i % 3)]);
         }
         
-
-        int dia = 0, antiDia = 0;
-        
-        // Check if diagonal sums are the same.
-        for (int i = 0; i < 3; ++i){
-            dia += grid[row + i][col + i];
-            antiDia += grid[row + 2 - i][col + i];
-        }
-        
-        if (dia != antiDia) return false;
-        
-        // Check if all row sums are the same as the diagonal sums
-        vector<int> rowSum(3);
-        for (int i = 0; i < 3; ++i){
-            for (int j = 0; j < 3; ++j)
-                rowSum[i] += grid[row + i][col + j];
-        }
-        
-        for (int i = 0; i < 3; ++i) if (rowSum[i] != dia) return false;
-        
-        // Check if all column sums are the same as the diagonal sums
-        vector<int> colSum(3);
-        for (int i = 0; i < 3; ++i){
-            for (int j = 0; j < 3; ++j)
-                colSum[i] += grid[row + j][col + i];
-        }
-        
-        for (int i = 0; i < 3; ++i) if (colSum[i] != dia) return false;
-        
-        return true;
+        // Make sure the sequence starts at one of the corners
+        return grid[row][col] % 2 == 0 && (sequence.find(border) != std::string::npos || \
+                                           sequenceRev.find(border) != std::string::npos) && grid[row + 1][col + 1] == 5;
     }
     
 public:
     int numMagicSquaresInside(vector<vector<int>>& grid) {
-        this -> m = grid.size(), this -> n = grid[0].size();
-        if (m < 3 || n < 3) return 0;
+        int ans = 0, m = grid.size(), n = grid[0].size();
         
-        int ans = 0;
-        for (int i = 0; i < m - 2; ++i){
-            for (int j = 0; j < n - 2; ++j){
-                if (isMagicSquare(grid, i, j))
+        for (int row = 0; row < m - 2; ++row){
+            for (int col = 0; col < n - 2; ++col){
+                if (isMagicSquare(grid, row, col))
                     ++ans;
             }
         }
