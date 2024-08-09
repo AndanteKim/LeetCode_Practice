@@ -1,59 +1,31 @@
 class Solution:
     def numMagicSquaresInside(self, grid: List[List[int]]) -> int:
-        self.m, self.n = len(grid), len(grid[0])
+        ans, m, n = 0, len(grid), len(grid[0])
         
-        # Base case
-        if self.m < 3 or self.n < 3:
-            return 0
-        
-        ans = 0
-        for i in range(self.m - 2):
-            for j in range(self.n - 2):
-                if self._is_magic_square(grid, i, j):
+        for row in range(m - 2):
+            for col in range(n - 2):
+                if self._is_magic_square(grid, row, col):
                     ans += 1
-                    
         return ans
-    
+                
     def _is_magic_square(self, grid: List[List[int]], row: int, col: int) -> bool:
-        seen = [False] * 10
+        # The sequences are each repeated twice to account for
+        # the different possible starting points of the sequence
+        # in the magic square
+        sequence = "2943816729438167"
+        sequence_reversed = "7618349276183492"
         
-        for i in range(3):
-            for j in range(3):
-                num = grid[row + i][col + j]
-                if num < 1 or num > 9:
-                    return False
-                
-                if seen[num]:
-                    return False
-                
-                seen[num] = True
-                
-        # Check if diagonal sums are the same
-        dia, anti_dia = 0, 0
-        for k in range(3):
-            dia += grid[row + k][col + k]
-            anti_dia += grid[row + 2 - k][col + k]
-        if dia != anti_dia:
-            return False
+        border = []
+        # Flattened indices for bordering elements of 3x3 grid
+        border_indices = [0, 1, 2, 5, 8, 7, 6, 3]
         
-        # Check if all row sums are the same as the diagonal sums
-        row_sum = [0] * 3
-        for i in range(3):
-            for j in range(3):
-                row_sum[i] += grid[row + i][col + j]
-        
-        for i in range(3):
-            if row_sum[i] != dia:
-                return False
+        for i in border_indices:
+            num = grid[row + (i // 3)][col + (i % 3)]
+            border.append(str(num))
             
-        # Check if all column sums are the same as the diagonal sums
-        col_sum = [0] * 3
-        for i in range(3):
-            for j in range(3):
-                col_sum[i] += grid[row + j][col + i]
+        border_converted = "".join(border)
         
-        for i in range(3):
-            if col_sum[i] != dia:
-                return False
-            
-        return True
+        # Make sure the sequence starts at one of the corners
+        return (grid[row][col] % 2 == 0 and (sequence.find(border_converted) != -1 or \
+                                            sequence_reversed.find(border_converted) != -1)\
+                and grid[row + 1][col + 1] == 5)
