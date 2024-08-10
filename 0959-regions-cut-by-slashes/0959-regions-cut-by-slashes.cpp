@@ -1,68 +1,69 @@
 class Solution {
 private:
-    int n;
-    vector<pair<int, int>> directions {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
-    
-    // Check if a cell is within bounds and unvisited
-    bool notValid(vector<vector<int>>& expandedGrid, int row, int col){
-        return row < 0 || row >= n || col < 0 || col >= n || expandedGrid[row][col];
+    // Calculate the index of a triangle in the flattened array
+    // Each cell is divided into 4 triangles, numbered 0 to 3 clockwise from the top
+    int getTriangleIndex(int gridSize, int row, int col, int triangleNum){
+        return (gridSize * row + col) * 4 + triangleNum;
     }
     
-    // Flood fill algorithm to mark all cells in a region
-    void floodFill(vector<vector<int>>& expandedGrid, int row, int col){
-        if (notValid(expandedGrid, row, col))
-            return;
+    // Union two triangles and return 1 if they were not already connected, 0 otherwise
+    int unionTriangles(vector<int>& parentArr, int x, int y){
+        int parentX = findParents(parentArr, x), parentY = findParents(parentArr, y);
         
-        expandedGrid[row][col] = 1;
-        
-        // Check all 4 directions from the current cell
-        for (auto& [dr, dc] : directions){
-            int newR = row + dr, newC = col + dc;
-            floodFill(expandedGrid, newR, newC);
+        if (parentX != parentY){
+            parentArr[parentX] = parentY;
+            return 1;   // Regions were merged, so count decreases by 1
         }
+        return 0;   // Regions were already connected
     }
+    
+    // Find the parent (root) of a set
+    int findParents(vector<int>& parentArr, int x){
+        if (parentArr[x] == -1)
+            return x;
+        
+        parentArr[x] = findParents(parentArr, parentArr[x]);
+        return parentArr[x];
+    }
+    
     
 public:
     int regionsBySlashes(vector<string>& grid) {
         int gridSize = grid.size();
         
-        // Create a 3x3 matrix for each cell in the original grid
-        vector expandedGrid(gridSize * 3, vector<int>(gridSize * 3));
+        // Initially, each small triangle is a separate region
+        int totalTriangle = gridSize * gridSize * 4, ans = totalTriangle;
+        vector<int> parentArr(totalTriangle, -1);
         
-        // Populate the expanded grid based on the original grid
-        // 1 represents a barrier in the expanded grid
-        for (int i = 0; i < gridSize; ++i){
-            for (int j = 0; j < gridSize; ++j){
-                int baseRow = i * 3, baseCol = j * 3;
+        for (int row = 0; row < gridSize; ++row){
+            for (int col = 0; col < gridSize; ++col){
+                // Connect with the cell above
+                if (row > 0){
+                    ans -= unionTriangles(parentArr, getTriangleIndex(gridSize, row - 1, col, 2),\
+                                         getTriangleIndex(gridSize, row, col, 0));
+                }
                 
-                // Check the character in the original grid
-                if (grid[i][j] == '\\'){
-                    // Mark diagonal for backslash
-                    expandedGrid[baseRow][baseCol] = 1;
-                    expandedGrid[baseRow + 1][baseCol + 1] = 1;
-                    expandedGrid[baseRow + 2][baseCol + 2] = 1;
+                // Connect with the cell to the left
+                if (col > 0){
+                    ans -= unionTriangles(parentArr, getTriangleIndex(gridSize, row, col - 1, 1), \
+                                         getTriangleIndex(gridSize, row, col, 3));
                 }
-                else if (grid[i][j] == '/'){
-                    // Mark diagonal for forward slash
-                    expandedGrid[baseRow + 2][baseCol] = 1;
-                    expandedGrid[baseRow + 1][baseCol + 1] = 1;
-                    expandedGrid[baseRow][baseCol + 2] = 1;
+                
+                // If not '/', connect triangles 0-1 and 2-3
+                if (grid[row][col] != '/'){
+                    ans -= unionTriangles(parentArr, getTriangleIndex(gridSize, row, col, 0),\
+                                         getTriangleIndex(gridSize, row, col, 1));
+                    ans -= unionTriangles(parentArr, getTriangleIndex(gridSize, row, col, 2),\
+                                         getTriangleIndex(gridSize, row, col, 3));
                 }
-            }
-        }
-        
-        int ans = 0;
-        this -> n = expandedGrid.size();
-        
-        // Count regions using flood fill
-        for (int i = 0; i < n; ++i){
-            for (int j = 0; j < n; ++j){
-                // If we find an unvisited cell (0), it's a new region
-                if (expandedGrid[i][j] == 0){
-                    // Fill that region
-                    floodFill(expandedGrid, i, j);
-                    ++ans;
-                }    
+                
+                // If not '\' connect triangles 0-3 and 1-2 
+                if (grid[row][col] != '\\'){
+                    ans -= unionTriangles(parentArr, getTriangleIndex(gridSize, row, col, 0),\
+                                         getTriangleIndex(gridSize, row, col, 3));
+                    ans -= unionTriangles(parentArr, getTriangleIndex(gridSize, row, col, 2),\
+                                         getTriangleIndex(gridSize, row, col, 1));
+                }
             }
         }
         
