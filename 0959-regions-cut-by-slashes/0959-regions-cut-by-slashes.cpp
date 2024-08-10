@@ -1,14 +1,15 @@
 class Solution {
 private:
     int n;
+    vector<pair<int, int>> directions {{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
     
     // Check if a cell is within bounds and unvisited
-    bool isValid(vector<vector<int>>& expandedGrid, int row, int col){
+    bool isValid(const vector<vector<int>>& expandedGrid, const int row, const int col){
         return 0 <= row && row < n && 0 <= col && col < n && expandedGrid[row][col] == 0;
     }
     
     // Flood fill algorithm to mark all cells in a region
-    void floodFill(vector<vector<int>>& expandedGrid, int row, int col){
+    void floodFill(vector<vector<int>>& expandedGrid, const int row, const int col){
         expandedGrid[row][col] = 1;
         queue<pair<int, int>> queue;
         queue.push({row, col});
@@ -17,7 +18,7 @@ private:
             auto [r, c] = queue.front(); queue.pop();
             
             // Check all four directions from the current cell
-            for (auto& [dr, dc] : vector<pair<int, int>>{{1, 0}, {-1, 0}, {0, 1}, {0, -1}}){
+            for (auto& [dr, dc] : directions){
                 int newR = r + dr, newC = c + dc;
                 
                 // If the new cell is valid and unvisited, mark it and add to queue
