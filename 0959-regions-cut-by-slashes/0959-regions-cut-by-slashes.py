@@ -1,73 +1,54 @@
 class Solution:
-    # Calculate the index of a triangle in the flattened array
-    # Each cell is divided into 4 triangles, numbered 0 to 3 clockwise from the top
-    def _get_triangle_index(self, grid_sz: int, row: int, col: int, triangle_num: int) -> int:
-        return (grid_sz * row + col) * 4 + triangle_num
-
-    # Union two triangles and return 1 if they were not already connected, 0 otherwise
-    def _union_triangles(self, parent_arr: List[int], x: int, y: int) -> int:
-        parent_x = self._find_parent(parent_arr, x)
-        parent_y = self._find_parent(parent_arr, y)
-        
-        if parent_x != parent_y:
-            parent_arr[parent_x] = parent_y
-            return 1    # Regions were merged, so count decreases by 1
-        return 0    # Regions were already connected
-    
-    # Find the parent (root) of a set.
-    def _find_parent(self, parent_arr: List[int], x: int) -> int:
-        if parent_arr[x] == -1:
-            return x
-        
-        parent_arr[x] = self._find_parent(parent_arr, parent_arr[x])
-        return parent_arr[x]
-    
     def regionsBySlashes(self, grid: List[str]) -> int:
-        grid_sz = len(grid)
-        total_triangles = grid_sz * grid_sz * 4
-        parent_arr = [-1] * total_triangles
+        grid_size = len(grid)
+        pts_per_side = grid_size + 1
+        total_pts = pts_per_side ** 2
         
-        # Initially, each small triangle is a separate region
-        ans = total_triangles
+        # Initialize disjoint set data structure
+        parent_arr = [-1] * total_pts
         
-        for row in range(grid_sz):
-            for col in range(grid_sz):
-                # Connect with the cell above
-                if row > 0:
-                    ans -= self._union_triangles(parent_arr, \
-                                                 self._get_triangle_index(grid_sz, row - 1, col, 2),\
-                                                 self._get_triangle_index(grid_sz, row, col, 0)\
-                                                )
-                
-                # Connect with the cell to the left
-                if col > 0:
-                    ans -= self._union_triangles(parent_arr, \
-                                                self._get_triangle_index(grid_sz, row, col - 1, 1),\
-                                                self._get_triangle_index(grid_sz, row, col, 3)\
-                                                )
+        # Connect border points
+        for i in range(pts_per_side):
+            for j in range(pts_per_side):
+                if i == 0 or j == 0 or i == pts_per_side - 1 or j == pts_per_side - 1:
+                    pt = i * pts_per_side + j
+                    parent_arr[pt] = 0
                     
-                # If not '/', connect triangles 0-1 and 2-3
-                if grid[row][col] != "/":
-                    ans -= self._union_triangles(
-                        parent_arr,\
-                        self._get_triangle_index(grid_sz, row, col, 0),\
-                        self._get_triangle_index(grid_sz, row, col, 1)\
-                    )
+        # Set the parent of the top-left corner to itself
+        parent_arr[0] = -1
+        
+        # Start with one region (the border)
+        ans = 1
+        
+        # Process each cell in the grid
+        for i in range(grid_size):
+            for j in range(grid_size):
+                # Treat each slash as an edge connecting two points
+                if grid[i][j] == '/':
+                    top_right = i * pts_per_side + (j + 1) 
+                    bottom_left = (i + 1) * pts_per_side + j
+                    ans += self._union(parent_arr, top_right, bottom_left)
                     
-                    ans -= self._union_triangles(
-                        parent_arr,\
-                        self._get_triangle_index(grid_sz, row, col, 2),\
-                        self._get_triangle_index(grid_sz, row, col, 3)\
-                    )
-                    
-                # If not '\', connect triangles 0-3 and 1-2
-                if grid[row][col] != '\\':
-                    ans -= self._union_triangles(parent_arr, \
-                                                 self._get_triangle_index(grid_sz, row, col, 0),\
-                                                 self._get_triangle_index(grid_sz, row, col, 3)
-                                                )
-                    ans -= self._union_triangles(parent_arr, \
-                                                 self._get_triangle_index(grid_sz, row, col, 2),\
-                                                 self._get_triangle_index(grid_sz, row, col, 1))
+                elif grid[i][j] == '\\':
+                    top_left = i * pts_per_side + j
+                    bottom_right = (i + 1) * pts_per_side + (j + 1)
+                    ans += self._union(parent_arr, top_left, bottom_right)
                     
         return ans
+    
+    def _find(self, parent_arr: List[int], node: int) -> int:
+        if parent_arr[node] == -1:
+            return node
+        
+        parent_arr[node] = self._find(parent_arr, parent_arr[node])
+        return parent_arr[node]
+        
+    def _union(self, parent_arr: List[int], node1: int, node2: int) -> int:
+        parent1 = self._find(parent_arr, node1)
+        parent2 = self._find(parent_arr, node2)
+        
+        if parent1 == parent2:
+            return 1    # Nodes are already in the same set, new region formed
+        
+        parent_arr[parent2] = parent1   # Union the sets
+        return 0    # No new region formed
