@@ -1,34 +1,70 @@
 class Solution {
+private:
+    // Count number of pairs with distance <= m
+    int countPairs(vector<int>& nums, vector<int>& prefixCount, vector<int>& valueCount, int maxDist){
+        int count = 0, n = nums.size(), index = 0;
+        
+        while (index < n){
+            int currVal = nums[index];
+            int valueCountForCurrent = valueCount[currVal];
+            
+            // Calculate pairs involving current value with distance <= maxDist
+            int pairsWithLargerValue = prefixCount[min(currVal + maxDist, (int)prefixCount.size() - 1)] - prefixCount[currVal];
+            int pairsWithSameValue = (valueCountForCurrent * (valueCountForCurrent - 1)) >> 1;
+            
+            count += pairsWithLargerValue * valueCountForCurrent + pairsWithSameValue;
+            
+            // Skip duplicate values
+            while (index + 1 < n && nums[index] == nums[index + 1])
+                ++index;
+            ++index;
+        }
+        
+        return count;
+    }
+    
 public:
     int smallestDistancePair(vector<int>& nums, int k) {
-        // Find the size of nums and the maximum element in the array
-        int n = nums.size(), maxElement = *max_element(nums.begin(), nums.end());
+        sort(nums.begin(), nums.end());
+        int n = nums.size();
         
-        // Initialize a bucket array to store counts of each distance
-        vector<int> distanceBucket(maxElement + 1);
+        // Largest element in the sorted array
+        int maxElem = nums.back();
         
-        // Populate the bucket array with counts of each distance
-        for (int i = 0; i < n; ++i){
-            for (int j = i + 1; j < n; ++j){
-                // Compute the distance between nums[i] and nums[j]
-                int dist = abs(nums[i] - nums[j]);
-                
-                // Increment the count for this distance in the bucket
-                ++distanceBucket[dist];
-            }
-        }
+        // Maximum possible distance
+        int maxPossibleDist = maxElem * 2;
         
-        // Find the k-th smallest distance
-        for (int dist = 0; dist <= maxElement; ++dist){
-            // Reduce k by the number of pairs with the current distance
-            k -= distanceBucket[dist];
+        // Initialize arrays for prefix counts and value counts
+        vector<int> prefixCount(maxPossibleDist), valueCount(maxElem + 1);
+        
+        // Populate the prefixCount array
+        int index = 0;
+        for (int val = 0; val < maxPossibleDist; ++val){
+            while (index < n && nums[index] <= val)
+                ++index;
             
-            // If k is less than or equal to 0, return the current distance
-            if (k <= 0)
-                return dist;
+            prefixCount[val] = index;
         }
         
-        // If no distance found as edge cases
-        return -1;
+        // Populate the valueCount array
+        for (int val : nums)
+            ++valueCount[val];
+        
+        // Binary search for the k-th smallest distance
+        int left = 0, right = maxElem;
+        while (left < right){
+            int mid = (left + right) >> 1;
+            
+            // Count pairs with distance <= mid
+            int count = countPairs(nums, prefixCount, valueCount, mid);
+            
+            // Adjust binary search bounds based on count
+            if (count >= k)
+                right = mid;
+            else
+                left = mid + 1;
+        }
+        
+        return left;
     }
 };
