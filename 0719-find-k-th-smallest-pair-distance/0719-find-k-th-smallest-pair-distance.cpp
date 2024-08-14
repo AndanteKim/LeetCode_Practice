@@ -1,7 +1,7 @@
 class Solution {
 private:
     // Count number of pairs with distance <= m
-    int countPairs(vector<int>& nums, vector<int>& prefixCount, vector<int>& valueCount, int maxDist){
+    int countPairs(const vector<int>& nums, const vector<int>& prefixCount, unordered_map<int, int>& valueCount, const int maxDist){
         int count = 0, n = nums.size(), index = 0;
         
         while (index < n){
@@ -9,7 +9,7 @@ private:
             int valueCountForCurrent = valueCount[currVal];
             
             // Calculate pairs involving current value with distance <= maxDist
-            int pairsWithLargerValue = prefixCount[min(currVal + maxDist, (int)prefixCount.size() - 1)] - prefixCount[currVal];
+            int pairsWithLargerValue = prefixCount[currVal + maxDist] - prefixCount[currVal];
             int pairsWithSameValue = (valueCountForCurrent * (valueCountForCurrent - 1)) >> 1;
             
             count += pairsWithLargerValue * valueCountForCurrent + pairsWithSameValue;
@@ -34,8 +34,9 @@ public:
         // Maximum possible distance
         int maxPossibleDist = maxElem * 2;
         
-        // Initialize arrays for prefix counts and value counts
-        vector<int> prefixCount(maxPossibleDist), valueCount(maxElem + 1);
+        // Initialize arrays for prefix counts
+        vector<int> prefixCount(maxPossibleDist);
+        unordered_map<int, int> valueCount;
         
         // Populate the prefixCount array
         int index = 0;
