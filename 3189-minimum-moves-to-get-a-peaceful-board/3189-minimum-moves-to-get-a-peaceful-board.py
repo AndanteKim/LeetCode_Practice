@@ -1,18 +1,15 @@
 class Solution:
     def minMoves(self, rooks: List[List[int]]) -> int:
         n, ans = len(rooks), 0
-        rooks.sort()
-        row = 0 
-        for i in range(n):
-            ans += abs(rooks[i][0] - row)
-            rooks[i][0] = row
-            row += 1
-            
-        rooks.sort(key = lambda x : x[1])
-        col = 0
-        for i in range(n):
-            ans += abs(rooks[i][1] - col)
-            rooks[i][1] = col
-            col += 1
         
+        rooks.sort()
+        # Moves required to place rooks in each row
+        for i in range(n):
+            ans += abs(i - rooks[i][0])
+        
+        rooks.sort(key = lambda x: x[1])
+        # Moves required to place rooks in each column
+        for i in range(n):
+            ans += abs(i - rooks[i][1])
+            
         return ans
