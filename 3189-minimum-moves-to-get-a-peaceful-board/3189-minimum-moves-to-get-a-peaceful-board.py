@@ -2,7 +2,7 @@ class Solution:
     def minMoves(self, rooks: List[List[int]]) -> int:
         ans, n = 0, len(rooks)
         
-        # Store the count of rooks in each row and colimn
+        # Store the count of rooks in each row and column
         row, col = [0] * n, [0] * n
         for r in rooks:
             row[r[0]] += 1
