@@ -1,21 +1,24 @@
 class Solution {
 public:
     bool lemonadeChange(vector<int>& bills) {
-        vector<int> currencies(3);
-        unordered_map<int, int> mappingIndexToDollars{{0, 5}, {1, 10}, {2, 20}}, mappingDollarsToIndex{{5, 0}, {10, 1}, {20, 2}};
+        // Concise simulation
+        int five = 0, ten = 0;
         
-        for (int i = 0; i < bills.size(); ++i){
-            int change = bills[i] - 5;
-            
-            for (int curr = 2; curr >= 0 && change > 0; --curr){
-                int units = min(change / mappingIndexToDollars[curr], currencies[curr]);
-                change -= mappingIndexToDollars[curr] * units;
-                currencies[curr] -= units;
+        for (int bill : bills){
+            if (bill == 5)
+                ++five;
+            else if (bill == 10){
+                --five;
+                ++ten;
             }
+            else if (ten > 0){
+                --five;
+                --ten;
+            }
+            else five -= 3;
             
-            if (change > 0) return false;
-            ++currencies[mappingDollarsToIndex[bills[i]]];
-            
+            if (five < 0)
+                return false;
         }
         
         return true;
