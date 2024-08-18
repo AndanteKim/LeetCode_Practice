@@ -1,14 +1,34 @@
 class Solution:
     def nthUglyNumber(self, n: int) -> int:
-        pq, multiplies, seen = [1], (2, 3, 5), {1}
+        # Dp array to store ugly numbers
+        ugly_nums = [0] * n
         
-        for i in range(n):
-            min_n = heappop(pq)
+        # The first ugly number is 1
+        ugly_nums[0] = 1
+        
+        # 3 pointers for the multiples of 2, 3, and 5
+        idx_2, idx_3, idx_5 = 0, 0, 0
+        next_2, next_3, next_5 = 2, 3, 5
+        
+        # Generate ugly numbers until we reach the nth one
+        for i in range(1, n):
+            # Find the next ugly number as the minimum of the next multiples
+            next_ugly = min(next_2, next_3, next_5)
+            ugly_nums[i] = next_ugly
             
-            for multiply in multiplies:
-                nxt = min_n * multiply
+            # Update the corresponding pointer and next multiple
+            if next_ugly == next_2:
+                idx_2 += 1
+                next_2 = ugly_nums[idx_2] * 2
+            
+            if next_ugly == next_3:
+                idx_3 += 1
+                next_3 = ugly_nums[idx_3] * 3
                 
-                if nxt not in seen:
-                    heappush(pq, nxt)
-                    seen.add(nxt)
-        return min_n
+            if next_ugly == next_5:
+                idx_5 += 1
+                next_5 = ugly_nums[idx_5] * 5
+                
+        # Return the nth ugly number
+        return ugly_nums[n - 1]
+                
