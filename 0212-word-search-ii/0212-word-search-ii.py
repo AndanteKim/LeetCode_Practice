@@ -16,7 +16,7 @@ class Solution:
         
         ans = []
         
-        def backtrack(row: int, col: int, parent: Dict[chr, dict]) -> None:
+        def backtrack(row: int, col: int, parent: Dict[chr, Union[chr, str]]) -> None:
             letter = board[row][col]
             curr_node = parent[letter]
             
@@ -30,7 +30,7 @@ class Solution:
             # Before the exploration, mark the cell as visited
             board[row][col] = "#"
             
-            # Explore the neighbors in 4 directions, i.e. up, right, down, left
+            # Explore the neighbors in 4 directions, i.e. up, down, left, right
             for dr, dc in ((-1, 0), (1, 0), (0, -1), (0, 1)):
                 new_r, new_c = row + dr, col + dc
                 if new_r < 0 or new_r >= rows or new_c < 0 or new_c >= cols:
