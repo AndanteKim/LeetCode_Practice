@@ -1,57 +1,79 @@
-class Solution:
-    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:
-        word_key = "$"
-        trie = dict()
+class Solution {
+private:
+    int rows, cols;
+    // 4 Directions i.e. up, down, left, right
+    vector<pair<int, int>> directions{{1, 0}, {-1, 0}, {0, -1}, {0, 1}};
+    struct Trie{
+        string word;
+        unordered_map<char, Trie*> children;
+        Trie(): word(""), children({}){}
+    };
+    
+    void createTrie(string& word, Trie *curr){
+        for (char& letter : word){
+            if (!curr -> children.count(letter))
+                curr -> children[letter] = new Trie();
+            curr = curr -> children[letter];
+        }
         
-        for word in words:
-            node = trie
-            for letter in word:
-                # Retrieve the next node; If not found, create a empty node.
-                node = node.setdefault(letter, {})
-                
-            # Mark the existence of a word in trie node
-            node[word_key] = word
-            
-        rows, cols = len(board), len(board[0])
+        // Store words in Trie
+        curr -> word = word; 
+    }
+    
+    void backtrack(int row, int col, Trie *parent, vector<vector<char>>& board, vector<string>& ans){
+        char letter = board[row][col];
+        Trie *currNode = parent -> children[letter];
         
-        ans = []
+        // Check if there is any match.
+        if (!currNode -> word.empty()){
+            ans.push_back(currNode -> word);
+            // Prevent duplicate entries
+            currNode -> word.clear();
+        }
         
-        def backtrack(row: int, col: int, parent: Dict[chr, Union[chr, str]]) -> None:
-            letter = board[row][col]
-            curr_node = parent[letter]
+        // Mark the current letter before the exploration
+        board[row][col] = '#';
+        
+        // Explore the neighbor cells
+        for (auto& [dr, dc] : directions){
+            int newR = row + dr, newC = col + dc;
             
-            # Check if we find a match of word
-            word_match = curr_node.pop(word_key, False)
-            if word_match:
-                # Also we removed the matched word to avoid duplicates,
-                # as well as avoiding using set() for results.
-                ans.append(word_match)
-                
-            # Before the exploration, mark the cell as visited
-            board[row][col] = "#"
+            if (newR < 0 || newR >= rows || newC < 0 || newC >= cols)
+                continue;
             
-            # Explore the neighbors in 4 directions, i.e. up, down, left, right
-            for dr, dc in ((-1, 0), (1, 0), (0, -1), (0, 1)):
-                new_r, new_c = row + dr, col + dc
-                if new_r < 0 or new_r >= rows or new_c < 0 or new_c >= cols:
-                    continue
-                
-                if not board[new_r][new_c] in curr_node:
-                    continue
-                    
-                backtrack(new_r, new_c, curr_node)
-                
-            # End of exploration, we restore the cell
-            board[row][col] = letter
+            if (!currNode -> children.count(board[newR][newC]))
+                continue;
             
-            # Optimization: incrementally remove the matched leaf node in Trie.
-            if not curr_node:
-                parent.pop(letter)
-                
-        for row in range(rows):
-            for col in range(cols):
-                # Starting from each of the cells
-                if board[row][col] in trie:
-                    backtrack(row, col, trie)
-                    
-        return ans
+            backtrack(newR, newC, currNode, board, ans);
+        }
+        
+        // End of exploration, restore the original letter in the board.
+        board[row][col] = letter;
+        
+        // Optimization: Incrementally remove the leaf nodes.
+        if (currNode -> children.empty())
+            parent -> children.erase(letter);
+    }
+    
+public:
+    vector<string> findWords(vector<vector<char>>& board, vector<string>& words) {
+        this -> rows = board.size(), this -> cols = board[0].size();
+        Trie *root = new Trie();
+        
+        // Step 1). Construct the Trie.
+        for (string& word: words){
+            createTrie(word, root);
+        }
+        
+        vector<string> ans;
+        // Step 2). Backtrack starting for each cell in the board
+        for (int row = 0; row < rows; ++row){
+            for (int col = 0; col < cols; ++col){
+                if (root -> children.count(board[row][col]))
+                    backtrack(row, col, root, board, ans);
+            }
+        }
+        
+        return ans;
+    }
+};
