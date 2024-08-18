@@ -7,7 +7,7 @@ public:
         // The first ugly number is 1
         uglyNumbers[0] = 1;
         
-        // 3 Pointers to for the multiples of 2, 3, 5
+        // 3 Pointers for the multiples of 2, 3, 5
         int indexOf2 = 0, indexOf3 = 0, indexOf5 = 0;
         int nextMultipleOf2 = 2, nextMultipleOf3 = 3, nextMultipleOf5 = 5;
         
