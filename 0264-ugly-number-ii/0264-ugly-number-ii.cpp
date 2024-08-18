@@ -1,23 +1,26 @@
 class Solution {
 public:
     int nthUglyNumber(int n) {
-        set<long> uglySets;     // Set to store potential ugly numbers
-        uglySets.insert(1);     // Start with 1, the first ugly number
-        long currUgly = 1;
+        priority_queue<long, vector<long>, greater<long>> minHeap;
+        minHeap.push(1);
+        unordered_set<long> seen;
+        seen.insert(1);
+        vector<int> primeFactors{2, 3, 5};
+        long minNum;
         
         for (int i = 0; i < n; ++i){
-            // Get the smallest number from the set
-            currUgly = *uglySets.begin();
+            minNum = minHeap.top();
+            minHeap.pop();
             
-            // Remove it from the set
-            uglySets.erase(currUgly);
-            
-            // Insert the next potential ugly numbers
-            uglySets.insert(currUgly * 2);
-            uglySets.insert(currUgly * 3);
-            uglySets.insert(currUgly * 5);
+            for (int prime : primeFactors){
+                long next = prime * minNum;
+                if (!seen.count(next)){
+                    minHeap.push(next);
+                    seen.insert(next);
+                }
+            }
         }
         
-        return static_cast<int>(currUgly);  // Return the nth ugly number
+        return static_cast<int>(minNum);
     }
 };
