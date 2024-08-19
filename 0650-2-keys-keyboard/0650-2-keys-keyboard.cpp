@@ -1,20 +1,18 @@
 class Solution {
 public:
     int minSteps(int n) {
-        vector<int> dp(n + 1, 1000);
+        int ans = 0, d = 2;
         
-        // base case
-        dp[1] = 0;
-        for (int i = 2; i <= n; ++i){
-            for (int j = 1; j <= (i >> 1); ++j){
-                if (i % j == 0){
-                    // Copy all and paste (i - j) / j times
-                    // for all valid j's
-                    dp[i] = min(dp[i], dp[j] + i / j);
-                }
+        while (n > 1){
+            // If d is prime number, keep dividing 
+            // n by d until there's no longer divisible.
+            while (n % d == 0){
+                n /= d;
+                ans += d;
             }
+            ++d;
         }
         
-        return dp[n];
+        return ans;
     }
 };
