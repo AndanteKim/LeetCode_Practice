@@ -1,16 +1,25 @@
 class Solution:
     def minSteps(self, n: int) -> int:
-        @lru_cache(maxsize = None)
-        def dp(curr: int, a_cnt: int) -> int:
-            # base case
-            if curr >= n:
-                return 0 if curr == n else float('inf')
-            
-            # Paste of the count of 'A' or copy all and then paste the count of 'A'
-            min_steps = 1 + dp(curr + a_cnt, a_cnt)
-            a_cnt = curr
-            min_steps = min(min_steps, 2 + dp(curr + a_cnt, a_cnt))
-            
-            return min_steps
+        if n == 1:
+            return 0
         
-        return 0 if n == 1 else 1 + dp(1, 1)
+        self.n = n
+        self.memo = [[-1] * ((n >> 1) + 1) for _ in range(n + 1)]
+        return 1 + self._min_steps_helper(1, 1)
+    
+    def _min_steps_helper(self, curr_len: int, paste_len: int) -> int:
+        if curr_len == self.n:
+            return 0
+        
+        if curr_len > self.n:
+            return 1000
+        
+        # return result if it has been calculated already
+        if self.memo[curr_len][paste_len] != -1:
+            return self.memo[curr_len][paste_len]
+        
+        opt1 = 1 + self._min_steps_helper(curr_len + paste_len, paste_len)
+        opt2 = 2 + self._min_steps_helper(curr_len * 2, curr_len)
+        
+        self.memo[curr_len][paste_len] = min(opt1, opt2)
+        return self.memo[curr_len][paste_len]
