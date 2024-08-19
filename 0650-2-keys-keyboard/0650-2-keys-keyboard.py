@@ -1,15 +1,13 @@
 class Solution:
     def minSteps(self, n: int) -> int:
-        dp = [1000] * (n + 1)
+        ans, d = 0, 2
         
-        # Base case
-        dp[1] = 0
-        
-        for i in range(2, n + 1):
-            for j in range(1, (i >> 1) + 1):
-                # Copy all and paste (i - j) / j times
-                # for all valid j's
-                if i % j == 0:
-                    dp[i] = min(dp[i], dp[j] + i // j)
-        
-        return dp[n]
+        while n > 1:
+            while n % d == 0:
+                # If d is prime factor, keep dividing
+                # n by d until there is no longer divisible
+                n //= d
+                ans += d
+            d += 1
+            
+        return ans
