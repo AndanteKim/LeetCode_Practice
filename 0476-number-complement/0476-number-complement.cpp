@@ -1,17 +1,13 @@
 class Solution {
 public:
     int findComplement(int num) {
-        int todo = num, flip = 1;
+        // n is a length of num in binary representation
+        int n = log2(num) + 1;
         
-        while (todo){
-            // flip the current bit
-            num ^= flip;
-            
-            // prepare for the next run
-            flip <<= 1;
-            todo >>= 1;
-        }
+        // The bitmask has the same length as num and contains only ones 1...1
+        int bitmask = (long)(1 << n) - 1;
         
-        return num;
+        // Flip all bits
+        return static_cast<int>(bitmask ^ num);
     }
 };
