@@ -1,18 +1,33 @@
 class Solution:
     def generateParenthesis(self, n: int) -> List[str]:
-        def backtrack(i: int, curr: str, balance: int) -> None:
-            if i == n * 2:
-                if balance == 0:
-                    ans.append(curr)
-                return
+        def is_valid(p_str: str) -> bool:
+            left_count = 0
             
-            if balance < 0:
-                return
-            
-            backtrack(i + 1, curr + '(', balance + 1)
-            backtrack(i + 1, curr + ')', balance - 1)
+            for p in p_str:
+                if p == '(':
+                    left_count += 1
+                else:    
+                    left_count -= 1
+                    
+                if left_count < 0:
+                    return False
+                
+            return left_count == 0
         
         ans = []
-        backtrack(0, "", 0)
+        queue = deque([""])
         
+        while queue:
+            curr_str = queue.popleft()
+            
+            # If the length of curr_str is 2 * n, add it to 'answer' if
+            # it's valid.
+            if len(curr_str) == 2 * n:
+                if is_valid(curr_str):
+                    ans.append(curr_str)
+                continue
+            
+            queue.append(curr_str + '(')
+            queue.append(curr_str + ')')
+    
         return ans
