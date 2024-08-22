@@ -6,7 +6,6 @@ public:
         
         vector<string> ans;
         for (int leftCount = 0; leftCount < n; ++leftCount){
-            string curr = "";
             for (const string& leftString : generateParenthesis(leftCount)){
                 for (const string& rightString : generateParenthesis(n - 1 - leftCount)){
                     ans.push_back("(" + leftString + ")" + rightString);
