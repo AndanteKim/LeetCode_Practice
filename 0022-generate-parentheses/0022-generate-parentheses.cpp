@@ -1,24 +1,39 @@
 class Solution {
 private:
-    int n;
-    void backtrack(vector<string>& ans, int i, string curr, int balance){
-        if (i == n * 2){
-            if (balance == 0)
-                ans.push_back(curr);
-            return;
-        }
-        if (balance < 0)
-            return;
+    bool isValid(string& pString){
+        int leftCount = 0;
         
-        backtrack(ans, i + 1, curr + "(", balance + 1);
-        backtrack(ans, i + 1, curr + ")", balance - 1);
+        for (const char& p : pString){
+            if (p == '(')
+                ++leftCount;
+            else
+                --leftCount;
+            
+            if (leftCount < 0) return false;
+        }
+        
+        return leftCount == 0;
     }
     
 public:
     vector<string> generateParenthesis(int n) {
-        this -> n = n;
+        queue<string> queue;
+        queue.push("");
         vector<string> ans;
-        backtrack(ans, 0, "", 0);
+        
+        while (!queue.empty()){
+            auto currStr = queue.front(); queue.pop();
+            
+            // If the length of current string is 2 * n, add it to 'answer' if it's valid.
+            if (currStr.size() == 2 * n){
+                if (isValid(currStr))
+                    ans.push_back(currStr);
+                continue;
+            }
+            
+            queue.push(currStr + "(");
+            queue.push(currStr + ")");
+        }
         
         return ans;
     }
