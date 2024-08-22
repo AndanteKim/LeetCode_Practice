@@ -1,12 +1,13 @@
 class Solution:
     def findComplement(self, num: int) -> int:
-        ans, bitwise = 0, 1
+        todo, bit = num, 1
         
-        while bitwise < num:
-            if not num & bitwise:
-                ans += bitwise
-                
-            bitwise <<= 1
+        while todo:
+            # flip the current bit
+            num ^= bit
             
-        return ans
-        
+            # prepare for the next run
+            bit <<= 1
+            todo >>= 1
+            
+        return num
