@@ -1,8 +1,7 @@
 class Solution {
 private:
     int findGCD(int a, int b){
-        if (a == 0)
-            return b;
+        if (a == 0) return b;
         
         return findGCD(b % a, a);
     }
@@ -10,48 +9,34 @@ private:
 public:
     string fractionAddition(string expression) {
         int num = 0, denom = 1;
-        int i = 0, n = expression.size();
         
-        while (i < n){
-            int currNum = 0, currDenom = 0;
-            bool isNegative = false;
-            
-            // Check for sign
-            if (expression[i] == '-' || expression[i] == '+'){
-                if (expression[i] == '-') isNegative = true;
-                // Move to next character
-                ++i;
-            }
-            
-            // Build numerator
-            while (i < n && isdigit(expression[i])){
-                int val = expression[i] - 48;
-                currNum = currNum * 10 + val;
-                ++i;
-            }
-            
-            if (isNegative) currNum *= -1;
-            
-            // Skip the divisor
-            ++i;
-            
-            // Build denominator
-            while (i < n && isdigit(expression[i])){
-                int val = expression[i] - 48;
-                currDenom = currDenom * 10 + val;
-                ++i;
-            }
-            
-            // Add fractions together using common denominator
-            num = num * currDenom + currNum * denom;
-            denom *= currDenom;
+        // Separate expression into signed numbers
+        vector<string> nums;
+        int i = 0;
+        if (expression[0] != '-') expression = '+' + expression;
+        
+        while (i < expression.size()){
+            int j = i + 1;
+            while (j < expression.size() && expression[j] != '+' && expression[j] != '-')
+                ++j;
+            nums.push_back(expression.substr(i, j - i));
+            i = j;
         }
         
-        int gcd = abs(findGCD(num, denom));
-        
-        // Reduce fractions
-        num /= gcd;
-        denom /= gcd;
+        for (int i = 0; i < nums.size(); ++i){
+            size_t pos = nums[i].find('/');
+            int currNum = stoi(nums[i].substr(1, pos - 1));
+            if (nums[i][0] == '-') currNum = -currNum;
+            int currDenom = stoi(nums[i].substr(pos + 1));
+            
+            num = num * currDenom + currNum * denom;
+            denom *= currDenom;
+            
+            int gcd = abs(findGCD(num, denom));
+            
+            num /= gcd;
+            denom /= gcd;
+        }
         
         return to_string(num) + "/" + to_string(denom);
     }
