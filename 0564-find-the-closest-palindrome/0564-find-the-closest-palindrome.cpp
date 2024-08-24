@@ -2,52 +2,56 @@ typedef long long ll;
 
 class Solution {
 private:
-    // Create candidates of palindrome
-    ll halfToPalindrome(ll left, bool even){
-        ll cand = left;
-        if (!even) left /= 10;
+    ll convert(ll num){
+        string s = to_string(num);
+        int n = s.size();
+        int l = (n - 1) >> 1, r = n >> 1;
         
-        while (left > 0){
-            cand = cand * 10 + left % 10;
-            left /= 10;
+        while (l >= 0)
+            s[r++] = s[l--];
+        
+        return stoll(s);
+    }
+    
+    ll nextPalindrome(ll num){
+        ll left = 0, right = num, ans = LLONG_MIN;
+        
+        while (left <= right){
+            ll mid = left + ((right - left) >> 1);
+            ll palin = convert(mid);
+            if (palin < num){
+                left = mid + 1;
+                ans = palin;
+            }
+            else
+                right = mid - 1;
         }
         
-        return cand;
+        return ans;
+    }
+    
+    ll prevPalindrome(ll num){
+        ll left = num, right = 1e18, ans = LLONG_MIN;
+        
+        while (left <= right){
+            ll mid = left + ((right - left) >> 1);
+            ll palin = convert(mid);
+            
+            if (palin > num){
+                ans = palin;
+                right = mid - 1;
+            }
+            else
+                left = mid + 1;
+        }
+        
+        return ans;
     }
     
 public:
     string nearestPalindromic(string n) {
-        int length = n.size();
-        int i = (length % 2 == 0)? (length >> 1) - 1: (length >> 1);
-        ll firstHalf = stoll(n.substr(0, i + 1));
-        
-        /*
-            Generate all possible palindromic candidates.
-            1. Create a palindrome by mirroring the first half.
-            2. Create a palindrome by mirroring the first half incremented by 1
-            3. Create a palindrome by mirroring the first half decremented by 1
-            4. Handle edge cases by considering palindromes of the form 999...
-               and 100...001 (smallest and largest n-digit palindromes).
-        */
-        vector<ll> possibilities;
-        possibilities.push_back(halfToPalindrome(firstHalf, length % 2 == 0));
-        possibilities.push_back(halfToPalindrome(firstHalf + 1, length % 2 == 0));
-        possibilities.push_back(halfToPalindrome(firstHalf - 1, length % 2 == 0));
-        possibilities.push_back(pow(10, length - 1) - 1);
-        possibilities.push_back(pow(10, length) + 1);
-        
-        ll ans = 0, diff = LLONG_MAX, num = stoll(n);
-        for (ll cand : possibilities){
-            if (cand == num)
-                continue;
-            if (abs(cand - num) < diff){
-                diff = abs(cand - num);
-                ans = cand;
-            }
-            else if (abs(cand - num) == diff)
-                ans = min(ans, cand);
-        }
-        
-        return to_string(ans);
+        ll num = stoll(n);
+        ll a = nextPalindrome(num), b = prevPalindrome(num);
+        return (abs(a - num) <= abs(b - num))? to_string(a) : to_string(b);
     }
 };
