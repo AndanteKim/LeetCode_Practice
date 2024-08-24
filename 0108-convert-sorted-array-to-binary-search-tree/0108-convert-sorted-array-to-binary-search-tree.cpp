@@ -16,10 +16,13 @@ private:
         if (left > right)
             return nullptr;
         
-        // Always choose left middle node as a root.
+        // Always choose the right middle node as a root
         int mid = (left + right) >> 1;
         
         // Preorder traversal: node -> left -> right
+        if ((left + right) % 2)
+            ++mid;
+        
         TreeNode* root = new TreeNode(nums[mid]);
         root -> left = helper(left, mid - 1, nums);
         root -> right = helper(mid + 1, right, nums);
@@ -27,9 +30,9 @@ private:
         return root;
     }
     
+    
 public:
     TreeNode* sortedArrayToBST(vector<int>& nums) {
-        
         return helper(0, nums.size() - 1, nums);
     }
 };
