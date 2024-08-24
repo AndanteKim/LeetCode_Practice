@@ -3,7 +3,7 @@ typedef long long ll;
 class Solution {
 private:
     // Create candidates of palindrome
-    ll halfToPalindrome(int left, bool even){
+    ll halfToPalindrome(ll left, bool even){
         ll cand = left;
         if (!even) left /= 10;
         
@@ -24,8 +24,8 @@ public:
         /*
             Generate all possible palindromic candidates.
             1. Create a palindrome by mirroring the first half.
-            2. Create a palindrome by mirroring the first half increment by 1
-            3. Create a palindrome by mirroring the first half decrement by 1
+            2. Create a palindrome by mirroring the first half incremented by 1
+            3. Create a palindrome by mirroring the first half decremented by 1
             4. Handle edge cases by considering palindromes of the form 999...
                and 100...001 (smallest and largest n-digit palindromes).
         */
