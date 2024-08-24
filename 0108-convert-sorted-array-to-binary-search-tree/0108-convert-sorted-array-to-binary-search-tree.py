@@ -11,11 +11,12 @@ class Solution:
             if left > right:
                 return None
             
-            # Always choose right middle node as a root
-            mid = (left + right) >> 1
+            # Choose random middle node as a root
+            mid = ((left + right) >> 1)
+            
             if (left + right) % 2:
-                mid += 1
-                
+                mid += randint(0, 1)
+            
             # Preorder traversal: node -> left -> right
             root = TreeNode(nums[mid])
             root.left = helper(left, mid - 1)
@@ -24,4 +25,3 @@ class Solution:
             return root
         
         return helper(0, len(nums) - 1)
-            
