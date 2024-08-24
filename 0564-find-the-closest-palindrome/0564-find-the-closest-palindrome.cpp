@@ -2,6 +2,7 @@ typedef long long ll;
 
 class Solution {
 private:
+    // Convert to palindrome keeping first half constant.
     ll convert(ll num){
         string s = to_string(num);
         int n = s.size();
@@ -13,6 +14,7 @@ private:
         return stoll(s);
     }
     
+    // Find the next palindrome, just greater than n.
     ll nextPalindrome(ll num){
         ll left = 0, right = num, ans = LLONG_MIN;
         
@@ -30,6 +32,7 @@ private:
         return ans;
     }
     
+    // Find the previous palindrome, just smaller than n.
     ll prevPalindrome(ll num){
         ll left = num, right = 1e18, ans = LLONG_MIN;
         
