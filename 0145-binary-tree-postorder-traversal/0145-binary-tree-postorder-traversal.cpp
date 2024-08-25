@@ -10,21 +10,37 @@
  * };
  */
 class Solution {
-private:
-    void postOrder(TreeNode* curr, vector<int>& ans){
-        if (!curr)
-            return;
-        
-        postOrder(curr -> left, ans);
-        postOrder(curr -> right, ans);
-        
-        ans.push_back(curr -> val);
-    }
-    
 public:
     vector<int> postorderTraversal(TreeNode* root) {
+        // List to store the result of postorder traversal
         vector<int> ans;
-        postOrder(root, ans);
+        
+        // Stack to facilitate the traversal of nodes
+        TreeNode* currNode = root;
+        stack<TreeNode*> traversal;
+        
+        // Traverse the tree while there are nodes to process
+        while (currNode || !traversal.empty()){
+            if (currNode){
+                // Add current node's value to ans list before going to its children
+                ans.push_back(currNode -> val);
+                
+                // Push current node onto the stack
+                traversal.push(currNode);
+                
+                // Move to the right child
+                currNode = currNode -> right;
+            }
+            else{
+                // Pop the node from the stack and move to its left child
+                currNode = traversal.top();
+                traversal.pop();
+                currNode = currNode -> left;
+            }
+        }
+        
+        // Reverse the ans list to get the correct postorder sequence
+        reverse(ans.begin(), ans.end());
         
         return ans;
     }
