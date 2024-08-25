@@ -12,35 +12,34 @@ class Solution:
         if not root:
             return ans
         
+        # To keep track of the previously processed node
+        prev_node = None
+        
         # Stack to manage the traversal
-        main_stack = []
+        traversal_stack = []
         
-        # Stack to manage the path
-        path_stack = []
-        
-        # Start with the root node
-        main_stack.append(root)
-        
-        # Process nodes until the main stack is empty
-        while main_stack:
-            root = main_stack[-1]
-            
-            # If the node is in the path stack and it's the top, add its value.
-            if path_stack and path_stack[-1] == root:
-                ans.append(root.val)
-                main_stack.pop()
-                path_stack.pop()
+        # Process nodes until both the root is null and the stack is empty
+        while root or len(traversal_stack) > 0:
+            # Traverse to the leftmost node
+            if root:
+                traversal_stack.append(root)
+                root = root.left
                 
             else:
-                # Push the current node to the path stack
-                path_stack.append(root)
+                # Peek at the top node of the stack
+                root = traversal_stack[-1]
                 
-                # Push right child if it exists
-                if root.right:
-                    main_stack.append(root.right)
-                
-                # Push left child if it exists
-                if root.left:
-                    main_stack.append(root.left)
+                # If there is no right child or the right child was already processed
+                if not root.right or root.right == prev_node:
+                    ans.append(root.val)
+                    traversal_stack.pop()
+                    prev_node = root
+                    
+                    # Ensure we don't traverse again from this node
+                    root = None
+                    
+                else:
+                    # Move to the right child
+                    root = root.right
                     
         return ans
