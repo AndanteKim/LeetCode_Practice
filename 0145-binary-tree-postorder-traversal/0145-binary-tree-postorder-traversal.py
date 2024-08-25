@@ -8,38 +8,66 @@ class Solution:
     def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
         ans = []
         
-        # If the root is null, return an empty list
+        # If the root is None, return an empty list
         if not root:
             return ans
         
-        # To keep track of the previously processed node
-        prev_node = None
+        # Create a dummy node to simplify edge cases
+        dummy_node = TreeNode(-1)
+        dummy_node.left = root
+        root = dummy_node
         
-        # Stack to manage the traversal
-        traversal_stack = []
-        
-        # Process nodes until both the root is null and the stack is empty
-        while root or len(traversal_stack) > 0:
-            # Traverse to the leftmost node
-            if root:
-                traversal_stack.append(root)
-                root = root.left
+        # Traverse the tree
+        while root:
+            # If the current node has a left child
+            if root.left:
+                predecessor = root.left
                 
-            else:
-                # Peek at the top node of the stack
-                root = traversal_stack[-1]
+                # Find the rightmost node in the left subtree or the thread back to the current node
+                while predecessor.right and predecessor.right != root:
+                    predecessor = predecessor.right
                 
-                # If there is no right child or the right child was already processed
-                if not root.right or root.right == prev_node:
-                    ans.append(root.val)
-                    traversal_stack.pop()
-                    prev_node = root
-                    
-                    # Ensure we don't traverse again from this node
-                    root = None
-                    
+                # Create a thread if it doesn't exist
+                if not predecessor.right:
+                    predecessor.right = root
+                    root = root.left
                 else:
-                    # Move to the right child
+                    # Process the nodes in the left subtree
+                    node = predecessor
+                    self._reverse_subtree_links(root.left, predecessor)
+                    
+                    # Add nodes from right to left
+                    while node != root.left:
+                        ans.append(node.val)
+                        node = node.right
+                        
+                    # Add root.left's value.
+                    ans.append(node.val)
+                    self._reverse_subtree_links(predecessor, root.left)
+                    predecessor.right = None
                     root = root.right
                     
+            else:
+                # Move to the right child if there's no left child
+                root = root.right
+                
         return ans
+    
+    def _reverse_subtree_links(self, start_node: TreeNode, end_node: TreeNode) -> None:
+        # If the start and end nodes are the same, no need to reverse
+        if start_node == end_node:
+            return
+        
+        prev = None
+        curr = start_node
+        next = None
+        
+        # Reverse the direction of the pointers in the subtree
+        while curr != end_node:
+            next = curr.right
+            curr.right = prev
+            prev = curr
+            curr = next
+            
+        # Reverse the last node
+        curr.right = prev
