@@ -11,18 +11,21 @@
  */
 class Solution {
 private:
-    vector<int> postOrder(TreeNode* curr){
-        if (!curr) return vector<int>{};
+    void postOrder(TreeNode* curr, vector<int>& ans){
+        if (!curr)
+            return;
         
-        vector<int> left = postOrder(curr -> left), right = postOrder(curr -> right);
-        vector<int> ans{left};
-        ans.insert(ans.end(), right.begin(), right.end());
+        postOrder(curr -> left, ans);
+        postOrder(curr -> right, ans);
+        
         ans.push_back(curr -> val);
-        return ans;
     }
     
 public:
     vector<int> postorderTraversal(TreeNode* root) {
-        return postOrder(root);
+        vector<int> ans;
+        postOrder(root, ans);
+        
+        return ans;
     }
 };
