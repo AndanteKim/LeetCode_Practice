@@ -12,35 +12,41 @@
 class Solution {
 public:
     vector<int> postorderTraversal(TreeNode* root) {
-        // List to store the result of postorder traversal
+        // If the root is null, return an empty list
+        if (!root)
+            return {};
+        
         vector<int> ans;
         
-        // Stack to facilitate the traversal of nodes
-        TreeNode* currNode = root;
-        stack<TreeNode*> traversal;
+        // Stack to manage the traversal, path
+        stack<TreeNode*> path, main;
         
-        // Traverse the tree while there are nodes to process
-        while (currNode || !traversal.empty()){
-            if (currNode){
-                // Add current node's value to ans list before going to its children
-                ans.push_back(currNode -> val);
-                
-                // Push current node onto the stack
-                traversal.push(currNode);
-                
-                // Move to the right child
-                currNode = currNode -> right;
+        // Start with the root node
+        main.push(root);
+        
+        // Process nodes until the main stack is empty
+        while (!main.empty()){
+            TreeNode* curr = main.top();
+            
+            // If the node is in the path stack and it's the top, add its value.
+            if (!path.empty() && path.top() == curr){
+                ans.push_back(curr -> val);
+                path.pop();
+                main.pop();
             }
             else{
-                // Pop the node from the stack and move to its left child
-                currNode = traversal.top();
-                traversal.pop();
-                currNode = currNode -> left;
+                // Push the current node to the path stack
+                path.push(curr);
+                
+                // Push right child if it exists
+                if (curr -> right)
+                    main.push(curr -> right);
+                
+                // Push left child if it exists
+                if (curr -> left)
+                    main.push(curr -> left);
             }
         }
-        
-        // Reverse the ans list to get the correct postorder sequence
-        reverse(ans.begin(), ans.end());
         
         return ans;
     }
