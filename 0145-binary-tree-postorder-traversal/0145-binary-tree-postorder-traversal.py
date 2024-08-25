@@ -6,30 +6,41 @@
 #         self.right = right
 class Solution:
     def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:
-        # List to store the result of postorder traversal
         ans = []
         
-        # Stack to facilitate the traversal of nodes
-        traversal_stack = []
-        curr_node = root
+        # If the root is null, return an empty list
+        if not root:
+            return ans
         
-        # Traverse the tree while there are nodes to process
-        while curr_node or traversal_stack:
-            if curr_node:
-                # Add current node's value to result list before going to its children
-                ans.append(curr_node.val)
-                
-                # Push current node onto the stack
-                traversal_stack.append(curr_node)
-                
-                # Move to the right child
-                curr_node = curr_node.right
+        # Stack to manage the traversal
+        main_stack = []
+        
+        # Stack to manage the path
+        path_stack = []
+        
+        # Start with the root node
+        main_stack.append(root)
+        
+        # Process nodes until the main stack is empty
+        while main_stack:
+            root = main_stack[-1]
+            
+            # If the node is in the path stack and it's the top, add its value.
+            if path_stack and path_stack[-1] == root:
+                ans.append(root.val)
+                main_stack.pop()
+                path_stack.pop()
                 
             else:
-                # Pop the node from the stack and move to its left child
-                curr_node = traversal_stack.pop()
-                curr_node = curr_node.left
+                # Push the current node to the path stack
+                path_stack.append(root)
                 
-        # Reverse the answer list to get the correct postorder sequence
-        ans.reverse()
+                # Push right child if it exists
+                if root.right:
+                    main_stack.append(root.right)
+                
+                # Push left child if it exists
+                if root.left:
+                    main_stack.append(root.left)
+                    
         return ans
