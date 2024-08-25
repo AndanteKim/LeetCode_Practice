@@ -14,38 +14,40 @@ public:
     vector<int> postorderTraversal(TreeNode* root) {
         // If the root is null, return an empty list
         if (!root)
-            return {};
+            return vector<int>{};
         
         vector<int> ans;
+        // Stack to manage the traversal
+        stack<TreeNode*> traversal;
         
-        // Stack to manage the traversal, path
-        stack<TreeNode*> path, main;
+        // To keep track of the previously processed node
+        TreeNode* prevNode = nullptr;
         
-        // Start with the root node
-        main.push(root);
-        
-        // Process nodes until the main stack is empty
-        while (!main.empty()){
-            TreeNode* curr = main.top();
-            
-            // If the node is in the path stack and it's the top, add its value.
-            if (!path.empty() && path.top() == curr){
-                ans.push_back(curr -> val);
-                path.pop();
-                main.pop();
+        // Process nodes until both the root is null and the stack is empty
+        while (root || !traversal.empty()){
+            // Traverse to the leftmost node
+            if (root){
+                traversal.push(root);
+                root = root -> left;
             }
             else{
-                // Push the current node to the path stack
-                path.push(curr);
+                // Peek at the top node of the stack
+                root = traversal.top();
                 
-                // Push right child if it exists
-                if (curr -> right)
-                    main.push(curr -> right);
-                
-                // Push left child if it exists
-                if (curr -> left)
-                    main.push(curr -> left);
+                // If there is no right child or the right child was already processed
+                if (!root -> right || root -> right == prevNode){
+                    ans.push_back(root -> val);
+                    prevNode = root;
+                    traversal.pop();
+                    
+                    // Ensure we don't traverse again from this node.
+                    root = nullptr;
+                }
+                else
+                    // Move to the right child
+                    root = root -> right;
             }
+            
         }
         
         return ans;
