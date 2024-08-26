@@ -19,20 +19,34 @@ public:
 */
 
 class Solution {
-private:
-    void dfs(Node* curr, vector<int>& ans){
-        if (!curr)
-            return;
-        
-        for (Node* child : curr -> children)
-            dfs(child, ans);
-        ans.push_back(curr -> val);
-    }
-    
 public:
     vector<int> postorder(Node* root) {
+        // Base case: If the root is nullptr, return the empty vector
+        if (!root) return {};
+        
+        // Stack for traversal and stack to reverse the order.
+        stack<Node*> nodeStack, reverseStack;
+        nodeStack.push(root);
+        
+        // Traverse the tree using the nodeStack
+        while (!nodeStack.empty()){
+            Node* curr = nodeStack.top();
+            nodeStack.pop();
+            reverseStack.push(curr);
+            
+            // Push all the children of the current node to nodeStack
+            for (Node* child : curr -> children)
+                nodeStack.push(child);
+        }
+        
         vector<int> ans;
-        dfs(root, ans);
+        // Pop nodes from reverseStack and add their values to the answer vector.
+        while (!reverseStack.empty()){
+            Node* curr = reverseStack.top();
+            reverseStack.pop();
+            ans.push_back(curr -> val);
+        }
+        
         return ans;
     }
 };
