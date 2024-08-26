@@ -24,27 +24,29 @@ public:
         // Base case: If the root is nullptr, return the empty vector
         if (!root) return {};
         
-        // Stack for traversal and stack to reverse the order.
-        stack<Node*> nodeStack, reverseStack;
-        nodeStack.push(root);
-        
-        // Traverse the tree using the nodeStack
-        while (!nodeStack.empty()){
-            Node* curr = nodeStack.top();
-            nodeStack.pop();
-            reverseStack.push(curr);
-            
-            // Push all the children of the current node to nodeStack
-            for (Node* child : curr -> children)
-                nodeStack.push(child);
-        }
-        
         vector<int> ans;
-        // Pop nodes from reverseStack and add their values to the answer vector.
-        while (!reverseStack.empty()){
-            Node* curr = reverseStack.top();
-            reverseStack.pop();
-            ans.push_back(curr -> val);
+        stack<pair<Node*, bool>> nodeStack;
+        nodeStack.push({root, false});
+        
+        while (!nodeStack.empty()){
+            auto& [curr, isVisited] = nodeStack.top();
+            
+            if (isVisited){
+                // If the node has been visited, then add its value to the vector
+                ans.push_back(curr -> val);
+                
+                // pop the stack to check the next
+                nodeStack.pop();
+            }
+            else{
+                // Mark the current node as visited.
+                isVisited = true;
+                
+                // Push all children to the stack in reverse order.
+                for (int i = curr -> children.size() - 1; i >= 0; --i){
+                    nodeStack.push({curr -> children[i], false});
+                }
+            }
         }
         
         return ans;
