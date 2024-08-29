@@ -1,35 +1,38 @@
 class Solution:
     def pathSum(self, nums: List[int]) -> int:
-        def dfs(root_pos: int, pre_sum: int) -> int:
-            # Find the level and position values from the root position
-            level = root_pos // 10
-            pos = root_pos % 10
-            
-            # Find out the left child and right child positions of the tree.
-            left = (level + 1) * 10 + pos * 2 - 1
-            right = (level + 1) * 10 + pos * 2
-            
-            curr_sum = pre_sum + tree[root_pos]
-            
-            # If left child and right child don't exist, return.
-            if not (left in tree or right in tree):
-                return curr_sum
-            
-            # Otherwise, iterate through the left and right children recursively using depth first search
-            left_sum = dfs(left, curr_sum) if left in tree else 0
-            right_sum = dfs(right, curr_sum) if right in tree else 0
-            
-            return left_sum + right_sum
-        
+        # Base case
         if not nums:
             return 0
         
-        # Store the data in a hashmap, with the coordinates as the key and the node value as the value
+        # BFS
         tree = dict()
         
+        # Store the data in hashmap, with the coordinates as key and the node value as the value.
         for num in nums:
-            pos = num // 10
-            val = num % 10
-            tree[pos] = val
+            tree[num // 10] = num % 10
+            
+        ans, queue = 0, deque([(nums[0] // 10, 0)])
         
-        return dfs(nums[0] // 10, 0)
+        while queue:
+            root_position, pre_sum = queue.popleft()
+            
+            level, position = root_position // 10, root_position % 10
+            curr_sum = pre_sum + tree[root_position]
+            
+            left, right = (level + 1) * 10 + 2 * position - 1, (level + 1) * 10 + 2 * position
+            
+            # If it 's a leaf node (no left and right children), add the current sum to the answer
+            if not (left in tree or right in tree):
+                ans += curr_sum
+                continue
+                
+            # Add the left child to the queue if it exists.
+            if left in tree:
+                queue.append((left, curr_sum))
+                
+            # Add the right child to the queue if it exists.
+            if right in tree:
+                queue.append((right, curr_sum))
+                
+        return ans
+        
