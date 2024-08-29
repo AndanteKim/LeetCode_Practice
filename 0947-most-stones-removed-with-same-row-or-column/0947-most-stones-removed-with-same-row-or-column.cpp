@@ -2,23 +2,32 @@
 class UnionFind{
 private:
     vector<int> parent;
-    int count;
+    
+    // Initialize the set to track unique nodes
+    unordered_set<int> uniqueNodes;
+    int componentCount;
     
 public:
     UnionFind(int n){
         // Initialize all nodes as their own parent
         parent.resize(n, -1);
         
-        // Initially, each stone is its own connected component
-        count = n;
+        // Initialize the count of connected components
+        componentCount = 0;
     }
     
     // Find the root of a node with path compression
     int find(int node){
+        // If node isn't marked, increase the component count
+        if (!uniqueNodes.count(node)){
+            uniqueNodes.insert(node);
+            ++componentCount;
+        }
+        
         if (parent[node] == -1)
             return node;
         
-        return find(parent[node]);
+        return parent[node] = find(parent[node]);
     }
     
     // Union two nodes, reducing the number of connected components
@@ -29,33 +38,31 @@ public:
         if (root1 == root2)
             return;
         
-        // Merge the components and reduce the count of connected components
+        // Merge the components and reduce the component count
         parent[root1] = root2;
-        --count;
+        --componentCount;
     }
     
-    int getNumberOfConnectedComponents(){
-        return count;
+    int getComponentCount(){
+        return componentCount;
     }
 };
 
 class Solution {
-private:
-    int n;
-    
 public:
     int removeStones(vector<vector<int>>& stones) {
-        this -> n = stones.size();
+        int n = stones.size();
         
-        // Populate uf by connecting stones sharing the same row or column
-        UnionFind uf = UnionFind(n);
-        for (int i = 0; i < n; ++i){
-            for (int j = i + 1; j < n; ++j){
-                if (stones[i][0] == stones[j][0] || stones[i][1] == stones[j][1])
-                    uf.disjoint(i, j);
-            }
+        // Initialize UnionFind with a large enough range to handle coordinates
+        UnionFind uf = UnionFind(20002);
+        
+        // Union stones sharing the same row or column
+        for (vector<int>& stone : stones){
+            int x = stone[0], y = stone[1];
+            // Offset y-coordinates to avoid conflict with x-coordinates
+            uf.disjoint(x, y + 10001);
         }
         
-        return n - uf.getNumberOfConnectedComponents();
+        return n - uf.getComponentCount();
     }
 };
