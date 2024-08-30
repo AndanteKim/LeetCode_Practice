@@ -2,86 +2,85 @@ typedef long long ll;
 
 class Solution {
 private:
-    const int INF = 2e9;
-    int n;
+    int INF = 2e9, n;
     
-    int runDijkstra(vector<vector<int>>& edges, int source, int destination){
-        // Step 1: Initialize adjacency matrix and distance arrays
-        vector<vector<ll>> adjMatrix(n, vector<ll>(n, INF));
-        vector<ll> minDistance(n, INF);
-        vector<bool> visited(n, false);
+    ll dijkstra(vector<vector<pair<int, int>>>& graph, int source, int destination){
+        vector<ll> minDist(n, INF);
+        minDist[source] = 0;
+        priority_queue<pair<ll, int>, vector<pair<ll, int>>, greater<pair<ll, int>>> minHeap;
         
-        // Set the distance to the source node as 0
-        minDistance[source] = 0;
+        minHeap.push({0, source});  // (distance, node)
         
-        // Step 2: Fill the adjacency matrix with edge weights
-        for (const auto& edge : edges){
-            if (edge[2] != -1){
-                adjMatrix[edge[0]][edge[1]] = edge[2];
-                adjMatrix[edge[1]][edge[0]] = edge[2];
+        while (!minHeap.empty()){
+            auto [d, u] = minHeap.top();
+            minHeap.pop();
+            
+            if (d > minDist[u])
+                continue;
+            
+            for (auto& [v, w] : graph[u]){
+                if (d + w < minDist[v]){
+                    minDist[v] = d + w;
+                    minHeap.push({minDist[v], v});
+                }
             }
         }
         
-        // Step 3: Perform Dijkstra's algorithm
-        for (int _ = 0; _ < n; ++_){
-            // Find the nearest unvisited node
-            int nearestUnvisitedNode = -1;
-            
-            for (int i = 0; i < n; ++i){
-                if (!visited[i] && (nearestUnvisitedNode == -1 || minDistance[i] < minDistance[nearestUnvisitedNode]))
-                    nearestUnvisitedNode = i;
-            }
-            
-            // Mark the nearest node as visited
-            visited[nearestUnvisitedNode] = true;
-        
-            // Update the minimum distance for each adjacent node
-            for (int v = 0; v < n; ++v){
-                minDistance[v] = min(minDistance[v], minDistance[nearestUnvisitedNode] + adjMatrix[nearestUnvisitedNode][v]);
-            }
-            
-        }
-        
-        // Return the shortest distance to the destination node
-        return minDistance[destination];
+        return minDist[destination];
     }
     
 public:
     vector<vector<int>> modifiedGraphEdges(int n, vector<vector<int>>& edges, int source, int destination, int target) {
         this -> n = n;
+        vector<vector<pair<int, int>>> graph(n);
         
-        // Step 1: Compute the initial shortest distance from source to destination
-        ll currentShortestDistance = runDijkstra(edges, source, destination);
-        
-        // If the current shortest distance is less than the target, return an empty result
-        if (currentShortestDistance < target)
-            return {};
-        
-        bool matchesTarget = (currentShortestDistance == target);
-        
-        // Step 2: Iterate through each edge to adjust its weight if necessary
-        for (auto& edge : edges){
-            // Skip edges already having a positive weight
-            if (edge[2] > 0)
-                continue;
-            
-            // Set edge weight to a large value if current distance matches target, else set to 1
-            edge[2] = (matchesTarget)? INF : 1;
-            
-            // Step 3: If current shortest distance doesn't match target
-            if (!matchesTarget){
-                // Compute the new shortest distance with the updated edge weight
-                ll newDistance = runDijkstra(edges, source, destination);
-                
-                // If the new distance is within the target range, update edge weight to match target
-                if (newDistance <= target){
-                    matchesTarget = true;
-                    edge[2] += target - newDistance;
-                }
+        // Build the graph with known weights
+        for (const auto& edge : edges){
+            if (edge[2] != -1){
+                graph[edge[0]].push_back({edge[1], edge[2]});
+                graph[edge[1]].push_back({edge[0], edge[2]});
             }
         }
         
-        // Return modified edges if the target distance is achieved, otherwise return an empty result
-        return (matchesTarget)? edges : vector<vector<int>>{};
+        // Compute the initial shortest distance from source to destination
+        ll currentShortestDistance = dijkstra(graph, source, destination);
+        if (currentShortestDistance < target)
+            return vector<vector<int>>{};
+        
+        if (currentShortestDistance == target){
+            // Update edges with -1 weight to an impossible value
+            for (auto& edge : edges){
+                if (edge[2] == -1){
+                    edge[2] = INF;
+                }
+            }
+            return edges;
+        }
+        
+        // Adjust edges with unknown weights
+        for (int i = 0; i < edges.size(); ++i){
+            if (edges[i][2] != -1) continue;
+            
+            // Set edge weight to 1 initially
+            edges[i][2] = 1;
+            graph[edges[i][0]].push_back({edges[i][1], 1});
+            graph[edges[i][1]].push_back({edges[i][0], 1});
+            
+            // Recompute shortest distance with updated edge weight
+            ll newDistance = dijkstra(graph, source, destination);
+            
+            if (newDistance <= target){
+                edges[i][2] += target - newDistance;
+                
+                // Update remaining edges with -1 weight to an impossible value
+                for (int j = i + 1; j < edges.size(); ++j){
+                    if (edges[j][2] == -1)
+                        edges[j][2] = INF;
+                }
+                return edges;
+            }
+        }
+        
+        return vector<vector<int>>{};
     }
 };
