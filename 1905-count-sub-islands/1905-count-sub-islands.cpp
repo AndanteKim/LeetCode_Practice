@@ -1,74 +1,112 @@
+// Union-Find class
+class UnionFind{
+private:
+    vector<int> parent;
+    vector<int> rank;
+    
+public:
+    // Initialize union-find object with 'n' elements.
+    UnionFind(int n){
+        parent.resize(n);
+        iota(parent.begin(), parent.end(), 0);
+        rank.resize(n, 0);
+    }
+    
+    // Find the root of element 'u', using the path-compression techinique.
+    int find(int u){
+        if (parent[u] != u)
+            parent[u] = find(parent[u]);
+        return parent[u];
+    }
+    
+    // Union two components of elements 'u' and 'v' respectively on the
+    // basis of their ranks.
+    void unionSet(int u, int v){
+        int rootU = find(u), rootV = find(v);
+        
+        if (rootU != rootV){
+            if (rank[rootU] > rank[rootV]){
+                parent[rootV] = rootU;
+            }
+            else if (rank[rootU] < rank[rootV]){
+                parent[rootU] = rootV;
+            }
+            else{
+                parent[rootV] = rootU;
+                ++rank[rootU];
+            }
+        }
+    }
+};
+
 class Solution {
 private:
     int rows, cols;
     
-    // Directions in which we can traverse inside the grids.
-    vector<pair<int, int>> directions{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    // Directions in which we can traverse inside the grids
+    vector<pair<int, int>> directions{{1, 0}, {-1, 0}, {0, -1}, {0, 1}};
     
     // Helper method to check if the cell at the position (x, y) in the 'grid'
     // is a land cell.
-    bool isCellLand(int x, int y, vector<vector<int>>& grid){
+    int isCellLand(int x, int y, vector<vector<int>>& grid){
         return grid[x][y] == 1;
     }
     
-    // Traverse all cells of island starting at position (x, y) in 'grid2',
-    // and check this island is a sub-island in 'grid1'.
-    bool isSubIsland(int x, int y, vector<vector<int>>& grid1, vector<vector<int>>& grid2, vector<vector<bool>>& visited){
-        bool isSubIsland = true;
-        
-        visited[x][y] = true;
-        
-        // Push the starting cell in the queue and mark it as visited.
-        queue<pair<int, int>> queue;
-        queue.push({x, y});
-       
-        // Traverse on all cells using the breadthh-first search method.
-        while (!queue.empty()){
-            auto [currX, currY] = queue.front(); queue.pop();
-            
-            // If the current position cell isn't a land cell in 'grid1',
-            // then the current island can't be a sub-island.
-            if (!isCellLand(currX, currY, grid1))
-                isSubIsland &= false;
-            
-            for (const auto& [dx, dy] : directions){
-                int nextX = currX + dx, nextY = currY + dy;
-                
-                // If the next cell is inside 'grid2', is never visited, and
-                // is a land cell, then we traverse to the next cell.
-                if (0 <= nextX && nextX < rows && 0 <= nextY && nextY < cols && \
-                    !visited[nextX][nextY] && isCellLand(nextX, nextY, grid2)){
-                    
-                    // Push the next cell in the queue and mark it as visited.
-                    visited[nextX][nextY] = true;
-                    queue.push({nextX, nextY});
-                }
-            }
-        }
-        
-        return isSubIsland;
+    // Helper method to convert (x, y) position to 1-dimensional index
+    int convertToIndex(int x, int y){
+        return x * cols + y;
     }
     
 public:
     int countSubIslands(vector<vector<int>>& grid1, vector<vector<int>>& grid2) {
         this -> rows = grid2.size(), this -> cols = grid2[0].size();
-        int countOfSubIslands = 0;
-        vector<vector<bool>> visited(rows, vector<bool>(cols, false));
+        int subIslandCounts = 0;
         
-        // Iterate on each cell in 'grid2'
-        for (int x = 0; x < rows; ++x){
+        UnionFind uf = UnionFind(rows * cols);
+        
+        // Traverse on each land cell of 'grid2'.
+        for (int x = 0; x < rows ; ++x){
             for (int y = 0; y < cols; ++y){
-                // If cell at the position (x, y) in the 'grid2' isn't visited,
-                // is a land cell in 'grid2', and the island
-                // starting from this cell is a sub-island in 'grid1', then we
-                // increment the count of sub-islands.
-                if (!visited[x][y] && isCellLand(x, y, grid2) && \
-                    isSubIsland(x, y, grid1, grid2, visited))
-                    ++countOfSubIslands;
+                if (isCellLand(x, y, grid2)){
+                    // Union adjacent land cells with the current land cell.
+                    for (const auto& [dx, dy] : directions){
+                        int nextX = x + dx, nextY = y + dy;
+                        if (0 <= nextX && nextX < rows && 0 <= nextY && nextY < cols && \
+                            isCellLand(nextX, nextY, grid2))
+                            uf.unionSet(convertToIndex(x, y), convertToIndex(nextX, nextY));
+                    }
+                }
             }
         }
         
-        // Return total count of sub-islands
-        return countOfSubIslands;
+        // Traverse on 'grid2' land cells and mark that cell's root not a 
+        // sub-island if land cell not present at the respective position in 'grid1'.
+        vector<bool> isSubIslands(rows * cols, true);
+        for (int x = 0; x < rows; ++x){
+            for (int y = 0; y < cols; ++y){
+                if (isCellLand(x, y, grid2) && !isCellLand(x, y, grid1)){
+                    int root = uf.find(convertToIndex(x, y));
+                    isSubIslands[root] = false;
+                }
+            }
+        }
+        
+        // Count all the sub-islands.
+        for (int x = 0; x < rows; ++x){
+            for (int y = 0; y < cols; ++y){
+                if (isCellLand(x, y, grid2)){
+                    int root = uf.find(convertToIndex(x, y));
+                    if (isSubIslands[root]){
+                        ++subIslandCounts;
+                        // One cell can be the root of multiple land cells, so
+                        // to avoid counting the same island multiple times and
+                        // mark it as false.
+                        isSubIslands[root] = false;
+                    }
+                }
+            }
+        }
+        
+        return subIslandCounts;
     }
 };
