@@ -7,34 +7,29 @@
 
 class Solution:
     def addPoly(self, poly1: 'PolyNode', poly2: 'PolyNode') -> 'PolyNode':
-        p1, p2 = poly1, poly2
+        sum_ = PolyNode()
+        curr, table = sum_, dict()
         
-        # Initial dummy node
-        sum = PolyNode()
+        # Calculate terms for sum
+        self._process_nodes(table, poly1)
+        self._process_nodes(table, poly2)
         
-        # Maintain pointer to last node
-        curr = sum
-        
-        # Maintain two pointers
-        while p1 and p2:
-            if p1.power == p2.power:
-                if p1.coefficient + p2.coefficient != 0:
-                    curr.next = PolyNode(p1.coefficient + p2.coefficient, p1.power)
-                    curr = curr.next
-                p1, p2 = p1.next, p2.next
-            elif p1.power > p2.power:
-                curr.next = p1
-                p1 = p1.next
-                curr = curr.next
-            else:
-                curr.next = p2
-                p2 = p2.next
-                curr = curr.next
-                
-        if p1:
-            curr.next = p1
-        else:
-            curr.next = p2
+        # Iterate over sorted keys and build sum
+        for k in sorted(table.keys(), reverse = True):
+            curr.next = PolyNode(table[k], k)
+            curr = curr.next
             
-        return sum.next
+        return sum_.next
+    
+    def _process_nodes(self, table: Dict[int, int], node: 'PolyNode') -> None:
+        while node:
+            if node.power in table:
+                new_coeff = node.coefficient + table[node.power]
+                if new_coeff == 0:
+                    table.pop(node.power)
+                else:
+                    table[node.power] = new_coeff
+            else:
+                table[node.power] = node.coefficient
+            node = node.next
         
