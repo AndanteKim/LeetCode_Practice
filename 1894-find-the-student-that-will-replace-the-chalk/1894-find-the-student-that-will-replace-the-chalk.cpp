@@ -1,20 +1,24 @@
 class Solution {
 public:
     int chalkReplacer(vector<int>& chalk, int k) {
-        if (chalk.empty())
-            return 0;
+        // Find the sum of all elements
+        long sum = 0;
         
-        int remain = k, n = chalk.size();
-        vector<long> prefixSum(n + 1);
+        for (int i = 0; i < chalk.size(); ++i){
+            sum += chalk[i];
+            if (sum > k)
+                break;
+        }
+        // Find the modulo k with sum.
+        k %= sum;
         
-        for (int i = 1; i <= n; ++i)
-            prefixSum[i] = prefixSum[i - 1] + chalk[i - 1];
+        for (int i = 0; i < chalk.size(); ++i){
+            if (k < chalk[i])
+                return i;
+            
+            k -= chalk[i];
+        }
         
-        remain %= prefixSum.back();
-        for (int i = 0; i <= n; ++i)
-            if (0 <= remain && remain < prefixSum[i])
-                return i - 1;
-        
-        return -1;
+        return 0;
     }
 };
