@@ -10,38 +10,41 @@
  */
 
 class Solution {
+private:
+    void processNode(map<int, int, greater<int>>& table, PolyNode* poly){
+        PolyNode* node = poly;
+        while (node){
+            if (table.count(node -> power)){
+                int newCoefficient = table[node -> power] + node -> coefficient;
+                if (newCoefficient == 0)
+                    table.erase(node -> power);
+                else
+                    table[node -> power] = newCoefficient;
+            }
+            else
+                table[node -> power] = node -> coefficient;
+                
+            node = node -> next;
+        }
+    }
+    
 public:
     PolyNode* addPoly(PolyNode* poly1, PolyNode* poly2) {
-        PolyNode* p1 = poly1, *p2 = poly2;
+        PolyNode* sum = new PolyNode();
+        PolyNode* curr = sum;
         
-        // Initialize the dummy node and maintain pointer to last node
-        PolyNode* dummy = new PolyNode(), *curr = dummy;
+        map<int, int, greater<int>> table;
         
-        // Maintain two pointers
-        while (p1 && p2){
-            if (p1 -> power == p2 -> power){
-                if (p1 -> coefficient + p2 -> coefficient != 0){
-                    curr -> next = new PolyNode(p1 -> coefficient + p2 -> coefficient, p1 -> power);
-                    curr = curr -> next;
-                }
-                p1 = p1 -> next;
-                p2 = p2 -> next;
-            }
-            else if (p1 -> power > p2 -> power){
-                curr -> next = new PolyNode(p1 -> coefficient, p1 -> power);
-                p1 = p1 -> next;
-                curr = curr -> next;
-            }
-            else{
-                curr -> next = new PolyNode(p2 -> coefficient, p2 -> power);
-                p2 = p2 -> next;
-                curr = curr -> next;
-            }
+        // Calculate terms for sum
+        processNode(table, poly1);
+        processNode(table, poly2);
+        
+        // Iterate over sorted keys and build sum
+        for (auto& [key, val] : table){
+            curr -> next = new PolyNode(val, key);
+            curr = curr -> next;
         }
         
-        if (p1) curr -> next = p1;
-        else curr -> next = p2;
-        
-        return dummy -> next;
+        return sum -> next;
     }
 };
