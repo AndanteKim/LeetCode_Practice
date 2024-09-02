@@ -8,40 +8,33 @@
 class Solution:
     def addPoly(self, poly1: 'PolyNode', poly2: 'PolyNode') -> 'PolyNode':
         p1, p2 = poly1, poly2
-        dummy = prev = curr = PolyNode()
-        curr = curr.next
         
-        while p1 or p2:
-            curr = PolyNode()
-            
-            if p1 and p2:
-                if p1.power == p2.power:
-                    if p1.coefficient + p2.coefficient == 0:
-                        p1, p2 = p1.next, p2.next
-                        continue
-                    curr.coefficient = p1.coefficient + p2.coefficient
-                    curr.power = p1.power
-                    p1, p2 = p1.next, p2.next
-                    
-                elif p1.power > p2.power:
-                    curr.coefficient = p1.coefficient
-                    curr.power = p1.power
-                    p1 = p1.next
-                else:
-                    curr.coefficient = p2.coefficient 
-                    curr.power = p2.power
-                    p2 = p2.next
-            elif p1:
-                curr.coefficient = p1.coefficient
-                curr.power = p1.power
+        # Initial dummy node
+        sum = PolyNode()
+        
+        # Maintain pointer to last node
+        curr = sum
+        
+        # Maintain two pointers
+        while p1 and p2:
+            if p1.power == p2.power:
+                if p1.coefficient + p2.coefficient != 0:
+                    curr.next = PolyNode(p1.coefficient + p2.coefficient, p1.power)
+                    curr = curr.next
+                p1, p2 = p1.next, p2.next
+            elif p1.power > p2.power:
+                curr.next = p1
                 p1 = p1.next
+                curr = curr.next
             else:
-                curr.coefficient = p2.coefficient
-                curr.power = p2.power
+                curr.next = p2
                 p2 = p2.next
+                curr = curr.next
+                
+        if p1:
+            curr.next = p1
+        else:
+            curr.next = p2
             
-            prev.next = curr
-            prev = prev.next
-            curr = curr.next
+        return sum.next
         
-        return dummy.next
