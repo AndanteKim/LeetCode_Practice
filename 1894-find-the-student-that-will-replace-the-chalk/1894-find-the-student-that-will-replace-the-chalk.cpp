@@ -1,24 +1,31 @@
 class Solution {
+private:
+    int n;
+    int binarySearch(vector<long>& prefixSum, int remain){
+        int left = 0, right = n;
+        
+        while (left < right){
+            int mid = (left + right) >> 1;
+            
+            if (prefixSum[mid] <= remain)
+                left = mid + 1;
+            else
+                right = mid;
+        }
+        
+        return right;
+    }
+    
 public:
     int chalkReplacer(vector<int>& chalk, int k) {
-        // Find the sum of all elements
-        long sum = 0;
+        this -> n = chalk.size();
+        vector<long> prefixSum(n);
+        prefixSum[0] = chalk[0];
         
-        for (int i = 0; i < chalk.size(); ++i){
-            sum += chalk[i];
-            if (sum > k)
-                break;
-        }
-        // Find the modulo k with sum.
-        k %= sum;
+        for (int i = 1; i < n; ++i)
+            prefixSum[i] = prefixSum[i - 1] + chalk[i];
         
-        for (int i = 0; i < chalk.size(); ++i){
-            if (k < chalk[i])
-                return i;
-            
-            k -= chalk[i];
-        }
-        
-        return 0;
+        k %= prefixSum.back();
+        return binarySearch(prefixSum, k);
     }
 };
