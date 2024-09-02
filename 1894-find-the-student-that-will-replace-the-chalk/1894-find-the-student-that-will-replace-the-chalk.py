@@ -1,19 +1,24 @@
 class Solution:
     def chalkReplacer(self, chalk: List[int], k: int) -> int:
-        # Find the sum of all elements.
-        sum = 0
+        self.n = len(chalk)
+        prefix_sum = [0] * self.n
+        prefix_sum[0] = chalk[0]
         
-        for i in range(len(chalk)):
-            sum += chalk[i]
-            if sum > k:
-                break
-                
-        # Find modulo of k with sum
-        k %= sum
-        
-        for i in range(len(chalk)):
-            if k < chalk[i]:
-                return i
-            k -= chalk[i]
+        for i in range(1, self.n):
+            prefix_sum[i] = prefix_sum[i - 1] + chalk[i]
             
-        return 0
+        remain = k % prefix_sum[-1]
+        
+        return self.bin_search(prefix_sum, remain)
+    
+    def bin_search(self, arr: List[int], remain: int) -> int:
+        low, high = 0, self.n
+        
+        while low < high:
+            mid = (low + high) >> 1
+            if arr[mid] <= remain:
+                low = mid + 1
+            else:
+                high = mid
+        
+        return high
