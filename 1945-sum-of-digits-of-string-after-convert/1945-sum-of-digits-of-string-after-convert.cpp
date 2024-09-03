@@ -1,22 +1,27 @@
 class Solution {
 public:
     int getLucky(string s, int k) {
-        string convertS = "";
+        int currSum = 0;
         
-        for (const auto& c : s)
-            convertS.append(to_string(int(c) - 96));
-        
-        int transform = 0;
-        
-        for (int _ = 0; _ < k; ++_){
-            transform = 0;
-            for (const auto& c : convertS){
-                transform += c - 48;
+        // Convert the string to a number by summing digit values
+        for (const auto& c : s){
+            int pos = int(c) - 96;
+            while (pos > 0){
+                currSum += pos % 10;
+                pos /= 10;
             }
-            
-            convertS = to_string(transform);
         }
         
-        return transform;
+        // Apply digit sum transformations k - 1 times
+        for (int i = 1; i < k; ++i){
+            int sum = 0;
+            while (currSum > 0){
+                sum += currSum % 10;
+                currSum /= 10;
+            }
+            currSum = sum;
+        }
+        
+        return currSum;
     }
 };
