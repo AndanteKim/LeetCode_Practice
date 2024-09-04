@@ -1,41 +1,45 @@
 class Solution:
-    def robotSim(self, commands: List[int], obstacles: List[List[int]]) -> int:
-        # change data structure of obstacles as set
-        obstacles = set([tuple(obstacle) for obstacle in obstacles])
+    def __init__(self):
+        # Slightly larger than 2 * max coordinate value
+        self.HASH_MULTIPLIER = 60001
         
-        # Directions: North, East, South, West
-        directions, curr_turn, curr_coordinates = [(0, 1), (1, 0), (0, -1), (-1, 0)], 0, [0, 0]
-        max_dist = 0
+    # Hash function to convert (x, y) coordinates to a unique integer value
+    def _hash_coordinates(self, x: int, y: int) -> int:
+        return x + self.HASH_MULTIPLIER * y
+    
+    def robotSim(self, commands: List[int], obstacles: List[List[int]]) -> int:
+        # Store obstacles in an set for efficient lookup
+        obstacle_set = {self._hash_coordinates(x, y) for x, y in obstacles}
+        
+        # Define direction vectors: North, East, South, West
+        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]
+        
+        x, y = 0, 0
+        max_dist_squared = 0
+        
+        # 0: North, 1: East, 2: South, 3: West
+        curr_dir = 0
         
         for command in commands:
+            # Turn right
             if command == -1:
-                curr_turn = (curr_turn + 1) % 4
+                curr_dir = (curr_dir + 1) % 4
                 continue
-            elif command == -2:
-                curr_turn = (curr_turn - 1) % 4
-                continue
-            else:
-                # If we'll meet the obstacles, then updated it to sign there's an obstacle.
-                updated = False
-                for k in range(1, min(command + 1, 10)):
-                    if tuple([curr_coordinates[0] + directions[curr_turn][0] * k, \
-                        curr_coordinates[1] + directions[curr_turn][1] * k]) in obstacles:
-                        if directions[curr_turn][0] == 1:
-                            curr_coordinates[0] += directions[curr_turn][0] * k - 1
-                        elif directions[curr_turn][0] == -1:
-                            curr_coordinates[0] += directions[curr_turn][0] * k + 1
-                        elif directions[curr_turn][1] == 1:
-                            curr_coordinates[1] += directions[curr_turn][1] * k - 1
-                        else:
-                            curr_coordinates[1] += directions[curr_turn][1] * k + 1
-                        updated = True
-                        break
-                    
-                if not updated:
-                    # Update the coordinates to move
-                    curr_coordinates[0] += directions[curr_turn][0] * command
-                    curr_coordinates[1] += directions[curr_turn][1] * command
                 
-                max_dist = max(max_dist, curr_coordinates[0] ** 2 + curr_coordinates[1] ** 2)
+            # Turn left
+            if command == -2:
+                curr_dir = (curr_dir + 3) % 4
+                
+            # Move forward
+            dx, dy = directions[curr_dir]
             
-        return max_dist
+            for _ in range(command):
+                next_x, next_y = x + dx, y + dy
+                if self._hash_coordinates(next_x, next_y) in obstacle_set:
+                    break
+                x, y = next_x, next_y
+                
+            max_dist_squared = max(max_dist_squared, x * x + y * y)
+            
+        return max_dist_squared
+        
