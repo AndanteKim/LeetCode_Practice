@@ -1,11 +1,11 @@
 class Solution {
 private:
     // Slightly larger than 2 * max values. 
-    static const int HASH_VALUES = 60001;
+    static const int HASH_MULTIPLIER = 60001;
     
     // Hash function to convert (x, y) coordinates to a unique integer value
     int hashCoordinates(int x, int y){
-        return x * HASH_VALUES + y;
+        return x * HASH_MULTIPLIER + y;
     }
     
 public:
