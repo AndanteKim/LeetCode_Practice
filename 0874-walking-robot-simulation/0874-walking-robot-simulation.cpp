@@ -18,6 +18,7 @@ public:
                 continue;
             }
             else if (command == -2){
+                // Cautious when we updated it as negative direction
                 currTurn = (currTurn - 1 + 4) % 4;
                 continue;
             }
