@@ -1,56 +1,54 @@
 class Solution {
+private:
+    // Slightly larger than 2 * max values. 
+    static const int HASH_VALUES = 60001;
+    
+    // Hash function to convert (x, y) coordinates to a unique integer value
+    int hashCoordinates(int x, int y){
+        return x * HASH_VALUES + y;
+    }
+    
 public:
     int robotSim(vector<int>& commands, vector<vector<int>>& obstacles) {
-        // Change data structure
-        unordered_set<string> lookup;
-        for (vector<int>& obstacle : obstacles){
-            lookup.insert(to_string(obstacle[0]) + " " + to_string(obstacle[1]));
+        // Store obstacles in an unordered_set for efficient lookup
+        unordered_set<int> obstacleSets;
+        for (const auto& obstacle : obstacles){
+            obstacleSets.insert(hashCoordinates(obstacle[0], obstacle[1]));
         }
         
-        // Directions: North, East, South, West
+        // Define direction vectors: North, East, South, West
         vector<pair<int, int>> directions {{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
-        int currTurn = 0, maxDist = 0;
-        pair<int, int> currCoordinates{0,0};
+        
+        // 0: North, 1: East, 2: South, 3: West
+        int maxDistSquared = 0, currDir = 0;
+        int x = 0, y = 0;
         
         for (int command : commands){
+            // Turn right
             if (command == -1){
-                currTurn = (currTurn + 1) % 4;
+                currDir = (currDir + 1) % 4;
                 continue;
             }
-            else if (command == -2){
-                // Cautious when we updated it as negative direction
-                currTurn = (currTurn - 1 + 4) % 4;
+            
+            // Turn left
+            if (command == -2){
+                currDir = (currDir + 3) % 4;
                 continue;
             }
-            else{
-                // If we'll meet the obstacles, then updated it to sign there's an obstacle.
-                bool updated = false;
+            
+            int dx = directions[currDir].first, dy = directions[currDir].second;
+            
+            // Move forward
+            for (int i = 0; i < command; ++i){
+                int newX = x + dx, newY = y + dy;
                 
-                for (int k = 1; k <= min(command, 9); ++k){
-                    if (lookup.count(to_string(currCoordinates.first + directions[currTurn].first * k) + " " + to_string(currCoordinates.second + directions[currTurn].second * k))){
-                        if (directions[currTurn].first == 1)
-                            currCoordinates.first += directions[currTurn].first * k - 1;
-                        else if (directions[currTurn].first == -1)
-                            currCoordinates.first += directions[currTurn].first * k + 1;
-                        else if (directions[currTurn].second == 1)
-                            currCoordinates.second += directions[currTurn].second * k - 1;
-                        else
-                            currCoordinates.second += directions[currTurn].second * k + 1;
-                        updated = true;
-                        break;
-                    }
-                }
-                
-                if (!updated){
-                    // Update the coordinates to move
-                    currCoordinates.first += directions[currTurn].first * command;
-                    currCoordinates.second += directions[currTurn].second * command;
-                }
-                
-                maxDist = max(maxDist, currCoordinates.first * currCoordinates.first + currCoordinates.second * currCoordinates.second);
+                if (obstacleSets.count(hashCoordinates(newX, newY)))
+                    break;
+                x = newX, y = newY;
             }
+            maxDistSquared = max(maxDistSquared, x * x + y * y);
         }
         
-        return maxDist;
+        return maxDistSquared;
     }
 };
