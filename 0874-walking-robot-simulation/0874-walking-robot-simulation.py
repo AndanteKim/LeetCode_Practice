@@ -29,6 +29,7 @@ class Solution:
             # Turn left
             if command == -2:
                 curr_dir = (curr_dir + 3) % 4
+                continue
                 
             # Move forward
             dx, dy = directions[curr_dir]
