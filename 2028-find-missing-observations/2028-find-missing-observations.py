@@ -1,22 +1,20 @@
 class Solution:
     def missingRolls(self, rolls: List[int], mean: int, n: int) -> List[int]:
-        m = len(rolls)
-        needed = mean * (m + n)
-        for roll in rolls:
-            needed -= roll
-            
-        # Base case
-        if n > needed or 6 * n < needed:
+        sum_rolls = sum(rolls)
+        
+        # Find the remaining sum.
+        remaining_sum = mean * (n + len(rolls)) - sum_rolls
+        
+        # Check if the sum is valid or not.
+        if remaining_sum > 6 * n or remaining_sum < n:
             return []
         
-        # Find n's average
-        n_avg = needed // n
-        n_arr, remain, i = [n_avg] * n, needed - (n_avg * n), n - 1
+        distribute_mean = remaining_sum // n
+        mod = remaining_sum % n
         
-        while remain > 0:
-            if 1 <= n_arr[i % n] < 6:
-                n_arr[i % n] += 1
-                remain -= 1
-            i += 1
-        
-        return n_arr
+        # Distribute the remaining mod elements in n_elements list.
+        n_elements = [distribute_mean] * n
+        for i in range(mod):
+            n_elements[i] += 1
+            
+        return n_elements
