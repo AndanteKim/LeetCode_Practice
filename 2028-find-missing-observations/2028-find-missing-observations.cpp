@@ -1,26 +1,23 @@
 class Solution {
 public:
     vector<int> missingRolls(vector<int>& rolls, int mean, int n) {
-        int m = rolls.size(), needed = mean * (m + n);
+        int sumRolls = accumulate(rolls.begin(), rolls.end(), 0);
         
-        for (int roll : rolls)
-            needed -= roll;
+        // Find the remaining sum.
+        int remainingSum = mean * (rolls.size() + n) - sumRolls;
         
-        // Base case
-        if (n > needed || 6 * n < needed)
+        // Check the valid sum or not
+        if (n > remainingSum || 6 * n < remainingSum)
             return vector<int>{};
         
-        int nAverage = needed / n, remain = needed - (nAverage * n), i = 0;
-        vector<int> missing(n, nAverage);
+        int distributeMean = remainingSum / n;
+        int mod = remainingSum % n;
         
-        while (remain > 0){
-            if (missing[i % n] >= 1 && missing[i % n] < 6){
-                ++missing[i % n];
-                --remain;
-            }
-            ++i;
-        }
+        // Distribute the remaining mod elements in nElements list.
+        vector<int> nElements(n, distributeMean);
+        for (int i = 0; i < mod; ++i)
+            ++nElements[i];
         
-        return missing;
+        return nElements;
     }
 };
