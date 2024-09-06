@@ -11,18 +11,15 @@
 class Solution {
 public:
     ListNode* modifiedList(vector<int>& nums, ListNode* head) {
-        // Set candidates and link the root's head
         unordered_set<int> candidates(nums.begin(), nums.end());
-        ListNode* dummy = new ListNode();
+        ListNode* dummy = new ListNode(-1, head);
         ListNode* curr = dummy;
-        curr -> next = head;
         
-        while (curr){
-            // Delete nodes if the next val is in candidates.
-            while (curr -> next && candidates.count(curr -> next -> val))
+        while (curr -> next){
+            if (candidates.count(curr -> next -> val))
                 curr -> next = curr -> next -> next;
-            
-            curr = curr -> next;
+            else
+                curr = curr -> next;
         }
         
         return dummy -> next;
