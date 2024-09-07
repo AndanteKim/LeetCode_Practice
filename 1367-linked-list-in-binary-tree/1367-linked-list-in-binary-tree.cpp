@@ -21,28 +21,40 @@
  */
 class Solution {
 private:
-    bool dfs(ListNode* head, TreeNode* node){
-        if (!head)
-            return true;
-        
-        if (!node || (node -> val != head -> val))
+    bool searchInTree(TreeNode* node, int patternIndex, vector<int>& pattern, vector<int>& prefixTable){
+        if (!node)
             return false;
         
-        // Continue searching in both left and right subtrees
-        return dfs(head -> next, node -> left) || dfs(head -> next, node -> right);
+        while (patternIndex > 0 && pattern[patternIndex] != node -> val)
+            patternIndex = prefixTable[patternIndex - 1];
+        (pattern[patternIndex] == node -> val)? ++patternIndex : patternIndex = 0;
+        
+        // Check if the pattern is fully matched
+        if (patternIndex == pattern.size())
+            return true;
+        
+        // Recursively search left and right subtrees
+        return searchInTree(node -> left, patternIndex, pattern, prefixTable) || searchInTree(node -> right, patternIndex, pattern, prefixTable);
     }
     
 public:
     bool isSubPath(ListNode* head, TreeNode* root) {
-        if (!root)
-            return false;
+        // Build the pattern and prefix table from the linked list
+        vector<int> pattern{head -> val}, prefixTable{0};
+        head = head -> next;
+        int patternIndex = 0;
         
-        // Check the current node and all its descendants
-        bool main = dfs(head, root);
+        while (head){
+            while (patternIndex > 0 && pattern[patternIndex] != head -> val)
+                patternIndex = prefixTable[patternIndex - 1];
+            
+            (pattern[patternIndex] == head -> val)? ++patternIndex : patternIndex = 0;
+            pattern.push_back(head -> val);
+            prefixTable.push_back(patternIndex);
+            head = head -> next;
+        }
         
-        // Check all paths from the left and right children of the root
-        bool left = isSubPath(head, root -> left), right = isSubPath(head, root -> right);
-        
-        return main || left || right;
+        // Perform DFS to search for the pattern in the tree.
+        return searchInTree(root, 0, pattern, prefixTable);
     }
 };
