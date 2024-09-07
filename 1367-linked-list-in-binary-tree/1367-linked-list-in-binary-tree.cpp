@@ -21,41 +21,28 @@
  */
 class Solution {
 private:
-    bool dfs(TreeNode* currT, ListNode* currL){
-        // Base case: If the current node reached the end, and it's the subpath of current subtree
-        if (!currL)
+    bool dfs(ListNode* head, TreeNode* node){
+        if (!head)
             return true;
         
-        // Base case: If it's not the subpath
-        if ((!currT && currL) || (currT -> val != currL -> val))
+        if (!node || (node -> val != head -> val))
             return false;
         
-        bool left = dfs(currT -> left, currL -> next);
-        bool right = dfs(currT -> right, currL -> next);
-        return left || right;
+        // Continue searching in both left and right subtrees
+        return dfs(head -> next, node -> left) || dfs(head -> next, node -> right);
     }
     
 public:
     bool isSubPath(ListNode* head, TreeNode* root) {
-        queue<TreeNode*> queue;
-        queue.push(root);
+        if (!root)
+            return false;
         
-        while (!queue.empty()){
-            TreeNode* currTree = queue.front(); queue.pop();
-            
-            if (currTree -> val == head -> val){
-                bool isSubpath = dfs(currTree, head);
-                if (isSubpath)
-                    return true;
-            }
-            
-            if (currTree -> left)
-                queue.push(currTree -> left);
-            
-            if (currTree -> right)
-                queue.push(currTree -> right);
-        }
+        // Check the current node and all its descendants
+        bool main = dfs(head, root);
         
-        return false;
+        // Check all paths from the left and right children of the root
+        bool left = isSubPath(head, root -> left), right = isSubPath(head, root -> right);
+        
+        return main || left || right;
     }
 };
