@@ -11,30 +11,27 @@
 #         self.right = right
 class Solution:
     def isSubPath(self, head: Optional[ListNode], root: Optional[TreeNode]) -> bool:
-        def dfs(curr_t: TreeNode, curr_l: ListNode) -> bool:
-            if not curr_l:
-                return True
-            
-            if (not curr_t and curr_l) or curr_t.val != curr_l.val:
-                return False
-            left = dfs(curr_t.left, curr_l.next)
-            right = dfs(curr_t.right, curr_l.next)
-            
-            return left or right
+        if not root:
+            return False
         
-        queue = deque([root])
-        while queue:
-            curr_tree = queue.popleft()
-            
-            if curr_tree.val == head.val:
-                is_subpath = dfs(curr_tree, head)
-                if is_subpath:
-                    return True
-            
-            if curr_tree.left:
-                queue.append(curr_tree.left)
-                
-            if curr_tree.right:
-                queue.append(curr_tree.right)
-                
-        return False
+        # Check the current node and all its descendants
+        main = self.dfs(root, head)
+        
+        # Check all paths from the left and right children of the root
+        left = self.isSubPath(head, root.left)
+        right = self.isSubPath(head, root.right)
+        
+        return main or left or right
+    
+    def dfs(self, node: TreeNode, head: ListNode) -> bool:
+        if not head:
+            return True
+        
+        if not node or node.val != head.val:
+            return False
+        
+        # Continue searching in both left and right subtrees
+        left = self.dfs(node.left, head.next)
+        right = self.dfs(node.right, head.next)
+        
+        return left or right
