@@ -11,68 +11,25 @@
 class Solution {
 public:
     vector<vector<int>> spiralMatrix(int m, int n, ListNode* head) {
-        ListNode* root = head;
-        int left = 0, right = n, up = 0, down = m;
-        bool noHead = false;
-        vector<vector<int>> ans(m, vector<int>(n, -1));
+        // Store the direction starting east, south, west, north movements in a matrix sequentially.
+        int i = 0, j = 0, currDirection = 0;
+        vector<pair<int, int>> direction{{0, 1}, {1, 0}, {0, -1}, {-1, 0}};
+        vector<vector<int>> matrix(m, vector<int>(n, -1));
         
-        // Traverse the spiral
-        while ((left < right || up < down) && !noHead){
-            // From the left to the right
-            for (int c = left; c < right; ++c){
-                if (!root){
-                    noHead = true;
-                    break;
-                }
-                
-                ans[up][c] = root -> val;
-                root = root -> next;
-            }
+        while (head){
+            matrix[i][j] = head -> val;
             
-            ++up;
-            if (noHead) break;
+            int row = i + direction[currDirection].first, col = j + direction[currDirection].second;
             
-            // From the up to the down
-            for (int r = up; r < down; ++r){
-                if (!root){
-                    noHead = true;
-                    break;
-                }
-                
-                ans[r][right - 1] = root -> val;
-                root = root -> next;
-            }
-            --right;
-            if (noHead) break;
+            // If we bump into an edge or an already filled cell, change the direction.
+            if (min(row, col) < 0 || row >= m || col >= n || matrix[row][col] != -1)
+                currDirection = (currDirection + 1) % 4;
+            i += direction[currDirection].first;
+            j += direction[currDirection].second;
             
-            // From right - 1 to the left
-            for (int c = right - 1; c > left - 1; --c){
-                if (!root){
-                    noHead = true;
-                    break;
-                }
-                
-                ans[down - 1][c] = root -> val;
-                root = root -> next;
-            }
-            
-            --down;
-            if (noHead) break;
-            
-            // From down - 1 to the up
-            for (int r = down - 1; r >= up; --r){
-                if (!root){
-                    noHead = true;
-                    break;
-                }
-                
-                ans[r][left] = root -> val;
-                root = root -> next;
-            }
-            ++left;
-            if (noHead) break;
+            head = head -> next;
         }
         
-        return ans;
+        return matrix;
     }
 };
