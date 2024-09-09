@@ -5,55 +5,23 @@
 #         self.next = next
 class Solution:
     def spiralMatrix(self, m: int, n: int, head: Optional[ListNode]) -> List[List[int]]:
-        root = head
+        # Store the east, south, west, north movements in a matrix.
+        i, j, curr_d = 0, 0, 0
+        
+        movement = [[0, 1], [1, 0], [0, -1], [-1, 0]]
         ans = [[-1] * n for _ in range(m)]
-        left, right, up, down = 0, n, 0, m
-        no_head = False
         
-        # Traverse spiral matrix
-        while (left < right or up < down) and not no_head:
-            # from left to right
-            for col in range(left, right):
-                if not root:
-                    no_head = True
-                    break
-                
-                ans[up][col] = root.val
-                root = root.next
-            up += 1
-            if no_head:
-                break
-                
-            # from up to down
-            for row in range(up, down):
-                if not root:
-                    no_head = True
-                    break
-                
-                ans[row][right - 1] = root.val
-                root = root.next
+        while head:
+            ans[i][j] = head.val
+            new_i, new_j = i + movement[curr_d][0], j + movement[curr_d][1]
             
-            right -= 1
-            if no_head:
-                break
-                
-            for col in range(right - 1, left - 1, -1):
-                if not root:
-                    no_head = True
-                    break
-                ans[down - 1][col] = root.val
-                root = root.next
-            down -= 1
+            # If we bump into an edge or an already filled cell, change the direction.
+            if min(new_i, new_j) < 0 or new_i >= m or new_j >= n or ans[new_i][new_j] != -1:
+                curr_d = (curr_d + 1) % 4
             
-            if no_head:
-                break
-                
-            for row in range(down - 1, up - 1, -1):
-                if not root:
-                    no_head = True
-                    break
-                ans[row][left] = root.val
-                root = root.next
-            left += 1
-        
+            i += movement[curr_d][0]
+            j += movement[curr_d][1]
+            
+            head = head.next
+            
         return ans
