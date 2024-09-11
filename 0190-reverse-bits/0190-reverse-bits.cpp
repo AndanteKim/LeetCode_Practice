@@ -4,7 +4,7 @@ public:
         uint32_t ans = 0;
         int power = 31;
         
-        for (int i = 0; i < 32; ++i){
+        while (n > 0){
             ans += (n & 1) * pow(2, power--);
             n >>= 1;
         }
