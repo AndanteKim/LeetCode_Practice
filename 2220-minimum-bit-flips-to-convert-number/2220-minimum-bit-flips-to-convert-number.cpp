@@ -1,15 +1,16 @@
 class Solution {
 public:
     int minBitFlips(int start, int goal) {
-        int ans = 0;
+        // XOR to find differing bits
+        int xorRes = start ^ goal, ans = 0;
         
-        // Use bitmask to check whether we need to convert or not each digit.
-        while (start > 0 || goal > 0){
-            if ((start & 1) != (goal & 1)) ++ans;
+        // Count the number of 1s in xorRes (differing bits)
+        while (xorRes > 0){
+            // Increment if the last bit is 1
+            ans += xorRes & 1;
             
-            // right shift to check
-            start >>= 1;
-            goal >>= 1;
+            // Shift right to process the next bit
+            xorRes >>= 1;
         }
         
         return ans;
