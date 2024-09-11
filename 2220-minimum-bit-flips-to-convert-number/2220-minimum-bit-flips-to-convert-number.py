@@ -1,14 +1,12 @@
 class Solution:
     def minBitFlips(self, start: int, goal: int) -> int:
-        # XOR to find differing bits
-        xor_res = start ^ goal
-        ans = 0
+        # Xor to find differing bits
+        ans, xor_res = 0, start ^ goal
         
-        # Count the number of 1s in xor_result (differing bits)
+        # Brian Kernighans algorithm to count 1s
         while xor_res:
-            ans += xor_res & 1 # Increment if the last bit is 1
-            xor_res >>= 1   # Shift right to process the next bit
+            # Clear the lowest set bit
+            xor_res &= xor_res - 1
+            ans += 1
             
         return ans
-        
-        
