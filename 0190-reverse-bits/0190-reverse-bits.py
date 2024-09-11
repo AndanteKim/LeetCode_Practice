@@ -1,12 +1,11 @@
 class Solution:
     def reverseBits(self, n: int) -> int:
-        ans = 0
+        ans, power = 0, 31
         
-        for _ in range(32):
-            if n & 1:
-                ans |= 1
-                
+        while n:
+            ans += (n & 1) << power
             n >>= 1
-            ans <<= 1
             
-        return ans >> 1
+            power -= 1
+            
+        return ans
