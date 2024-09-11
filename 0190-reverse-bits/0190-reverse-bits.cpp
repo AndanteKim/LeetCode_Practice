@@ -1,24 +1,13 @@
 class Solution {
-private:
-    int reverseByte(int byte, map<uint32_t, uint32_t>& cache){
-        if (cache.count(byte))
-            return cache[byte];
-        
-        return cache[byte] = (byte * 0x0202020202 & 0x010884422010) % 1023;
-    }
-    
 public:
     uint32_t reverseBits(uint32_t n) {
-        uint32_t ans = 0;
-        int power = 24;
-        map<uint32_t, uint32_t> cache;
+        // Divide and conquer matching 0xFFFFFFFF masking
+        n = (n >> 16) | (n << 16);
+        n = ((n & 0xFF00FF00) >> 8) | ((n & 0x00FF00FF) << 8);
+        n = ((n & 0xF0F0F0F0) >> 4) | ((n & 0x0F0F0F0F) << 4);
+        n = ((n & 0xCCCCCCCC) >> 2) | ((n & 0x33333333) << 2);
+        n = ((n & 0xAAAAAAAA) >> 1) | ((n & 0x55555555) << 1);
         
-        while (n > 0){
-            ans += reverseByte(n & (0xFF), cache) << power;
-            n >>= 8;
-            power -= 8;
-        }
-        
-        return ans;
+        return n;
     }
 };
