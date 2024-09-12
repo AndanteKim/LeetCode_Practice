@@ -1,14 +1,12 @@
 class Solution {
 public:
     int rangeBitwiseAnd(int left, int right) {
-        // find the msb 1's
-        int shift = 0;
+        // Brian Kernighan's algorithm
         while (left < right){
-            left >>= 1;
-            right >>= 1;
-            ++shift;
+            // Turn off the rightmost bits
+            right &= (right - 1);
         }
         
-        return left << shift;
+        return right;
     }
 };
