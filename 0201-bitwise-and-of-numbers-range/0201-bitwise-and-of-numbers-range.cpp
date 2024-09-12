@@ -1,11 +1,14 @@
 class Solution {
 public:
     int rangeBitwiseAnd(int left, int right) {
+        // find the msb 1's
+        int shift = 0;
         while (left < right){
-            // turn off the rightmost 1-bit
-            right = right & (right - 1);
+            left >>= 1;
+            right >>= 1;
+            ++shift;
         }
         
-        return left & right;
+        return left << shift;
     }
 };
