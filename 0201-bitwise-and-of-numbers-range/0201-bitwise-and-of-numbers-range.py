@@ -1,11 +1,7 @@
 class Solution:
     def rangeBitwiseAnd(self, left: int, right: int) -> int:
-        # find the common 1-bits
-        shift = 0
-        
+        # Brian Kernighan's algorithm
         while left < right:
-            left >>= 1
-            right >>= 1
-            shift += 1
-        
-        return left << shift
+            # Turn off the rightmost 1-bit
+            right &= (right - 1)
+        return right
