@@ -2,7 +2,7 @@ class Solution {
 public:
     bool isPalindrome(int x) {
         // Special cases:
-        // When x < 0.  x isn't a palindrome. 
+        // When x < 0, x isn't a palindrome. 
         // Also, if the last digit of the number is 0, in order to be a palindrome,
         // the first digit of the number also needs to be 0. Only 0 satisfy this property.
         if (x < 0 || (x % 10 == 0 && x != 0))
