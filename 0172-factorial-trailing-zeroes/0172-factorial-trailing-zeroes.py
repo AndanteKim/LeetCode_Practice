@@ -1,14 +1,11 @@
 class Solution:
     def trailingZeroes(self, n: int) -> int:
-        factorial = 1
+        zero_cnt = 0
         
-        while n > 0:
-            factorial *= n
-            n -= 1
-            
-        ans = 0
-        while factorial % 10 == 0:
-            ans += 1
-            factorial //= 10
-        
-        return ans
+        for i in range(5, n + 1, 5):
+            curr = i
+            while curr % 5 == 0:
+                zero_cnt += 1
+                curr //= 5
+                
+        return zero_cnt
