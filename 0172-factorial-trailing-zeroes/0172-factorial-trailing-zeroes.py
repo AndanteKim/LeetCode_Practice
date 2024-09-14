@@ -1,11 +1,9 @@
 class Solution:
     def trailingZeroes(self, n: int) -> int:
-        zero_cnt = 0
+        zero_count, curr_multiple = 0, 5
         
-        for i in range(5, n + 1, 5):
-            curr = i
-            while curr % 5 == 0:
-                zero_cnt += 1
-                curr //= 5
-                
-        return zero_cnt
+        while n >= curr_multiple:
+            zero_count += n // curr_multiple
+            curr_multiple *= 5
+            
+        return zero_count
