@@ -1,18 +1,15 @@
 class Solution:
     def findSmallestRegion(self, regions: List[List[str]], region1: str, region2: str) -> str:
-        graph = defaultdict(str)
+        # Simplify LCA with Time complexity: O(max(m, n)), Space Complexity: O(m + n)
+        parents = {region[i] : region[0] for region in regions for i in range(1, len(region))}
         
-        for i in range(len(regions)):
-            for j in range(1, len(regions[i])):
-                graph[regions[i][j]] = regions[i][0]
-        
-        r1_ancestor = region1
-        while r1_ancestor:
-            r2_ancestor = region2
-            while r2_ancestor:
-                if r1_ancestor == r2_ancestor:
-                    return r1_ancestor
-                r2_ancestor = graph[r2_ancestor]
-            r1_ancestor = graph[r1_ancestor]
-        
-        return ""
+        r1 = region1
+        ancestry_history = {r1}
+        while r1 in parents:
+            r1 = parents[r1]
+            ancestry_history.add(r1)
+            
+        r2 = region2
+        while r2 not in ancestry_history:
+            r2 = parents[r2]
+        return r2
