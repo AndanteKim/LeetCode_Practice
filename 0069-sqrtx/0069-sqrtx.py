@@ -1,9 +1,14 @@
 class Solution:
     def mySqrt(self, x: int) -> int:
-        for i in range(x + 1):
-            if i * i >= x:
-                if i * i == x:
-                    return i
-                return i - 1
+        # Binary search
+        left, right = 0, x
+        
+        while left <= right:
+            mid = (left + right) >> 1
             
-        return -1
+            if mid * mid <= x:
+                left = mid + 1
+            else:
+                right = mid - 1
+                
+        return right
