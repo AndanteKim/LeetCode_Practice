@@ -1,10 +1,18 @@
 class Solution {
 public:
     int mySqrt(int x) {
-        if (x < 2) return x;
+        // Newton's method
+        if (x < 2)
+            return x;
         
-        long left = mySqrt(x >> 2) << 1;
-        long right = left + 1;
-        return (right * right > x)? left : right;
+        double x0 = x;
+        double x1 = (x0 + x / x0) / 2.0;
+        
+        while (abs(x0 - x1) >= 1){
+            x0 = x1;
+            x1 = (x0 + x / x0) / 2.0;
+        }
+        
+        return static_cast<int>(x1);
     }
 };
