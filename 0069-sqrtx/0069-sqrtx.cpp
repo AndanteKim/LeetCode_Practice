@@ -1,14 +1,23 @@
 class Solution {
 public:
     int mySqrt(int x) {
-        for (int i = 0; i <= x; ++i){
-            if ((long)i * i >= x){
-                if ((long)i * i == x)
-                    return i;
-                return i - 1;
-            }
+        // Binary search
+        if (x < 2)
+            return x;
+        
+        int left = 0, right = x;
+        
+        while (left <= right){
+            int mid = (left + right) >> 1;
+            
+            if ((long)mid * mid > x)
+                right = mid - 1;
+            else if ((long)mid * mid < x)
+                left = mid + 1;
+            else
+                return mid;
         }
         
-        return -1;
+        return right;
     }
 };
