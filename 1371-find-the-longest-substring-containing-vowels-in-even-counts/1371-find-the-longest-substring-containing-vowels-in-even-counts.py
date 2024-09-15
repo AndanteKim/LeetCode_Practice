@@ -8,6 +8,7 @@ class Solution:
         char_map[ord('o') - 97] = 8
         char_map[ord('u') - 97] = 16
         
+        # If all vowels are odd, then max of mp size would be 31.
         mp, ans = [-1] * 32, 0
         
         for i in range(len(s)):
