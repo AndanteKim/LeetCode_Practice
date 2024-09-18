@@ -1,40 +1,48 @@
 class Solution:
     def largestNumber(self, nums: List[int]) -> str:
-        # Sort the numbers using Quick sort
-        self._quick_sort(nums, 0, len(nums) - 1)
+        # Sort the numbers using merge sort
+        sorted_nums = self._merge_sort(nums, 0, len(nums) - 1)
+        
         # Concatenate sorted numbers to form the largest number
-        largest = "".join(map(str, nums))
-        # Handle the case wehre the largest number is zero
+        largest = "".join(map(str, sorted_nums))
+        
+        # Handle the case where the largest number is zero
         return "0" if largest[0] == "0" else largest
     
-    def _quick_sort(self, nums: List[int], left: int, right: int) -> None:
-        # Base case: If the range has one or no elements, it's already sorted
+    def _merge_sort(self, nums: List[int], left: int, right: int) -> List[int]:
+        # Base case: A single element is already sorted
         if left >= right:
-            return
+            return [nums[left]]
+        mid = (left + right) >> 1
         
-        # Partition the array and get the pivot index
-        pivot = self._partition(nums, left, right)
+        # Recursively sort the left and right halves
+        left_half = self._merge_sort(nums, left, mid)
+        right_half = self._merge_sort(nums, mid + 1, right)
         
-        # Recursively the array and get the pivot index
-        self._quick_sort(nums, left, pivot - 1)
-        self._quick_sort(nums, pivot + 1, right)
+        # Merge the sorted halves
+        return self._merge(left_half, right_half)
+    
+    def _merge(self, left_half: List[int], right_half: List[int]) -> List[int]:
+        sorted_nums = []
+        left_idx, right_idx = 0, 0
         
-    def _partition(self, nums: List[int], left: int, right: int) -> int:
-        pivot = nums[right]
-        low_idx = left
-        
-        # Rearrange elements so that those greater than the pivot are on the left
-        for i in range(left, right):
-            if self._compare(nums[i], pivot):
-                nums[i], nums[low_idx] = nums[low_idx], nums[i]
-                low_idx += 1
+        # Merge the two halves based on custom comparison
+        while left_idx < len(left_half) and right_idx < len(right_half):
+            if self._compare(left_half[left_idx], right_half[right_idx]):
+                sorted_nums.append(left_half[left_idx])
+                left_idx += 1
+            else:
+                sorted_nums.append(right_half[right_idx])
+                right_idx += 1
                 
-        # Place the pivot in its correct position
-        nums[low_idx], nums[right] = nums[right], nums[low_idx]
-        return low_idx
+        # Append remaining elements from the left half
+        sorted_nums.extend(left_half[left_idx:])
+        
+        # Append remaining elements from the right half
+        sorted_nums.extend(right_half[right_idx:])
+        return sorted_nums
     
     def _compare(self, first_num: int, second_num: int) -> bool:
         # Compare concatenated strings to decide the order
         return str(first_num) + str(second_num) > str(second_num) + str(first_num)
-        
         
