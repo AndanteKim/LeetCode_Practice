@@ -6,7 +6,6 @@ class Solution:
         # Sort strings based on concatenated values
         num_str.sort(key = lambda x : x * 10, reverse = True)
         
-        print(num_str)
         # Handle the case where the largest number is zero.
         if num_str[0] == '0':
             return "0"
