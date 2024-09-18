@@ -1,25 +1,16 @@
 class Solution {
-private:
-    int dp(int remain, vector<int>& memo){
-        // Base case
-        if (remain == 0)
-            return 1;
-        
-        if (remain < 0) return 0;
-        
-        if (memo[remain] != -1)
-            return memo[remain];
-        
-        int ways = dp(remain - 1, memo);
-        ways += dp(remain - 2, memo);
-        
-        return memo[remain] = ways;
-    }
-    
 public:
     int climbStairs(int n) {
-        vector<int> memo(n + 1, -1);
+        // Bottom-up
+        // Base case
+        if (n <= 2) return max(0, n);
         
-        return dp(n, memo);
+        vector<int> dp(n + 1, 0);
+        dp[1] = 1, dp[2] = 2;
+        
+        for (int i = 3; i <= n; ++i)
+            dp[i] = dp[i - 1] + dp[i - 2];
+        
+        return dp[n];
     }
 };
