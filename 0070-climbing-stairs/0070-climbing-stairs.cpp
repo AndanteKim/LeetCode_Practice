@@ -1,18 +1,8 @@
 class Solution {
 public:
     int climbStairs(int n) {
-        // Bottom-up space-optimized
-        // Base case
-        if (n <= 2) return max(0, n);
-        
-        int first = 1, second = 2;
-        
-        for (int i = 3; i <= n; ++i){
-            int third = first + second;
-            first = second;
-            second = third;
-        }
-        
-        return second;
+        double sqrt5 = pow(5, 0.5);
+        double phi = (1 + sqrt5) / 2, psi = (1 - sqrt5) / 2;
+        return int((pow(phi, n + 1) - pow(psi, n + 1)) / sqrt5);
     }
 };
