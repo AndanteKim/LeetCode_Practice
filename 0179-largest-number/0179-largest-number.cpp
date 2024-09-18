@@ -1,0 +1,26 @@
+class Solution {
+public:
+    string largestNumber(vector<int>& nums) {
+        vector<string> numStr;
+        
+        // Convert each integer to a string
+        for (int num : nums)
+            numStr.push_back(to_string(num));
+        
+        // Sort strings based on concatenated values
+        sort(numStr.begin(), numStr.end(), [](string& a, string& b){
+            return a + b > b + a;
+        });
+        
+        // Handle the case where the largest number is zero.
+        if (numStr[0] == "0")
+            return "0";
+        
+        // Concatenate sorted strings to form the largest number
+        string ans = "";
+        for (string& num : numStr)
+            ans += num;
+        
+        return ans;
+    }
+};
