@@ -1,58 +1,36 @@
 class Solution {
 private:
-    // Compare the concatenated strings to decide the order
-    bool compare(int firstNum, int secondNum){
-        return to_string(firstNum) + to_string(secondNum) > to_string(secondNum) + to_string(firstNum);
-    }
-    
-    vector<int> merge(vector<int>& leftHalf, vector<int>& rightHalf){
-        vector<int> sortedNums;
-        int leftIndex = 0, rightIndex = 0;
-        
-        // Merge the two halves based on custom comparison
-        while (leftIndex < leftHalf.size() && rightIndex < rightHalf.size()){
-            if (compare(leftHalf[leftIndex], rightHalf[rightIndex]))
-                sortedNums.push_back(leftHalf[leftIndex++]);
-            else
-                sortedNums.push_back(rightHalf[rightIndex++]);
-        }
-        
-        // Append remaining elements from left half
-        while (leftIndex < leftHalf.size())
-            sortedNums.push_back(leftHalf[leftIndex++]);
-        
-        // Append remaining elements from right half
-        while (rightIndex < rightHalf.size())
-            sortedNums.push_back(rightHalf[rightIndex++]);
-        
-        return sortedNums;
-    }
-    
-    vector<int> mergeSort(vector<int>& nums, int left, int right){
-        // Base case: a single element is already sorted
-        if (left >= right) return {nums[left]};
-            
-        int mid = (left + right) >> 1;
-        
-        // Recursively sort the left and right halves
-        vector<int> leftHalf = mergeSort(nums, left, mid);
-        vector<int> rightHalf = mergeSort(nums, mid + 1, right);
-        
-        // Merge the sorted halves
-        return merge(leftHalf, rightHalf);
+    // Private helper function to compare two strings
+    static bool compare(const string& first, const string& second){
+        return (first + second) < (second + first);
     }
     
 public:
     string largestNumber(vector<int>& nums) {
-        // Sort the numbers using Merge Sort
-        nums = mergeSort(nums, 0, nums.size() - 1);
+        // Priority queue to order numbers using the custom comparison function
+        priority_queue<string, vector<string>, decltype(&Solution::compare)> maxHeap(&Solution::compare);
         
-        // Concatenate sorted numbers to form the largest number
+        int totalLength = 0;
+        
+        // Convert integers to strings and push them into the priority queue
+        for (const int num : nums){
+            string strNum = to_string(num);
+            totalLength += strNum.size();
+            maxHeap.push(strNum);
+        }
+        
+        // Build the result string from the priority queue
         string ans = "";
-        for (int num : nums)
-            ans += to_string(num);
+        ans.reserve(totalLength);    // Reserve space for efficiency
         
-        // Handle the case wehre the largest number is zero.
-        return (ans[0] == '0')? "0" : ans;
+        while (!maxHeap.empty()){
+            ans += maxHeap.top();
+            maxHeap.pop();
+        }
+        
+        // Handle edge case where the result might be "000... 0"
+        if (ans.empty() || ans[0] == '0') return "0";
+        
+        return ans;
     }
 };
