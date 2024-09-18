@@ -1,9 +1,15 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        dp = [0] * (n + 1)
-        dp[0], dp[1] = 1, 1
-        
-        for i in range(2, n + 1):
-            dp[i] = dp[i - 2] + dp[i - 1]
+        @lru_cache(maxsize = None)
+        def dp(remain: int) -> int:
+            if remain == 0:
+                return 1
+            if remain < 0:
+                return 0
             
-        return dp[n]
+            ways = dp(remain - 1)
+            ways += dp(remain - 2)
+            return ways
+        
+        return dp(n)
+        
