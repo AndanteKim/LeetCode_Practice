@@ -1,49 +1,58 @@
 class Solution {
 private:
+    // Compare the concatenated strings to decide the order
     bool compare(int firstNum, int secondNum){
-        // Compare concatenated strings to decide the order
         return to_string(firstNum) + to_string(secondNum) > to_string(secondNum) + to_string(firstNum);
     }
     
-    int partition(vector<int>& nums, int left, int right){
-        int pivot = nums[right];
-        int lowIndex = left;
+    vector<int> merge(vector<int>& leftHalf, vector<int>& rightHalf){
+        vector<int> sortedNums;
+        int leftIndex = 0, rightIndex = 0;
         
-        // Rearrange elements, so that those greater than the pivot are on the left
-        for (int i = left; i < right; ++i){
-            if (compare(nums[i], pivot)){
-                swap(nums[i], nums[lowIndex++]);
-            }
+        // Merge the two halves based on custom comparison
+        while (leftIndex < leftHalf.size() && rightIndex < rightHalf.size()){
+            if (compare(leftHalf[leftIndex], rightHalf[rightIndex]))
+                sortedNums.push_back(leftHalf[leftIndex++]);
+            else
+                sortedNums.push_back(rightHalf[rightIndex++]);
         }
         
-        // Place the pivot in its correct position
-        swap(nums[lowIndex], nums[right]);
-        return lowIndex;
+        // Append remaining elements from left half
+        while (leftIndex < leftHalf.size())
+            sortedNums.push_back(leftHalf[leftIndex++]);
+        
+        // Append remaining elements from right half
+        while (rightIndex < rightHalf.size())
+            sortedNums.push_back(rightHalf[rightIndex++]);
+        
+        return sortedNums;
     }
     
-    void quickSort(vector<int>& nums, int left, int right){
-        // Base case: If the range has one or no elements, it's already sorted
-        if (left >= right) return;
+    vector<int> mergeSort(vector<int>& nums, int left, int right){
+        // Base case: a single element is already sorted
+        if (left >= right) return {nums[left]};
+            
+        int mid = (left + right) >> 1;
         
-        // Partition the array and get the pivot index
-        int pivot = partition(nums, left, right);
+        // Recursively sort the left and right halves
+        vector<int> leftHalf = mergeSort(nums, left, mid);
+        vector<int> rightHalf = mergeSort(nums, mid + 1, right);
         
-        // Recursively sort the sub-arrays
-        quickSort(nums, left, pivot - 1);
-        quickSort(nums, pivot + 1, right);
+        // Merge the sorted halves
+        return merge(leftHalf, rightHalf);
     }
     
 public:
     string largestNumber(vector<int>& nums) {
-        // Sort the numbers using Quick Sort
-        quickSort(nums, 0, nums.size() - 1);
+        // Sort the numbers using Merge Sort
+        nums = mergeSort(nums, 0, nums.size() - 1);
         
-        // Concatenated sorted numbers to form the largest number
+        // Concatenate sorted numbers to form the largest number
         string ans = "";
         for (int num : nums)
             ans += to_string(num);
         
-        // Handle the case where the largest number is zero
-        return ans[0] == '0'? "0" : ans;
+        // Handle the case wehre the largest number is zero.
+        return (ans[0] == '0')? "0" : ans;
     }
 };
