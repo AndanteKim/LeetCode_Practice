@@ -1,15 +1,16 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        # Bottom-up
+        # Bottom-up, space-optimized
         
         # Base case
         if n <= 2:
-            return max(0, n)
+            return max(n, 0)
         
-        dp = [0] * (n + 1)
-        dp[1], dp[2] = 1, 2
+        first, second, ans = 1, 2, 0
         
-        for i in range(3, n + 1):
-            dp[i] = dp[i - 1] + dp[i - 2]
+        for _ in range(3, n + 1):
+            ans = first + second
+            first = second
+            second = ans
             
-        return dp[n]
+        return ans
