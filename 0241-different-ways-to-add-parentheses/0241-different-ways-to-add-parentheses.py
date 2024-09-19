@@ -1,34 +1,42 @@
 class Solution:
     def diffWaysToCompute(self, expression: str) -> List[int]:
-        # Base case: If the string is empty, return an empty list
-        if not expression:
-            return []
+        # Initialize memoization dictionary to store results of subproblems
+        memo = dict()
         
-        ans, n, operations = [], len(expression), {
-            '+': lambda x, y: x + y,
-            '-': lambda x, y: x - y,
-            '*': lambda x, y: x * y
-        }
+        # Solve for the entire expression
+        return self._compute_res(expression, memo, 0, len(expression) - 1)
+    
+    def _compute_res(self, expression: str, memo: Dict[str, int], start: int, end: int) -> List[int]:
+        # If result is already memoized, return it
+        if (start, end) in memo:
+            return memo[(start, end)]
         
-        # Base case: If the string is a single character or two characters\
-        # and the first character is a digit, parse it as a number and return it.
-        if n == 1 or (n == 2 and expression[0].isdigit()):
-            return [int(expression)]
+        ans, operations = [], {'+': lambda x, y : x + y, '-': lambda x, y: x - y, \
+                              '*': lambda x, y: x * y}
         
-        # Recursive case: Iterate through each character.
-        for i, curr in enumerate(expression):
-            # Skip if the current character is a digit.
-            if curr.isdigit():
+        # Base case: single digit
+        if start == end:
+            return [int(expression[start])]
+        
+        # Base case: two-digit number
+        if end - start == 1 and expression[start].isdigit():
+            return [int(expression[start : end + 1])]
+        
+        
+        # Recursive case: split the expression at each operator
+        for i in range(start, end + 1):
+            if expression[i].isdigit():
                 continue
+                
+            left_res = self._compute_res(expression, memo, start, i - 1)
+            right_res = self._compute_res(expression, memo, i + 1, end)
             
-            # Split the expression into left and right parts
-            left_res = self.diffWaysToCompute(expression[:i])
-            right_res = self.diffWaysToCompute(expression[i + 1:])
-            
-            # Combine results from left and right parts
+            # Combine results from left and right subexpressions
             for left_val in left_res:
                 for right_val in right_res:
-                    # Perform the operation based on the current character
-                    ans.append(operations[curr](left_val, right_val))
+                    ans.append(operations[expression[i]](left_val, right_val))
+                    
+        # Memoize the result for this subproblem
+        memo[(start, end)] = ans
         
         return ans
