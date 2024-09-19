@@ -1,49 +1,59 @@
 class Solution {
 public:
     vector<int> diffWaysToCompute(string expression) {
-        // Initialize memoization for unordered_map
-        unordered_map<string, vector<int>> memo;
+        this -> n = expression.size();
+        // Create a 2D array of lists to store results of subproblems
+        vector<vector<vector<int>>> dp(n, vector<vector<int>>(n));
         
-        // Solve for the entire expression
-        return computeResult(expression, memo, 0, expression.size() - 1);
-    }
-    
-private:
-    vector<int> computeResult(string& expression, unordered_map<string, vector<int>>& memo, int start, int end){
-        // If result is already memoized, return it.
-        if (memo.count(to_string(start) + " " + to_string(end)))
-            return memo[to_string(start) + " " + to_string(end)];
+        initializeBaseCase(expression, dp);
         
-        vector<int> ans;
-        unordered_map<char, function<int(int, int)>> operations{
-            {'+', [](int x, int y) {return x + y;}}, {'-', [](int x, int y) {return x - y;}}, \
-            {'*', [](int x, int y) {return x * y;}}
-        };
-        
-        // Base case: single digit
-        if (start == end)
-            return vector<int>{expression[start] - '0'};
-        
-        // Base case: two digits
-        if (end - start == 1 && isdigit(expression[start]))
-            return vector<int>{stoi(expression.substr(start, end - start + 1))};
-        
-        // Recursive case: split the expression at each operator
-        for (int i = start; i <= end; ++i){
-            if (isdigit(expression[i])) continue;
-            
-            vector<int> leftRes = computeResult(expression, memo, start, i - 1);
-            vector<int> rightRes = computeResult(expression, memo, i + 1, end);
-            
-            // Combine results from left and right subexpressions
-            for (int leftVal : leftRes){
-                for (int rightVal : rightRes){
-                   ans.push_back(operations[expression[i]](leftVal, rightVal)); 
-                }
+        // Fill the dp table for all possible subexpressions
+        for (int length = 3; length <= n; ++length){
+            for (int start = 0; start <= n - length; ++start){
+                int end = start + length - 1;
+                processSubexpression(expression, dp, start, end);
             }
         }
         
-        // Memoize the result for this subproblem
-        return memo[to_string(start) + " " + to_string(end)] = ans;
+        // Return the results for the entire expression
+        return dp[0][n - 1];
+    }
+    
+private:
+    int n;
+    void initializeBaseCase(string& expression, vector<vector<vector<int>>>& dp){
+        // Handle base cases: single digits and two-digit numbers
+        for (int i = 0; i <= n - 1; ++i){
+            if (isdigit(expression[i])){
+                // Check if it's a two-digit number
+                int d1 = expression[i] - '0';
+                if (i + 1 < n && isdigit(expression[i + 1])){
+                    int d2 = expression[i + 1] - '0';
+                    dp[i][i + 1].push_back(d1 * 10 + d2);
+                }
+            
+                // Single digit case
+                dp[i][i].push_back(d1);
+            }
+        }
+    }
+    
+    void processSubexpression(string& expression, vector<vector<vector<int>>>& dp, int start, int end){
+        unordered_map<char, function<int(int, int)>> operations {
+            {'+', [](int a, int b) {return a + b;}}, {'-', [](int a, int b) {return a - b;}},\
+            {'*', [](int a, int b) {return a * b;}}
+        };
+        // Try all possible positions to split the expression
+        for (int split = start; split <= end; ++split){
+            if (isdigit(expression[split]))
+                continue;
+            vector<int> leftRes = dp[start][split - 1], rightRes = dp[split + 1][end];
+            
+            for (int leftVal : leftRes){
+                for (int rightVal : rightRes){
+                    dp[start][end].push_back(operations[expression[split]](leftVal, rightVal));
+                }
+            }
+        }
     }
 };
