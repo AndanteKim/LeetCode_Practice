@@ -5,6 +5,7 @@ public:
         queue<pair<int, int>> queue;
         queue.push({amount, 0});
         unordered_set<int> seen;
+        seen.insert(amount);
         
         while (!queue.empty()){
             auto [remain, currCoins] = queue.front();
