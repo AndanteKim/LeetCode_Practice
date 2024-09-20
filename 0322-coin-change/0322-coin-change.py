@@ -1,10 +1,17 @@
 class Solution:
     def coinChange(self, coins: List[int], amount: int) -> int:
-        dp = [float('inf')] * (amount + 1)
-        dp[0] = 0
+        # BFS
+        queue = deque([(amount, 0)])
+        seen = set([amount])
         
-        for coin in coins:
-            for curr in range(coin, amount + 1):
-                dp[curr] = min(dp[curr], dp[curr - coin] + 1)
-                
-        return -1 if dp[amount] == float('inf') else dp[amount]
+        while queue:
+            remain, curr_coins = queue.popleft()
+            if remain == 0:
+                return curr_coins
+            
+            for coin in coins:
+                if remain - coin >= 0 and remain - coin not in seen:
+                    queue.append((remain - coin, curr_coins + 1))
+                    seen.add(remain - coin)
+        
+        return -1
