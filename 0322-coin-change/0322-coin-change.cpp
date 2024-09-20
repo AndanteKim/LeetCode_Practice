@@ -4,7 +4,7 @@ private:
         // Base case
         if (remain < 0) return -1;
         if (remain == 0) return 0;
-        if (count[remain - 1] != 0) return count[remain - 1];
+        if (count[remain] != 0) return count[remain];
         
         int minCoins = INT_MAX;
         for (int coin : coins){
@@ -12,9 +12,9 @@ private:
             if (0 <= res && res < minCoins)
                 minCoins = res + 1;
         }
-        count[remain - 1] = (minCoins == INT_MAX)? -1 : minCoins;
+        count[remain] = (minCoins == INT_MAX)? -1 : minCoins;
         
-        return count[remain - 1];
+        return count[remain];
     }
     
 public:
@@ -23,7 +23,7 @@ public:
         if (amount < 1) return 0;
         
         // Top-down Dynamic Programming
-        vector<int> count(amount, 0);
+        vector<int> count(amount + 1, 0);
         return dp(coins, count, amount);
     }
 };
