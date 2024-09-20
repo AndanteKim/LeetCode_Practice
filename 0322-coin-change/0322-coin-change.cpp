@@ -1,16 +1,29 @@
 class Solution {
+private:
+    int dp(vector<int>& coins, vector<int>& count, int remain){
+        // Base case
+        if (remain < 0) return -1;
+        if (remain == 0) return 0;
+        if (count[remain - 1] != 0) return count[remain - 1];
+        
+        int minCoins = INT_MAX;
+        for (int coin : coins){
+            int res = dp(coins, count, remain - coin);
+            if (0 <= res && res < minCoins)
+                minCoins = res + 1;
+        }
+        count[remain - 1] = (minCoins == INT_MAX)? -1 : minCoins;
+        
+        return count[remain - 1];
+    }
+    
 public:
     int coinChange(vector<int>& coins, int amount) {
-        vector<long> dp(amount + 1, INT_MAX);
-        dp[0] = 0;
+        // Base case
+        if (amount < 1) return 0;
         
-        for (int i = 0; i <= amount; ++i){
-            for (int coin : coins){
-                if ((long)i + coin <= amount)
-                    dp[i + coin] = min(dp[i] + 1, dp[i + coin]);
-            }
-        }
-        
-        return dp[amount] == INT_MAX? -1 : dp[amount];
+        // Top-down Dynamic Programming
+        vector<int> count(amount, 0);
+        return dp(coins, count, amount);
     }
 };
