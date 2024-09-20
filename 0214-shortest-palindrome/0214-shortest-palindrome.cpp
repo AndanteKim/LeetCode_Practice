@@ -1,25 +1,40 @@
 class Solution {
 public:
     string shortestPalindrome(string s) {
-        // Base case
-        if (s.empty()) return "";
+        // KMP(Knuth Morris Pratt) algorithm
+        // Reverse the original string
+        string reversedStr = string(s.rbegin(), s.rend());
         
-        // Find the longest palindromic prefix
-        int left = 0, n = s.size();
-        for (int right = n - 1; right >= 0; --right){
-            if (s[left] == s[right])
-                ++left;
+        // Combine the original and reversed strings with a separator
+        string combinedStr = s + "#" + reversedStr;
+        
+        // Build the prefix table for the combined string
+        vector<int> prefixTable = buildPrefixTable(combinedStr);
+        
+        // Get the length of the longest palindromic prefix
+        int palindromeLength = prefixTable.back();
+        
+        // Construct the shortest palindrome by appending the reverse of the suffix
+        string suffix = reversedStr.substr(0, s.size() - palindromeLength);
+        return suffix + s;
+    }
+    
+private:
+    // Helper function to build the KMP prefix table
+    vector<int> buildPrefixTable(const string& s){
+        int length = 0;
+        vector<int> prefixTable(s.size(), 0);
+        
+        // Build the table by comparing characters
+        for (int i = 1; i < s.size(); ++i){
+            while (length > 0 && s[i] != s[length])
+                length = prefixTable[length - 1];
+            
+            if (s[i] == s[length]) ++length;
+            
+            prefixTable[i] = length;
         }
         
-        // If the whole string is a palindrome, return the original string
-        if (left == n)
-            return s;
-        
-        // Extract the suffix that is not part of the palindromic prefix
-        string nonPalindromicSuffix = s.substr(left);
-        string reverseSuffix = nonPalindromicSuffix;
-        reverse(reverseSuffix.begin(), reverseSuffix.end());
-        
-        return reverseSuffix + shortestPalindrome(s.substr(0, left)) + nonPalindromicSuffix;
+        return prefixTable;
     }
 };
