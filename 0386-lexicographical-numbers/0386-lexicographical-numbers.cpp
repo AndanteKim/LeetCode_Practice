@@ -1,23 +1,25 @@
 class Solution {
-private:
-    int n;
-    void backtrack(vector<int>& ans, int digit){
-        // Base case
-        if (digit > n) return;
-        
-        ans.push_back(digit);
-        digit *= 10;
-        
-        for (int i = 0; i <= 9; ++i)
-            backtrack(ans, digit + i);
-    }
-    
 public:
     vector<int> lexicalOrder(int n) {
-        this -> n = n;
         vector<int> ans;
-        for (int i = 1; i <= 9; ++i)
-            backtrack(ans, i);
+        int curr = 1;
+        
+        // Generate numbers from 1 to n
+        for (int i = 0; i < n; ++i){
+            ans.push_back(curr);
+            
+            // If multiplying the current number by 10 is within the limit, do it.
+            if (curr * 10 <= n)
+                curr *= 10;
+            else{
+                // Adjust the current number by moving up one digit
+                while (curr % 10 == 9 || curr >= n)
+                    curr /= 10;     // Remove the last digit
+                
+                ++curr;     // Increment the number
+            }
+        }
+        
         
         return ans;
     }
