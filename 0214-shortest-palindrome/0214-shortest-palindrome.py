@@ -1,34 +1,29 @@
 class Solution:
-    # Helper function to build KMP prefix table
-    def _build_prefix_table(self, s: str) -> List[int]:
-        prefix_table, length = [0] * len(s), 0
-        
-        # Build the table by comparing characters
-        for i in range(1, len(s)):
-            while length > 0 and s[i] != s[length]:
-                length = prefix_table[length - 1];
-            
-            if s[i] == s[length]:
-                length += 1
-            prefix_table[i] = length
-            
-        return prefix_table
-    
     def shortestPalindrome(self, s: str) -> str:
-        # KMP(Knuth Morris Pratt) algorithm
-        # Reverse the original string
-        rev_str = s[::-1]
+        hash_base, mod, n = 29, 10 ** 9 + 7, len(s)
+        forward_hash, reversed_hash = 0, 0
+        power, palindrome_end_idx = 1, -1
         
-        # Combine the original and reversed strings with a separator
-        comb_str = s + '#' + rev_str
+        # Calculate rolling hashes and find the longest palindromic prefix
+        for i in range(n):
+            # Update forward hash
+            forward_hash = (forward_hash * hash_base + (ord(s[i]) - 97 + 1)) % mod
+            
+            # Update reverse hash
+            reversed_hash = (reversed_hash + (ord(s[i]) - 97 + 1) * power) % mod
+            
+            power = (power * hash_base) % mod
+            
+            # If forward and reverse hashes match, update palindrome end index
+            if forward_hash == reversed_hash:
+                palindrome_end_idx = i
+            
+        # Find the remaining suffix after the longest palindromic prefix
+        suffix = s[palindrome_end_idx + 1 :]
         
-        # Build the prefix table for the combined string
-        prefix_table = self._build_prefix_table(comb_str)
+        # Reverse the remaining suffix
+        reversed_suffix = suffix[::-1]
         
-        # Get the length of the longest palindromic prefix
-        palindrome_len = prefix_table[-1]
+        # Prepend the reversed suffix to the original string and return the result
+        return reversed_suffix + s
         
-        # Construct the shortest palindrome by appending the reverse of the suffix
-        suffix = rev_str[:len(s) - palindrome_len]
-        
-        return suffix + s
