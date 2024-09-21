@@ -1,26 +1,75 @@
-class Solution {
+struct Node {
+    Node *links[10];
+    bool flag = false;
+    bool containsKey(char ch) const{
+        return links[ch - '0'] != NULL;
+    }
+    
+    void put(char& ch, Node* node){
+        links[ch - '0'] = node;
+    }
+    
+    Node* get(char& ch) const{
+        return links[ch - '0'];
+    }
+    
+    void setEnd(){
+        flag = true;
+    }
+    
+    bool getEnd() const{
+        return flag;
+    }
+};
+
+class Trie{
+private:
+    Node* root;
+    friend class Solution;
+    
 public:
-    vector<int> lexicalOrder(int n) {
-        vector<int> ans;
-        int curr = 1;
+    Trie(){
+        root = new Node();
+    }
+    
+    void insert(string& num){
+        Node* temp = root;
+        for (int i = 0; i < num.size(); ++i){
+            if (!temp -> containsKey(num[i]))
+                temp -> put(num[i], new Node());
+            temp = temp -> get(num[i]);
+        }
+        temp -> setEnd();
+    }
+};
+
+class Solution {
+private:
+    void dfs(Node* root, int curr, vector<int>& ans){
+        if (!root) return;
         
-        // Generate numbers from 1 to n
-        for (int i = 0; i < n; ++i){
+        if (root -> getEnd()){
             ans.push_back(curr);
-            
-            // If multiplying the current number by 10 is within the limit, do it.
-            if (curr * 10 <= n)
-                curr *= 10;
-            else{
-                // Adjust the current number by moving up one digit
-                while (curr % 10 == 9 || curr >= n)
-                    curr /= 10;     // Remove the last digit
-                
-                ++curr;     // Increment the number
-            }
         }
         
+        for (char ch = '0'; ch <= '9'; ++ch){
+            if (root -> containsKey(ch))
+                dfs(root -> get(ch), (curr * 10) + ch - '0', ans);
+        }
         
+    }
+    
+public:
+    vector<int> lexicalOrder(int n) {
+        Trie *trie = new Trie();
+        
+        for (int i = 1; i <= n; ++i){
+            string s = to_string(i);
+            trie -> insert(s);
+        }
+        
+        vector<int> ans;
+        dfs(trie -> root, 0, ans);
         return ans;
     }
 };
