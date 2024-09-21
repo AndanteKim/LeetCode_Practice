@@ -1,40 +1,32 @@
+typedef long long ll;
+
 class Solution {
 public:
     string shortestPalindrome(string s) {
-        // KMP(Knuth Morris Pratt) algorithm
-        // Reverse the original string
-        string reversedStr = string(s.rbegin(), s.rend());
+        ll n = s.size(), mod = 1e9 + 7, hashBase = 29;
+        ll forwardHash = 0, reversedHash = 0, power = 1;
+        int palindromeEndIndex = -1;
         
-        // Combine the original and reversed strings with a separator
-        string combinedStr = s + "#" + reversedStr;
-        
-        // Build the prefix table for the combined string
-        vector<int> prefixTable = buildPrefixTable(combinedStr);
-        
-        // Get the length of the longest palindromic prefix
-        int palindromeLength = prefixTable.back();
-        
-        // Construct the shortest palindrome by appending the reverse of the suffix
-        string suffix = reversedStr.substr(0, s.size() - palindromeLength);
-        return suffix + s;
-    }
-    
-private:
-    // Helper function to build the KMP prefix table
-    vector<int> buildPrefixTable(const string& s){
-        int length = 0;
-        vector<int> prefixTable(s.size(), 0);
-        
-        // Build the table by comparing characters
-        for (int i = 1; i < s.size(); ++i){
-            while (length > 0 && s[i] != s[length])
-                length = prefixTable[length - 1];
+        // Calculate the rolling hashes and find the longest palindromic prefix
+        for (int i = 0; i < n; ++i){
+            // Update the forward hash
+            forwardHash = (forwardHash * hashBase + (s[i] - 'a' + 1)) % mod;
             
-            if (s[i] == s[length]) ++length;
+            // Update the reverse hash
+            reversedHash = (reversedHash + (s[i] - 'a' + 1) * power) % mod;
+            power = (power * hashBase) % mod;
             
-            prefixTable[i] = length;
+            // If forward and reverse hashes match, update palindrome end index
+            if (forwardHash == reversedHash) palindromeEndIndex = i;
         }
         
-        return prefixTable;
+        // Find the remaining suffix after the longest palindromic prefix
+        string suffix = s.substr(palindromeEndIndex + 1);
+        
+        // Reverse the remaining suffix
+        string reversedSuffix(suffix.rbegin(), suffix.rend());
+        
+        // Prepend the reversed suffix to the original string and return the result
+        return reversedSuffix + s;
     }
 };
