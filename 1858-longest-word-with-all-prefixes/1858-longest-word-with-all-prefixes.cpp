@@ -1,27 +1,76 @@
+class Trie{
+private:
+    struct TrieNode{
+        bool isEnd = false;
+        unordered_map<char, TrieNode*> children;
+    };
+    
+    TrieNode* root;
+    
+    void deleteTrie(TrieNode* curr){
+        if (!curr) return;
+        for (auto& [c, _] : curr -> children)
+            deleteTrie(curr -> children[c]);
+        delete curr;
+    }
+    
+public:
+    Trie(){
+        root = new TrieNode();
+    }
+    
+    // Insert a word into the trie
+    void insert(const string& s){
+        TrieNode* curr = root;
+        for (const char& c : s){
+            if (!curr -> children.count(c))
+                curr -> children[c] = new TrieNode();
+            curr = curr -> children[c];
+        }
+        
+        curr -> isEnd = true;
+    }
+    
+    // Check if all prefixes of the word exists in the trie
+    bool hasAllPrefixWords(const string& s) const{
+        TrieNode* curr = root;
+        
+        for (const char& c : s){
+            if (!curr -> children.count(c) || !curr -> children[c] -> isEnd)
+                return false;
+            curr = curr -> children[c];
+        }
+        
+        return true;
+    }
+    
+    // Destructor to free allocated memory
+    ~Trie(){
+        deleteTrie(root);
+    }
+};
+
+
+
 class Solution {
 public:
     string longestWord(vector<string>& words) {
-        string longestValidWord = "";
+        Trie* trie = new Trie();
         
-        // Sort the words by lexicographically order
-        sort(words.begin(), words.end());
-        // Set to store valid words
-        unordered_set<string> validWords;
+        // Insert all words into the trie
+        for (const string& word : words)
+            trie -> insert(word);
         
-        // Iterate through each word
+        string longestWord = "";
+        
+        // Check each word and update the longest valid word
         for (const string& word : words){
-            // Check if the word is of length 1 or if its prefix exists in the set
-            if (word.size() == 1 || validWords.count(word.substr(0, word.size() - 1))){
-                // Add the current word to the set of valid words
-                validWords.insert(word);
-                
-                // Update the longest valid word if necessary
-                if (word.size() > longestValidWord.size())
-                    longestValidWord = word;
+            if (trie -> hasAllPrefixWords(word)){
+                if (word.size() > longestWord.size() || (word.size() == longestWord.size() && (longestWord.compare(word) > 0)))
+                    longestWord = word;
             }
         }
         
-        // Return the longest valid word found
-        return longestValidWord;
+        return longestWord;
     }
 };
