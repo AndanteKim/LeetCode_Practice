@@ -1,6 +1,6 @@
 class Solution:
     # To count how many numbers exist between prefix1 and prefix2
-    def count_steps(self, n: int, prefix1: int, prefix2: int) -> int:
+    def _count_steps(self, n: int, prefix1: int, prefix2: int) -> int:
         steps = 0
         
         while prefix1 <= n:
@@ -15,7 +15,7 @@ class Solution:
         k -= 1
         
         while k > 0:
-            steps = self.count_steps(n, curr, curr + 1)
+            steps = self._count_steps(n, curr, curr + 1)
             
             # If the steps are less than or equal to k, we skip this prefix's subtree
             if steps <= k:
