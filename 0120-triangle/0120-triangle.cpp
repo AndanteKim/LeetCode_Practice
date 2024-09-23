@@ -1,25 +1,25 @@
 class Solution {
+private:
+    int m;
+    int dp(int row, int col, vector<vector<int>>& triangle, vector<vector<int>>& memo){
+        if (memo[row][col] != -1)
+            return memo[row][col];
+        
+        int path = triangle[row][col];
+        if (row < m - 1)
+            path += min(dp(row + 1, col, triangle, memo), dp(row + 1, col + 1, triangle, memo));
+        
+        return memo[row][col] = path;
+    }
+    
+    
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
-        int m = triangle.size();
+        this -> m = triangle.size();
+        vector<vector<int>> memo(m);
+        for (int i = 0; i < m; ++i) memo[i] = vector<int>(triangle[i].size(), -1);
         
-        // Base case
-        if (m == 1)
-            return triangle[0][0];
-        
-        vector<vector<int>> dp(m);
-        for (int i = 0; i < m; ++i){
-            dp[i] = vector<int>(triangle[i].size(), 1e5);
-        }
-        
-        dp[0][0] = triangle[0][0];
-        for (int i = 0; i < m - 1; ++i){
-            for (int j = 0; j < triangle[i].size(); ++j){
-                dp[i + 1][j] = min(dp[i + 1][j], dp[i][j] + triangle[i + 1][j]);
-                dp[i + 1][j + 1] = min(dp[i + 1][j + 1], dp[i][j] + triangle[i + 1][j + 1]);
-            }
-        }
-        
-        return *min_element(dp.back().begin(), dp.back().end());
+        // Top down DP
+        return dp(0, 0, triangle, memo);
     }
 };
