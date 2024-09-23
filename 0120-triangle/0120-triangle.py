@@ -1,16 +1,16 @@
 class Solution:
     def minimumTotal(self, triangle: List[List[int]]) -> int:
-        m = len(triangle)
-        
-        for row in range(1, m):
+        prev_row, n = triangle[0], len(triangle)
+        for row in range(1, n):
+            curr_row = []
             for col in range(row + 1):
                 smallest = float('inf')
                 if col > 0:
-                    smallest = triangle[row - 1][col - 1]
+                    smallest = prev_row[col - 1]
                 
                 if col < row:
-                    smallest = min(smallest, triangle[row - 1][col])
-                    
-                triangle[row][col] += smallest
+                    smallest = min(smallest, prev_row[col])
+                curr_row.append(triangle[row][col] + smallest)
                 
-        return min(triangle[-1])
+            prev_row = curr_row
+        return min(prev_row)
