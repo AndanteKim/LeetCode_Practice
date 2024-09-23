@@ -1,25 +1,19 @@
 class Solution {
-private:
-    int m;
-    int dp(int row, int col, vector<vector<int>>& triangle, vector<vector<int>>& memo){
-        if (memo[row][col] != -1)
-            return memo[row][col];
-        
-        int path = triangle[row][col];
-        if (row < m - 1)
-            path += min(dp(row + 1, col, triangle, memo), dp(row + 1, col + 1, triangle, memo));
-        
-        return memo[row][col] = path;
-    }
-    
-    
 public:
     int minimumTotal(vector<vector<int>>& triangle) {
-        this -> m = triangle.size();
-        vector<vector<int>> memo(m);
-        for (int i = 0; i < m; ++i) memo[i] = vector<int>(triangle[i].size(), -1);
+        int m = triangle.size();
         
-        // Top down DP
-        return dp(0, 0, triangle, memo);
+        for (int row = 1; row < m; ++row){
+            for (int col = 0; col <= row; ++col){
+                int smallest = 1e5;
+                if (col > 0) smallest = triangle[row - 1][col - 1];
+                
+                if (col < row) smallest = min(smallest, triangle[row - 1][col]);
+            
+                triangle[row][col] += smallest;
+            }
+        }
+        
+        return *min_element(triangle.back().begin(), triangle.back().end());
     }
 };
