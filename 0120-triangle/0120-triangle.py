@@ -1,14 +1,11 @@
 class Solution:
     def minimumTotal(self, triangle: List[List[int]]) -> int:
-        m = len(triangle)
-        if m == 1:
-            return triangle[0][0]
+        # Top-down DP
+        @lru_cache(maxsize = None)
+        def min_path(row: int, col: int) -> int:
+            path = triangle[row][col]
+            if row < len(triangle) - 1:
+                path += min(min_path(row + 1, col), min_path(row + 1, col + 1))
+            return path
         
-        dp = [[float('inf')] * len(triangle[i]) for i in range(m)]
-        dp[0][0] = triangle[0][0]
-        for i in range(m - 1):
-            for j in range(len(triangle[i])):
-                dp[i + 1][j] = min(dp[i + 1][j], dp[i][j] + triangle[i + 1][j])
-                dp[i + 1][j + 1] = min(dp[i + 1][j + 1], dp[i][j] + triangle[i + 1][j + 1])
-        
-        return min(dp[-1])
+        return min_path(0, 0)
