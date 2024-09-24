@@ -15,7 +15,7 @@ public:
         }
         
         int longestPrefix = 0;
-        // Step2: Check eah number in arr2 for the longest matching prefix
+        // Step2: Check each number in arr2 for the longest matching prefix
         for (int val : arr2){
             while (val > 0 && !arr1Prefix.count(val))
                 // Reduce val by removing the last digit if not found in the
