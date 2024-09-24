@@ -1,25 +1,51 @@
+class TrieNode:
+    def __init__(self):
+        # Each node has up to 10 possible children
+        self.children = [None] * 10
+        
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+        
+    # Insert a number into the Trie by treating it as a string of digits
+    def insert(self, num: int) -> None:
+        node = self.root
+        
+        for d in str(num):
+            idx = int(d)
+            if not node.children[idx]:
+                node.children[idx] = TrieNode()
+            node = node.children[idx]
+            
+    # Find the longest common prefix for a number in arr2 with the Trie
+    def find_longest_prefix(self, num: int) -> int:
+        length, node = 0, self.root
+        
+        for d in str(num):
+            idx = int(d)
+            if node.children[idx]:
+                # Increase length if the current digit matches
+                length += 1
+                node = node.children[idx]
+            else:
+                # Stop if no match for the current digit
+                break
+                
+        return length
+
 class Solution:
     def longestCommonPrefix(self, arr1: List[int], arr2: List[int]) -> int:
-        # Set to store all prefixes from arr1
-        arr1_prefixes = set()
+        trie = Trie()
         
-        # Step 1: Build all possible prefixes from arr1
-        for val in arr1:
-            while val not in arr1_prefixes and val > 0:
-                # Insert current value as a prefix
-                arr1_prefixes.add(val)
-                
-                # Generate the next shorter prefix by removing the last digit
-                val //= 10
+        # Step 1: Insert all numbers from arr1 into the Trie
+        for num in arr1:
+            trie.insert(num)
         
-        # Step2: Check each number in arr2 for the longest matching prefix
         longest_prefix = 0
-        for val in arr2:
-            while val not in arr1_prefixes and val > 0:
-                # Reduce val by removing the last digit if not found in the prefix set
-                val //= 10
-                
-            if val > 0:
-                # Length of the matched prefix using log10 to determine the number of digits
-                longest_prefix = max(longest_prefix, int(log10(val)) + 1)
+        
+        # Step2: Find the longest prefix match for each number in arr2
+        for num in arr2:
+            length = trie.find_longest_prefix(num)
+            longest_prefix = max(longest_prefix, length)
+            
         return longest_prefix
