@@ -66,27 +66,19 @@ public:
 class Solution {
 public:
     int longestCommonPrefix(vector<int>& arr1, vector<int>& arr2) {
-        Trie *trie1 = new Trie(), *trie2 = new Trie();
+        Trie *trie = new Trie();
         
         // Step 1: Insert all numbers from arr1 into the Trie
         for (int n1 : arr1)
-            trie1 -> insert(n1);
+            trie -> insert(n1);
         
         // Step 2: Find the longest prefix match for each number in arr2
-        for (int n2 : arr2)
-            trie2 -> insert(n2);
-        
-        // Step 2:
         int longestPrefix = 0;
         
         for (int n2 : arr2)
-            longestPrefix = max(longestPrefix, trie1 -> findLongestPrefix(n2));
+            longestPrefix = max(longestPrefix, trie -> findLongestPrefix(n2));
         
-        for (int n1 : arr1)
-            longestPrefix = max(longestPrefix, trie2 -> findLongestPrefix(n1));
-        
-        trie1 -> ~Trie();
-        trie2 -> ~Trie();
+        trie -> ~Trie();
         return longestPrefix;
     }
 };
