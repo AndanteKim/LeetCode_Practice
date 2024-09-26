@@ -1,19 +1,22 @@
 class MyCalendar {
 private:
-    vector<pair<int, int>> calendar;
-
+    set<pair<int, int>> calendar;
+    
 public:
     MyCalendar() {}
     
-    // Brute Force
     bool book(int start, int end) {
-        for (auto& [s, e] : calendar){
-            // No overlapping: end2 <= start1 or end1 <= start2
-            if (!(end <= s || e <= start))
-                return false;
+        const pair<int, int> event{start, end};
+        const set<pair<int, int>>::iterator nextEvent = calendar.lower_bound(event);
+        if (nextEvent != calendar.end() && nextEvent -> first < end)
+            return false;
+        
+        if (nextEvent != calendar.begin()){
+            const set<pair<int, int>>::iterator prevEvent = prev(nextEvent);
+            if (prevEvent -> second > start) return false;
         }
         
-        calendar.push_back({start, end});
+        calendar.insert(event);
         return true;
     }
 };
