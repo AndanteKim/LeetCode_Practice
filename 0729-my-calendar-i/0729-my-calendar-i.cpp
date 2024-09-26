@@ -7,7 +7,7 @@ public:
     
     bool book(int start, int end) {
         const pair<int, int> event{start, end};
-        const set<pair<int, int>>::iterator nextEvent = calendar.lower_bound(event);
+        const set<pair<int, int>>::iterator nextEvent = calendar.upper_bound(event);
         if (nextEvent != calendar.end() && nextEvent -> first < end)
             return false;
         
