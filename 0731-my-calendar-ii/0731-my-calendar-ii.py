@@ -1,12 +1,11 @@
 from sortedcontainers import SortedDict
 
 class MyCalendarTwo:
-
     def __init__(self):
         # Store the number of bookings at each point.
         self.max_overlapped_booking = 2
         # The maximum number of overlapped bookings allowed. 
-        self.booking_count = SortedDict(int)
+        self.booking_count = SortedDict()
 
     def book(self, start: int, end: int) -> bool:
         # Increase and decrease the booking count at the start and end respectively.
