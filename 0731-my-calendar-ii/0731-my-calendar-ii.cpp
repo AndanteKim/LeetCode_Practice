@@ -17,7 +17,7 @@ public:
         int overlappedBookings = 0;
         
         // Calculate the prefix sum of bookings
-        for (auto& [_, count] : bookingCount){
+        for (const auto& [_, count] : bookingCount){
             overlappedBookings += count;
             
             // If the numbrer of overlaps exceeds the allowed limit
@@ -26,6 +26,10 @@ public:
                 // Rollback changes.
                 --bookingCount[start];
                 ++bookingCount[end];
+                
+                // Remove entries if their count becomes zero to clean up the map.
+                if (bookingCount[start] == 0) bookingCount.erase(start);
+                if (bookingCount[end] == 0) bookingCount.erase(end);
                 
                 return false;
             }
