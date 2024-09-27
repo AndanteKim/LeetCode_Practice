@@ -5,7 +5,7 @@ class MyCalendarTwo:
         
     # Return True if the booking [start1, end1) & [start2, end2) overlaps.
     def does_overlap(self, start1: int, end1: int, start2: int, end2: int) -> bool:
-        return not (end1 <= start2 or end2 <= start1)
+        return max(start1, start2) < min(end1, end2)
 
     # Return the overlapping booking between [start1, end1) & [start2, end2).
     def get_overlapped(self, start1: int, end1: int, start2: int, end2: int) -> Tuple[int]:
