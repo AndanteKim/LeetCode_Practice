@@ -1,30 +1,32 @@
 class Solution {
 public:
     int maxProfit(vector<int>& prices) {
-        // Bottom-up dynamic programming
+        // Space-optimized dynamic programming
         int n = prices.size();
-        vector<vector<int>> dp(n + 1, vector<int>(5));
+        vector<int> prevDp(5);
         
         for (int i = n; i >= 0; --i){
+            vector<int> dp(5);
             for (int left = 0; left <= 4; ++left){
-                // Base case
-                if (left == 0 || i == n)
-                    dp[i][left] = 0;
-                else{
-                    // Choice 1: No transaction day
-                    int profit1 = dp[i + 1][left], profit2 = 0;
-                    
-                    // Choice 2: transaction day
-                    bool buy = (left % 2 == 0);
-                    if (buy)
-                        profit2 = -prices[i] + dp[i + 1][left - 1];
-                    else
-                        profit2 = prices[i] + dp[i + 1][left - 1];
-                    dp[i][left] = max(profit1, profit2);
-                }
+                if (i == n || left == 0) continue;
+                
+                // Choice 1: No transaction day
+                int profit1 = prevDp[left];
+                
+                // Choice 2: Transaction day
+                bool buy = (left % 2 == 0);
+                int profit2 = 0;
+                
+                if (buy)
+                    profit2 = -prices[i] + prevDp[left - 1];
+                else
+                    profit2 = prices[i] + prevDp[left - 1];
+                
+                dp[left] = max(profit1, profit2);
             }
+            prevDp = dp;
         }
         
-        return dp[0][4];
+        return prevDp[4];
     }
 };
