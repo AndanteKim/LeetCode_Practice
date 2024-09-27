@@ -1,20 +1,33 @@
 class Solution {
+private:
+    int n;
+    int dp(int i, int left, vector<int>& prices, vector<vector<int>>& memo){
+        // Base case
+        if (i == n || left == 0) return 0;
+        
+        // If we saved the subproblem result
+        if (memo[i][left] != -1) return memo[i][left];
+        
+        // start choosing no transaction
+        int profit1 = dp(i + 1, left, prices, memo);
+        int profit2;
+        
+        // Choose buying or selling it
+        bool buy = (left % 2 == 0);
+        if (buy)
+            profit2 = -prices[i] + dp(i + 1, left - 1, prices, memo);
+        else
+            profit2 = prices[i] + dp(i + 1, left - 1, prices, memo);
+        
+        return memo[i][left] = max(profit1, profit2);
+    }
+    
 public:
     int maxProfit(vector<int>& prices) {
-        // One-pass simulation
-        int t1Cost = INT_MAX, t2Cost = INT_MAX;
-        int t1Profit = 0, t2Profit = 0;
+        // Top-Down dynamic programming
+        this -> n = prices.size();
+        vector memo(n, vector<int>(5, -1));
         
-        for (int price : prices){
-            // The maximum profit if only one transaction is allowed
-            t1Cost = min(t1Cost, price);
-            t1Profit = max(t1Profit, price - t1Cost);
-            
-            // reinvest the gained profit in the second transaction 
-            t2Cost = min(t2Cost, price - t1Profit);
-            t2Profit = max(t2Profit, price - t2Cost);
-        }
-        
-        return t2Profit;
+        return dp(0, 4, prices, memo);
     }
 };
