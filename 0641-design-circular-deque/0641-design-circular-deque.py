@@ -9,7 +9,7 @@ class MyCircularDeque:
         # Create a double linked list
         self.length = k
         self.curr_length = 0
-        self.front = self.last = None
+        self.head = self.tail = None
 
     def insertFront(self, value: int) -> bool:
         # Base case: If the deque is already full
@@ -17,21 +17,15 @@ class MyCircularDeque:
             return False
         
         # Insert the front depending on the length
-        node = Node(value)
-        if self.curr_length == 0:
-            self.front = self.last = node
-            self.front.next = self.last
-            self.front.prev = self.last
-            self.last.prev = self.front
-            self.last.next = self.front
+        if not self.head:
+            self.head = Node(value, None, None)
+            self.tail = self.head
         else:
-            self.front.prev = node
-            node.next = self.front
-            node.prev = self.last
-            self.last.next = node
-            self.front = self.front.prev
-        self.curr_length += 1
+            new_node = Node(value, None, self.head)
+            self.head.prev = new_node
+            self.head = new_node
         
+        self.curr_length += 1
         return True
 
     def insertLast(self, value: int) -> bool:
@@ -40,20 +34,15 @@ class MyCircularDeque:
             return False
         
         # Insert the last depending on the length
-        node = Node(value)
-        if self.curr_length == 0:
-            self.front = self.last = node
-            self.front.next = self.last
-            self.front.prev = self.last
-            self.last.prev = self.front
-            self.last.next = self.front
+        if not self.tail:
+            self.tail = Node(value, None, None)
+            self.head = self.tail
         else:
-            self.last.next = node
-            node.prev = self.last
-            node.next = self.front
-            self.last = self.last.next
+            new_node = Node(value, self.tail, None)
+            self.tail.next = new_node
+            self.tail = new_node
+            
         self.curr_length += 1
-        
         return True
     
     def deleteFront(self) -> bool:
@@ -61,13 +50,12 @@ class MyCircularDeque:
         if self.isEmpty():
             return False
         
-        node = self.front
+        node = self.head
         if self.curr_length == 1:
-            self.front = self.last = None
+            self.head = self.tail = None
         else:
-            self.front = self.front.next
-            self.front.prev = self.last
-            self.last.next = self.front
+            self.head = self.head.next
+            
         del node
         self.curr_length -= 1
         return True
@@ -77,22 +65,21 @@ class MyCircularDeque:
         if self.isEmpty():
             return False
         
-        node = self.last
+        node = self.tail
         if self.curr_length == 1:
-            self.front = self.last = None
+            self.head = self.tail = None
         else:
-            self.last = self.last.prev
-            self.last.next = self.front
-            self.front.prev = self.last
+            self.tail = self.tail.prev
+        
         del node
         self.curr_length -= 1
         return True
 
     def getFront(self) -> int:
-        return -1 if self.curr_length == 0 else self.front.val
+        return -1 if self.isEmpty() else self.head.val
 
     def getRear(self) -> int:
-        return -1 if self.curr_length == 0 else self.last.val
+        return -1 if self.isEmpty() else self.tail.val
 
     def isEmpty(self) -> bool:
         return self.curr_length == 0
