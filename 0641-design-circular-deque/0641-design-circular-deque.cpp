@@ -1,113 +1,61 @@
 class MyCircularDeque {
 private:
-    struct Node{
-        int val;
-        Node* prev;
-        Node* next;
-        Node(int val, Node* prev, Node* next) : val(val), prev(prev), next(next){}
-    };
-    
-    int length, size;
-    Node *head, *tail; 
+    int length, size, head, tail;
+    vector<int> deque;
     
 public:
     MyCircularDeque(int k) {
-        // Create a double linked list
-        length = k;
-        size = 0;
-        head = nullptr;
-        tail = head;
+        length = k, size = 0;
+        deque.resize(k);
+        head = 0, tail = k - 1;
     }
     
     bool insertFront(int value) {
-        // Base case: If the size is already full
         if (isFull()) return false;
         
-        // Insert the front depending on the length
-        if (!head){
-            head = new Node(value, nullptr, nullptr);
-            tail = head;
-        }
-        else{
-            Node* newNode = new Node(value, nullptr, head);
-            head -> prev = newNode;
-            head = newNode;
-        }
-        
+        head = (head - 1 + length) % length;
+        deque[head] = value;
         ++size;
         return true;
     }
     
     bool insertLast(int value) {
-        // Base case: If the size is already full
         if (isFull()) return false;
         
-        // Insert the tail depending on the length
-        if (!tail){
-            tail = new Node(value, nullptr, nullptr);
-            head = tail;
-        }
-        else{
-            Node* newNode = new Node(value, tail, nullptr);
-            tail -> next = newNode;
-            tail = newNode;
-        }
-        
+        tail = (tail + 1) % length;
+        deque[tail] = value;
         ++size;
         return true;
     }
     
     bool deleteFront() {
-        // Base case: If it's empty
         if (isEmpty()) return false;
-        
-        // Delete the head depending on the length
-        Node* node = head;
-        if (size == 1){
-            head = nullptr;
-            tail = head;
-        }
-        else
-            head = head -> next;
-        
-        
-        delete node;
+        head = (head + 1) % length;
         --size;
         return true;
     }
     
     bool deleteLast() {
-        // Base case: If it's empty
         if (isEmpty()) return false;
-        
-        // Delete the tail depending on the length
-        Node* node = tail;
-        if (size == 1){
-            head = nullptr;
-            tail = head;
-        }
-        else
-            tail = tail -> prev;
-        
-        delete node;
+        tail = (tail - 1 + length) % length;
         --size;
         return true;
     }
     
     int getFront() {
-        return isEmpty()? -1 : head -> val;
+        return isEmpty()? -1 : deque[head];
     }
     
     int getRear() {
-        return isEmpty()? -1 : tail -> val;
+        return isEmpty()? -1 : deque[tail];
     }
     
     bool isEmpty() {
-        return (size == 0)? true : false;
+        return size == 0? true : false;
     }
     
     bool isFull() {
-        return (size == length)? true : false;
+        return size == length? true : false;
     }
 };
 
