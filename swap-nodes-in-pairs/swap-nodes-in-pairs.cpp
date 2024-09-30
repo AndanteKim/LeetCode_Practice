@@ -13,16 +13,16 @@ public:
     ListNode* swapPairs(ListNode* head) {
         // Recursive
         // Base case
-        if (!head) return nullptr;
-        if (!head -> next) return head;
+        if (!(head && head -> next)) return head;
         
-        // Save 2 nodes(next and double next node)
-        ListNode* nextNode = head -> next;
-        ListNode* temp = nextNode -> next;
+        // Nodes to be swapped
+        ListNode* first = head, *second = head -> next;
         
-        // turn the direction
-        head -> next = swapPairs(temp);
-        nextNode -> next = head;
-        return nextNode;
+        // swapping
+        first -> next = swapPairs(second -> next);
+        second -> next = first;
+        
+        // Now, the head is the second
+        return second;
     }
 };
