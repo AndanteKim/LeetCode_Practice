@@ -1,32 +1,32 @@
 class CustomStack {
 private:
-    // Vector to store stack elements
-    vector<int> st;
-    
-    // Index of the top element in the stack
-    int topIndex;
+    list<int> st;
+    int maxSize;
     
 public:
     CustomStack(int maxSize) {
-        st.resize(maxSize);
-        topIndex = -1;
+        this -> maxSize = maxSize;
     }
     
     void push(int x) {
-        if (topIndex < (int)st.size() - 1)
-            st[++topIndex] = x;
+        // Add the element to the top of the stack if it hasn't reached maxSize
+        if (st.size() < maxSize)
+            st.push_back(x);
     }
     
     int pop() {
-        if (topIndex >= 0)
-            return st[topIndex--];
-        return -1;  // Return -1 if the stack is empty
+        // Return -1 if the stack is empty, otherwise remove and return the top element
+        if (st.empty()) return -1;
+        int topElement = st.back();
+        st.pop_back();
+        return topElement;
     }
     
     void increment(int k, int val) {
-        int limit = min(k, topIndex + 1);
-        for (int i = 0; i < limit; ++i)
-            st[i] += val;
+        // Incremeent the bottom k elements (or all elements if k > stack size)
+        auto it = st.begin();
+        for (int i = 0; i < k && it != st.end(); ++i, ++it)
+            *it += val;
     }
 };
 
