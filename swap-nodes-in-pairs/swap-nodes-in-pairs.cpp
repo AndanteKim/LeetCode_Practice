@@ -11,18 +11,26 @@
 class Solution {
 public:
     ListNode* swapPairs(ListNode* head) {
-        // Recursive
         // Base case
         if (!(head && head -> next)) return head;
         
-        // Nodes to be swapped
-        ListNode* first = head, *second = head -> next;
+        ListNode* sentinel = new ListNode(-1), *prevNode = sentinel;
         
-        // swapping
-        first -> next = swapPairs(second -> next);
-        second -> next = first;
+        while (head && head -> next){
+            // Nodes to be swapped
+            ListNode* first = head, *second = head -> next;
+            
+            // Swapping
+            first -> next = second -> next;
+            second -> next = first;
+            prevNode -> next = second;
+            
+            // Reinitialize the head and prevNode for next swap
+            prevNode = first;
+            head = first -> next;
+        }
         
-        // Now, the head is the second
-        return second;
+        // Return the new head node
+        return sentinel -> next;
     }
 };
