@@ -10,10 +10,17 @@ class Solution:
         
         if not head.next:
             return head
+                
+        sentinel = curr = ListNode()
+        sentinel.next = head
         
-        next_node = head.next
-        temp = next_node.next
-        head.next = self.swapPairs(temp)
-        next_node.next = head
-        
-        return next_node
+        while curr.next and curr.next.next:
+            next_node = curr.next
+            temp = next_node.next
+            
+            next_node.next = temp.next
+            temp.next = next_node
+            curr.next = temp
+            curr = next_node
+            
+        return sentinel.next
