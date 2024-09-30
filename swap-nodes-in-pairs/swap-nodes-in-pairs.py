@@ -5,16 +5,22 @@
 #         self.next = next
 class Solution:
     def swapPairs(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        # Base case: recursion
         if not (head and head.next):
             return head
         
-        # Nodes to be swapped
-        first, second = head, head.next
+        sentinel = prev_node = ListNode(-1)
+        prev_node.next = head
         
-        # swapping
-        first.next = self.swapPairs(second.next)
-        second.next = first
+        while head and head.next:
+            # Nodes to be swapped
+            first, second = head, head.next
+            
+            # swapping
+            first.next = second.next
+            second.next = first
+            prev_node.next = second
+            
+            # Reinitialize the pointer
+            prev_node, head = first, first.next
         
-        # Now, the head is second node.
-        return second
+        return sentinel.next
