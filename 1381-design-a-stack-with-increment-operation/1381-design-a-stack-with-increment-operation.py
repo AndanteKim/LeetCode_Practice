@@ -1,26 +1,21 @@
 class CustomStack:
+
     def __init__(self, maxSize: int):
-        self.stack = [-1] * maxSize
-        self.ptr = -1
+        # Array to store stack elements
+        self._stack = []
+        # Index of the top element in the stack
+        self._max_size = maxSize
 
     def push(self, x: int) -> None:
-        if self.ptr + 1 >= len(self.stack):
-            return
-        self.ptr += 1
-        self.stack[self.ptr] = x
+        if len(self._stack) < self._max_size:
+            self._stack.append(x)
 
     def pop(self) -> int:
-        if self.ptr < 0:
-            return -1
-        
-        ans = self.stack[self.ptr]
-        self.stack[self.ptr] = -1
-        self.ptr -= 1
-        return ans
+        return self._stack.pop() if self._stack else -1
 
     def increment(self, k: int, val: int) -> None:
-        for i in range(0, min(k, len(self.stack))):
-            self.stack[i] += val
+        for i in range(min(k, len(self._stack))):
+            self._stack[i] += val
 
 
 # Your CustomStack object will be instantiated and called as such:
