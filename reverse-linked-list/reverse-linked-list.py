@@ -8,12 +8,8 @@ class Solution:
         if not (head and head.next):
             return head
         
-        prev, curr = None, head
-        
-        while curr:
-            next_node = curr.next
-            curr.next = prev
-            prev = curr
-            curr = next_node
+        prev = self.reverseList(head.next)
+        head.next.next = head
+        head.next = None
         
         return prev
