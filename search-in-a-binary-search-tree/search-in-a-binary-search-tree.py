@@ -6,8 +6,8 @@
 #         self.right = right
 class Solution:
     def searchBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
-        # Base case with optimized recursion
-        if not root or root.val == val:
-            return root
+        # Iterative
+        while root and root.val != val:
+            root = root.left if val < root.val else root.right
 
-        return self.searchBST(root.right, val) if root.val < val else self.searchBST(root.left, val)
+        return root
