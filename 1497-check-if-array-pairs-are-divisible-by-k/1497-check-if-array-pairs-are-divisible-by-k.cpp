@@ -1,25 +1,25 @@
 class Solution {
 public:
     bool canArrange(vector<int>& arr, int k) {
-        // Custom comparator to sort based on mod values
-        sort(arr.begin(), arr.end(), [k](int a, int b){return (k + a % k) % k < (k + b % k) % k;});
         
-        // Assign the pairs with modulo first
-        int start = 0, end = arr.size() - 1;
-        
-        while (start < end){
-            if (arr[start] % k)
-                break;
-            
-            if (arr[start + 1] % k)
-                return false;
-            
-            start += 2;
+        // Store the count of remainders in a map.
+        unordered_map<int, int> freq;
+        for (int num : arr){
+            int target = (k + (num % k)) % k;
+            ++freq[target];
         }
         
-        // Now, pick one element from the beginning and one element from the end.
-        while (start < end){
-            if ((arr[start++] + arr[end--]) % k)
+        for (int num : arr){
+            int target = (k + (num % k)) % k;
+
+            // If the remainder for an element is 0, then the count of
+            // numbers that give this remainder must be even.
+            if (target == 0){
+                if (freq[target] % 2) return false;
+            }
+            // If the remainder target and k - target don't have the same
+            // count then pairs cannot be made.
+            else if (freq[target] != freq[k - target])
                 return false;
         }
         
