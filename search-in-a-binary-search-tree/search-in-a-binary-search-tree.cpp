@@ -12,17 +12,9 @@
 class Solution {
 public:
     TreeNode* searchBST(TreeNode* root, int val) {
-        // Base case
-        if (!root || root -> val == val)
-            return root;
-        
-        // Find the target and its subtree from the BST
-        TreeNode* target;
-        if (root -> val < val)
-            target = searchBST(root -> right, val);
-        else if (root -> val > val)
-            target = searchBST(root -> left, val);
+        // Base case: optimized recursion
+        if (!root || root -> val == val) return root;
 
-        return target;
+        return (root -> val < val)? searchBST(root -> right, val) : searchBST(root -> left, val);
     }
 };
