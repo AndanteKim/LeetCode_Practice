@@ -1,15 +1,15 @@
 class Solution:
     def arrayRankTransform(self, arr: List[int]) -> List[int]:
-        rank = arr[:]
-        rank.sort()
-        mapping, ans, i = dict(), [], 1
-        for num in rank:
-            if num in mapping:
-                continue
-            mapping[num] = i
-            i += 1
+        # Store the rank for each number in arr
+        num_to_idx = {k: [] for k in sorted(set(arr))}
         
-        for num in arr:
-            ans.append(mapping[num])
-        
-        return ans
+        for i, num in enumerate(arr):
+            num_to_idx[num].append(i)
+            
+        rank = 1
+        for num in num_to_idx:
+            for idx in num_to_idx[num]:
+                arr[idx] = rank
+            rank += 1
+            
+        return arr
