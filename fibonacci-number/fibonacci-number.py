@@ -1,14 +1,13 @@
 class Solution:
     def fib(self, n: int) -> int:
-        def dp(remain: int) -> int:
-            # Base case
-            if remain < 2:
-                return remain
-            if memo[remain] != -1:
-                return memo[remain]
+        dp = [0] * (n + 1)
+        
+        if n <= 1:
+            return n
+        
+        # Bottom up
+        dp[1] = 1
+        for i in range(2, n + 1):
+            dp[i] = dp[i - 1] + dp[i - 2]
             
-            memo[remain] = dp(remain - 1) + dp(remain - 2)
-            return memo[remain]
-            
-        memo = [-1] * (n + 1)
-        return dp(n)
+        return dp[n]
