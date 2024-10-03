@@ -4,13 +4,16 @@ public:
         // Base case
         if (n <= 1) return n;
         
-        vector<int> dp(n + 1, 0);
+        int first = 0, second = 1;
         
-        // Bottom-up
-        dp[1] = 1;
-        for (int i = 2; i <= n; ++i)
-            dp[i] = dp[i - 2] + dp[i - 1];
+        // Bottom-up with space optimization
+        int third;
+        for (int i = 2; i <= n; ++i){
+            third = first + second;
+            first = second;
+            second = third;
+        }
         
-        return dp[n];
+        return second;
     }
 };
