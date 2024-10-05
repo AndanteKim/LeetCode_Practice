@@ -10,30 +10,36 @@
  * };
  */
 class Solution {
+private:
+    TreeNode* clone(TreeNode* node, int offset){
+        // Base case
+        if (!node) return nullptr; 
+        
+        TreeNode* clonedNode = new TreeNode(node -> val + offset);
+        clonedNode -> left = clone(node -> left, offset);
+        clonedNode -> right = clone(node -> right, offset);
+        
+        return clonedNode;
+    }
+    
 public:
     vector<TreeNode*> generateTrees(int n) {
-        vector dp(n + 1, vector<vector<TreeNode*>>(n + 1, vector<TreeNode*>{}));
+        vector dp(n + 1, vector<TreeNode*>{});
+        dp[0].push_back(nullptr);
         
-        for (int i = 1; i <= n; ++i) dp[i][i] = {new TreeNode(i)};
-        
-        for (int numberOfNodes = 2; numberOfNodes <= n; ++numberOfNodes){
-            for (int start = 1; start < n - numberOfNodes + 2; ++start){
-                int end = start + numberOfNodes - 1;
+        for (int numberOfNodes = 1; numberOfNodes <= n; ++numberOfNodes){
+            for (int i = 1; i <= numberOfNodes; ++i){
+                int j = numberOfNodes - i;
                 
-                for (int i = start; i <= end; ++i){
-                    vector<TreeNode*> leftSubtrees = (i != start)? dp[start][i - 1] : vector<TreeNode*>{nullptr};
-                    vector<TreeNode*> rightSubtrees = (i != end)? dp[i + 1][end] : vector<TreeNode*>{nullptr};
-                    
-                    for (TreeNode* left : leftSubtrees){
-                        for (TreeNode* right : rightSubtrees){
-                            TreeNode* root = new TreeNode(i, left, right);
-                            dp[start][end].push_back(root);
-                        }
+                for (TreeNode* left : dp[i - 1]){
+                    for (TreeNode* right : dp[j]){
+                        TreeNode* root = new TreeNode(i, left, clone(right, i));
+                        dp[numberOfNodes].push_back(root);
                     }
                 }
             }
         }
         
-        return dp[1][n];
+        return dp[n];
     }
 };
