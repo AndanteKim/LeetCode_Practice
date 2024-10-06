@@ -1,32 +1,29 @@
 class Solution {
 public:
     bool areSentencesSimilar(string sentence1, string sentence2) {
-        stringstream iss(sentence1);
-        deque<string> dq1, dq2;
+        // If words in s1 are more than s2, swap them and return the answer.
+        if (sentence1.size() > sentence2.size())
+            return areSentencesSimilar(sentence2, sentence1);
+        
+        // Convert sentences to lists of words
+        istringstream iss1(sentence1), iss2(sentence2);
+        vector<string> s1Words, s2Words;
         string word;
+        while (iss1 >> word) s1Words.push_back(word);
+        while (iss2 >> word) s2Words.push_back(word);
         
-        while (iss >> word){
-            dq1.push_back(word);
+        // Find the maximum words matching from the beginning.
+        int start = 0, ends1 = s1Words.size() - 1, ends2 = s2Words.size() - 1;
+        while (start < s1Words.size() && s1Words[start] == s2Words[start])
+            ++start;
+        
+        // Find the maximum words matching in the end.
+        while (ends1 >= 0 && s1Words[ends1] == s2Words[ends2]){
+            --ends1;
+            --ends2;
         }
         
-        iss.clear();
-        iss.str(sentence2);
-        while (iss >> word){
-            dq2.push_back(word);
-        }
-        
-        // Compare the longest common prefix
-        while (!dq1.empty() && !dq2.empty() && dq1.front() == dq2.front()){
-            dq1.pop_front();
-            dq2.pop_front();
-        }
-        
-        // Compare the longest common suffix
-        while (!dq1.empty() && !dq2.empty() && dq1.back() == dq2.back()){
-            dq1.pop_back();
-            dq2.pop_back();
-        }
-        
-        return dq1.empty() || dq2.empty();
+        // If ends1 index is less than start, then sentence is similar.
+        return ends1 < start;
     }
 };
