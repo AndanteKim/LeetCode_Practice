@@ -1,16 +1,22 @@
 class Solution:
     def areSentencesSimilar(self, sentence1: str, sentence2: str) -> bool:
-        s1, s2 = sentence1.split(), sentence2.split()
-        dq1, dq2 = deque(s1), deque(s2)
+        # Split the words in sentences and store it in a string array.
+        s1_words, s2_words = sentence1.split(), sentence2.split()
         
-        # Compare the longest common prefix
-        while dq1 and dq2 and dq1[0] == dq2[0]:
-            dq1.popleft()
-            dq2.popleft()
+        # If words in s1 are more than s2, swap them and return the answer
+        if len(s1_words) > len(s2_words):
+            return self.areSentencesSimilar(sentence2, sentence1)
+        
+        start, ends1, ends2 = 0, len(s1_words) - 1, len(s2_words) - 1
+        # Find the maximum words matching from the beginning.
+        while start < len(s1_words) and s1_words[start] == s2_words[start]:
+            start += 1
             
-        # Compare the longest common suffix
-        while dq1 and dq2 and dq1[-1] == dq2[-1]:
-            dq1.pop()
-            dq2.pop()
+        # Find the maximum words matching in the end.
+        while ends1 >= 0 and s1_words[ends1] == s2_words[ends2]:
+            ends1 -= 1
+            ends2 -= 1
+            
+        # If i reaches the end of the array, then we return true.
+        return ends1 < start
         
-        return len(dq1) == 0 or len(dq2) == 0
