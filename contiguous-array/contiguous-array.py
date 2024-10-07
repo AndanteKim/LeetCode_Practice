@@ -1,15 +1,15 @@
 class Solution:
     def findMaxLength(self, nums: List[int]) -> int:
-        n, ans = len(nums), 0
-        arr = [-2] * (2 * n + 1)
-        max_len, count, arr[n] = 0, 0, -1
+        # Dictionary key: count, val: index
+        saved, count = {0 : -1}, 0
+        ans, n = 0, len(nums)
         
         for i in range(n):
             count = count + 1 if nums[i] == 1 else count - 1
             
-            if arr[count + n] >= -1:
-                max_len = max(max_len, i - arr[count + n])
+            if count in saved:
+                ans = max(ans, i - saved[count])
             else:
-                arr[count + n] = i
-                
-        return max_len
+                saved[count] = i
+        
+        return ans
