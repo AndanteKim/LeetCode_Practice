@@ -1,22 +1,20 @@
 class Solution {
 public:
     int minSwaps(string s) {
-        stack<char> st;
-        int mismatched = 0;
+        // Space-optimized stack
+        int stackSize = 0;
         
-        for (const char& c : s){
-            // If an opening bracket is encountered, push it in the stack
+        for (const auto& c : s){
+            // If the character is opening bracket, then increment the stack size.
             if (c == '[')
-                st.push(c);
+                ++stackSize;
             else{
-                // If the stack is not empty, then pop it.
-                if (!st.empty()) st.pop();
-                
-                // Otherwise, increment the mismatched
-                else ++mismatched;
+                // If the character is closing bracket and we have an opening bracket, decrement
+                // the stack size.
+                if (stackSize > 0) --stackSize;
             }
         }
         
-        return (mismatched + 1) >> 1;
+        return (stackSize + 1) >> 1;
     }
 };
