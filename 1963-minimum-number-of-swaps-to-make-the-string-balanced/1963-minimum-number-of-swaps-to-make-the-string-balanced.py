@@ -7,7 +7,7 @@ class Solution:
             if c == '[':
                 stack.append(c)
             else:
-                # If the deque isn't empty, pop it.
+                # If the stack isn't empty, pop it.
                 if stack:
                     stack.pop()
                 
