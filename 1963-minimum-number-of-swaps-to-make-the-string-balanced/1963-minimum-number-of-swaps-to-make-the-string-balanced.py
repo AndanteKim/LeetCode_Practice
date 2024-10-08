@@ -1,19 +1,15 @@
 class Solution:
     def minSwaps(self, s: str) -> int:
-        stack, unbalanced = [], 0
+        stack_size, unbalanced = 0, 0
         
         for c in s:
-            # If an opening bracket is encountered, push it in the stack.
+            # If the character is opening bracket, increment the stack size.
             if c == '[':
-                stack.append(c)
+                stack_size += 1
             else:
-                # If the stack isn't empty, pop it.
-                if stack:
-                    stack.pop()
-                
-                # Otherwise increase the count of unbalanced brackets
-                else:
-                    unbalanced += 1
-        
-        return (unbalanced + 1) >> 1
-            
+                # If the character is closing bracket, and we have an opening bracket, decrease
+                # the stack size.
+                if stack_size > 0:
+                    stack_size -= 1
+                    
+        return (stack_size + 1) >> 1
