@@ -3,7 +3,7 @@ class Solution:
         stack, unbalanced = [], 0
         
         for c in s:
-            # If an opening bracket is encountered, push it in the deque.
+            # If an opening bracket is encountered, push it in the stack.
             if c == '[':
                 stack.append(c)
             else:
