@@ -1,6 +1,7 @@
 class Solution:
     def minSwaps(self, s: str) -> int:
-        stack_size, unbalanced = 0, 0
+        # Space-optimized stack
+        stack_size = 0
         
         for c in s:
             # If the character is opening bracket, increment the stack size.
