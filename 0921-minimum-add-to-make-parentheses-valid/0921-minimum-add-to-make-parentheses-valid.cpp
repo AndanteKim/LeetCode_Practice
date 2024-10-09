@@ -1,27 +1,19 @@
 class Solution {
 public:
     int minAddToMakeValid(string s) {
-        stack<char> st;
-        int mismatch = 0;
+        int openBrackets = 0, minAddsRequired = 0;
         
         for (const auto& c : s){
-            if (c == '('){
-                st.push(c);
-                continue;
-            }
+            if (c == '(')
+                ++openBrackets;
             else{
-                if (!st.empty())
-                    st.pop();
-                else
-                    ++mismatch;
+                // If open bracket exists, match it with the closing one
+                // If not, we need to add a open bracket.
+                openBrackets > 0? --openBrackets : ++minAddsRequired;
             }
         }
         
-        while (!st.empty()){
-            ++mismatch;
-            st.pop();
-        }
-        
-        return mismatch;
+        // Add the remaining open brackets as closing brackets would be required.
+        return minAddsRequired + openBrackets;
     }
 };
