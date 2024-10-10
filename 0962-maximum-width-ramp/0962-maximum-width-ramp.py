@@ -1,23 +1,19 @@
 class Solution:
     def maxWidthRamp(self, nums: List[int]) -> int:
         n = len(nums)
-        right_max = [0] * n
+        indices_stack = []
         
-        # Fill right_max array with the maximum values from the right
-        right_max[-1] = nums[-1]
-        for i in range(n - 2, -1, -1):
-            right_max[i] = max(right_max[i + 1], nums[i])
+        # Fill the stack with indices in increasing order of their values
+        for i in range(n):
+            if not indices_stack or nums[indices_stack[-1]] > nums[i]:
+                indices_stack.append(i)
             
-        left, right = 0, 0
         max_width = 0
         
-        # Traverse the array using left and right pointers
-        while right < n:
-            # Move left pointer forward if current left exceeds right_max
-            while left < right and nums[left] > right_max[right]:
-                left += 1
+        # Traverse the array from the end to the start
+        for j in range(n - 1, -1, -1):
+            while indices_stack and nums[indices_stack[-1]] <= nums[j]:
+                # Pop the index since it's already processed.
+                max_width = max(max_width, j - indices_stack.pop())
                 
-            max_width = max(max_width, right - left)
-            right += 1
-        
         return max_width
