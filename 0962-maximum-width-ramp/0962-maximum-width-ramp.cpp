@@ -2,25 +2,24 @@ class Solution {
 public:
     int maxWidthRamp(vector<int>& nums) {
         int n = nums.size();
-        vector<int> indices(n);
-        // Initialize the array with indices
-        iota(indices.begin(), indices.end(), 0);
+        vector<int> rightMax(n);
         
-        // Sort indices based on the corresponding values in nums and ensure stability.
-        sort(indices.begin(), indices.end(), [&](int a, int b){
-            if (nums[a] == nums[b]){
-                return a < b;
+        // Fill the rightMax array with maximum value from the right
+        rightMax.back() = nums.back();
+        for (int i = n - 2; i >= 0; --i)
+            rightMax[i] = max(rightMax[i + 1], nums[i]);
+        
+        int left = 0, right = 0, maxWidth = 0;
+        
+        // Traverse the array using left and right pointers
+        while (right < n){
+            // Move the left pointer forward if current left exceeds rightMax
+            while (left < right && nums[left] > rightMax[right]){
+                ++left;
             }
-            return nums[a] < nums[b];
-        });
-        
-        // Minimum index encountered so far
-        int maxWidth = 0, minIndex = n;
-        
-        // Calculate maximum width ramp
-        for (int i : indices){
-            maxWidth = max(maxWidth, i - minIndex);
-            minIndex = min(minIndex, i);
+            
+            maxWidth = max(maxWidth, right - left);
+            ++right;
         }
         
         return maxWidth;
