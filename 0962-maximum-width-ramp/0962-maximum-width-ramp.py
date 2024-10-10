@@ -1,17 +1,23 @@
 class Solution:
     def maxWidthRamp(self, nums: List[int]) -> int:
         n = len(nums)
-        indices = [i for i in range(n)]
+        right_max = [0] * n
         
-        # Sort indices based on corresponding values in nums and ensure stability
-        indices.sort(key = lambda i: (nums[i], i))
-        
-        # Minimum index encountered so far
-        min_idx, max_width = n, 0
-        
-        # Calculate maximum width ramp
-        for i in indices:
-            max_width = max(max_width, i - min_idx)
-            min_idx = min(min_idx, i)
+        # Fill right_max array with the maximum values from the right
+        right_max[-1] = nums[-1]
+        for i in range(n - 2, -1, -1):
+            right_max[i] = max(right_max[i + 1], nums[i])
             
+        left, right = 0, 0
+        max_width = 0
+        
+        # Traverse the array using left and right pointers
+        while right < n:
+            # Move left pointer forward if current left exceeds right_max
+            while left < right and nums[left] > right_max[right]:
+                left += 1
+                
+            max_width = max(max_width, right - left)
+            right += 1
+        
         return max_width
