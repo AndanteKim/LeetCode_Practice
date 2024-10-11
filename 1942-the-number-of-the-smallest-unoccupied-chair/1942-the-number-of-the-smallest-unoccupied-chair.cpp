@@ -1,35 +1,37 @@
 class Solution {
 public:
     int smallestChair(vector<vector<int>>& times, int targetFriend) {
-        int targetArrival = times[targetFriend][0];
-        int n = times.size();
-        
-        vector<tuple<int, int, int>> chronicle;
-        for (int i = 0; i < n; ++i)
-            chronicle.push_back({times[i][0], times[i][1], i});
-        sort(chronicle.begin(), chronicle.end());
-        
-        priority_queue<int, vector<int>, greater<int>> availableChairs;
+        int targetArrival = times[targetFriend][0], n = times.size();
+        set<int> availableChairs;
         priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> leavingQueue;
+        // Track next available chair number
         int nextChair = 0;
-        for (const auto& time : chronicle){
-            auto [arrival, leave, index] = time;
+        sort(times.begin(), times.end());
+        
+        for (const auto& time : times){
+            int arrival = time[0], leave = time[1];
             
+            // Free up chairs based on current time
             while (!leavingQueue.empty() && leavingQueue.top().first <= arrival){
-                availableChairs.push(leavingQueue.top().second);
+                availableChairs.insert(leavingQueue.top().second);
                 leavingQueue.pop();
             }
             
             int currentChair;
-            if (availableChairs.empty())
-                currentChair = nextChair++;
-            else{
-                currentChair = availableChairs.top();
-                availableChairs.pop();
+            // Assign chair from available set or increment new chair
+            if (!availableChairs.empty()){
+                currentChair = *availableChairs.begin();
+                availableChairs.erase(availableChairs.begin());
             }
+            else{
+                currentChair = nextChair++;
+            }
+            
+            // Check if it's the target friend
             if (targetArrival == arrival)
                 return currentChair;
             
+            // Push current leave time and chair
             leavingQueue.push({leave, currentChair});
         }
         
