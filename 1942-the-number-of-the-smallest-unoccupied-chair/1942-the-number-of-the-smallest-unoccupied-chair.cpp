@@ -1,49 +1,39 @@
 class Solution {
 public:
     int smallestChair(vector<vector<int>>& times, int targetFriend) {
+        int targetArrival = times[targetFriend][0];
         int n = times.size();
         
-        // Min-heap for available chairs
+        vector<tuple<int, int, int>> chronicle;
+        for (int i = 0; i < n; ++i)
+            chronicle.push_back({times[i][0], times[i][1], i});
+        sort(chronicle.begin(), chronicle.end());
+        
         priority_queue<int, vector<int>, greater<int>> availableChairs;
-        // Initially all chairs are free.
-        for (int i = 0; i < n; ++i) availableChairs.push(i);
-        // Min-heap to track when chairs will vacated
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> occupiedChairs;
-        
-        // To store both arrival and leave events
-        vector<pair<int, int>> events;
-        // Populate events with {arrival, friendIndex}, {leave, ~friendIndex};
-        for (int i = 0; i < n; ++i){
-            // Arrival
-            events.push_back({times[i][0], i});
-            // Leave
-            events.push_back({times[i][1], ~i});
-        }
-        
-        // Sort ascending order by event
-        sort(events.begin(), events.end());
-        
-        for (const auto& event : events){
-            auto [arrive, friendIndex] = event;
+        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> leavingQueue;
+        int nextChair = 0;
+        for (const auto& time : chronicle){
+            auto [arrival, leave, index] = time;
             
-            //Free up chairs when friends leave
-            while (!occupiedChairs.empty() && occupiedChairs.top().first <= arrive){
-                auto [_, chairIndex] = occupiedChairs.top();
-                occupiedChairs.pop();
-                availableChairs.push(chairIndex);
+            while (!leavingQueue.empty() && leavingQueue.top().first <= arrival){
+                availableChairs.push(leavingQueue.top().second);
+                leavingQueue.pop();
             }
             
-            if (friendIndex >= 0){  // Friend arrives
-                int chairIndex = availableChairs.top();
+            int currentChair;
+            if (availableChairs.empty())
+                currentChair = nextChair++;
+            else{
+                currentChair = availableChairs.top();
                 availableChairs.pop();
-                if (friendIndex == targetFriend)
-                    return chairIndex;
-                // Mark when the chair will be vacated.
-                occupiedChairs.push({times[friendIndex][1], chairIndex});
             }
+            if (targetArrival == arrival)
+                return currentChair;
+            
+            leavingQueue.push({leave, currentChair});
         }
         
-        // Should not come to this point
+        
         return -1;
     }
 };
