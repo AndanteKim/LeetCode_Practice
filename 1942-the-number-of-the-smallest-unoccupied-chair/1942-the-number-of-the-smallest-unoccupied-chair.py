@@ -1,42 +1,31 @@
 class Solution:
     def smallestChair(self, times: List[List[int]], targetFriend: int) -> int:
-        # To store both arrival and leave events
-        n, events = len(times), []
+        target_arrival = times[targetFriend][0]
+        times = sorted([
+            (arrival, leave, index) for index, (arrival, leave) in enumerate(times)
+        ])
+        next_chair = 0
+        available_chairs, leaving_queue = [], []
         
-        # Populate events with arrival and leave times
-        for i in range(n):
-            # Arrival and leave
-            events.append((times[i][0], i))
-            events.append((times[i][1], ~i))
-        
-        # Sort events by time
-        events.sort()
-        
-        # Tracking chairs that are free.
-        available_chairs = [i for i in range(n)]
-        
-        # When each chair will be free
-        occupied_chairs = []
-        
-        for event in events:
-            time, friend = event
+        for time in times:
+            arrival, leave, index = time
             
-            # free up chairs if friends leave
-            while occupied_chairs and occupied_chairs[0][0] <= time:
-                # Pop chair that becomes empty
-                _, chair = heappop(occupied_chairs)
-                
-                # Available chairs
+            # Free up chairs based on current time
+            while leaving_queue and leaving_queue[0][0] <= arrival:
+                _, chair = heappop(leaving_queue)
                 heappush(available_chairs, chair)
+                
+            if available_chairs:
+                current_chair = heappop(available_chairs)
+            else:
+                current_chair = next_chair
+                next_chair += 1
+                
+            # Push current leave time and chair
+            heappush(leaving_queue, (leave, current_chair))
             
-            # If friend arrives
-            if friend >= 0:
-                chair = heappop(available_chairs)
-                if friend == targetFriend:
-                    return chair
-                
-                # Chair will be occupied till this time
-                heappush(occupied_chairs, (times[friend][1], chair))
-                
-        # Should not come to this point 
-        return -1
+            # Check if it's the target friend
+            if index == targetFriend:
+                return current_chair
+            
+        return 0
