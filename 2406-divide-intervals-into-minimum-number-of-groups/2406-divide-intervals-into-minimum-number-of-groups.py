@@ -1,13 +1,20 @@
 class Solution:
     def minGroups(self, intervals: List[List[int]]) -> int:
-        intervals.sort()
-        ends, min_groups = [], 0
+        # Convert the intervals to two events
+        # start as (start, 1) and end as (end + 1, -1)
+        events = []
         
         for start, end in intervals:
-            while ends and ends[0] < start:
-                heappop(ends)
-                
-            heappush(ends, end)
-            min_groups = max(min_groups, len(ends))
+            events.append((start, 1))     # Start event
+            events.append((end + 1, -1))    # End event (end + 1)
             
-        return min_groups
+        # Sort the events first by time, and then by type (1 for start, -1 for end).
+        events.sort(key = lambda x: (x[0], x[1]))
+        concurrent, max_concurrent = 0, 0
+        
+        # Sweep through the events
+        for event in events:
+            concurrent += event[1]  # Track currentl active intervals
+            max_concurrent = max(max_concurrent, concurrent)    # Update max
+            
+        return max_concurrent
