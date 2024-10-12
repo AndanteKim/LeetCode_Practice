@@ -1,20 +1,18 @@
 class Solution:
     def minGroups(self, intervals: List[List[int]]) -> int:
-        # Convert the intervals to two events
-        # start as (start, 1) and end as (end + 1, -1)
-        events = []
+        # Use a dictionary to store the points and their counts
+        point_to_count = defaultdict(int)
         
+        # Mark the starting and ending points in the dictionary
         for start, end in intervals:
-            events.append((start, 1))     # Start event
-            events.append((end + 1, -1))    # End event (end + 1)
+            point_to_count[start] += 1      # Start of an interval
+            point_to_count[end + 1] -= 1    # End of an interval (interval[1] + 1)
             
-        # Sort the events first by time, and then by type (1 for start, -1 for end).
-        events.sort(key = lambda x: (x[0], x[1]))
         concurrent, max_concurrent = 0, 0
         
-        # Sweep through the events
-        for event in events:
-            concurrent += event[1]  # Track currentl active intervals
-            max_concurrent = max(max_concurrent, concurrent)    # Update max
+        # Iterate over the sorted keys of the dictionary
+        for point in sorted(point_to_count.keys()):
+            concurrent += point_to_count[point]    # Update currently active intervals
+            max_concurrent = max(max_concurrent, concurrent)    # Update max intervals
             
         return max_concurrent
