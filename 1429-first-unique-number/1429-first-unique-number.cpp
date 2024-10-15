@@ -10,7 +10,7 @@ private:
     Node *head, *tail;
     
 public:
-    FirstUnique(vector<int>& nums): head(0), tail(0) {
+    FirstUnique(vector<int>& nums): head(nullptr), tail(nullptr) {
         for (int num : nums)
             // Notice that we're calling the "add" method of FirstUnique; not of the queue.
             add(num);
@@ -28,11 +28,11 @@ public:
         auto iter = root.find(value);
         if (iter == root.end()){
             if (tail){
-                tail -> next = new Node(value, tail, 0);
+                tail -> next = new Node(value, tail, nullptr);
                 tail = tail -> next;
             }
             else{
-                head = new Node(value, 0, 0);
+                head = new Node(value, nullptr, nullptr);
                 tail = head;
             }
             root.insert({value, tail});
