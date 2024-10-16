@@ -1,32 +1,34 @@
 class Solution:
     def longestDiverseString(self, a: int, b: int, c: int) -> str:
-        pq = []
-        if a > 0:
-            heappush(pq, (-a, 'a'))
-        if b > 0:
-            heappush(pq, (-b, 'b'))
-        if c > 0:
-            heappush(pq, (-c, 'c'))
-            
-        ans = ""
+        curr_a, curr_b, curr_c = 0, 0, 0
+        # Maximum total iterations possible is given by the sum of a, b, and c.
+        total_iter, ans = a + b + c, ""
         
-        while pq:
-            cnt, ch = heappop(pq)
-            cnt = abs(cnt)
-            
-            if (len(ans) >= 2 and ans[-1] == ch and ans[-2] == ch):
-                if not pq:
-                    break
-                temp_cnt, temp_ch = heappop(pq)
-                ans += temp_ch
+        for i in range(total_iter):
+            if (a >= max(b, c) and curr_a < 2) or (a > 0 and (curr_b == 2 or curr_c == 2)):
+                # If 'a' is maximum and its streak is less than 2, or if streak of 'b' or 'c' is 2, then 'a' will be\
+                # the next character.
+                ans += 'a'
+                a -= 1
+                curr_a += 1
+                curr_b, curr_c = 0, 0
                 
-                if temp_cnt + 1 < 0:
-                    heappush(pq, (temp_cnt + 1, temp_ch))
-                heappush(pq, (-cnt, ch))
-            else:
-                cnt -= 1
-                ans += ch
-                if cnt > 0:
-                    heappush(pq, (-cnt, ch))
-                    
+            elif (b >= max(a, c) and curr_b < 2) or (b > 0 and (curr_a == 2 or curr_c == 2)):
+                # If 'b' is maximum and its streak is less than 2, or if streak of 'a' or 'c' is 2, then 'b' will be
+                # the next character.
+                ans += 'b'
+                b -= 1
+                curr_b += 1
+                curr_a, curr_c = 0, 0
+            
+            elif (c >= max(a, b) and curr_c < 2) or (c > 0 and (curr_a == 2 or curr_b == 2)):
+                # If 'c' is the maximum and its streak is less than 2, or if streak of 'a' or 'b' is 2, then 'c' will be
+                # the next character.
+                ans += 'c'
+                c -= 1
+                curr_c += 1
+                curr_a, curr_b = 0, 0
+                
         return ans
+                
+                
