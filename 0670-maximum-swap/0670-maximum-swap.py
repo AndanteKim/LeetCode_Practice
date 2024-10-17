@@ -13,7 +13,7 @@ class Solution:
                 swap_idx1 = i   # Mark the index of the max digit
                 swap_idx2 = max_digit_idx   # Mark the larger digit for swapping
                 
-        # Perform the sap if a valid swap is found.
+        # Perform the swap if a valid swap is found.
         if swap_idx1 != -1 and swap_idx2 != -1:
             num_str[swap_idx1], num_str[swap_idx2] = num_str[swap_idx2], num_str[swap_idx1]
             
