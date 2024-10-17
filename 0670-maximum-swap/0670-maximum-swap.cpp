@@ -1,27 +1,29 @@
 class Solution {
 public:
     int maximumSwap(int num) {
-        // Convert num to string for easy manipulation
         string numStr = to_string(num);
+        int n = numStr.size();
+        // Stores the index of the max digits from current position to the end
+        vector<int> maxRightIndex(n, 0);
         
-        // Track the maximum number found
-        int maxNum = num, n = numStr.size();
+        // First pass: Populate maxRightIndex with the index of the largest
+        // digit to the right of each position.
+        maxRightIndex[n - 1] = n - 1;
+        for (int i = n - 2; i >= 0; --i){
+            maxRightIndex[i] = numStr[maxRightIndex[i + 1]] < numStr[i]? i : maxRightIndex[i + 1];
+        }
         
-        // Try all possible swaps
+        // Second pass: Find the first place where we can swap to maximize the number
         for (int i = 0; i < n; ++i){
-            for (int j = i + 1; j < n; ++j){
-                // Swap digits at index i and j
-                swap(numStr[i], numStr[j]);
-                
-                // Update maxNum if the new number is larger
-                maxNum = max(maxNum, stoi(numStr));
-                
-                // Swap back to restore the original string
-                swap(numStr[i], numStr[j]);
+            if (numStr[i] < numStr[maxRightIndex[i]]){
+                // Swap to maximize the number
+                swap(numStr[i], numStr[maxRightIndex[i]]);
+                // Return the new number immediately after the swap
+                return stoi(numStr);
             }
         }
         
-        // Return the largest number after all possible swaps
-        return maxNum;
+        // Return the original number if no swap can maximize it.
+        return num;
     }
 };
