@@ -1,16 +1,18 @@
 class Solution:
     def maximumSwap(self, num: int) -> int:
-        num_str = str(num)  # Convert num to string for easy manipulation
+        num_str = list(str(num))
         n = len(num_str)
-        max_num = num   # Track the maximum number found
+        max_right_index = [0] * n
         
-        # Try all possible swaps
+        max_right_index[n - 1] = n - 1
+        
+        for i in range(n - 2, -1, -1):
+            max_right_index[i] = (i if num_str[i] > num_str[max_right_index[i + 1]] else max_right_index[i + 1])
+            
         for i in range(n):
-            for j in range(i + 1, n):
-                num_list = list(num_str)    # Convert the string to list for swapping
-                num_list[i], num_list[j] = num_list[j], num_list[i] # Swap digits at index i and j
+            if num_str[i] < num_str[max_right_index[i]]:
+                num_str[i], num_str[max_right_index[i]] = num_str[max_right_index[i]], num_str[i]
                 
-                temp = int("".join(num_list))   # Convert the list back to string and then to integer
-                max_num = max(max_num, temp)    # Update max_num if the new number is larger
-                
-        return max_num  # Return the largest number after all possible swaps
+                return int("".join(num_str))
+            
+        return num
