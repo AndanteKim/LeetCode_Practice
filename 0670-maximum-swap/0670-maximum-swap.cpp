@@ -2,28 +2,28 @@ class Solution {
 public:
     int maximumSwap(int num) {
         string numStr = to_string(num);
-        int n = numStr.size();
-        // Stores the index of the max digits from current position to the end
-        vector<int> maxRightIndex(n, 0);
+        int n = numStr.size(), maxRightIndex = -1, swapIndex1 = -1, swapIndex2 = -1;
         
-        // First pass: Populate maxRightIndex with the index of the largest
-        // digit to the right of each position.
-        maxRightIndex[n - 1] = n - 1;
-        for (int i = n - 2; i >= 0; --i){
-            maxRightIndex[i] = numStr[maxRightIndex[i + 1]] < numStr[i]? i : maxRightIndex[i + 1];
-        }
-        
-        // Second pass: Find the first place where we can swap to maximize the number
-        for (int i = 0; i < n; ++i){
-            if (numStr[i] < numStr[maxRightIndex[i]]){
-                // Swap to maximize the number
-                swap(numStr[i], numStr[maxRightIndex[i]]);
-                // Return the new number immediately after the swap
-                return stoi(numStr);
+        // Traverse the string from right to left, tracking the max digit and potential swap
+        for (int i = n - 1; i >= 0; --i){
+            if (maxRightIndex == -1 || numStr[i] - '0' > numStr[maxRightIndex] - '0'){
+                // Update the index of the max digit
+                maxRightIndex = i;
+            }
+            else if (numStr[i] - '0' < numStr[maxRightIndex] - '0'){
+                // Mark the smaller digit for swapping
+                swapIndex1 = i;
+                // Mark the larger digit for swapping
+                swapIndex2 = maxRightIndex;
             }
         }
         
-        // Return the original number if no swap can maximize it.
-        return num;
+        // Perform the swap if a valid swap is found
+        if (swapIndex1 != -1 && swapIndex2 != -1){
+            swap(numStr[swapIndex1], numStr[swapIndex2]);
+        }
+        
+        // Return the new number or the original if no swap occurred
+        return stoi(numStr);
     }
 };
