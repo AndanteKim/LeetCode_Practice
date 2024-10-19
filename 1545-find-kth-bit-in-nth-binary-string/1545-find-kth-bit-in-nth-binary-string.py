@@ -1,19 +1,20 @@
 class Solution:
     def findKthBit(self, n: int, k: int) -> str:
-        invert_count = 0
-        length = (1 << n) - 1   # Length of Sn is 2 ^ n - 1
+        # Find the position of the rightmost set bit in k
+        # This helps determine which "section" of the string we're in
+        position_in_section = k & -k
         
-        while k > 1:
-            # If k is in the middle, return based on inversion count
-            if k == (length >> 1) + 1:
-                return "1" if invert_count % 2 == 0 else "0"
-            
-            # If k is in the second half, invert and mirror
-            if k > (length >> 1):
-                k = length + 1 - k  # Mirror position
-                invert_count += 1   # Increment inversion count
-                
-            length >>= 1    # Reduce length for next iteration
-
-        # For the first position, return based on inversion count
-        return "0" if invert_count % 2 == 0 else "1"
+        # Determine if k is in the inverted part of the string
+        # This checks if the bit to the left of the rightmost set bit is 1
+        is_in_inverted_part = ((k // position_in_section) >> 1 & 1) == 1
+        
+        # Determine if the original bit (before any inversion) would be 1
+        # This is true if k is even (i.e., its least significant bit is 0)
+        original_bit_is_one = (k & 1) == 0
+        
+        if is_in_inverted_part:
+            # If we're in the inverted part, we need to flip the bit
+            return "0" if original_bit_is_one else "1"
+        else:
+            # If we're not in teh inverted part, return the original bit
+            return "1" if original_bit_is_one else "0"
