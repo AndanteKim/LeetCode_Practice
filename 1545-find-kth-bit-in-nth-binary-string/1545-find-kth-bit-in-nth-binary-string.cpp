@@ -1,20 +1,25 @@
 class Solution {
 public:
     char findKthBit(int n, int k) {
-        string sequence = "0";
+        // Base case: for S1, return '0'
+        if (n == 1) return '0';
         
-        // Generate the sequence until we've enough elements or reach nth iteration
-        for (int i = 1; i < n && k > sequence.size(); ++i){
-            sequence.push_back('1');
+        // Calculate the length of Sn
+        int length = (1 << n);  // Equivalent to 2 ^ n
+        
+        // If k is in the first half of the string, recurse with n - 1
+        if (k < (length >> 1))
+            return findKthBit(n - 1, k);
             
-            // Append the inverted and reversed part of the existing sequence
-            for (int j = sequence.size() - 2; j >= 0; --j)
-                (sequence[j] == '0')? sequence.push_back('1') : sequence.push_back('0');
-            
-            
+        // If k is exactly in the middle, return '1'
+        else if (k == (length >> 1))
+            return '1';
+        
+        // If k is in the second half of the string
+        else{
+            // Find the corresponding bit in the first half and invert it
+            char correspondingBit = findKthBit(n - 1, length - k);
+            return (correspondingBit == '0')? '1' : '0';
         }
-        
-        // Return the kth bit
-        return sequence[k - 1];
     }
 };
