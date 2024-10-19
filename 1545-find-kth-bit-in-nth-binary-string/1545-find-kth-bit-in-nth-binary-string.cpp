@@ -7,7 +7,7 @@ public:
         
         // Determine if k is in the inverted part of the string
         // This checks if the bit to the left of the rightmost set bit is 1
-        bool isInInvertedPart = ((k / positionInSection) >> 1 & 1);
+        bool isInInvertedPart = ((k / positionInSection) >> 1 & 1) == 1;
         
         // Determine if the original bit (before any inversion) would be 1
         // This is true if k is even (i.e., its least significant bit is 0)
