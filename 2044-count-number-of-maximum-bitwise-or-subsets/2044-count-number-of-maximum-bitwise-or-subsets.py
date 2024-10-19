@@ -1,32 +1,24 @@
 class Solution:
     def countMaxOrSubsets(self, nums: List[int]) -> int:
-        def backtrack(i: int, curr_or:int, target_or: int) -> int:
-            # Base case: Reached the end of the array
-            if i == n:
-                return 1 if curr_or == target_or else 0
-            
-            # Check if the result for this state is already memoized
-            if memo[i][curr_or] != -1:
-                return memo[i][curr_or]
-            
-            # Don't include the current number
-            count_without = backtrack(i + 1, curr_or, target_or)
-            
-            # Include the current number
-            count_with = backtrack(i + 1, curr_or | nums[i], target_or)
-            
-            # Memoize and return the result
-            memo[i][curr_or] = count_without + count_with
-            return memo[i][curr_or]
+        max_or_val, n = 0, len(nums)
         
-        max_or_val = 0
-        
-        # Caculate the maximum OR value
         for num in nums:
             max_or_val |= num
             
-        n = len(nums)
+        # 2^n subsets
+        total_subsets, subsets_with_max_or = 1 << n, 0
         
-        # Initialize memo with -1
-        memo = [[-1] * (max_or_val + 1) for _ in range(n)]
-        return backtrack(0, 0, max_or_val)
+        # Iterate through all possible subsets
+        for subset_mask in range(total_subsets):
+            curr_or_val = 0
+            
+            # Calculate OR value for the current subset
+            for i in range(n):
+                if (subset_mask >> i) & 1:
+                    curr_or_val |= nums[i]
+                    
+            # If current subset's OR equals max_or_val, increment count
+            if curr_or_val == max_or_val:
+                subsets_with_max_or += 1
+                
+        return subsets_with_max_or
