@@ -16,5 +16,5 @@ class Solution:
             # If we're in the inverted part, we need to flip the bit
             return "0" if original_bit_is_one else "1"
         else:
-            # If we're not in teh inverted part, return the original bit
+            # If we're not in the inverted part, return the original bit
             return "1" if original_bit_is_one else "0"
