@@ -1,25 +1,24 @@
 class Solution {
 public:
     char findKthBit(int n, int k) {
-        // Base case: for S1, return '0'
-        if (n == 1) return '0';
+        // Length of Sn is 2^n - 1
+        int invertCount = 0, length = (1 << n) - 1;
         
-        // Calculate the length of Sn
-        int length = (1 << n);  // Equivalent to 2 ^ n
-        
-        // If k is in the first half of the string, recurse with n - 1
-        if (k < (length >> 1))
-            return findKthBit(n - 1, k);
+        while (k > 1){
+            // If k is in the middle, return based on inversion count
+            if (k == (length >> 1) + 1)
+                return (invertCount % 2 == 0)? '1' : '0';
             
-        // If k is exactly in the middle, return '1'
-        else if (k == (length >> 1))
-            return '1';
-        
-        // If k is in the second half of the string
-        else{
-            // Find the corresponding bit in the first half and invert it
-            char correspondingBit = findKthBit(n - 1, length - k);
-            return (correspondingBit == '0')? '1' : '0';
+            // If k is in the second half, invert and mirror
+            if (k > (length >> 1)){
+                ++invertCount;      // Increment inversion count
+                k = length + 1 - k; // Mirror position 
+            }
+            
+            length >>= 1;   // Reduce length for next iteration
         }
+        
+        // For the first position, return based on inversion count
+        return (invertCount % 2 == 0)? '0' : '1';
     }
 };
