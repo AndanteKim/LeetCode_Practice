@@ -1,17 +1,23 @@
 class Solution:
     def findKthBit(self, n: int, k: int) -> str:
-        sequence = "0"
         
-        # Generate sequence until we've enough elements or reach the nth iteration
-        for i in range(1, n):
-            if k <= len(sequence):
-                break
-            sequence += "1"
-            
-            # Append the inverted and reversed part of the existing sequence
-            inverted = "".join("1" if bit == "0" else "0" for bit in sequence[:-1])
-            
-            sequence += inverted[::-1]
-            
-        # Return the kth bit
-        return sequence[k - 1]
+        # Base case: for S1, return '0'
+        if n == 1:
+            return '0'
+        
+        # Calculate the length of Sn
+        length = 1 << n     # Equivalent to 2^n
+        
+        # If k is in the first half of the string, recurse with n - 1
+        if k < (length >> 1):
+            return self.findKthBit(n - 1, k)
+        
+        # If k is exactly in the middle, return '1'
+        elif k == (length >> 1):
+            return "1"
+        
+        # If k is in the second half of the string
+        else:
+            # Find the corresponding bit in the first half and invert it.
+            corresponding_bit = self.findKthBit(n - 1, length - k)
+            return "1" if corresponding_bit == "0" else "0"
