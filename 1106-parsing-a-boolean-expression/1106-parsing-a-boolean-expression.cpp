@@ -34,15 +34,20 @@ private:
         ++index;            // Skip ')'
         
         // Manual AND operation: returns false if any value is false
-        if (ch == '&')
-            return count(values.begin(), values.end(), false) == 0;
+        if (ch == '&'){
+            for (const bool v: values)
+                if (!v) return false;
+            return true;
+        }
         
         // Manual OR operation: returns true if any value is true
-        if (ch == '|')
-            return count(values.begin(), values.end(), true) > 0;
+        if (ch == '|'){
+            for (const bool v: values)
+                if (v) return true;
+            return false;
+        }
         
         // This point should never be reached.
         return false;
     }
-    
 };
