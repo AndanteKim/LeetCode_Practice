@@ -1,26 +1,45 @@
 class Solution:
-    def parseBoolExpr(self, expression: str) -> bool:
-        # Repeatedly simplify the expression by evaluating subexpressions
-        while len(expression) > 1:
-            start = max(expression.rfind("!"), expression.rfind("&"), expression.rfind("|"))
-            end = expression.find(")", start)
-            sub_expr = expression[start : end + 1]
-            res = self._evaluate_sub_expr(sub_expr)
-            expression = expression[:start] + res + expression[end + 1 :]
-            
-        return expression == "t"
+    # Recursively parse and evaluate the boolean expression
+    def _evaluate(self, expr: str, index: List[int]) -> bool:
+        curr_ch = expr[index[0]]
+        index[0] += 1
+        
+        # Base cases: true ('t') or false ('f')
+        if curr_ch == 't':
+            return True
+        
+        if curr_ch == 'f':
+            return False
+        
+        # Handle Not operation '!(...)'
+        if curr_ch == '!':
+            index[0] += 1   # Skip '('
+            res = not self._evaluate(expr, index)
+            index[0] += 1   # Skip ')'
+            return res
+        
+        # Handle AND '&(...)' and OR '|(...)'
+        values = []
+        index[0] += 1   # skip '('
+        while expr[index[0]] != ')':
+            if expr[index[0]] != ',':
+                # Collect results of subexpressions
+                values.append(self._evaluate(expr, index))
+            else:
+                index[0] += 1   # Skip commas
+        index[0] += 1   # skip ')'
+        
+        # Manual AND operation: returns false if any value is false
+        if curr_ch == '&':
+            return all(values)
+        
+        # Manual OR operation: returns true if any value is true
+        if curr_ch == '|':
+            return any(values)
+        
+        return False        # This point should never be reached
     
-    def _evaluate_sub_expr(self, sub_expr: str) -> str:
-        # Extract the operator and the enclosed values
-        op, values = sub_expr[0], sub_expr[2:-1]
-        
-        # Apply logical operations based on the operator
-        if op == "!":
-            return "f" if values == "t" else "t"
-        if op == "&":
-            return "f" if "f" in values else "t"
-        if op == "|":
-            return "t" if "t" in values else "f"
-        
-        # This point should never be reached
-        return "f"
+    def parseBoolExpr(self, expression: str) -> bool:
+        # Using a list because Python variables are passed by object reference
+        index = [0]
+        return self._evaluate(expression, index)
