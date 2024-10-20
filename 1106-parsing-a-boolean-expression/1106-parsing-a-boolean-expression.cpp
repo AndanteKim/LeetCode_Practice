@@ -17,7 +17,7 @@ public:
             if (c == ')'){
                 bool hasTrue = false, hasFalse = false;
                 
-                // Process the values insdie the parentheses
+                // Process the values inside the parentheses
                 while (ops.find(st.top()) == string::npos){
                     if (st.top() == 't')
                         hasTrue = true;
