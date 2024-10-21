@@ -1,35 +1,42 @@
 class Solution {
 private:
     int n;
-    int backtrack(int start, const string& s, unordered_set<string>& seen){
-        // Base case: If we reach the end of the string, return 0 (no more
-        // substrings to add)
-        if (start == n) return 0;
+    // Backtrack with pruning
+    void backtrack(int start, int count, int& maxCount, const string& s, unordered_set<string>& seen){
+        // Prune: If the current count plus remaining characters can't exceed maxCount, return
+        if (count + n - start < maxCount)
+            return;
         
-        int maxCount = 0;
+        // Base case: If we reach the end of the string, update maxCount
+        if (start == n){
+            maxCount = max(maxCount, count);
+            return;
+        }
         
         // Try every possible substring starting from 'start'
         for (int end = start + 1; end <= n; ++end){
-            string subStr = s.substr(start, end - start);
+            string substr = s.substr(start, end - start);
             
             // If the substring is unique
-            if (!seen.count(subStr)){
+            if (!seen.count(substr)){
                 // Add the substring to the seen set
-                seen.insert(subStr);
-                // Recursively count unique substrings from the next position
-                maxCount = max(maxCount, 1 + backtrack(end, s, seen));
+                seen.insert(substr);
+                // Recursively count unique substrings from the next position 
+                backtrack(end, count + 1, maxCount, s, seen);
                 // Backtrack: remove the substring from the seen set
-                seen.erase(subStr);
+                seen.erase(substr);
             }
         }
         
-        return maxCount;
     }
     
 public:
     int maxUniqueSplit(string s) {
         this -> n = s.size();
         unordered_set<string> seen;
-        return backtrack(0, s, seen);
+        int maxCount = 0;
+        backtrack(0, 0, maxCount, s, seen);
+        
+        return maxCount;
     }
 };
