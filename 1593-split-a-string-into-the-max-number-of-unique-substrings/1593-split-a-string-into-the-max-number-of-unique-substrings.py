@@ -1,19 +1,20 @@
 class Solution:
     def maxUniqueSplit(self, s: str) -> int:
-        def backtrack(i: int, curr: str, seen: Set[str]) -> int:
-            #print(seen)
-            if i == n:
-                return len(seen)
+        def backtrack(start: int) -> int:
+            # Base case
+            if start == n:
+                return 0
             
-            max_split = 0
-            curr += s[i]
-            if curr not in seen:
-                seen.add(curr)
-                max_split = backtrack(i + 1, "", seen)
-                seen.remove(curr)
-            max_split = max(max_split, backtrack(i + 1, curr, seen))
-                
-            return max_split
+            max_count = 0
+            
+            for end in range(start + 1, n + 1):
+                sub_str = s[start:end]
+                if sub_str not in seen:
+                    seen.add(sub_str)
+                    max_count = max(max_count, 1 + backtrack(end))
+                    seen.remove(sub_str)
+                    
+            return max_count
         
         n, seen = len(s), set()
-        return backtrack(0, "", seen)
+        return backtrack(0)
