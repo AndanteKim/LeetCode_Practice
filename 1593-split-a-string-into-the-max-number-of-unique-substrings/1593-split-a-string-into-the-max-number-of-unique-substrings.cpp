@@ -18,7 +18,7 @@ private:
             string substr = s.substr(start, end - start);
             
             // If the substring is unique
-            if (!seen.count(substr)){
+            if (seen.find(substr) == seen.end()){
                 // Add the substring to the seen set
                 seen.insert(substr);
                 // Recursively count unique substrings from the next position 
