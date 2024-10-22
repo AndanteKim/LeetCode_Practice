@@ -5,7 +5,7 @@ class Solution:
             return 0 <= row < m and 0 <= col < n and board[row][col] == 0
         
         # Implement Warnsdorff's rule: prefer moves with fewer onward moves
-        def warnsdorff(row: int, col: int):
+        def warnsdorff(row: int, col: int) -> List[int]:
             next_moves = []
             for idx in range(8):
                 next_r, next_c = row + moves[idx][0], col + moves[idx][1]
