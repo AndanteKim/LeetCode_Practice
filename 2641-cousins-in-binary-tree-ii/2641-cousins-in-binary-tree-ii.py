@@ -5,35 +5,41 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def _calculate_level_sum(self, node: Optional[TreeNode], level: int) -> None:
-        if not node:
-            return
-        
-        if len(self.level_sums) == level:
-            self.level_sums.append(node.val)
-        else:
-            self.level_sums[level] += node.val
-        
-        self._calculate_level_sum(node.left, level + 1)
-        self._calculate_level_sum(node.right, level + 1)
-        
-    def _replace_internal(self, node: Optional[TreeNode], sibling_sum: int, level: int) -> None:
-        if not node:
-            return
-        
-        left_child_val = node.left.val if node.left else 0
-        right_child_val = node.right.val if node.right else 0
-        
-        if level == 0 or level == 1:
-            node.val = 0
-        else:
-            node.val = self.level_sums[level] - node.val - sibling_sum
-        self._replace_internal(node.left, right_child_val, level + 1)
-        self._replace_internal(node.right, left_child_val, level + 1)
-    
     def replaceValueInTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        self.level_sums = []
-        self._calculate_level_sum(root, 0)
-        self._replace_internal(root, 0, 0)
+        if not root:
+            return root
         
+        queue = deque([root])
+        prev_level_sum = root.val
+        
+        while queue:
+            level_size = len(queue)
+            curr_level_sum = 0
+            
+            for _ in range(level_size):
+                node = queue.popleft()
+                
+                # Update node value to cousin sum
+                node.val = prev_level_sum - node.val
+                
+                # Calculate sibling sum
+                sibling_sum = (node.left.val if node.left else 0) + (node.right.val if node.right else 0)
+                
+                if node.left:
+                    # Accumulate current level sum
+                    curr_level_sum += node.left.val
+                    # Update left child's value
+                    node.left.val = sibling_sum
+                    # Add to queue for the next level
+                    queue.append(node.left)
+                
+                if node.right:
+                    # Accumulate current level sum
+                    curr_level_sum += node.right.val
+                    node.right.val = sibling_sum
+                    # Add to queue for next level
+                    queue.append(node.right)
+            prev_level_sum = curr_level_sum     # Update previous level sum for next iteration
+            
         return root
+                    
