@@ -41,7 +41,6 @@ private:
     
 public:
     TreeNode* replaceValueInTree(TreeNode* root) {
-        vector<long> levelSums;
         calculateSumLevel(root, 0);
         replaceInternal(root, 0, 0);
         return root;
