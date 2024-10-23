@@ -10,39 +10,48 @@
  * };
  */
 class Solution {
-private:
-    vector<int> levelSums;
-    void calculateSumLevel(TreeNode* node, int level){
-        // Base case
-        if (!node) return;
-        
-        // Accumulate sum at the current level
-        if (levelSums.size() == level)
-            levelSums.push_back(node -> val);
-        else
-            levelSums[level] += node -> val;
-        calculateSumLevel(node -> left, level + 1);
-        calculateSumLevel(node -> right, level + 1);
-    }
-    
-    void replaceInternal(TreeNode* node, int siblingSum, int level){
-        if (!node) return;
-        
-        int leftChildVal = (node -> left? node -> left -> val : 0);
-        int rightChildVal = (node -> right? node -> right -> val : 0);
-        
-        if (level == 0 || level == 1)
-            node -> val = 0;
-        else
-            node -> val = levelSums[level] - node -> val - siblingSum;
-        replaceInternal(node -> left, rightChildVal, level + 1);
-        replaceInternal(node -> right, leftChildVal, level + 1);
-    }
-    
 public:
     TreeNode* replaceValueInTree(TreeNode* root) {
-        calculateSumLevel(root, 0);
-        replaceInternal(root, 0, 0);
+        queue<TreeNode*> queue;
+        int prevLevelSum = root -> val;
+        queue.push(root);
+        
+        while (!queue.empty()){
+            int size = queue.size();
+            int currLevelSum = 0;
+            
+            for (int i = 0; i < size; ++i){
+                TreeNode* node = queue.front(); queue.pop();
+                // Update node value to cousin sum
+                node -> val = prevLevelSum - node -> val;
+                
+                // Calculate sibling sum
+                int siblingSum = (node -> left? node -> left -> val : 0) + \
+                    (node -> right? node -> right -> val : 0);
+                
+                if (node -> left){
+                    // Accumulate current level sum
+                    currLevelSum += node -> left -> val;
+                    // Update left child's value
+                    node -> left -> val = siblingSum;
+                    // Add to queue for next level
+                    queue.push(node -> left);
+                }
+                
+                if (node -> right){
+                    // Accumulate current level sum
+                    currLevelSum += node -> right -> val;
+                    // Update right child's value
+                    node -> right -> val = siblingSum;
+                    // Add to queue for next level
+                    queue.push(node -> right);
+                }
+            }
+            
+            // Update previous level sum for next iteration
+            prevLevelSum = currLevelSum;
+        }
+        
         return root;
     }
 };
