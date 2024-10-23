@@ -5,47 +5,35 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def _calculate_level_sum(self, node: Optional[TreeNode], level: int) -> None:
+        if not node:
+            return
+        
+        if len(self.level_sums) == level:
+            self.level_sums.append(node.val)
+        else:
+            self.level_sums[level] += node.val
+        
+        self._calculate_level_sum(node.left, level + 1)
+        self._calculate_level_sum(node.right, level + 1)
+        
+    def _replace_internal(self, node: Optional[TreeNode], sibling_sum: int, level: int) -> None:
+        if not node:
+            return
+        
+        left_child_val = node.left.val if node.left else 0
+        right_child_val = node.right.val if node.right else 0
+        
+        if level == 0 or level == 1:
+            node.val = 0
+        else:
+            node.val = self.level_sums[level] - node.val - sibling_sum
+        self._replace_internal(node.left, right_child_val, level + 1)
+        self._replace_internal(node.right, left_child_val, level + 1)
+    
     def replaceValueInTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        # Base case
-        if not root:
-            return root
+        self.level_sums = []
+        self._calculate_level_sum(root, 0)
+        self._replace_internal(root, 0, 0)
         
-        queue, level_sums = deque([root]), []
-            
-        # First BFS: Calculate sum of nodes at each level
-        while queue:
-            level_sum, size = 0, len(queue)
-            
-            for _ in range(size):
-                node = queue.popleft()
-                level_sum += node.val
-                
-                if node.left:
-                    queue.append(node.left)
-                    
-                if node.right:
-                    queue.append(node.right)
-            
-            level_sums.append(level_sum)
-        
-        # Second BFS: Update each node's value to sum of its cousins
-        queue.append(root)
-        root.val = 0    # Root has no cousins
-        level_index = 1
-        while queue:
-            level = len(queue)
-            for _ in range(level):
-                node = queue.popleft()
-            
-                sibling_sum = (node.left.val if node.left else 0) + (node.right.val if node.right else 0)
-                if node.left:
-                    node.left.val = level_sums[level_index] - sibling_sum
-                    queue.append(node.left)
-                    
-                if node.right:
-                    node.right.val = level_sums[level_index] - sibling_sum
-                    queue.append(node.right)
-                    
-            level_index += 1
-            
         return root
