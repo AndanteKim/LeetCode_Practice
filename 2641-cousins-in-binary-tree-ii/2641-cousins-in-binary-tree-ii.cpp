@@ -10,50 +10,40 @@
  * };
  */
 class Solution {
+private:
+    vector<int> levelSums;
+    void calculateSumLevel(TreeNode* node, int level){
+        // Base case
+        if (!node) return;
+        
+        // Accumulate sum at the current level
+        if (levelSums.size() == level)
+            levelSums.push_back(node -> val);
+        else
+            levelSums[level] += node -> val;
+        calculateSumLevel(node -> left, level + 1);
+        calculateSumLevel(node -> right, level + 1);
+    }
+    
+    void replaceInternal(TreeNode* node, int siblingSum, int level){
+        if (!node) return;
+        
+        int leftChildVal = (node -> left? node -> left -> val : 0);
+        int rightChildVal = (node -> right? node -> right -> val : 0);
+        
+        if (level == 0 || level == 1)
+            node -> val = 0;
+        else
+            node -> val = levelSums[level] - node -> val - siblingSum;
+        replaceInternal(node -> left, rightChildVal, level + 1);
+        replaceInternal(node -> right, leftChildVal, level + 1);
+    }
+    
 public:
     TreeNode* replaceValueInTree(TreeNode* root) {
-        queue<TreeNode*> queue;
-        vector<int> levelSums;
-        queue.push(root);
-        
-        // First BFS: Calculate sum of nodes at each level
-        while (!queue.empty()){
-            int size = queue.size();
-            long levelSum = 0;
-            
-            for (int i = 0; i < size; ++i){
-                TreeNode* node = queue.front(); queue.pop();
-                levelSum += node -> val;
-                
-                if (node -> left) queue.push(node -> left);
-                if (node -> right) queue.push(node -> right);
-            }
-            levelSums.push_back(levelSum);
-        }
-        
-        // Second BFS: Update each node's value to sum of its cousins
-        queue.push(root);
-        root -> val = 0;    // Root has no cousins
-        int levelIndex = 1;
-        while (!queue.empty()){
-            int size = queue.size();
-            for (int i = 0; i < size; ++i){
-                TreeNode* node = queue.front(); queue.pop();
-                int siblingSum = (node -> left? node -> left -> val : 0) + \
-                    (node -> right? node -> right -> val : 0);
-                if (node -> left) {
-                    node -> left -> val = levelSums[levelIndex] - siblingSum;
-                    queue.push(node -> left);
-                }
-                
-                if (node -> right){
-                    node -> right -> val = levelSums[levelIndex] - siblingSum;
-                    queue.push(node -> right);
-                }
-            }
-            ++levelIndex;
-        }
-        
+        vector<long> levelSums;
+        calculateSumLevel(root, 0);
+        replaceInternal(root, 0, 0);
         return root;
     }
 };
