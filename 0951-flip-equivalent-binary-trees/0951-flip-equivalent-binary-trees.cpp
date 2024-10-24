@@ -10,35 +10,23 @@
  * };
  */
 class Solution {
-private:
-    void bfs(TreeNode* root, unordered_map<int, unordered_set<int>>& match){
-        if (!root) return;
-        
-        queue<TreeNode*> queue;
-        queue.push(root);
-        
-        while (!queue.empty()){
-            TreeNode* node = queue.front(); queue.pop();
-            match[node -> val] = {};
-            if (node -> left){
-                match[node -> val].insert(node -> left -> val);
-                queue.push(node -> left);
-            }
-            
-            if (node -> right){
-                match[node -> val].insert(node -> right -> val);
-                queue.push(node -> right);
-            }
-        }
-        
-    }
-    
 public:
     bool flipEquiv(TreeNode* root1, TreeNode* root2) {
-        unordered_map<int, unordered_set<int>> match1, match2;
-        bfs(root1, match1);
-        bfs(root2, match2);
+        // Both trees are empty
+        if (!(root1 || root2)) return true;
         
-        return match1 == match2;
+        // Just one of trees is empty
+        if (!(root1 && root2)) return false;
+        
+        // Corresponding values differ
+        if (root1 -> val != root2 -> val) return false;
+        
+        // Check if corresponding subtrees are flip equivalent
+        bool noSwap = flipEquiv(root1 -> left, root2 -> left) && flipEquiv(root1 -> right, root2 -> right);
+        
+        // Check if opposite subtrees are flip equivalent
+        bool swap = flipEquiv(root1 -> left, root2 -> right) && flipEquiv(root1 -> right, root2 -> left);
+        
+        return noSwap || swap;
     }
 };
