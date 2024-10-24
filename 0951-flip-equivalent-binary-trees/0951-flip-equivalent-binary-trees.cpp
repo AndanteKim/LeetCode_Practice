@@ -11,43 +11,44 @@
  */
 class Solution {
 private:
-    // Checks whether the given pair of nodes should be examined be
-    // pushed into the stack
-    bool checkNodeValues(TreeNode* node1, TreeNode* node2){
+    void findCanonicalForm(TreeNode* node){
+        if (!node) return;
+        
+        // Post-order traversal: First bring subtress in their canonical form
+        findCanonicalForm(node -> left);
+        findCanonicalForm(node -> right);
+        
+        if (!node -> right) return;
+        
+        // Swap subtrees, so that left is non-empty
+        if (!node -> left){
+            node -> left = node -> right;
+            node -> right = nullptr;
+            return;
+        }
+        
+        TreeNode* left = node -> left;
+        TreeNode* right = node -> right;
+        
+        // Swap subtrees
+        if (left -> val > right -> val){
+            swap(node -> left, node -> right);
+        }
+    }
+    
+    bool areEquivalent(TreeNode* node1, TreeNode* node2){
         if (!(node1 || node2)) return true;
+        if (!(node1 && node2)) return false;
+        if (node1 -> val != node2 -> val) return false;
         
-        if (node1 && node2 && node1 -> val == node2 -> val) return true;
-        
-        return false;
+        return areEquivalent(node1 -> left, node2 -> left) && areEquivalent(node1 -> right, node2 -> right);
     }
     
 public:
     bool flipEquiv(TreeNode* root1, TreeNode* root2) {
-        // Initialize stack to store pairs of nodes
-        stack<pair<TreeNode*, TreeNode*>> s;
-        s.push({root1, root2});
+        findCanonicalForm(root1);
+        findCanonicalForm(root2);
         
-        // While the stack isn't empty
-        while (!s.empty()){
-            auto [node1, node2] = s.top(); s.pop();
-            
-            if (!(node1 || node2)) continue;
-            if (!(node1 && node2)) return false;
-            if (node1 -> val != node2 -> val) return false;
-            
-            // Check both configurations: no swap and swap
-            if (checkNodeValues(node1 -> left, node2 -> left) && checkNodeValues(node1 -> right, node2 -> right)){
-                s.push({node1 -> left, node2 -> left});
-                s.push({node1 -> right, node2 -> right});
-            }
-            else if (checkNodeValues(node1 -> left, node2 -> right) && checkNodeValues(node1 -> right, node2 -> left)){
-                s.push({node1 -> left, node2 -> right});
-                s.push({node1 -> right, node2 -> left});
-            }
-            else
-                return false;
-        }
-        
-        return true;
+        return areEquivalent(root1, root2);
     }
 };
