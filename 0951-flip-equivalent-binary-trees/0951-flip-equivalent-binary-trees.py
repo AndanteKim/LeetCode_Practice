@@ -6,25 +6,22 @@
 #         self.right = right
 class Solution:
     def flipEquiv(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
-        def bfs(root: Optional[TreeNode], match: DefaultDict[int, Set[int]]) -> None:
-            if not root:
-                return
-            
-            queue = deque([root])
-            
-            while queue:
-                node = queue.popleft()
-                match[node.val] = set()
-                if node.left:
-                    match[node.val].add(node.left.val)
-                    queue.append(node.left)
-                if node.right:
-                    match[node.val].add(node.right.val)
-                    queue.append(node.right)
+        # Both trees are empty
+        if not (root1 or root2):
+            return True
         
-        match1, match2 = defaultdict(set), defaultdict(set)
-        bfs(root1, match1)
-        bfs(root2, match2)
+        # Just one of the trees is empty
+        if not (root1 and root2):
+            return False
         
+        # Corresponding values differ
+        if root1.val != root2.val:
+            return False
         
-        return match1 == match2
+        # Check if corresponding subtrees are flip equivalent
+        no_swap = self.flipEquiv(root1.left, root2.left) and self.flipEquiv(root1.right, root2.right)
+        
+        # Check if opposite subtrees are flip equivalent
+        swap = self.flipEquiv(root1.left, root2.right) and self.flipEquiv(root1.right, root2.left)
+        
+        return no_swap or swap
