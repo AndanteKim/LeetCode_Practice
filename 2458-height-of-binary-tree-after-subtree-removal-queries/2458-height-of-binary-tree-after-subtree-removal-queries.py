@@ -6,39 +6,35 @@
 #         self.right = right
 class Solution:
     def treeQueries(self, root: Optional[TreeNode], queries: List[int]) -> List[int]:
-        def _traverse_left_to_right(node: TreeNode, curr_height: int) -> None:
+        # Function to calculate the height of the tree
+        def _height(node: TreeNode) -> int:
+            if not node:
+                return -1
+            
+            # Return cached height if already calculated
+            if node in height_cache:
+                return height_cache[node]
+            
+            h = 1 + max(_height(node.left), _height(node.right))
+            height_cache[node] = h
+            return h
+        
+        # DFS to precompute the maximum values after removing the subtree
+        def _dfs(node: TreeNode, depth: int, max_val: int) -> None:
             if not node:
                 return
             
-            # Store the maximum height if this node were removed
-            max_height_after_removal[node.val] = self.curr_max_height
+            result_map[node.val] = max_val
             
-            # Update the current maximum height
-            self.curr_max_height = max(self.curr_max_height, curr_height)
+            # Traverse left and right subtrees while updating max values
+            _dfs(node.left, depth + 1, max(max_val, depth + 1 + _height(node.right)))
             
-            # Traverse left subtree first, then right
-            _traverse_left_to_right(node.left, curr_height + 1)
-            _traverse_left_to_right(node.right, curr_height + 1)
-            
-        def _traverse_right_to_left(node: TreeNode, curr_height: int) -> None:
-            if not node:
-                return
-            
-            # Update the maximum height if this node were removed
-            max_height_after_removal[node.val] = max(max_height_after_removal[node.val], self.curr_max_height)
-            
-            # Update the current maximum height
-            self.curr_max_height = max(curr_height, self.curr_max_height)
-            
-            # Traverse right subtree first, then left.
-            _traverse_right_to_left(node.right, curr_height + 1)
-            _traverse_right_to_left(node.left, curr_height + 1)
+            _dfs(node.right, depth + 1, max(max_val, depth + 1 + _height(node.left)))
         
-        max_height_after_removal = [0] * 100001
-        self.curr_max_height = 0
-        _traverse_left_to_right(root, 0)
-        self.curr_max_height = 0    # Reset for the second traversal
-        _traverse_right_to_left(root, 0)
+        result_map, height_cache = dict(), dict()
         
-        # Process queries and build the result list
-        return [max_height_after_removal[q] for q in queries]
+        # Run DFS to fill result_map with maximum heights after each query
+        _dfs(root, 0, 0)
+        
+        # Build the result array based on the queries
+        return [result_map[q] for q in queries]
