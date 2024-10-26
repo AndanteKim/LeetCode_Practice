@@ -11,53 +11,40 @@
  */
 class Solution {
 private:
-    // Left to right traversal
-    int currentMaxHeight = 0;
-    vector<int> maxHeightAfterRemoval;
-    void traversalLeftToRight(TreeNode* node, int currentHeight){
-        if (!node) return;
+    // Function to calculate the height of the tree
+    int height(TreeNode* node, unordered_map<TreeNode*, int>& heightCache){
+        if (!node) return -1;
         
-        // Store the maximum height if this node were removed
-        maxHeightAfterRemoval[node -> val] = currentMaxHeight;
+        // Return cached height if already calculated
+        if (heightCache.count(node))
+            return heightCache[node];
         
-        //Update the current maximum height
-        currentMaxHeight = max(currentMaxHeight, currentHeight);
-        
-        // Traverse left subtree first, then right
-        traversalLeftToRight(node -> left, currentHeight + 1);
-        traversalLeftToRight(node -> right, currentHeight + 1);
+        heightCache[node] = 1 + max(height(node -> left, heightCache), height(node -> right, heightCache));
+        return heightCache[node];
     }
     
-    // Right to left traversal
-    void traversalRightToLeft(TreeNode* node, int currentHeight){
+    // DFS to precompute the maximum values after removing the subtree
+    void dfs(TreeNode* node, int depth, int maxVal, unordered_map<int, int>& resultMap, unordered_map<TreeNode*, int>& heightCache){
         if (!node) return;
         
-        // Update the maximum height if this node were removed
-        maxHeightAfterRemoval[node -> val] = max(maxHeightAfterRemoval[node -> val], currentMaxHeight);
+        resultMap[node -> val] = maxVal;
         
-        // Update the current maximum height
-        currentMaxHeight = max(currentMaxHeight, currentHeight);
-
-        //Update the current maximum height
-        traversalRightToLeft(node -> right, currentHeight + 1);
-        
-        // Traverse right subtree first, then left
-        traversalRightToLeft(node -> left, currentHeight + 1);
+        // Traverse left and right subtrees while updating max values
+        dfs(node -> left, depth + 1, max(maxVal, depth + 1 + height(node -> right, heightCache)), resultMap, heightCache);
+        dfs(node -> right, depth + 1, max(maxVal, depth + 1 + height(node -> left, heightCache)), resultMap, heightCache);
     }
     
 public:
     vector<int> treeQueries(TreeNode* root, vector<int>& queries) {
-        // Array to store the maximum height of the tree after removing each node
-        vector<int> ans(queries.size());
-        maxHeightAfterRemoval.resize(100'001);
-        traversalLeftToRight(root, 0);
-        currentMaxHeight = 0;    // Reset for the second traversal
-        traversalRightToLeft(root, 0);
+        unordered_map<TreeNode*, int> heightCache;
+        unordered_map<int, int> resultMap;
         
-        // Process queries and build the result vector
-        for (int i = 0; i < queries.size(); ++i){
-            ans[i] = maxHeightAfterRemoval[queries[i]];
-        }
+        // Run DFS to fill resultMap with maximum heights after each query
+        dfs(root, 0, 0, resultMap, heightCache);
+        
+        vector<int> ans(queries.size());
+        for (int i = 0; i < queries.size(); ++i)
+            ans[i] = resultMap[queries[i]];
         
         return ans;
     }
