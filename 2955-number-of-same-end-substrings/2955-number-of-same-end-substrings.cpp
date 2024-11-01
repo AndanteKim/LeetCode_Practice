@@ -1,34 +1,39 @@
 class Solution {
 public:
     vector<int> sameEndSubstringCount(string s, vector<vector<int>>& queries) {
-        // Map to store each character and its positions in the string 's'.
         int n = s.size();
-        unordered_map<char, vector<int>> characterPositionsMapping;
+        // 2D vector to store prefix sum of character frequencies for each character 'a' to 'z'
+        vector charFreqPrefixSum(26, vector<int>(n));
         
-        // Traverse the string and store the index of each character in the map
+        // Fill the frequency vector
         for (int i = 0; i < n; ++i)
-            characterPositionsMapping[s[i]].push_back(i);
+            ++charFreqPrefixSum[s[i] - 97][i];
         
-        // Array to store the result for each query
-        int numQueries = queries.size();
+        // Convert the frequency vector into a prefix sum vector
+        for (auto& freq : charFreqPrefixSum){
+            for (int j = 1; j < n; ++j)
+                freq[j] += freq[j - 1];
+        }
+        
+        const int numQueries = queries.size();
         vector<int> ans(numQueries);
         
         // Process each query
         for (int i = 0; i < numQueries; ++i){
-            int leftIndex = queries[i][0], rightIndex = queries[i][1], countSameEndSubstrings = 0;
+            int countSameEndSubstrings = 0;
+            int leftIndex = queries[i][0], rightIndex = queries[i][1];
             
-            // For each unique character in the string, calculate the number of same-end substrings
-            for (auto& [_, positions] : characterPositionsMapping){
-                // Get the number of occurrences of the character within the range [leftIndex, rightIndex];
-                int leftBound = lower_bound(positions.begin(), positions.end(), leftIndex) - positions.begin();
-                int rightBound = upper_bound(positions.begin(), positions.end(), rightIndex) - positions.begin();
-                int numOccurrences = (rightBound - leftBound);
+            // For each character, calculate the frequency of occurrences within the query range
+            for (auto& freq : charFreqPrefixSum){
+                // Calculate frquency within the query range
+                int leftFreq = (queries[i][0] == 0)? 0 : freq[leftIndex - 1];
+                int rightFreq = freq[rightIndex];
+                int frequencyInRange = rightFreq - leftFreq;
                 
-                // Calculate the number of same-end substrings for this character
-                countSameEndSubstrings += ((numOccurrences * (numOccurrences + 1)) >> 1);
+                // Calculate the number of same-end substrings for this character.
+                countSameEndSubstrings += (frequencyInRange * (frequencyInRange + 1) >> 1);
             }
             
-            // Store the result for this query.
             ans[i] = countSameEndSubstrings;
         }
         
