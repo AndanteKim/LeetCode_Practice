@@ -25,7 +25,7 @@ public:
             
             // For each character, calculate the frequency of occurrences within the query range
             for (auto& freq : charFreqPrefixSum){
-                // Calculate frquency within the query range
+                // Calculate frequency within the query range
                 int leftFreq = (queries[i][0] == 0)? 0 : freq[leftIndex - 1];
                 int rightFreq = freq[rightIndex];
                 int frequencyInRange = rightFreq - leftFreq;
