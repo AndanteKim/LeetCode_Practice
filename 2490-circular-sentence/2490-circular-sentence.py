@@ -1,10 +1,8 @@
 class Solution:
     def isCircularSentence(self, sentence: str) -> bool:
-        words = sentence.split(' ')
-        n = len(words)
-        
-        for i in range(n):
-            if words[i % n][-1] != words[(i + 1) % n][0]:
+        for i in range(len(sentence)):
+            if sentence[i] == " " and sentence[i - 1] != sentence[i + 1]:
                 return False
             
-        return True
+        return sentence[0] == sentence[len(sentence) - 1]
+        
