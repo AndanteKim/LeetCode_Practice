@@ -1,18 +1,8 @@
 class Solution {
 public:
     bool rotateString(string s, string goal) {
-        int n = s.size();
-        deque<char> rotate(s.begin(), s.end());
-        deque<char> g(goal.begin(), goal.end());
+        goal += goal;
         
-        for (int i = 0 ; i < n; ++i){
-            rotate.push_front(rotate.back());
-            rotate.pop_back();
-            
-            if (rotate == g)
-                return true;
-        }
-        
-        return false;
+        return (s.size() == (goal.size() >> 1)) && (goal.find(s) != string::npos);
     }
 };
