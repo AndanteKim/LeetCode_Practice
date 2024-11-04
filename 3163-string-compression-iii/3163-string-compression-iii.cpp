@@ -1,32 +1,25 @@
 class Solution {
 public:
     string compressedString(string word) {
-        unordered_map<char, int> frequency;
-        int n = word.size();
-        char prev = NULL;
         string ans = "";
         
-        for (int i = 0; i < n; ++i){
-            // If the current character doesn't match previous character, then compression the previous one before getting current one.
-            if (prev != NULL && prev != word[i]){
-                while (frequency[prev] > 0){
-                    ans += to_string(min(frequency[prev], 9)) + prev;
-                    frequency[prev] -= min(frequency[prev], 9);
-                }
-            }
-            
-            ++frequency[word[i]];
-            prev = word[i];
-            
-            // If the index is the last character, then finish compressing the last character's frequency.
-            if (i == n - 1){
-                while (frequency[word[i]] > 0){
-                    ans += to_string(min(frequency[word[i]], 9)) + word[i];
-                    frequency[word[i]] -= min(frequency[word[i]], 9);
-                }
-            }
-        }
+        // pos tracks our position in the input string
+        int pos = 0, n = word.size();
         
+        // Process until we reach end of string
+        while (pos < n){
+            char currentChar = word[pos];
+            int consecutiveCount = 0;
+            
+            // Count consecutive occurrences (maximum 9)
+            while (pos < n && consecutiveCount < 9 && currentChar == word[pos]){
+                ++consecutiveCount;
+                ++pos;
+            }
+            
+            // Append count followed by character to result
+            ans += to_string(consecutiveCount) + currentChar;
+        }
         return ans;
     }
 };
