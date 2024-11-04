@@ -1,18 +1,21 @@
 class Solution:
     def compressedString(self, word: str) -> str:
-        frequency, word_order, prev = defaultdict(int), [], ''
-        ans, n = "", len(word)
-        for i in range(n):
-            if prev != '' and prev != word[i]:
-                while frequency[prev] > 0:
-                    ans += str(min(frequency[prev], 9)) + prev
-                    frequency[prev] -= min(frequency[prev], 9)
-            frequency[word[i]] += 1
-            prev = word[i]
-            
-            if i == n - 1:
-                while frequency[word[i]] > 0:
-                    ans += str(min(frequency[word[i]], 9)) + word[i]
-                    frequency[word[i]] -= min(frequency[word[i]], 9)
+        # Pos tracks our position in the input string
+        comp, pos = [], 0
         
-        return ans
+        # Process until we reach end of string
+        while pos < len(word):
+            consec_cnt = 0
+            curr_ch = word[pos]
+            
+            # Count consecutive occurrences (maximum 9)
+            while (pos < len(word) and consec_cnt < 9 and word[pos] == curr_ch):
+                consec_cnt += 1
+                pos += 1
+                
+            # Append count followed by character to the list
+            comp.append(str(consec_cnt))
+            comp.append(curr_ch)
+            
+        # Join the list into a single string for the final result
+        return "".join(comp)
