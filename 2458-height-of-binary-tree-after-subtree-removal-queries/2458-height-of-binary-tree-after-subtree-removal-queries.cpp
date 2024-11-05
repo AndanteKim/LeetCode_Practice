@@ -11,40 +11,67 @@
  */
 class Solution {
 private:
-    // Function to calculate the height of the tree
-    int height(TreeNode* node, unordered_map<TreeNode*, int>& heightCache){
-        if (!node) return -1;
-        
-        // Return cached height if already calculated
-        if (heightCache.count(node))
-            return heightCache[node];
-        
-        heightCache[node] = 1 + max(height(node -> left, heightCache), height(node -> right, heightCache));
-        return heightCache[node];
-    }
-    
-    // DFS to precompute the maximum values after removing the subtree
-    void dfs(TreeNode* node, int depth, int maxVal, unordered_map<int, int>& resultMap, unordered_map<TreeNode*, int>& heightCache){
+    // Depth-first search to populate nodeIndexMap and nodeDepths
+    void dfs(TreeNode* node, int depth, unordered_map<int, int>& nodeIndexMap, vector<int>& nodeDepths){
         if (!node) return;
         
-        resultMap[node -> val] = maxVal;
+        nodeIndexMap[node -> val] = nodeDepths.size();
+        nodeDepths.push_back(depth);
+        dfs(node -> left, depth + 1, nodeIndexMap, nodeDepths);
+        dfs(node -> right, depth + 1, nodeIndexMap, nodeDepths);
+    }
+    
+    // Calculate the size of the subtree for each node
+    int calculateSubtreeSize(TreeNode* node, unordered_map<int, int>& subtreeSize){
+        if (!node) return 0;
         
-        // Traverse left and right subtrees while updating max values
-        dfs(node -> left, depth + 1, max(maxVal, depth + 1 + height(node -> right, heightCache)), resultMap, heightCache);
-        dfs(node -> right, depth + 1, max(maxVal, depth + 1 + height(node -> left, heightCache)), resultMap, heightCache);
+        int leftSize = calculateSubtreeSize(node -> left, subtreeSize);
+        int rightSize = calculateSubtreeSize(node -> right, subtreeSize);
+        int totalSize = leftSize + rightSize + 1;
+        subtreeSize[node -> val] = totalSize;
+        return totalSize;
     }
     
 public:
     vector<int> treeQueries(TreeNode* root, vector<int>& queries) {
-        unordered_map<TreeNode*, int> heightCache;
-        unordered_map<int, int> resultMap;
+        // Map to store the index of each node value and
+        // the number of nodes in the subtree for each node
+        unordered_map<int, int> nodeIndexMap, subtreeSize;
         
-        // Run DFS to fill resultMap with maximum heights after each query
-        dfs(root, 0, 0, resultMap, heightCache);
+        // Vectors to store node depths and maximum depths from left and right
+        vector<int> nodeDepths, maxDepthFromLeft, maxDepthFromRight;
         
+        // Perform DFS to populate nodeIndexMap and nodeDepths
+        dfs(root, 0, nodeIndexMap, nodeDepths);
+        
+        int totalNodes = nodeDepths.size();
+        
+        // Calculate subtree sizes
+        calculateSubtreeSize(root, subtreeSize);
+        
+        // Calculate maximum depths from left and right
+        maxDepthFromLeft.push_back(nodeDepths[0]);
+        maxDepthFromRight.push_back(nodeDepths.back());
+        
+        for (int i = 1; i < totalNodes; ++i){
+            maxDepthFromLeft.push_back(max(maxDepthFromLeft[i - 1], nodeDepths[i]));
+            maxDepthFromRight.push_back(max(maxDepthFromRight[i - 1], nodeDepths[totalNodes - i - 1]));
+        }
+        
+        reverse(maxDepthFromRight.begin(), maxDepthFromRight.end());
+        
+        // Process queries
         vector<int> ans(queries.size());
-        for (int i = 0; i < queries.size(); ++i)
-            ans[i] = resultMap[queries[i]];
+        for (int i = 0; i < queries.size(); ++i){
+            int queryNode = queries[i];
+            int startIndex = nodeIndexMap[queryNode] - 1;
+            int endIndex = startIndex + 1 + subtreeSize[queryNode];
+                
+            int maxDepth = maxDepthFromLeft[startIndex];
+            if (endIndex < totalNodes)
+                maxDepth = max(maxDepth, maxDepthFromRight[endIndex]);
+            ans[i] = maxDepth;
+        }
         
         return ans;
     }
