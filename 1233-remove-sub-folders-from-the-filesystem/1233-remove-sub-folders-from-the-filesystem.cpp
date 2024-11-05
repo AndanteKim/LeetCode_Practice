@@ -51,7 +51,7 @@ public:
             stringstream iss(path);
             string name;
             while (getline(iss, name, '/')){
-                // Skip empty foldernames
+                // Skip empty folder names
                 if (name.empty()) continue;
                 TrieNode* nextNode = currNode -> children[name];
                 // Check if the current folder path is a subfolder of an existing folder 
