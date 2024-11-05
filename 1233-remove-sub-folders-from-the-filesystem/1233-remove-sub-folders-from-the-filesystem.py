@@ -1,30 +1,18 @@
 class Solution:
     def removeSubfolders(self, folder: List[str]) -> List[str]:
-        # Create a set to store all folder paths for fast lookup
-        folder_set = set(folder)
-        ans = []
+        # Sort the folders alphabetically
+        folder.sort()
         
-        # Iterate through each folder to check if it's a sub-folder
-        for f in folder:
-            is_sub_folder = False
-            prefix = f
+        # Initialize the result list 
+        res = [folder[0]]
+        
+        for i in range(1, len(folder)):
+            last_folder = res[-1]
+            last_folder += '/'
             
-            # Check all prefixes of the current folder path
-            while not prefix == "":
-                pos = prefix.rfind("/")
-                if pos == -1:
-                    break
-                    
-                # Reduce the prefix to its parent folder
-                prefix = prefix[0:pos]
+            # Check if the current folder starts with the last added folder path
+            if not folder[i].startswith(last_folder):
+                res.append(folder[i])
                 
-                # If the parent folder exists in the set, mark as sub-folder
-                if prefix in folder_set:
-                    is_sub_folder = True
-                    break
-                
-            # If not a sub-folder, add it to the result
-            if not is_sub_folder: 
-                ans.append(f)
-            
-        return ans
+        # Return the result containing only non-sub-folders
+        return res
