@@ -1,35 +1,24 @@
 class Solution {
 public:
     vector<string> removeSubfolders(vector<string>& folder) {
-        // Create a set to store all folder paths for fast lookup
-        unordered_set<string> folderSet(folder.begin(), folder.end());
-        vector<string> ans;
+        // Sort the folders alphabetically
+        sort(folder.begin(), folder.end());
         
-        // Iterate through each folder to check if it's a sub-folder
-        for (const string& f : folder){
-            string prefix = f;
-            bool isSubFolder = false;
+        // Initialize the result vector and add the first folder
+        vector<string> answer{folder[0]};
+        
+        // Iterate through each folder and check if it's a sub-folder of the
+        // last added folder in the result
+        for (int i = 1; i < folder.size(); ++i){
+            string lastFolder = answer.back();
+            lastFolder.push_back('/');
             
-            // Check all prefixes of the current folder path
-            while (!prefix.empty()){
-                size_t pos = prefix.find_last_of('/');
-                if (pos == string::npos) break;
-                
-                // Reduce the prefix to its parent folder
-                prefix = prefix.substr(0, pos);
-                
-                // If the parent folder exists in the set, mark as sub-folder
-                if (folderSet.count(prefix)){
-                    isSubFolder = true;
-                    break;
-                }
-            }
-            
-            // If not a sub-folder, add it to the result
-            if (!isSubFolder)
-                ans.push_back(f);
+            // Check if the current folder starts with the last added folder path
+            if (folder[i].compare(0, lastFolder.size(), lastFolder) != 0)
+                answer.push_back(folder[i]);
         }
         
-        return ans;
+        // Return the result containing only non-sub-folders
+        return answer;
     }
 };
