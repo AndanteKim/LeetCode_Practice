@@ -48,7 +48,6 @@ public:
         for (string& path: folder){
             bool isSubstring = false;
             TrieNode* currNode = root;
-            vector<string> names;
             stringstream iss(path);
             string name;
             while (getline(iss, name, '/')){
