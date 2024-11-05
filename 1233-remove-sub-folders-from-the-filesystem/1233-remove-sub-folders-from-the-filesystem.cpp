@@ -8,7 +8,7 @@ private:
     
     TrieNode* root;
     
-    // Recurisvely delete all TrieNodes to prevent memory leaks
+    // Recursively delete all TrieNodes to prevent memory leaks
     void deleteTrie(TrieNode* node){
         if (node == nullptr) return;
         for (auto& [_, descendant] : node -> children){
