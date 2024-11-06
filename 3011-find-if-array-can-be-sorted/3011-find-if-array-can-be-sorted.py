@@ -1,21 +1,31 @@
 class Solution:
     def canSortArray(self, nums: List[int]) -> bool:
-        n = len(nums)
+        max_of_segment, min_of_segment = nums[0], nums[0]
+        num_of_set_bits = bin(nums[0]).count('1')
         
-        # Avoid modifying the input directly
-        # Create a copy of the input array
-        values = nums[:]
+        # Initialize max of the previous segment to the smallest possible integer
+        max_of_prev_segment = float("-inf")
         
-        for i in range(0, n):
-            for j in range(0, n - i - 1):
-                if values[j] <= values[j + 1]:
-                    # No swap needed
-                    continue
-                else:
-                    if bin(values[j]).count('1') == bin(values[j + 1]).count('1'):
-                        # Swap the elements 
-                        values[j], values[j + 1] = values[j + 1], values[j]
-                    else:      
-                        return False
-                    
+        for i in range(1, len(nums)):
+            if bin(nums[i]).count("1") == num_of_set_bits:
+                # Element belongs to the same segment
+                # Update min and max values of the segment
+                max_of_segment = max(max_of_segment, nums[i])
+                min_of_segment = min(min_of_segment, nums[i])
+            else:   # Element belongds to a new segment
+                # Check if the segments are arranged properly
+                if min_of_segment < max_of_prev_segment:
+                    return False
+                
+                # Update the previous segment's max
+                max_of_prev_segment = max_of_segment
+                
+                # Start a new segment with the current element
+                max_of_segment, min_of_segment = nums[i], nums[i]
+                num_of_set_bits = bin(nums[i]).count("1")
+                
+        # Final check for proper segment arrangement
+        if min_of_segment < max_of_prev_segment:
+            return False
+        
         return True
