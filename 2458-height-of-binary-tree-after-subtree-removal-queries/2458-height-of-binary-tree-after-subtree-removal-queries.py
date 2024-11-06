@@ -5,63 +5,50 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def _dfs(self, node: TreeNode, depth: int, node_index_map: Dict[int, int], node_depths: List[int]) -> None:
+    # Depth-first search to build the Euler tour and store node information
+    def _dfs(self, node: TreeNode, height: int, euler_tour: List[int], node_heights: Dict[int, int], first_occurrence: Dict[int, int], last_occurrence: Dict[int, int]) -> None:
         if not node:
             return
         
-        node_index_map[node.val] = len(node_depths)
-        node_depths.append(depth)
+        node_heights[node.val] = height
+        first_occurrence[node.val] = len(euler_tour)
+        euler_tour.append(node.val)
         
-        self._dfs(node.left, depth + 1, node_index_map, node_depths)
-        self._dfs(node.right, depth + 1, node_index_map, node_depths)
+        self._dfs(node.left, height + 1, euler_tour, node_heights, first_occurrence, last_occurrence)
+        self._dfs(node.right, height + 1, euler_tour, node_heights, first_occurrence, last_occurrence)
         
-    # Calculate the size of the subtree for each node
-    def _calculate_subtree_size(self, node: TreeNode, subtree_size: Dict[int, int]) -> int:
-        if not node:
-            return 0
+        last_occurrence[node.val] = len(euler_tour)
+        euler_tour.append(node.val)
         
-        left_size = self._calculate_subtree_size(node.left, subtree_size)
-        right_size = self._calculate_subtree_size(node.right, subtree_size)
-        
-        total_size = left_size + right_size + 1
-        subtree_size[node.val] = total_size
-        
-        return total_size
     
     def treeQueries(self, root: Optional[TreeNode], queries: List[int]) -> List[int]:
-        # Dictionaries to store the index of each node value and the number of nodes in the subtree for each node
-        node_index_map, subtree_size = dict(), dict()
+        # Lists and dictionaries to store tree information
+        euler_tour = []
+        node_heights, first_occurrence, last_occurrence = dict(), dict(), dict()
         
-        # Lists to store node depths and maximum depths from left and right
-        node_depths, max_depth_from_left, max_depth_from_right = [], [], []
+        # Perform DFS to build Euler tour and node information
+        self._dfs(root, 0, euler_tour, node_heights, first_occurrence, last_occurrence)
+        tour_size = len(euler_tour)
+        max_depth_left, max_depth_right = [0] * tour_size, [0] * tour_size
         
-        # Perform DFS to populate node_index_map and node_depths
-        self._dfs(root, 0, node_index_map, node_depths)
+        # Initialize the first and last elements of max_height arrays
+        max_depth_left[0] = max_depth_right[-1] = node_heights[root.val]
         
-        total_nodes = len(node_depths)
-        # Calculate subtree sizes
-        self._calculate_subtree_size(root, subtree_size)
-        
-        # Calculate maximum depths from left and right
-        max_depth_from_left.append(node_depths[0])
-        max_depth_from_right.append(node_depths[-1])
-        
-        for i in range(1, total_nodes):
-            max_depth_from_left.append(max(max_depth_from_left[i - 1], node_depths[i]))
-            max_depth_from_right.append(max(max_depth_from_right[i - 1], node_depths[total_nodes - i - 1]))
+        # Build max_depth_left and max_depth_right arrays
+        for i in range(1, tour_size):
+            max_depth_left[i] = max(max_depth_left[i - 1], node_heights[euler_tour[i]])
             
-        max_depth_from_right.reverse()
+        for i in range(tour_size - 2, -1, -1):
+            max_depth_right[i] = max(max_depth_right[i + 1], node_heights[euler_tour[i]])
+            
+        query_size = len(queries)
+        ans = [0] * query_size
         
         # Process queries
-        ans = []
+        for i in range(query_size):
+            q = queries[i]
+            left_max = max_depth_left[first_occurrence[q] - 1] if first_occurrence[q] > 0 else 0
+            right_max = max_depth_right[last_occurrence[q] + 1] if last_occurrence[q] < tour_size - 1 else 0
+            ans[i] = max(left_max, right_max)
         
-        for query_node in queries:
-            start_index = node_index_map[query_node] - 1
-            end_index = start_index + 1 + subtree_size[query_node]
-            
-            max_depth = max_depth_from_left[start_index]
-            if end_index < total_nodes:
-                max_depth = max(max_depth, max_depth_from_right[end_index])
-            ans.append(max_depth)
-            
         return ans
