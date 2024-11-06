@@ -1,39 +1,40 @@
 class Solution {
 public:
     bool canSortArray(vector<int>& nums) {
-        // Number of set bits of the elements in the current segment
         int n = nums.size();
-        int maxOfSegment = nums[0], minOfSegment = nums[0];
-        int numOfSetBits = __builtin_popcount(nums[0]);
         
-        // Initialize max of the previous segment to the smallest possible integer
-        int maxOfPrevSegment = std::numeric_limits<int>::min();
+        // Create a copy of the original array
+        vector<int> values(nums.begin(), nums.end());
         
-        for (int i = 1; i < n; ++i){
-            if (numOfSetBits == __builtin_popcount(nums[i])){
-                // Element belongs to the same segment
-                // Update min and max values of the segment
-                maxOfSegment = max(maxOfSegment, nums[i]);
-                minOfSegment = min(minOfSegment, nums[i]);
-            }
-            else{   // Element belongs to a new segment
-                // Check if the segments are arranged properly
-                if (minOfSegment < maxOfPrevSegment)
-                    return false;
-                
-                // Update the previous segment's max
-                maxOfPrevSegment = maxOfSegment;
-                
-                // Start a new segment with the current element
-                maxOfSegment = nums[i];
-                minOfSegment = nums[i];
-                numOfSetBits = __builtin_popcount(nums[i]);
-            }
+        // First Pass: Iterate from left to right
+        // Goal: Move the maximum value of each segment as far right as possible
+        for (int i = 0; i < n - 1; ++i){
+            if (values[i] <= values[i + 1])
+                continue;
+            
+            // Check if the current and next element have the same number of set bits
+            if (__builtin_popcount(values[i]) == __builtin_popcount(values[i + 1]))
+                // Swap if they do
+                swap(values[i], values[i + 1]);
+            else
+                return false;   // Reutn false if they cannot be swapped
         }
         
-        // Final check for proper segment arrangement
-        if (minOfSegment < maxOfPrevSegment) return false;
+        // Second Pass: Iterate from right to left
+        // Goal: Move the minimum value of each segment as far left as possible
+        for (int i = n - 1; i > 0; --i){
+            if (values[i] >= values[i - 1])
+                continue;
+            
+            // Check if the current and previous element have the same number of set bits
+            if (__builtin_popcount(values[i]) == __builtin_popcount(values[i - 1]))
+                // Swap if they do
+                swap(values[i], values[i - 1]);
+            else
+                return false;   // Return false if they cannot be swapped
+        }
         
+        // If both passes complete without returning false, the array can be sorted
         return true;
     }
 };
