@@ -11,54 +11,56 @@
  */
 class Solution {
 private:
-    // Depth-First Search to build the Euler tour and store node information
-    void dfs(TreeNode* node, int height, vector<int>& eulerTour, unordered_map<int, int>& nodeHeights, unordered_map<int, int>& firstOccurrence, unordered_map<int, int>& lastOccurrence){
-        if (!node) return;
+    int n = 1e5;
+    
+    // Depth-First search to calculate node depths and subtree heights
+    int dfs(TreeNode* node, int level, vector<int>& nodeDepths, vector<int>& subtreeHeights, vector<int>& firstLargestHeight, vector<int>& secondLargestHeight){
+        if (!node) return 0;
         
-        nodeHeights[node -> val] = height;
-        firstOccurrence[node -> val] = eulerTour.size();
-        eulerTour.push_back(node -> val);
+        nodeDepths[node -> val] = level;
         
-        dfs(node -> left, height + 1, eulerTour, nodeHeights, firstOccurrence, lastOccurrence);
-        dfs(node -> right, height + 1, eulerTour, nodeHeights, firstOccurrence, lastOccurrence);
+        // Calculate the height of the current subtree
+        int leftHeight = dfs(node -> left, level + 1, nodeDepths, subtreeHeights, firstLargestHeight, secondLargestHeight);
+        int rightHeight = dfs(node -> right, level + 1, nodeDepths, subtreeHeights, firstLargestHeight, secondLargestHeight);
+        int currentHeight = 1 + max(leftHeight, rightHeight);
         
-        lastOccurrence[node -> val] = eulerTour.size();
-        eulerTour.push_back(node -> val);
+        subtreeHeights[node -> val] = currentHeight;
+        
+        // Update the largest and second largest heights at the current level
+        if (currentHeight > firstLargestHeight[level]){
+            secondLargestHeight[level] = firstLargestHeight[level];
+            firstLargestHeight[level] = currentHeight;
+        }
+        else if (currentHeight > secondLargestHeight[level])
+            secondLargestHeight[level] = currentHeight;
+        
+        return currentHeight;
     }
     
 public:
     vector<int> treeQueries(TreeNode* root, vector<int>& queries) {
-        // Vectors and maps to store tree information
-        vector<int> eulerTour;
-        unordered_map<int, int> nodeHeights, firstOccurrence, lastOccurrence;
+        // Vectors to store node depths and heights
+        vector<int> nodeDepths(n + 1), subtreeHeights(n + 1);
         
-        // Perform DFS to build Euler tour and node information
-        dfs(root, 0, eulerTour, nodeHeights, firstOccurrence, lastOccurrence);
+        // Vectors to store the first and second largest heights at each level
+        vector<int> firstLargestHeight(n + 1), secondLargestHeight(n + 1);
         
-        int tourSize = eulerTour.size();
-        vector<int> maxDepthLeft(tourSize, 0), maxDepthRight(tourSize, 0);
+        // Perform DFS to calculate depths and heights
+        dfs(root, 0, nodeDepths, subtreeHeights, firstLargestHeight, secondLargestHeight);
+        int qSize = queries.size();
+        vector<int> ans;
+        ans.reserve(qSize);
         
-        // Initialize the first and last elements of max height arrays
-        maxDepthLeft[0] = maxDepthRight.back() = nodeHeights[root -> val];
-        
-        // Build maxDepthLeft and maxDepthRight arrays
-        for (int i = 1; i < tourSize; ++i){
-            maxDepthLeft[i] = max(maxDepthLeft[i - 1], nodeHeights[eulerTour[i]]);
-        }
-        
-        for (int i = tourSize - 2; i >= 0; --i){
-            maxDepthRight[i] = max(maxDepthRight[i + 1], nodeHeights[eulerTour[i]]);
-        }
-        
-        // Process queries
-        int querySize = queries.size();
-        vector<int> ans(querySize);
-        
-        for (int i = 0; i < querySize; ++i){
-            int query = queries[i];
-            int leftMax = (maxDepthLeft[firstOccurrence[query]] > 0)? maxDepthLeft[firstOccurrence[query] - 1]: 0;
-            int rightMax = (maxDepthRight[lastOccurrence[query]] < tourSize - 1)? maxDepthRight[lastOccurrence[query] + 1] : 0;
-            ans[i] = max(leftMax, rightMax);
+        // Process each query
+        for (int i = 0; i < qSize; ++i){
+            int queryNode = queries[i];
+            int nodeLevel = nodeDepths[queryNode];
+            
+            // Calculate the height of the tree after removing the query node
+            if (subtreeHeights[queryNode] == firstLargestHeight[nodeLevel])
+                ans.push_back(nodeLevel + secondLargestHeight[nodeLevel] - 1);
+            else
+                ans.push_back(nodeLevel + firstLargestHeight[nodeLevel] - 1);
         }
         
         return ans;
