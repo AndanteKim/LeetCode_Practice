@@ -1,11 +1,13 @@
 class Solution:
     def largestCombination(self, candidates: List[int]) -> int:
-        # Initialize a list to store the count of each bit position.
-        bit_count = [0] * 24
-        for i in range(24):
-            for num in candidates:
-                # Check if i-th bit is set.
-                if num & ((1 << i)) != 0:
-                    bit_count[i] += 1
+        # Variable to track the maximum count of set bits.
+        max_count = 0
         
-        return max(bit_count)
+        for i in range(24):
+            count = 0   # Count of numbers with the i-th bit set.
+            for num in candidates:
+                if num & (1 << i):  # Check if the i-th bit is set.
+                    count += 1
+            max_count = max(max_count, count)   # Update the maximum count.
+            
+        return max_count
