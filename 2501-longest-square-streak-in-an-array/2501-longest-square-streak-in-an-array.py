@@ -1,45 +1,22 @@
 class Solution:
     def longestSquareStreak(self, nums: List[int]) -> int:
-        # Binary search helper function to efficiently find a value in the sorted array
-        def _binary_search(target: int) -> bool:
-            left, right = 0, n - 1
-            
-            while left <= right:
-                mid = (left + right) >> 1
-                if nums[mid] == target:
-                    return True
-                elif nums[mid] < target:
-                    left = mid + 1
-                else:
-                    right = mid - 1
-                
-            return False
-        
-        # Sort the array in ascending order
+        # Dictionary to store the length of square streak for each number
+        streak_lengths = dict()
         nums.sort()
         
-        # Set to keep track of number we've already processed
-        n, processed_numbers, longest_streak = len(nums), set(), 0
-        
-        # Iterate through each number in the sorted array
-        for current in nums:
-            # Skip if we've already processed this number
-            if current in processed_numbers:
-                continue
-                
-            streak, streak_length = current, 1
+        for num in nums:
+            root = int(num ** 0.5)
             
-            # Continue the streak as long as we can find the square of the current number
-            while streak * streak <= 10 ** 5:
-                if _binary_search(streak * streak):
-                    streak *= streak
-                    processed_numbers.add(streak)
-                    streak_length += 1
-                else:
-                    break
-                    
-            # Update the longest streak if necessary
-            longest_streak = max(longest_streak, streak_length)
+            # Check if the number is perfect square and its square root is in the dictionary
+            if root * root == num and root in streak_lengths:
+                # Extend the streak from its square root
+                streak_lengths[num] = streak_lengths[root] + 1
+            else:
+                # Start a new streak
+                streak_lengths[num] = 1
+        
+        # Find the maximum streak length
+        longest_streak = max(streak_lengths.values(), default = 0)
         
         # Return -1 if no valid streak found, otherwise return the longest streak
-        return -1 if longest_streak < 2 else longest_streak
+        return longest_streak if longest_streak > 1 else -1
