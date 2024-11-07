@@ -1,56 +1,29 @@
 class Solution {
-private:
-    int n;
-    // Binary search helper function to efficiently find a value in the sorted array
-    bool binarySearch(int target, vector<int>& nums){
-        int left = 0, right = n - 1;
-        
-        while (left <= right){
-            int mid = (left + right) >> 1;
-            if (nums[mid] == target) return true;
-            else if (nums[mid] < target)
-                left = mid + 1;
-            else
-                right = mid - 1;
-        }
-        
-        return false;
-    }
-    
 public:
     int longestSquareStreak(vector<int>& nums) {
-        this -> n = nums.size();
-        // Set to keep track of numbers we've already processed
-        set<int> processedNumbers;
-        int longestStreak = 0;
-        
-        // Sort the array in ascending order
+        // Map to store the length of square streak for each number
+        unordered_map<int, int> streakLengths;
         sort(nums.begin(), nums.end());
         
-        // Iterate through each number in the sorted array
-        for (int current : nums){
-            // Skip if we've already processed this number
-            if (processedNumbers.count(current))
-                continue;
+        for (const int num : nums){
+            int root = (int)sqrt(num);
             
-            int streak = current, streakLength = 1;
-            // Continue the streak as long as we can find the square of the current number
-            while ((long long)streak * streak <= pow(10, 5)){
-                // If we find the square, continue the streak
-                if (binarySearch((long long)streak * streak, nums)){
-                    streak *= streak;
-                    processedNumbers.insert(streak);
-                    ++streakLength;
-                }
-                else
-                    break;
+            // Check if the number is a perfect square and its square root is in the map
+            if (root * root == num && streakLengths.count(root)){
+                // If so, extend the streak from its square root
+                streakLengths[num] = streakLengths[root] + 1;
             }
-            
-            // Update the longest streak if necessary
-            longestStreak = max(longestStreak, streakLength);
+            else
+                // Otherwise, start a new streak
+                streakLengths[num] = 1;
         }
         
+        // Find the maximum streak length
+        int longestStreak = 0;
+        for (const auto& [_, streak] : streakLengths)
+            longestStreak = max(longestStreak, streak);
+        
         // Return -1 if no valid streak found, otherwise return the longest streak
-        return longestStreak < 2? -1 : longestStreak;
+        return (longestStreak > 1)? longestStreak : -1;
     }
 };
