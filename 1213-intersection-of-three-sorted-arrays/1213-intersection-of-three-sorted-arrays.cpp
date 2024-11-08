@@ -1,23 +1,17 @@
 class Solution {
-private:
-    void looping(vector<int>& arr, vector<int>& countingSort){
-        for (int num : arr)
-            ++countingSort[num];
-    }
-    
 public:
     vector<int> arraysIntersection(vector<int>& arr1, vector<int>& arr2, vector<int>& arr3) {
-        vector<int> countingSort(2001);
-        
-        looping(arr1, countingSort);
-        looping(arr2, countingSort);
-        looping(arr3, countingSort);
-        
         vector<int> ans;
+        map<int, int> counter;
         
-        for (int i = 1; i <= 2000; ++i)
-            if (countingSort[i] == 3) ans.push_back(i);
+        // Concatenate all vectors together
+        for (int num : arr1) ++counter[num];
+        for (int num : arr2) ++counter[num];
+        for (int num : arr3) ++counter[num];
         
+        for (auto& [num, freq] : counter){
+            if (freq == 3) ans.push_back(num);
+        }
         return ans;
     }
 };
