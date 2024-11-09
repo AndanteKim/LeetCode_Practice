@@ -37,10 +37,10 @@ public:
         
         // Step 4: Rebuild the final result from the combined binary representation
         ll ans = 0;
-        for (int i = 0; i < 64; ++i){
+        for (ll i = 0; i < 64; ++i){
             if (binaryX[i])
                 // Convert binary bit to decimal value
-                ans += pow(2, i);
+                ans += ((ll)1 << i);
         }
         
         return ans;
