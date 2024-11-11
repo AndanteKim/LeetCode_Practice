@@ -2,40 +2,33 @@ class Solution:
     def primeSubOperation(self, nums: List[int]) -> bool:
         max_elem, n = max(nums), len(nums)
         
-        # Store the previous prime array.
-        prev_prime = [0] * (max_elem + 1)
+        # Store the sieve array
+        sieve = [1] * (max_elem + 1)
+        sieve[1] = 0
         
-        for i in range(2, max_elem + 1):
-            if self.check_prime(i):
-                prev_prime[i] = i
-            else:
-                prev_prime[i] = prev_prime[i - 1]
-                
-        for i in range(n):
-            # In case of first index, we need to find the largest prime less than nums[0]
-            if i == 0:
-                bound = nums[0]
-            else:
-                # Otherwise, we need to find the largest prime, that makes the
-                # current element closest to the previous element.
-                bound = nums[i] - nums[i - 1]
+        for i in range(2, int(sqrt(max_elem + 1)) + 1):
+            if sieve[i] == 1:
+                for j in range(i * i, max_elem + 1, i):
+                    sieve[j] = 0
+                    
+        # Start by storing the currValue as 1, and the initial index as 0.
+        i, curr_val = 0, 1
+        
+        while i < n:
+            # Store the difference needed to make nums[i] equal to curr_val
+            diff = nums[i] - curr_val
             
-            # If the bound is less than or equal to 0, then the array cannot be
-            # made strictly increasing.
-            if bound <= 0:
+            # If difference is less than 0, then nums[i] is already less than
+            # curr_val. Return False in this case.
+            if diff < 0:
                 return False
             
-            # Find the largest prime less than bound.
-            largest_prime = prev_prime[bound - 1]
-            
-            # Subtract this value from nums[i].
-            nums[i] -= largest_prime
-            
-        return True
-    
-    def check_prime(self, x: int) -> bool:
-        for i in range(2, int(x ** 0.5) + 1):
-            if x % i == 0:
-                return False
-        return True
+            # If the difference is prime or zero, then nums[i] can be made equal to curr_val
+            if sieve[diff] or diff == 0:
+                i += 1
+                curr_val += 1
+            else:
+                # Otherwise, try for the next curr_val
+                curr_val += 1
                 
+        return True
