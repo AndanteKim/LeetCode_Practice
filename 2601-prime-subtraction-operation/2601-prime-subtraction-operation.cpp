@@ -1,45 +1,39 @@
 class Solution {
-private:
-    bool isPrime(int x){
-        for (int i = 2; i <= sqrt(x); ++i){
-            if (x % i == 0) return false;
-        }
-        
-        return true;
-    }
-    
 public:
     bool primeSubOperation(vector<int>& nums) {
-        int n = nums.size(), maxElement = *max_element(nums.begin(), nums.end());
+        int maxElement = *max_element(nums.begin(), nums.end()), n = nums.size();
         
-        // Store the previousPrime array.
-        vector<int> previousPrime(maxElement + 1);
+        // Store the sieve array.
+        vector<int> sieves(maxElement + 1, 1);
+        sieves[1] = 0;
         
-        for (int i = 2; i <= maxElement; ++i){
-            if (isPrime(i))
-                previousPrime[i] = i;
-            else
-                previousPrime[i] = previousPrime[i - 1];
+        for (int i = 2; i <= sqrt(maxElement + 1); ++i){
+            if (sieves[i]){
+                for (int j = i * i; j <= maxElement; j += i)
+                    sieves[j] = 0;
+            }                                
         }
         
-        int bound;
-        for (int i = 0; i < n; ++i){
-            // In case of first index, we need to find the largest prime less than nums[0].
-            if (i == 0) bound = nums[i];
+        // Start by storing the currValue as 1, and the initial index as 0.
+        int i = 0, currValue = 1;
+        
+        while (i < n){
+            // Store the difference needed to make nums[i] equal to currValue.
+            int difference = nums[i] - currValue;
+            
+            // If difference is less than 0, then nums[i] is already less than currValue.
+            // Return false in this case.
+            if (difference < 0) return false;
+            
+            // If the difference is prime or zero, then nums[i] can be made
+            // equal to currValue.
+            if (sieves[difference] || difference == 0){
+                ++i;
+                ++currValue;
+            }
             else
-                // Otherwise, we need to find the largest prime, that makes the
-                // current element closest to the previous element.
-                bound = nums[i] - nums[i - 1];
-            
-            // If the bound is less than or equal to 0, then the array cannot be 
-            // made strictly increasing.
-            if (bound <= 0) return false;
-            
-            // Find the largest prime less than bound.
-            int largestPrime = previousPrime[bound - 1];
-            
-            // Subtract this value from nums[i].
-            nums[i] -= largestPrime;
+                // Otherwise, try for the next currValue.
+                ++currValue;
         }
         
         return true;
