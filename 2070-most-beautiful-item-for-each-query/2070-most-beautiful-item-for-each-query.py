@@ -1,25 +1,29 @@
 class Solution:
     def maximumBeauty(self, items: List[List[int]], queries: List[int]) -> List[int]:
-        reduced_items = defaultdict(int)
-        for price, beauty in items:
-            reduced_items[price] = max(reduced_items[price], beauty)
-        
-        max_items = []
-        for price, item in reduced_items.items():
-            max_items.append([price, item])
-        max_items.sort()
-        max_beauty = 0
-        for i in range(len(max_items)):
-            max_items[i][1] = max(max_beauty, max_items[i][1])
-            max_beauty = max(max_beauty, max_items[i][1])
-        
-        n = len(queries)
-        ans = [0] * n
-        for i in range(n):
-            if queries[i] < max_items[0][0]:
-                continue
+        def bin_search(items: List[int], target_price: int) -> int:
+            l, r = 0, len(items) - 1
+            max_beauty = 0
             
-            max_idx = bisect_right(max_items, [queries[i], float('inf')])
-            ans[i] = max_items[max_idx - 1][1]
+            while l <= r:
+                mid = (l + r) >> 1
+                
+                if target_price < items[mid][0]:
+                    r = mid - 1
+                else:
+                    # Found viable price. Keep moving to right
+                    max_beauty = max(max_beauty, items[mid][1])
+                    l = mid + 1
+            return max_beauty
+        
+        # Sort and store max beauty
+        items.sort()
+        ans, mx = [0] * len(queries), items[0][1]
+        
+        for item in items:
+            mx = max(mx, item[1])
+            item[1] = mx
+            
+        for i in range(len(queries)):
+            ans[i] = bin_search(items, queries[i])
             
         return ans
