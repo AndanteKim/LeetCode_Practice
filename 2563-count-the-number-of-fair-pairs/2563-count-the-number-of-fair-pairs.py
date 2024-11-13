@@ -1,17 +1,24 @@
 class Solution:
     def countFairPairs(self, nums: List[int], lower: int, upper: int) -> int:
+        # Calculate the number of pairs with sum less than 'value'.
+        def lower_bound(val: int) -> int:
+            left, right, ans = 0, len(nums) - 1, 0
+            
+            while left <= right:
+                two_sum = nums[left] + nums[right]
+                
+                # If two sum is less than value, add the size of window to result and move to the next index.
+                if two_sum < val:
+                    ans += right - left
+                    left += 1
+                else:
+                    # Otherwise, shift the right pointer backwards, until we get a valid window.
+                    right -= 1
+                    
+            return ans
+        
         nums.sort()
-        ans = 0
-        for i in range(len(nums)):
-            # Assume we have picked nums[i] as the first pair element.
-            
-            # 'low' indicates the number of possible pairs with sum < lower.
-            low = bisect_left(nums, lower - nums[i], i + 1, len(nums))
-            
-            # 'high' indicates the number of possible pairs with sum <= upper.
-            high = bisect_left(nums, upper - nums[i] + 1, i + 1, len(nums))
-            
-            # Their difference gives the number of elements with sum in the given range.
-            ans += high - low
-            
-        return ans
+        return lower_bound(upper + 1) - lower_bound(lower)
+    
+    
+        
