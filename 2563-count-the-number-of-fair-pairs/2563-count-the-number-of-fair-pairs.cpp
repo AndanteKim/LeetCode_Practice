@@ -1,23 +1,27 @@
-typedef long long ll;
-
 class Solution {
-public:
-    long long countFairPairs(vector<int>& nums, int lower, int upper) {
-        sort(nums.begin(), nums.end());
-        ll ans = 0;
-        for (int i = 0; i < nums.size(); ++i){
-            // Assume we've picked nums[i] as the first pair element.
-            
-            // 'low' indicates the number of possible pairs with sum < lower.
-            int low = lower_bound(nums.begin() + i + 1, nums.end(), lower - nums[i]) - nums.begin();
-            
-            // 'high' indicates the number of possible pairs with sum <= upper
-            int high = upper_bound(nums.begin() + i + 1, nums.end(), upper - nums[i]) - nums.begin();
-            
-            // Their difference gives the number of elements with sum in the given range. 
-            ans += high - low;
+private:
+    // Calculate the number of pairs with sum less than 'value'.
+    long long boundSearch(vector<int>& nums, int target){
+        int left = 0, right = nums.size() - 1;
+        long long ans = 0;
+        
+        while (left < right){
+            int sum = nums[left] + nums[right];
+            // If sum is less than value, add the size of window to result and move to the next index.
+            if (sum < target){
+                ans += right - left++;
+            }
+            else
+                // Otherwise, shift the right pointer backwards, until we get a valid window.
+                --right;
         }
         
         return ans;
+    }
+    
+public:
+    long long countFairPairs(vector<int>& nums, int lower, int upper) {
+        sort(nums.begin(), nums.end());
+        return boundSearch(nums, upper + 1) - boundSearch(nums, lower);
     }
 };
