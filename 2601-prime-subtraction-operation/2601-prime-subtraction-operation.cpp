@@ -1,39 +1,31 @@
 class Solution {
 public:
     bool primeSubOperation(vector<int>& nums) {
-        int maxElement = *max_element(nums.begin(), nums.end()), n = nums.size();
+        vector<bool> primes(1001, true);
+        int i = 2;
         
-        // Store the sieve array.
-        vector<int> sieves(maxElement + 1, 1);
-        sieves[1] = 0;
-        
-        for (int i = 2; i <= sqrt(maxElement + 1); ++i){
-            if (sieves[i]){
-                for (int j = i * i; j <= maxElement; j += i)
-                    sieves[j] = 0;
-            }                                
+        while (i * i <= 1000){
+            for (int p = i * i; p <= 1000; p += i)
+                primes[p] = false;
+            ++i;
         }
         
-        // Start by storing the currValue as 1, and the initial index as 0.
-        int i = 0, currValue = 1;
+        vector<int> sieves;
+        for (int i = 2; i <= 1000; ++i){
+            if (primes[i]) sieves.push_back(i);
         
-        while (i < n){
-            // Store the difference needed to make nums[i] equal to currValue.
-            int difference = nums[i] - currValue;
-            
-            // If difference is less than 0, then nums[i] is already less than currValue.
-            // Return false in this case.
-            if (difference < 0) return false;
-            
-            // If the difference is prime or zero, then nums[i] can be made
-            // equal to currValue.
-            if (sieves[difference] || difference == 0){
-                ++i;
-                ++currValue;
+        }
+        int n = nums.size(), p = sieves.size();
+        
+        for (int i = n - 2; i >= 0; --i){
+            if (nums[i] >= nums[i + 1]){
+                int left = upper_bound(sieves.begin(), sieves.end(), nums[i] - nums[i + 1]) - sieves.begin();
+                if (left == p) return false;
+                
+                nums[i] -= sieves[left];
+                // 0 means prime == target or prime > target
+                if (nums[i] <= 0) return false;
             }
-            else
-                // Otherwise, try for the next currValue.
-                ++currValue;
         }
         
         return true;
