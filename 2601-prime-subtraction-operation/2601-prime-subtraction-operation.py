@@ -1,34 +1,27 @@
 class Solution:
     def primeSubOperation(self, nums: List[int]) -> bool:
-        max_elem, n = max(nums), len(nums)
-        
-        # Store the sieve array
-        sieve = [1] * (max_elem + 1)
-        sieve[1] = 0
-        
-        for i in range(2, int(sqrt(max_elem + 1)) + 1):
-            if sieve[i] == 1:
-                for j in range(i * i, max_elem + 1, i):
-                    sieve[j] = 0
-                    
-        # Start by storing the currValue as 1, and the initial index as 0.
-        i, curr_val = 0, 1
-        
-        while i < n:
-            # Store the difference needed to make nums[i] equal to curr_val
-            diff = nums[i] - curr_val
+        # Create sieves cache
+        prime = [True for i in range(1001)]
+        i = 2
+        while i * i <= 1000:
+            for p in range(i * i, 1001, i):
+                prime[p] = False
+            i += 1
             
-            # If difference is less than 0, then nums[i] is already less than
-            # curr_val. Return False in this case.
-            if diff < 0:
-                return False
-            
-            # If the difference is prime or zero, then nums[i] can be made equal to curr_val
-            if sieve[diff] or diff == 0:
-                i += 1
-                curr_val += 1
-            else:
-                # Otherwise, try for the next curr_val
-                curr_val += 1
+        prime = [p for p in range(2, 1001) if prime[p]]
+        
+        n, p = len(nums), len(prime)
+        
+        for i in range(n - 2, -1, -1):
+            if nums[i] >= nums[i + 1]:
+                left = bisect_right(prime, nums[i] - nums[i + 1])
+                
+                if left == p:
+                    return False
+                nums[i] -= prime[left]
+                
+                # 0 means prime == target or prime > target
+                if nums[i] <= 0:
+                    return False
                 
         return True
