@@ -1,51 +1,32 @@
 class Solution {
-private:
-    int m, n;
-    bool canDistribute(int x, vector<int>& quantities){
-        // Pointer to the first not fully distributed product type
-        // Remaining quantity of the jth product type
-        int j = 0, remaining = quantities[j];
-        
-        // Loop through each store
-        for (int i = 0; i < n; ++i){
-            // Check if the remaining quantity of the jth product type
-            // can be fully distributed to the ith store
-            if (remaining <= x){
-                // If yes, move the pointer to the next product type
-                ++j;
-                
-                // Check if all products have been distributed
-                if (j == m) return true;
-                else
-                    remaining = quantities[j];
-            }
-            else
-                // Distribute the maximum possible quantity (x) to the ith store
-                remaining -= x;
-        }
-        
-        return false;
-    }
-    
 public:
     int minimizedMaximum(int n, vector<int>& quantities) {
-        // Initialize the boundaries of the binary search
-        int left = 0, right = *max_element(quantities.begin(), quantities.end());
-        this -> m = quantities.size();
-        this -> n = n;
+        int m = quantities.size();
         
-        // Perform binary search until the boundaries converge
-        while (left < right){
-            int mid = left + ((right - left) >> 1);
-            
-            if (canDistribute(mid, quantities))
-                // Try for a smaller maximum
-                right = mid;
-            else
-                // Increase the minimum possible maximum
-                left = mid + 1;
+        // Create a list of tuples (-ratio quantity, stores_assigned)
+        priority_queue<tuple<double, int, int>> typeStorePairs;
+        for (int quantity : quantities){
+            typeStorePairs.push({(double)quantity, quantity, 1});
         }
         
-        return left;
+        // Iterate over the remaining n - m stores
+        for (int i = 0; i < n - m; ++i){
+            // Pop the element with the maximum ratio
+            auto [ratio, totalQuantitiesOfType, storesAssignedToType] = typeStorePairs.top();
+            typeStorePairs.pop();
+            
+            // Calculate the new ratio after assigning one more store
+            int newStoresAssignedToType = storesAssignedToType + 1;
+            double newRatio = (double)totalQuantitiesOfType / newStoresAssignedToType;
+            
+            // Push the updated pair back into the heap
+            typeStorePairs.push({newRatio, totalQuantitiesOfType, newStoresAssignedToType});
+        }
+        
+        // Select the first element to get the final ratio
+        auto [_, totalQuantities, storeAssigned] = typeStorePairs.top();
+        
+        // Return the maximum minimum ratio
+        return ceil((double)totalQuantities / storeAssigned);
     }
 };
