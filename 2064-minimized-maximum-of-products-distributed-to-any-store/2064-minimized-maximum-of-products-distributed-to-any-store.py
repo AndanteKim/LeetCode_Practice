@@ -1,41 +1,27 @@
 class Solution:
     def minimizedMaximum(self, n: int, quantities: List[int]) -> int:
-        def is_possible(x: int) -> bool:
-            # Pointer to the first not fully distributed product type
-            # Remaining quantity of the jth product type
-            remaining, j = quantities[0], 0
-            
-            # Loop through each store
-            for _ in range(n):
-                # Check if the remaining quantity of the jth product type
-                # can be fully distributed to the ith store
-                if remaining <= x:
-                    # If yes, move the pointer to the next product type
-                    j += 1
-                    
-                    # Check if all products have been distributes
-                    if j == m:
-                        return True
-                    else:
-                        remaining = quantities[j]
-                else:
-                    # Distribute the maximum possible quantity (x) to the ith store
-                    remaining -= x
-                    
-            return False
-                        
-        # Initialize the boundaries of the binary search
-        left, right, m = 0, max(quantities), len(quantities)
+        m = len(quantities)
         
-        # Perform binary search until the boundaries converge
-        while left < right:
-            mid = (left + right) >> 1
+        # Create a list of tuples (-ratio, quantity, stores_assigned)
+        type_store_pairs = [(-q, q, 1) for q in quantities]
+        
+        # Use heapq.heapify() to convert the list into a heap in O(m) time
+        heapify(type_store_pairs)
+        
+        # Iterate over the remaining n - m stores
+        for i in range(n - m):
+            # Pop the element with the maximum ratio (due to negative sign it's min-heap)
+            neg_ratio, total_quantity_of_type, stores_assigned_to_type = heappop(type_store_pairs)
             
-            if is_possible(mid):
-                # Try for a smaller maximum
-                right = mid
-            else:
-                # Increase the minimum possible maximum
-                left = mid + 1
-                
-        return left
+            # Calculate the new ratio after assigning one more store
+            new_stores_assigned_to_type = stores_assigned_to_type + 1
+            new_ratio = total_quantity_of_type / new_stores_assigned_to_type
+            
+            # Push the updated pair back into the heap
+            heappush(type_store_pairs, (-new_ratio, total_quantity_of_type, new_stores_assigned_to_type))
+            
+        # Pop the first element to get the final ratio
+        _, total_quantity_of_type, stores_assigned_to_type = heappop(type_store_pairs)
+        
+        # Return the maximum minimum ratio
+        return ceil(total_quantity_of_type / stores_assigned_to_type) 
