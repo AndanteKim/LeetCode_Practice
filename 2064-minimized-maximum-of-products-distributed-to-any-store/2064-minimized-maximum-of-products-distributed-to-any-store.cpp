@@ -1,32 +1,45 @@
+typedef long long ll;
+
 class Solution {
 public:
     int minimizedMaximum(int n, vector<int>& quantities) {
         int m = quantities.size();
         
-        // Create a list of tuples (-ratio quantity, stores_assigned)
-        priority_queue<tuple<double, int, int>> typeStorePairs;
-        for (int quantity : quantities){
-            typeStorePairs.push({(double)quantity, quantity, 1});
-        }
+        // Define a custom comparator for the priority queue
+        // It sorts the pairs based on the ratio of their first to their second
+        // element
+        auto compareTypeStorePairs = [](pair<int, int>& a, pair<int, int>& b){
+            return (ll)a.first * b.second < (ll) a.second * b.first;
+        };
         
-        // Iterate over the remaining n - m stores
+        // Helper array - useful for the efficient initialization of the priority queue
+        vector<pair<int, int>> typeStorePairsArray;
+        
+        // Push all product types to the array, after assigning one store to each of them
+        for (int i = 0; i < m; ++i)
+            typeStorePairsArray.push_back({quantities[i], 1});
+        
+        // Initialize the priority queue
+        priority_queue<pair<int, int>, vector<pair<int, int>>, decltype(compareTypeStorePairs)> typeStorePairs\
+            (typeStorePairsArray.begin(), typeStorePairsArray.begin() + m);
+        
+        // Iterate over the remaining n - m stores.
         for (int i = 0; i < n - m; ++i){
-            // Pop the element with the maximum ratio
-            auto [ratio, totalQuantitiesOfType, storesAssignedToType] = typeStorePairs.top();
+            // Pop first element
+            pair<int, int> pairWithMaxRatio = typeStorePairs.top();
             typeStorePairs.pop();
+            int totalQuantityOfType = pairWithMaxRatio.first;
+            int storesAssignedToType = pairWithMaxRatio.second;
             
-            // Calculate the new ratio after assigning one more store
-            int newStoresAssignedToType = storesAssignedToType + 1;
-            double newRatio = (double)totalQuantitiesOfType / newStoresAssignedToType;
-            
-            // Push the updated pair back into the heap
-            typeStorePairs.push({newRatio, totalQuantitiesOfType, newStoresAssignedToType});
+            // Push same element after assigning one more store to its product type
+            typeStorePairs.push({totalQuantityOfType, storesAssignedToType + 1});
         }
         
-        // Select the first element to get the final ratio
-        auto [_, totalQuantities, storeAssigned] = typeStorePairs.top();
+        // Pop first element
+        pair<int, int> pairWithMaxRatio = typeStorePairs.top();
+        int totalQuantityOfType = pairWithMaxRatio.first, storesAssignedToType = pairWithMaxRatio.second;
         
         // Return the maximum minimum ratio
-        return ceil((double)totalQuantities / storeAssigned);
+        return ceil((double)totalQuantityOfType / storesAssignedToType);
     }
 };
