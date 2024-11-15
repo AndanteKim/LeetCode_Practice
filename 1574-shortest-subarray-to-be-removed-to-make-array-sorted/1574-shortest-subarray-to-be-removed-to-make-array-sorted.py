@@ -1,20 +1,26 @@
 class Solution:
     def findLengthOfShortestSubarray(self, arr: List[int]) -> int:
         n = len(arr)
-        right = n - 1
+        left, right = 0, n - 1
         
-        while right > 0 and arr[right] >= arr[right - 1]:
-            right -= 1
-            
-        ans, left = right, 0
-        
-        while left < right and (left == 0 or arr[left - 1] <= arr[left]):
-            # Find next valid number after arr[left]
-            while right < n and arr[left] > arr[right]:
-                right += 1
-            
-            # Save the length of removed subarray
-            ans = min(ans, right - left - 1)
+        # Find the longest non-decreasing prefix
+        while left + 1 < n and arr[left] <= arr[left + 1]:
             left += 1
             
-        return ans
+        # If the entire array is sorted
+        if left == n - 1:
+            return 0
+        
+        # Find the longest non-decreasing suffix
+        while right > 0 and arr[right - 1] <= arr[right]:
+            right -= 1
+            
+        # Initial assumption: Remove everything between the prefix and suffix
+        min_length = min(n - left - 1, right)
+        
+        # Use binary search to merge prefix and suffix
+        for i in range(left + 1):
+            j = bisect_left(arr, arr[i], right, n)
+            min_length = min(min_length, j - i - 1)
+        
+        return min_length
