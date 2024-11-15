@@ -3,19 +3,25 @@ public:
     int findLengthOfShortestSubarray(vector<int>& arr) {
         int n = arr.size(), right = n - 1;
         
-        while (right > 0 && arr[right] >= arr[right - 1])
+        // Find the longest non-decreasing prefix
+        int left = 0;
+        while (left + 1 < n && arr[left] <= arr[left + 1])
+            ++left;
+        
+        // If the entire array is sorted
+        if (left == n - 1) return 0;
+        
+        // Find the longest non-decreasing suffix
+        while (right > 0 && arr[right - 1] <= arr[right])
             --right;
         
-        int ans = right, left = 0;
+        // Initial assumption: Remove everything between the prefix and suffix
+        int ans = min(n - 1 - left, right);
         
-        while (left < right && (left == 0 || arr[left - 1] <= arr[left])){
-            // Find next valid number after arr[left]
-            while (right < n && arr[left] > arr[right])
-                ++right;
-            
-            // Save length of removed subarray
-            ans = min(ans, right - left - 1);
-            ++left;
+        // Use the binary search to merge prefix and suffix
+        for (int i = 0; i <= left; ++i){
+            int j = lower_bound(arr.begin() + right, arr.end(), arr[i]) - arr.begin();
+            ans = min(ans, j - i - 1);
         }
         
         return ans;
