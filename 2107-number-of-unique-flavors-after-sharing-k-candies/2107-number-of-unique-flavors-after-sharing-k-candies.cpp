@@ -1,39 +1,21 @@
 class Solution {
 public:
     int shareCandies(vector<int>& candies, int k) {
-        int uniqueFlavor = 0, usedInWindow = 0;
-        
-        // Store the total number of unique flavors in the array.
-        unordered_map<int, int> flavorFrequencies;
+        int ans = 0;
+        unordered_map<int, int> d;
         for (int candy : candies){
-            if (flavorFrequencies[candy] == 0)
-                ++uniqueFlavor;
-            ++flavorFrequencies[candy];
+            ++d[candy];
         }
         
-        // Get the flavors used completely in the window.
-        for (int i = 0; i < k; ++i){
-            --flavorFrequencies[candies[i]];
-            if (flavorFrequencies[candies[i]] == 0)
-                ++usedInWindow;
-        }
-        
-        // Get the flavors in the remaining array currently.
-        int ans = uniqueFlavor - usedInWindow, n = candies.size();
-        
-        // Slide the window to the right.
-        for (int i = k; i < n; ++i){
-            // Remove the candy on the left end from the window.
-            ++flavorFrequencies[candies[i - k]];
-            if (flavorFrequencies[candies[i - k]] == 1)
-                --usedInWindow;
+        for (int i = 0; i < candies.size(); ++i){
+            --d[candies[i]];
+            if (d[candies[i]] == 0) d.erase(candies[i]);
             
-            // Add the candy on the right end at index i
-            --flavorFrequencies[candies[i]];
-            if (flavorFrequencies[candies[i]] == 0)
-                ++usedInWindow;
+            if (i >= k)
+                ++d[candies[i - k]];
             
-            ans = max(ans, uniqueFlavor - usedInWindow);
+            if (i >= k - 1)
+                ans = max(ans, (int)d.size());
         }
         
         return ans;
