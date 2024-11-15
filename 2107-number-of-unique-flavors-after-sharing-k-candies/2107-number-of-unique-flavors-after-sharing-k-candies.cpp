@@ -1,29 +1,39 @@
 class Solution {
 public:
     int shareCandies(vector<int>& candies, int k) {
-        int totalFlavors = 0, n = candies.size(), lostFlavors = 0;
-        unordered_map<int, int> countFlavors;
+        int uniqueFlavor = 0, usedInWindow = 0;
         
+        // Store the total number of unique flavors in the array.
+        unordered_map<int, int> flavorFrequencies;
         for (int candy : candies){
-            if (countFlavors[candy] == 0)
-                ++totalFlavors;
-            ++countFlavors[candy];
+            if (flavorFrequencies[candy] == 0)
+                ++uniqueFlavor;
+            ++flavorFrequencies[candy];
         }
         
-        int ans = 0, left = 0;
-        for (int right = 0; right < n; ++right){
-            while (right - left >= k){
-                if (countFlavors[candies[left]] == 0)
-                    --lostFlavors;
-                ++countFlavors[candies[left++]];
-            }
+        // Get the flavors used completely in the window.
+        for (int i = 0; i < k; ++i){
+            --flavorFrequencies[candies[i]];
+            if (flavorFrequencies[candies[i]] == 0)
+                ++usedInWindow;
+        }
+        
+        // Get the flavors in the remaining array currently.
+        int ans = uniqueFlavor - usedInWindow, n = candies.size();
+        
+        // Slide the window to the right.
+        for (int i = k; i < n; ++i){
+            // Remove the candy on the left end from the window.
+            ++flavorFrequencies[candies[i - k]];
+            if (flavorFrequencies[candies[i - k]] == 1)
+                --usedInWindow;
             
-            --countFlavors[candies[right]];
-            if (countFlavors[candies[right]] == 0)
-                ++lostFlavors;
+            // Add the candy on the right end at index i
+            --flavorFrequencies[candies[i]];
+            if (flavorFrequencies[candies[i]] == 0)
+                ++usedInWindow;
             
-            if (right >= max(0, k - 1))
-                ans = max(ans, totalFlavors - lostFlavors);
+            ans = max(ans, uniqueFlavor - usedInWindow);
         }
         
         return ans;
