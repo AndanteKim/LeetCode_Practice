@@ -1,25 +1,36 @@
 class Solution:
     def shareCandies(self, candies: List[int], k: int) -> int:
-        total_flavors, lost_flavors = 0, 0
-        count_flavors, n = dict(), len(candies)
+        uniq_flav = 0
         
-        for i in range(n):
-            if candies[i] not in count_flavors:
-                total_flavors += 1
-            count_flavors[candies[i]] = count_flavors.get(candies[i], 0) + 1
-            
-        ans, left = 0, 0
-        for right in range(n):
-            while right - left >= k:
-                if count_flavors[candies[left]] == 0:
-                    lost_flavors -= 1
-                count_flavors[candies[left]] += 1
-                left += 1
-            count_flavors[candies[right]] -= 1
-            if count_flavors[candies[right]] == 0:
-                lost_flavors += 1
-                          
-            if right >= max(k - 1, 0):
-                ans = max(ans, total_flavors - lost_flavors)
+        # Store the total number of unique flavors in the array.
+        flav_freq = defaultdict(int)
+        for c in candies:
+            flav_freq[c] += 1
+            if flav_freq[c] == 1:
+                uniq_flav += 1
+        
+        # Get the flavors used completely in the window.
+        used_in_window = 0
+        for i in range(k):
+            flav_freq[candies[i]] -= 1
+            if flav_freq[candies[i]] == 0:
+                used_in_window += 1
                 
-        return ans
+        # Get the flavors in the remaining array currently
+        max_flav, n = uniq_flav - used_in_window, len(candies)
+        
+        # Slide the window to the right.
+        for i in range(k, n):
+            # Remove the candy on the left end from the window.
+            flav_freq[candies[i - k]] += 1
+            if flav_freq[candies[i - k]] == 1:
+                used_in_window -= 1
+                
+            # Add the candy on the right end at index i.
+            flav_freq[candies[i]] -= 1
+            if flav_freq[candies[i]] == 0:
+                used_in_window += 1
+                
+            max_flav = max(max_flav, uniq_flav - used_in_window)
+            
+        return max_flav
