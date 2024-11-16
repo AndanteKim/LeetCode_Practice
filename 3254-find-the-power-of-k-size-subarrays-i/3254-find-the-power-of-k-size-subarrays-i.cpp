@@ -8,7 +8,7 @@ public:
         vector<int> ans(length - k + 1, -1);
         
         int consecutiveCount = 1;   // Count of consecutive elements
-        for (int i = 0; i < length - 1; ++i){
+        for (size_t i = 0; i < length - 1; ++i){
             if (nums[i] + 1 == nums[i + 1])
                 ++consecutiveCount;
             else
@@ -16,7 +16,7 @@ public:
             
             // If we've enough consecutive elements, update the result
             if (consecutiveCount >= k)
-                ans[i - k + 2] = nums[i + 1];       // Update the max element
+                ans[i - k + 2] = nums[i + 1];
         }
         
         return ans;
