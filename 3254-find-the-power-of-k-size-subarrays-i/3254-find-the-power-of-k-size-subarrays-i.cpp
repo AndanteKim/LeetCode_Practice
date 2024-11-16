@@ -1,20 +1,25 @@
 class Solution {
 public:
     vector<int> resultsArray(vector<int>& nums, int k) {
-        int n = nums.size();
-        vector<int> ans(n - k + 1, -1);
+        int length = nums.size();
+        vector<int> ans(length - k + 1, -1);
+        deque<int> indexDeque;
         
-        for (int i = 0; i <= n - k; ++i){
-            bool isPower = true;
-            for (int j = i; j < i + k - 1 && isPower; ++j){
-                if (nums[j] + 1 != nums[j + 1]){
-                    isPower = false;
-                    break;
-                }
-            }
+        for (int currIndex = 0; currIndex < length; ++currIndex){
+            if (!indexDeque.empty() && indexDeque.front() < currIndex - k + 1)
+                indexDeque.pop_front();
             
-            if (isPower)
-                ans[i] = nums[i + k - 1];
+            if (!indexDeque.empty() && nums[currIndex - 1] + 1 != nums[currIndex])
+                indexDeque.clear();
+            
+            indexDeque.push_back(currIndex);
+            
+            if (currIndex >= k - 1){
+                if (indexDeque.size() == k)
+                    ans[currIndex - k + 1] = nums[indexDeque.back()];
+                else
+                    ans[currIndex - k + 1] = -1;
+            }
         }
         
         return ans;
