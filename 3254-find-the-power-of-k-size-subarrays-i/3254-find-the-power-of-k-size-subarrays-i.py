@@ -1,21 +1,22 @@
 class Solution:
     def resultsArray(self, nums: List[int], k: int) -> List[int]:
-        length, idx_dq = len(nums), deque()
-        ans = [-1] * (length - k + 1)
+        if k == 1:
+            return nums     # If k is 1, every single element is a valid subarray
         
-        for idx in range(length):
-            if idx_dq and idx_dq[0] < idx - k + 1:
-                idx_dq.popleft()
+        length = len(nums)
+        ans, consecutive_count = [-1] * (length - k + 1), 1     # Count of consecutive elements
+        
+        for i in range(length - 1):
+            if nums[i] + 1 == nums[i + 1]:
+                consecutive_count += 1
+            else:
+                consecutive_count = 1       # Reset count if not consecutive
                 
-            if idx_dq and nums[idx] != nums[idx - 1] + 1:
-                idx_dq.clear()
-                
-            idx_dq.append(idx)
-            
-            if idx >= k - 1:
-                if len(idx_dq) == k:
-                    ans[idx - k + 1] = nums[idx_dq[-1]]
-                else:
-                    ans[idx - k + 1] = -1
-                    
+            # If we've enough consecutive elements, update the result
+            if consecutive_count >= k:
+                ans[i - k + 2] = nums[i + 1]
+        
+        
         return ans
+        
+        
