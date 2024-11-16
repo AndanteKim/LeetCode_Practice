@@ -1,25 +1,22 @@
 class Solution {
 public:
     vector<int> resultsArray(vector<int>& nums, int k) {
-        int length = nums.size();
-        vector<int> ans(length - k + 1, -1);
-        deque<int> indexDeque;
+        if (k == 1)
+            return nums;    // If k is 1, every single element is a valid subarray
         
-        for (int currIndex = 0; currIndex < length; ++currIndex){
-            if (!indexDeque.empty() && indexDeque.front() < currIndex - k + 1)
-                indexDeque.pop_front();
+        size_t length = nums.size();
+        vector<int> ans(length - k + 1, -1);
+        
+        int consecutiveCount = 1;   // Count of consecutive elements
+        for (int i = 0; i < length - 1; ++i){
+            if (nums[i] + 1 == nums[i + 1])
+                ++consecutiveCount;
+            else
+                consecutiveCount = 1;       // Reset count if not consecutive
             
-            if (!indexDeque.empty() && nums[currIndex - 1] + 1 != nums[currIndex])
-                indexDeque.clear();
-            
-            indexDeque.push_back(currIndex);
-            
-            if (currIndex >= k - 1){
-                if (indexDeque.size() == k)
-                    ans[currIndex - k + 1] = nums[indexDeque.back()];
-                else
-                    ans[currIndex - k + 1] = -1;
-            }
+            // If we've enough consecutive elements, update the result
+            if (consecutiveCount >= k)
+                ans[i - k + 2] = nums[i + 1];       // Update the max element
         }
         
         return ans;
