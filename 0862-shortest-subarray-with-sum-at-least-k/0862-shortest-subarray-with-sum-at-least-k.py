@@ -1,39 +1,28 @@
 class Solution:
     def shortestSubarray(self, nums: List[int], k: int) -> int:
-        # Binary search to find the largest index where cumulative sum is <= target
-        def _find_candidate_idx(target: int) -> int:
-            left, right = 0, len(stack) - 1
-            
-            while left <= right:
-                mid = left + ((right - left) >> 1)
-                
-                if stack[mid][0] <= target:
-                    left = mid + 1
-                else:
-                    right = mid - 1
-                
-            return right
+        n = len(nums)
         
-        # Stack-like list to store cumulative sums and their indices
-        n, stack = len(nums), [(0, -1)]
-        cumulative_sum, ans = 0, float('inf')
+        # Size is n + 1 to handle subarrays starting from index 0
+        prefix_sums = [0] * (n + 1)
         
-        for i in range(n):
-            # Update cumulative sum
-            cumulative_sum += nums[i]
+        # Calculate prefix sums
+        for i in range(1, n + 1):
+            prefix_sums[i] = prefix_sums[i - 1] + nums[i - 1]
             
-            # Remove entries from stack that are larger than current cumulative sum
-            while stack and cumulative_sum <= stack[-1][0]:
-                stack.pop()
+        candidate_idx, ans = deque(), float('inf')
+        
+        for i in range(n + 1):
+            # Remove candidates from front of deque where subarray sum meets target
+            while candidate_idx and prefix_sums[i] - prefix_sums[candidate_idx[0]] >= k:
+                # Update shortest subarray length
+                ans = min(ans, i - candidate_idx.popleft())
             
-            # Add current sum and index to stack
-            stack.append((cumulative_sum, i))
+            # Maintain monotonicity by removing indices with larger prefix sums
+            while candidate_idx and prefix_sums[i] <= prefix_sums[candidate_idx[-1]]:
+                candidate_idx.pop()
             
-            candidate_idx = _find_candidate_idx(cumulative_sum - k)
-            
-            # If a valid candidate is found, update the shortest subarray length
-            if candidate_idx != -1:
-                ans = min(ans, i - stack[candidate_idx][1])
+            # Add current index to candidates
+            candidate_idx.append(i)
         
         # Return -1 if no valid subarray found
-        return ans if ans != float('inf') else -1
+        return -1 if ans == float('inf') else ans
