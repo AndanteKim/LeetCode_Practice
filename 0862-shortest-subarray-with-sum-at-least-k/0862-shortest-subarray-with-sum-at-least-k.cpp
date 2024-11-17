@@ -1,7 +1,7 @@
 class Solution {
 private:
     // Binary search to find the largest index where cumulative sum is <= target
-    int findCandidateIndex(vector<pair<long long, int>>& monotonicStack, long long target){
+    int findCandidateIndex(const vector<pair<long long, int>>& monotonicStack, long long target){
         int left = 0, right = monotonicStack.size() - 1;
         
         while (left <= right){
@@ -19,9 +19,9 @@ private:
 public:
     int shortestSubarray(vector<int>& nums, int k) {
         int n = nums.size(), ans = std::numeric_limits<int>::max();
-        long long cumulativeSum = 0;
+        long long cumulativeSum = 0LL;
         // Stack-like vector to store cumulative sums and their indices
-        vector<pair<long long, int>> monotonicStack{{0, -1}};
+        vector<pair<long long, int>> monotonicStack{{0LL, -1}};
         
         for (int i = 0; i < n; ++i){
             // Update cumulative sum
