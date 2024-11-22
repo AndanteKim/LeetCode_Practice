@@ -1,30 +1,30 @@
 class Solution {
 public:
     int maxEqualRowsAfterFlips(vector<vector<int>>& matrix) {
-        int m = matrix.size(), n = matrix[0].size();
-        int maxIdenticalRows = 0;
+        // Map to store frequency of each pattern
+        unordered_map<string, int> patternFreq;
         
-        for (auto& currRow : matrix){
-            // Create a vector to store flipped version of current row
-            vector<int> flippedRows(n);
+        for (const auto& currRow : matrix){
+            string rowPattern = "";
             
-            // Flipped version of current row by XOR operator
-            for (int i = 0; i < n; ++i)
-                flippedRows[i] = currRow[i] ^ 1;
-            
-            int identicalRowCount = 0;
-            
-            // Check every row against current row and its flipped version
-            for (auto& compareRow : matrix){
-                // If row matches either original or flipped pattern, increment
-                // counter
-                if (compareRow == currRow || compareRow == flippedRows)
-                    ++identicalRowCount;
+            // Convert row to pattern relative to its first element
+            for (int e : currRow){
+                // 'T' if current element matches first element, 'F' otherwise
+                if (e == currRow[0])
+                    rowPattern.push_back('T');
+                else
+                    rowPattern.push_back('F');
             }
             
-            maxIdenticalRows = max(maxIdenticalRows, identicalRowCount);
+            // Convert pattern to string and update its frequency in map
+            ++patternFreq[rowPattern];
         }
         
-        return maxIdenticalRows;
+        // Find the pattern with maximum frequency
+        int maxFreq = 0;
+        for (const auto& [_, freq] : patternFreq)
+            maxFreq = max(maxFreq, freq);
+        
+        return maxFreq;
     }
 };
