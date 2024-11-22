@@ -1,32 +1,29 @@
 class Solution {
 public:
     vector<vector<int>> minScore(vector<vector<int>>& grid) {
-        int m = grid.size(), n = grid[0].size();
+        int row = grid.size(), col = grid[0].size();
         
-        // Create a vector nums storing the values of the matrix and their
-        // indices.
-        vector<tuple<int, int, int>> nums;
+        // Min-heap to store elements with their values and coordinates
+        priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> minHeap;
+        // Initialize rows and cols arrays to keep track of maximum values assigned
+        vector<int> rows(row, 1), cols(col, 1);
         
-        // Create rows and cols to store the minimum values for every row and
-        // column.
-        vector<int> rows(m, 1), cols(n, 1);
-        for (int i = 0; i < m; ++i){
-            for (int j = 0; j < n; ++j)
-                nums.push_back({grid[i][j], i, j});
+        // Populate the min-heap with all elements of the grid
+        for (int i = 0; i < row; ++i){
+            for (int j = 0; j < col; ++j)
+                minHeap.push({grid[i][j], i, j});
         }
         
-        sort(nums.begin(), nums.end(), [](auto& a, auto& b){return get<0>(a) < get<0>(b);});
-        
-        for (auto tup : nums){
-            int val, i, j;
-            tie(val, i, j) = tup;
+        // Process elements in ascending order of their values
+        while (!minHeap.empty()){
+            auto [_, i, j] = minHeap.top();
+            minHeap.pop();
             
-            // Find the maximum value of rows[x] and cols[y] till now and assign
-            // it to val.
-            val = max(rows[i], cols[j]);
+            // Determine the smallest assignable value based on rows and cols constraints
+            int val = max(rows[i], cols[j]);
             grid[i][j] = val;
             
-            // Update the new maximum value in rows[x] and cols[y].
+            // Update rows and cols arrays with the next possible value for each row and column
             rows[i] = cols[j] = val + 1;
         }
         
