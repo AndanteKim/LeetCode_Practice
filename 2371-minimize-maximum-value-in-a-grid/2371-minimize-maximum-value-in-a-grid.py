@@ -2,22 +2,24 @@ class Solution:
     def minScore(self, grid: List[List[int]]) -> List[List[int]]:
         row, col = len(grid), len(grid[0])
         
-        # Create rows and cols to store the minimum values for every row and column.
-        rows, cols = [1 for i in range(row)], [1 for i in range(col)]
-        nums = []
+        # Min-heap to store elements with their values and coordinates
+        # Initialize rows and cols arrays to keep track of maximum values assigned
+        min_heap, rows, cols = [], [1] * row, [1] * col
         
-        # Create a matrix nums storing the values of the matrix and their indices
+        # Populate the min-heap with all elements of the grid
         for i in range(row):
             for j in range(col):
-                nums.append((grid[i][j], i, j))
+                heappush(min_heap, (grid[i][j], i, j))
                 
-        nums.sort()
-        
-        for _, i, j in nums:
-            # Find the maximum value of rows[i] and cols[j] till now and assign it to val.
+        # Process elements in ascending order of their values
+        while min_heap:
+            _, i, j = heappop(min_heap)
+            
+            # Determine the smallest assignable value based on rows and cols constraints
             val = max(rows[i], cols[j])
             grid[i][j] = val
-            # Update the new maximum value in rows[i] and cols[j].
+            
+            # Update rows and cols arrays with the next possibile value for each row and column
             rows[i], cols[j] = val + 1, val + 1
-        
+            
         return grid
