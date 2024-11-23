@@ -5,7 +5,7 @@ public:
         
         vector<vector<char>> rotatedBox(n, vector<char>(m));
         
-        // Create the transpose of the input grid in 'result'
+        // Create the transpose of the input grid in 'rotatedBox'
         for (int i = 0; i < n; ++i){
             for (int j = 0; j < m; ++j)
                 rotatedBox[i][j] = box[j][i];
@@ -18,10 +18,10 @@ public:
         // each column
         for (int j = 0; j < m; ++j){
             
-            // Process each cell in column 'j' from bottome to top
+            // Process each cell in column 'j' from bottom to top
             for (int i = n - 1; i >= 0; --i){
                 if (rotatedBox[i][j] == '.'){   // Found an empty cell; check if a stone can fall into it
-                    int nextEmptyWithStone = -1;
+                    int nextRowWithStone = -1;
                     
                     // Look for a stone directly above the empty cell
                     // 'rotatedBox[i][j]'
@@ -29,15 +29,15 @@ public:
                         if (rotatedBox[k][j] == '*')
                             break;  // Obstacle blocks any stones above
                         
-                        if (rotatedBox[k][j] == '#'){   // Stone foudn with no obstacles in between
-                            nextEmptyWithStone = k;
+                        if (rotatedBox[k][j] == '#'){   // Stone found with no obstacles in between
+                            nextRowWithStone = k;
                             break;
                         }
                     }
                     
                     // If a stone was found above, let it fall into the empty cell 'rotatedBox[i][j]'
-                    if (nextEmptyWithStone != -1){
-                        swap(rotatedBox[nextEmptyWithStone][j], rotatedBox[i][j]);
+                    if (nextRowWithStone != -1){
+                        swap(rotatedBox[nextRowWithStone][j], rotatedBox[i][j]);
                     }
                 }
             }
