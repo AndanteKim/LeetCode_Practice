@@ -2,22 +2,16 @@ class Solution {
 public:
     long long maxMatrixSum(vector<vector<int>>& matrix) {
         long long totalSum = 0;
-        int minAbsVal = std::numeric_limits<int>::max(), n = matrix.size(), negativeCount = 0;
+        int minVal = std::numeric_limits<int>::max(), negativeCount = 0;
         
         for (const auto& row : matrix){
             for (int val : row){
                 totalSum += abs(val);
-                if (val < 0){
-                    ++negativeCount;
-                }
-                minAbsVal = min(minAbsVal, abs(val));
+                minVal = min(minVal, abs(val));
+                negativeCount += (val >> 31) & 1;
             }
         }
         
-        // Adjust if the count of negative numbers is odd.
-        if (negativeCount % 2)
-            totalSum -= 2 * minAbsVal;
-        
-        return totalSum;
+        return (negativeCount & 1)? totalSum - (minVal << 1) : totalSum;
     }
 };
