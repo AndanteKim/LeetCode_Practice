@@ -1,17 +1,13 @@
 class Solution:
     def maxMatrixSum(self, matrix: List[List[int]]) -> int:
-        total_sum, min_abs_val = 0, float('inf')
-        negative_cnt = 0
+        total_sum, min_val = 0, float('inf')
+        neg_cnt = 0
         
         for row in matrix:
             for val in row:
                 total_sum += abs(val)
-                if val < 0:
-                    negative_cnt += 1
-                min_abs_val = min(min_abs_val, abs(val))
-        
-        # Adjust if the count of negative numbers is odd.
-        if negative_cnt % 2:
-            total_sum -= 2 * min_abs_val
+                min_val = min(min_val, abs(val))
+                neg_cnt += (val >> 31) & 1;
+                
             
-        return total_sum
+        return total_sum - (min_val << 1) if neg_cnt & 1 else total_sum
