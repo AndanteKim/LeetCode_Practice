@@ -10,7 +10,7 @@ public:
         
         int champCount = 0, champ = -1;
         
-        // Iterat through all teams to find those with an indegree of 0
+        // Iterate through all teams to find those with an indegree of 0
         for (int i = 0; i < n; ++i){
             // If the team can be a champion, store the team number and increment the count
             if (indegree[i] == 0){
