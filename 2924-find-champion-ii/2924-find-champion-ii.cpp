@@ -1,33 +1,25 @@
 class Solution {
-private:
-    int m;
-    
-    void dfs(int start, vector<bool>& visited, vector<vector<int>>& graph){
-        if (visited[start])
-            return;
-        
-        visited[start] = true;
-        for (int neighbor : graph[start]){
-            dfs(neighbor, visited, graph);
-        }
-    }
-    
 public:
     int findChampion(int n, vector<vector<int>>& edges) {
-        vector<vector<int>> graph(n);
-        this -> m = edges.size();
+        // Initialize the indegree array to track the number of incoming edges for each team
+        vector<int> indegree(n);
         
+        // Store the indegree of each team
         for (const auto& edge : edges)
-            graph[edge[0]].push_back(edge[1]);
+            ++indegree[edge[1]];
         
-        for (int node = 0; node < n; ++node){
-            vector<bool> visited(n);
-            dfs(node, visited, graph);
-            
-            if (accumulate(visited.begin(), visited.end(), 0) == n)
-                return node;
+        int champCount = 0, champ = -1;
+        
+        // Iterat through all teams to find those with an indegree of 0
+        for (int i = 0; i < n; ++i){
+            // If the team can be a champion, store the team number and increment the count
+            if (indegree[i] == 0){
+                ++champCount;
+                champ = i;
+            }
         }
         
-        return -1;
+        // If more than one team can be a champion, return -1, otherwise return the champion team number.
+        return (champCount == 1)? champ : -1;
     }
 };
