@@ -1,24 +1,20 @@
 class Solution:
     def findChampion(self, n: int, edges: List[List[int]]) -> int:
-        def dfs(start: int, visited: List[bool]) -> None:
-            visited[start] = True
-            if not graph[start]:
-                return
-            
-            for neighbor in graph[start]:
-                if not visited[neighbor]:
-                    dfs(neighbor, visited)
+        # Initialize the indegree array to track the number of incoming edges for each team
+        indegree = [0] * n
         
-        graph, m = defaultdict(list), len(edges)
-        
+        # Store the indegree of each team
         for start, end in edges:
-            graph[start].append(end)
+            indegree[end] += 1
             
-        for node in range(n):
-            visited = [False] * n
-            dfs(node, visited)
-            
-            if sum(visited) == n:
-                return node
+        champ, champ_count = -1, 0
         
-        return -1
+        # Iterate through all teams to find those with an indegree of 0
+        for i in range(n):
+            # If the team can be a champion, store the team number and increment the count
+            if indegree[i] == 0:
+                champ_count += 1
+                champ = i
+                
+        # If more than one team can be a champion, return -1, otherwise return the champion team number
+        return champ if champ_count == 1 else -1
