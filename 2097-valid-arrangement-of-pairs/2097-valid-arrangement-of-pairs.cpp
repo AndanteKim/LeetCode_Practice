@@ -1,14 +1,4 @@
 class Solution {
-private:
-    void visit(int node, unordered_map<int, deque<int>>& adjacencyMatrix, vector<int>& processes){
-        while (!adjacencyMatrix[node].empty()){
-            int nextNode = adjacencyMatrix[node].front();
-            adjacencyMatrix[node].pop_front();
-            visit(nextNode, adjacencyMatrix, processes);
-        }
-        processes.push_back(node);
-    }
-    
 public:
     vector<vector<int>> validArrangement(vector<vector<int>>& pairs) {
         unordered_map<int, deque<int>> adjacencyMatrix;
@@ -22,6 +12,19 @@ public:
             ++indegree[end];
         }
         
+        vector<int> processes;
+        
+        // Helper lambda function for DFS traversal
+        function<void(int)> visit = [&](int node){
+            while (!adjacencyMatrix[node].empty()){
+                int nextNode = adjacencyMatrix[node].front();
+                adjacencyMatrix[node].pop_front();
+                visit(nextNode);
+            }
+            processes.push_back(node);
+        };
+        
+        
         // Find the start node (outdegree == 1 + indegree)
         int startNode = -1;
         for (const auto& [node, count] : outdegree){
@@ -34,10 +37,9 @@ public:
         // If no such node exists, start from the first pair's first element
         if (startNode == -1)
             startNode = pairs[0][0];
-        vector<int> processes;
         
         // Start DFS traversal
-        visit(startNode, adjacencyMatrix, processes);
+        visit(startNode);
         
         // Reverse the result since DFS gives us the path in reverse
         reverse(processes.begin(), processes.end());
