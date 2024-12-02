@@ -1,31 +1,28 @@
 class Solution {
 public:
     int isPrefixOfWord(string sentence, string searchWord) {
-        vector<string> words;
-        istringstream iss(sentence);
-        string word;
+        // Initialize a string stream to read words from the sentence
+        istringstream sentenceStream(sentence);
+        string currentWord;
         
-        while (iss >> word){
-            words.push_back(word);
-        }
+        // Start counting word positions from 1
+        int wordPosition = 1;
         
-        int n = searchWord.size();
-        for (int i = 0; i < words.size(); ++i){
-            int j = 0, m = words[i].size();
-            bool isPrefix = true;
-            if (m < n) continue;
-            
-            while (j < n){
-                if (searchWord[j] != words[i][j]){
-                    isPrefix = false;
-                    break;
-                }
-                ++j;
+        // Loop through each word in the sentence
+        while (sentenceStream >> currentWord){
+            // Check if the current word is long enough to contain the
+            // searchWord as a prefix and if the prefix matches the searchWord
+            if (currentWord.size() >= searchWord.size() && \
+               currentWord.compare(0, searchWord.size(), searchWord) == 0){
+                // If a match is found, return the current word position
+                return wordPosition;
             }
             
-            if (isPrefix) return i + 1;
+            // Move to the next word position
+            ++wordPosition;
         }
         
+        // If no match is found, return -1
         return -1;
     }
 };
