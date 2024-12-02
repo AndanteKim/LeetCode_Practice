@@ -1,19 +1,14 @@
 class Solution:
     def isPrefixOfWord(self, sentence: str, searchWord: str) -> int:
-        words, n = sentence.split(), len(searchWord)
-        for i, word in enumerate(words):
-            j, m, is_prefix = 0, len(word), True
-            
-            if m < n:
-                continue
-            
-            while j < n:
-                if word[j] != searchWord[j]:
-                    is_prefix = False
-                    break
-                j += 1
-            
-            if is_prefix:
-                return i + 1
+        # Split the sentence into words
+        words = sentence.split()
         
+        # Iterate over the words with their positions (starting from 1)
+        for i, word in enumerate(words, 1):
+            # Check if the current word starts with the searchWord
+            if word[: len(searchWord)] == searchWord:
+                # If a match is found, return the current word position
+                return i
+            
+        # If no match is found, return -1
         return -1
