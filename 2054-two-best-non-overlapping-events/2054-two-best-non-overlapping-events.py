@@ -8,7 +8,7 @@ class Solution:
             if dp[idx][cnt] != -1:
                 return dp[idx][cnt]
             
-            end, lo, hi = events[idx][1], 0, n
+            end, lo, hi = events[idx][1], idx + 1, n
             
             while lo < hi:
                 mid = lo + ((hi - lo) >> 1)
@@ -16,7 +16,7 @@ class Solution:
                     hi = mid
                 else:
                     lo = mid + 1
-            include = events[idx][2] + find_events(lo, cnt + 1, dp)
+            include = events[idx][2] + (find_events(lo, cnt + 1, dp) if lo < n and events[lo][0] > end else 0)
             exclude = find_events(idx + 1, cnt, dp)
             dp[idx][cnt] = max(include, exclude)
             
