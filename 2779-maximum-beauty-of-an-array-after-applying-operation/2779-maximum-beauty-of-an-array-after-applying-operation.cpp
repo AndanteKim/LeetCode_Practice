@@ -1,39 +1,28 @@
 class Solution {
-private:
-    int n;
-    
-    // Helper function to find the largest index where arr[index] <= val
-    int findUpperBound(vector<int>& nums, int target){
-        int low = 0, high = n - 1, result = 0, mid;
-        
-        // Perform binary search to find the upper bound
-        while (low <= high){
-            mid = low + ((high - low) >> 1);
-            
-            if (nums[mid] <= target){
-                result = mid;   // Update the result and move to the right half
-                low = mid + 1;
-            }
-            else{
-                high = mid - 1;     // Move to the left half
-            }
-        }
-        
-        return result;
-    }
-    
 public:
     int maximumBeauty(vector<int>& nums, int k) {
-        this -> n = nums.size();
-        sort(nums.begin(), nums.end());
-        int maxBeauty = 0, upperBound;
+        // Base case: If there's only one element, the maximum beauty is 1.
+        if (nums.size() == 1)
+            return 1;
         
-        for (int i = 0; i < n; ++i){
-            // Find the farthest index where the value is within the range [num, num + 2 * k] 
-            upperBound = findUpperBound(nums, nums[i] + 2 * k);
-            
-            // Update the maximum beauty based on the current range
-            maxBeauty = max(maxBeauty, upperBound - i + 1);
+        // Find the maximum value in the array
+        int n = nums.size(), maxVal = *max_element(nums.begin(), nums.end());
+        
+        // Create an array to keep track of the count changes
+        vector<int> count(maxVal + 1);
+        
+        // Update the count array for each value's range [val - k, val + k]
+        for (int num : nums){
+            ++count[max(num - k, 0)];   // Increment at the start of the range
+            --count[min(num + k + 1, maxVal)];  // Decrement after the range
+        }
+        
+        int maxBeauty = 0, currSum = 0;     // Tracks the running sum of counts
+        
+        // Calculate the prefix sum and find the maximum value
+        for (int val : count){
+            currSum += val;
+            maxBeauty = max(maxBeauty, currSum);
         }
         
         return maxBeauty;
