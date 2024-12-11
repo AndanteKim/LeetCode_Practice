@@ -1,27 +1,22 @@
 class Solution:
     def maximumBeauty(self, nums: List[int], k: int) -> int:
-        def find_upper_bound(target: int) -> int:
-            lo, hi, res = 0, n - 1, 0
-            
-            # Perform binary search to find the upper bound
-            while lo <= hi:
-                mid = lo + ((hi - lo) >> 1)
-                if nums[mid] <= target:
-                    res = mid   # Update the result and move to the right half
-                    lo = mid + 1
-                else:
-                    hi = mid - 1    # Move to the left half
-            
-            return res
+        # Base case: If there's only one element, the maximum beauty is 1
+        if len(nums) == 1:
+            return 1
         
-        max_beauty, n = 0, len(nums)
-        nums.sort()
+        max_val = max(nums)     # Find the maximum value in nums
+        count = [0] * (max_val + 1)     # Array to track count changes
         
-        for i in range(n):
-            # Find the farthest index where the value is within the range [num, num + 2 * k]
-            upper_bound = find_upper_bound(nums[i] + 2 * k)
+        # Update the count array for the range [val - k, val + k]
+        for num in nums:
+            count[max(num - k, 0)] += 1     # Increment at the start of the range
+            count[min(num + k + 1, max_val)] -= 1   # Decrement after the range
             
-            # Update the maximum beauty based on the current range
-            max_beauty = max(max_beauty, upper_bound - i + 1)
+        max_beauty, curr_sum = 0, 0     # Tracks the running sum of counts
+        
+        # Calculate the prefix sum and find the maximum beauty
+        for val in count:
+            curr_sum += val
+            max_beauty = max(max_beauty, curr_sum)
             
         return max_beauty
