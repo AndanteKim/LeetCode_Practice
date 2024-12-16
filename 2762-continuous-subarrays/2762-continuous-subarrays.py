@@ -1,24 +1,29 @@
 class Solution:
     def continuousSubarrays(self, nums: List[int]) -> int:
-        # Map to maintain sorted frequency map of current window
-        freq, left, right = dict(), 0, 0
-        n, ans = len(nums), 0   # Total count of valid subarrays
+        n, left, right, ans = len(nums), 0, 0, 0
+        # Two heaps to track min/max indices, sorted by nums[index]
+        # (nums[i], i) tuples for min tracking
+        # (-nums[i], i) tuples for max tracking 
+        min_heap, max_heap = [], []
         
-        while right < n:
-            # Add current element to frequency map
-            freq[nums[right]] = freq.get(nums[right], 0) + 1
+        for right in range(n):
+            # Add current index to both heaps
+            # For max heap, negate value to convert min heap to max heap
+            heappush(min_heap, (nums[right], right))
+            heappush(max_heap, (-nums[right], right))
             
-            # While window violates the condition |nums[i] - nums[j]| <= 2
-            # Shrink window from left
-            while max(freq) - min(freq) > 2:
-                # Remove leftmost element from frequency map
-                freq[nums[left]] -= 1
-                if freq[nums[left]] == 0:
-                    del freq[nums[left]]
+            # While window violates |nums[i] - nums[j]| <= 2
+            # Shrink window from left and remove outdates indices
+            while left < right and -max_heap[0][0] - min_heap[0][0] > 2:
                 left += 1
+                
+                # Remove indices outside window from both heaps
+                while min_heap and min_heap[0][1] < left:
+                    heappop(min_heap)
+                    
+                while max_heap and max_heap[0][1] < left:
+                    heappop(max_heap)
             
-            # Add count of all valid subarrays ending at right
             ans += right - left + 1
-            right += 1
             
         return ans
