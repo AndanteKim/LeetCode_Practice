@@ -10,40 +10,25 @@
  * };
  */
 class Solution {
+private:
+    void traverseDFS(TreeNode* leftChild, TreeNode* rightChild, int level){
+        // Base case
+        if (!(leftChild && rightChild)) return;
+        
+        // If the current level is odd, swap the values of the children 
+        if (level % 2 == 0){
+            swap(leftChild -> val, rightChild -> val);
+        }
+        
+        traverseDFS(leftChild -> left, rightChild -> right, level + 1);
+        traverseDFS(leftChild -> right, rightChild -> left, level + 1);
+    }
+    
 public:
     TreeNode* reverseOddLevels(TreeNode* root) {
-        queue<pair<TreeNode*, TreeNode*>> bfs;
-        bfs.push({nullptr, root});
-        bool isOdd = false;
-        
-        while (!bfs.empty()){
-            int n = bfs.size();
-            
-            if (isOdd){
-                stack<int> st;
-                for (int i = 0; i < n; ++i){
-                    auto [parent, child] = bfs.front(); bfs.pop();
-                    st.push(child -> val);
-                    bfs.push({parent, child});
-                }
-                
-                for (int i = 0; i < n; ++i){
-                    auto [parent, child] = bfs.front(); bfs.pop();
-                    child -> val = st.top(); st.pop();
-                    bfs.push({parent, child});
-                }
-            } 
-                
-            for (int i = 0; i < n; ++i){
-                auto [parent, child] = bfs.front(); bfs.pop();
-                if (child -> left && child -> right){
-                    bfs.push({child, child -> left});
-                    bfs.push({child, child -> right});
-                }
-            }
-            
-            isOdd = !isOdd;
-        }
+        // Base case
+        if (!root) return root;
+        traverseDFS(root -> left, root -> right, 0);
         
         return root;
     }
