@@ -6,20 +6,34 @@
 #         self.right = right
 class Solution:
     def reverseOddLevels(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        def traverse_dfs(left_child: TreeNode, right_child: TreeNode, level: int) -> None:
-            if not (left_child and right_child):
-                return
-            
-            # If the current level is even, swap the values of the children.
-            if level % 2 == 0:
-                left_child.val, right_child.val = right_child.val, left_child.val
-            
-            traverse_dfs(left_child.left, right_child.right, level + 1)
-            traverse_dfs(left_child.right, right_child.left, level + 1)
-        
-        # Base case
         if not root:
-            return root
-        traverse_dfs(root.left, root.right, 0)
+            return None     # Return None if the tree is empty.
         
-        return root
+        queue, level = deque([root]), 0     # Start BFS with the root node
+        
+        while queue:
+            n, curr_lvl_nodes = len(queue), []
+            
+            # Process all nodes at the current level.
+            for _ in range(n):
+                node = queue.popleft()
+                curr_lvl_nodes.append(node)
+                
+                if node.left:
+                    queue.append(node.left)
+                
+                if node.right:
+                    queue.append(node.right)
+                
+            # Reverse node values if the current level is odd
+            if level % 2:
+                left, right = 0, len(curr_lvl_nodes) - 1
+                
+                while left < right:
+                    curr_lvl_nodes[left].val, curr_lvl_nodes[right].val = curr_lvl_nodes[right].val, curr_lvl_nodes[left].val
+                    left += 1
+                    right -= 1
+            
+            level += 1
+            
+        return root     # Return the modified tree root.
