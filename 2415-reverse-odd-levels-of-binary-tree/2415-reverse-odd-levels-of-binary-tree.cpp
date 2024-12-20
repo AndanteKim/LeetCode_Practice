@@ -10,26 +10,41 @@
  * };
  */
 class Solution {
-private:
-    void traverseDFS(TreeNode* leftChild, TreeNode* rightChild, int level){
-        // Base case
-        if (!(leftChild && rightChild)) return;
-        
-        // If the current level is odd, swap the values of the children 
-        if (level % 2 == 0){
-            swap(leftChild -> val, rightChild -> val);
-        }
-        
-        traverseDFS(leftChild -> left, rightChild -> right, level + 1);
-        traverseDFS(leftChild -> right, rightChild -> left, level + 1);
-    }
-    
 public:
     TreeNode* reverseOddLevels(TreeNode* root) {
-        // Base case
-        if (!root) return root;
-        traverseDFS(root -> left, root -> right, 0);
+        if (!root) return root;     // Return null if the tree is empty.
         
-        return root;
+        int level = 0;
+        queue<TreeNode*> queue;
+        queue.push(root);   // Start BFS with the root node.
+        
+        while (!queue.empty()){
+            int n = queue.size();
+            vector<TreeNode*> currentLevelNodes;
+            
+            // Process all nodes at the current level.
+            for (int i = 0; i < n; ++i){
+                TreeNode* node = queue.front(); queue.pop();
+                currentLevelNodes.push_back(node);
+                
+                if (node -> left)
+                    queue.push(node -> left);
+                
+                if (node -> right)
+                    queue.push(node -> right);
+            }
+            
+            // Reverse node values if the current level is odd.
+            if (level % 2){
+                int left = 0, right = currentLevelNodes.size() - 1;
+                while (left < right){
+                    swap(currentLevelNodes[left++] -> val, currentLevelNodes[right--] -> val);
+                }
+            }
+            
+            ++level;
+        }
+        
+        return root;    // Return the modified tree root.
     }
 };
