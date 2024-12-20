@@ -6,29 +6,20 @@
 #         self.right = right
 class Solution:
     def reverseOddLevels(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        bfs, is_odd = deque([(None, root)]), False
-        
-        while bfs:
-            n, stack = len(bfs), []
+        def traverse_dfs(left_child: TreeNode, right_child: TreeNode, level: int) -> None:
+            if not (left_child and right_child):
+                return
             
-            if is_odd:
-                for _ in range(n):
-                    parent, child = bfs.popleft()
-                    stack.append(child.val)
-                    bfs.append((parent, child))
-                
-                while stack:
-                    parent, child = bfs.popleft()
-                    child.val = stack.pop()
-                    bfs.append((parent, child))
-                
-            for _ in range(n):
-                parent, child = bfs.popleft()
-                
-                if child.left and child.right:
-                    bfs.append((child, child.left))
-                    bfs.append((child, child.right))
-                
-            is_odd = not is_odd
+            # If the current level is even, swap the values of the children.
+            if level % 2 == 0:
+                left_child.val, right_child.val = right_child.val, left_child.val
+            
+            traverse_dfs(left_child.left, right_child.right, level + 1)
+            traverse_dfs(left_child.right, right_child.left, level + 1)
+        
+        # Base case
+        if not root:
+            return root
+        traverse_dfs(root.left, root.right, 0)
         
         return root
