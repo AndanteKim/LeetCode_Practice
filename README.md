@@ -12,11 +12,13 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
 | [3058-maximum-number-of-k-divisible-components](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3058-maximum-number-of-k-divisible-components) |
+| [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
 ## Depth-First Search
 |  |
 | ------- |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
 | [3058-maximum-number-of-k-divisible-components](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3058-maximum-number-of-k-divisible-components) |
+| [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
 ## Array
 |  |
 | ------- |
@@ -54,4 +56,9 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 |  |
 | ------- |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
+| [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
+## Graph
+|  |
+| ------- |
+| [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
 <!---LeetCode Topics End-->
