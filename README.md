@@ -9,6 +9,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Tree
 |  |
 | ------- |
+| [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
 | [3058-maximum-number-of-k-divisible-components](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3058-maximum-number-of-k-divisible-components) |
@@ -16,6 +17,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Depth-First Search
 |  |
 | ------- |
+| [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
 | [3058-maximum-number-of-k-divisible-components](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3058-maximum-number-of-k-divisible-components) |
 | [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
@@ -50,11 +52,13 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Binary Tree
 |  |
 | ------- |
+| [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
 ## Breadth-First Search
 |  |
 | ------- |
+| [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
 | [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
 ## Graph
