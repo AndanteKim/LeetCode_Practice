@@ -10,24 +10,32 @@
  * };
  */
 class Solution {
-private:
-    void dfs(vector<int>& ans, TreeNode* node, int level){
-        if (!node) return;
-        
-        if (ans.size() == level)
-            ans.push_back(node -> val);
-        else
-            ans[level] = max(ans[level], node -> val);
-        
-        dfs(ans, node -> left, level + 1);
-        dfs(ans, node -> right, level + 1);
-    }
-    
 public:
     vector<int> largestValues(TreeNode* root) {
-        if (!root) return vector<int>{};
+        // Base case
+        if (!root) return {};
+
+        queue<TreeNode*> queue;
+        queue.push(root);
         vector<int> ans;
-        dfs(ans, root, 0);
+
+        while (!queue.empty()){
+            int size = queue.size(), largestVal = std::numeric_limits<int>::min();
+
+            for (int i = 0; i < size; ++i){
+                TreeNode* node = queue.front(); queue.pop();
+
+                largestVal = max(largestVal, node -> val);
+                if (node -> left)
+                    queue.push(node -> left);
+                
+                if (node -> right)
+                    queue.push(node -> right);
+            }
+
+            ans.push_back(largestVal);
+        }
+
         return ans;
     }
 };
