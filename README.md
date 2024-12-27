@@ -25,6 +25,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 |  |
 | ------- |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
+| [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 ## Binary Search
 |  |
@@ -70,6 +71,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 |  |
 | ------- |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
+| [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 ## Backtracking
 |  |
 | ------- |
