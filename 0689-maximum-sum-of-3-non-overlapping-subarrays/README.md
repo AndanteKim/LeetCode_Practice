@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/maximum-sum-of-3-non-overlapping-subarrays">689. Maximum Sum of 3 Non-Overlapping Subarrays</a></h2><h3>Hard</h3><hr><p>Given an integer array <code>nums</code> and an integer <code>k</code>, find three non-overlapping subarrays of length <code>k</code> with maximum sum and return them.</p>
+<h2><a href="https://leetcode.com/problems/maximum-sum-of-3-non-overlapping-subarrays/">689. Maximum Sum of 3 Non-Overlapping Subarrays</a></h2><h3>Hard</h3><hr><p>Given an integer array <code>nums</code> and an integer <code>k</code>, find three non-overlapping subarrays of length <code>k</code> with maximum sum and return them.</p>
 
 <p>Return the result as a list of indices representing the starting position of each interval (<strong>0-indexed</strong>). If there are multiple answers, return the lexicographically smallest one.</p>
 
