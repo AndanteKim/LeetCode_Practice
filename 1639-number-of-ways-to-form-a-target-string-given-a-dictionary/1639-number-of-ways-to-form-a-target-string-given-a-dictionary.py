@@ -1,38 +1,35 @@
 class Solution:
-    mod = 10 ** 9 + 7
     def numWays(self, words: List[str], target: str) -> int:
+        mod, char_freq = 10 ** 9 + 7, [[0] * 26 for _ in range(len(words[0]))]
+        word_length, target_length = len(words[0]), len(target)
+
+        # Step 1: Calculate frequency of each character at every index in "words".
+        for i in range(len(words)):
+            for j in range(word_length):
+                char_freq[j][ord(words[i][j]) - 97] += 1
+
+        # Step 2: Initialize a DP table.
+        dp = [[0] * (len(target) + 1) for _ in range(word_length + 1)]
         
-        dp = [[-1] * len(target) for _ in range(len(words[0]))]
-        char_freq = [[0] * 26 for _ in range(len(words[0]))]
+        # Base case: There is one way to form an empty target string/
+        for curr_word in range(word_length + 1):
+            dp[curr_word][0] = 1
 
-        # Store the frequency of every character at every index.
-        for word in words:
-            for j in range(len(word)):
-                char_freq[j][ord(word[j]) - 97] += 1
-            
-        return self.__get_words(words, target, 0, 0, dp, char_freq)
-    
-    def __get_words(self, words: List[str], target: str, words_idx: int, \
-    target_idx: int, dp: List[List[int]], char_freq: List[List[int]]) -> int:
-        if target_idx == len(target):
-            return 1
+        # Step 3: Fill the DP table
+        for curr_word in range(1, word_length + 1):
+            for curr_target in range(1, target_length + 1):
+                # Carry over the previous value (not using this index of "words").
+                dp[curr_word][curr_target] = dp[curr_word - 1][curr_target]
 
-        if words_idx == len(words[0]) or len(words[0]) - words_idx < len(target) - target_idx: 
-            return 0
-
-        if dp[words_idx][target_idx] != -1:
-            return dp[words_idx][target_idx]
+                # Add ways using the current index of "words" if the characters match.
+                curr_pos = ord(target[curr_target - 1]) - 97
+                dp[curr_word][curr_target] += (
+                    char_freq[curr_word - 1][curr_pos]\
+                     * dp[curr_word - 1][curr_target - 1]
+                ) % mod
+                dp[curr_word][curr_target] %= mod
         
-        count_ways = 0
-        curr_pos = ord(target[target_idx]) - 97
+        # Step 4: The result is in dp[word_length][target_length]
+        return dp[word_length][target_length]
 
-        # Don't match any character of target with any word.
-        count_ways += self.__get_words(words, target, words_idx + 1, target_idx, dp, char_freq)
 
-        # Multiply the nubmer of choirces with the function and add it to count.
-        count_ways += char_freq[words_idx][curr_pos] * self.__get_words(
-            words, target, words_idx + 1, target_idx + 1, dp, char_freq
-        )
-        
-        dp[words_idx][target_idx] = count_ways % self.mod
-        return dp[words_idx][target_idx]
