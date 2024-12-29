@@ -1,31 +1,41 @@
 class Solution {
 public:
     int numWays(vector<string>& words, string target) {
-        const int alphabet = 26;
-        const int mod = 1e9 + 7;
-        int m = target.size(), k = words[0].size();
-        vector<vector<int>> cnt(alphabet, vector<int>(k));
-        for (int j = 0; j < k; ++j){
-            for (const string& word : words){
-                ++cnt[word[j]-'a'][j];
-            }
+        vector dp(words[0].size(), vector<int>(target.size(), -1));
+        vector charFreq(words[0].size(), vector<int>(26, 0));
+
+        // Store the frequency of every character at every index.
+        for (int i = 0; i < words.size(); ++i){
+            for (int j = 0; j < words[0].size(); ++j)
+                ++charFreq[j][words[i][j] - 97];
         }
-        
-        vector dp(m + 1, vector<long long>(k + 1, -1));
-        
-        function<long long(int, int)> f = [&](int i, int j) -> long long {
-            if (j == 0) return i == 0? 1 : 0;
-            if (dp[i][j] != -1) return dp[i][j];
-            
-            dp[i][j] = f(i, j - 1);
-            
-            if (i > 0){
-                dp[i][j] += cnt[target[i - 1] - 'a'][j - 1] * f(i - 1, j - 1);
-            }
-            dp[i][j] %= mod;
-            return dp[i][j];
-        };
-        
-        return f(m, k);
+
+        return getWords(words, target, 0, 0, dp, charFreq);
     }
+
+private:
+    int mod = 1'000'000'007;
+    long getWords(vector<string>& words, string& target, int wordIndex, int targetIndex,\
+     vector<vector<int>>& dp, vector<vector<int>>& charFreq){
+        // Base case
+        if (targetIndex == target.size()) return 1;
+
+        // Base case 2
+        if (wordIndex == words[0].size() || words[0].size() - wordIndex < target.size() - targetIndex)
+            return 0;
+
+        if (dp[wordIndex][targetIndex] != -1)
+            return dp[wordIndex][targetIndex];
+
+        long countWays = 0;
+        int currPos = target[targetIndex] - 97;
+
+        // Don't match any character of target with any word.
+        countWays += getWords(words, target, wordIndex + 1, targetIndex, dp, charFreq);
+
+        // Multiply the number of choices with getWords and add it to count.
+        countWays += charFreq[wordIndex][currPos] * getWords(words, target, wordIndex + 1, targetIndex + 1, dp, charFreq);
+
+        return dp[wordIndex][targetIndex] = countWays % mod;
+     }
 };
