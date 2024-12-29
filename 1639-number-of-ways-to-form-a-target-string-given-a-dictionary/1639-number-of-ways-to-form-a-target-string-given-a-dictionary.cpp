@@ -1,41 +1,42 @@
 class Solution {
+private:
+    const int mod = 1'000'000'007;
 public:
-    int numWays(vector<string>& words, string target) {
-        vector dp(words[0].size(), vector<int>(target.size(), -1));
-        vector charFreq(words[0].size(), vector<int>(26, 0));
 
-        // Store the frequency of every character at every index.
-        for (int i = 0; i < words.size(); ++i){
-            for (int j = 0; j < words[0].size(); ++j)
-                ++charFreq[j][words[i][j] - 97];
+    int numWays(vector<string>& words, string target) {
+        int wordLength = words[0].size(), targetLength = target.size();
+        vector charFreq(wordLength, vector<int>(26, 0));
+        
+        // Step 1: Calculate the frequency of each character at every index in "words".
+        for (const string& word : words){
+            for (int j = 0; j < wordLength; ++j)
+                ++charFreq[j][word[j] - 97];
+        }
+        
+        // Step 2: Initialize two dp: prevDp and dp
+        vector<long> prevDp(targetLength + 1), dp(targetLength + 1);
+        
+        // Base case: There is one way to form an empty target string.
+        prevDp[0] = 1, dp[0] = 1;
+
+        // Step 3: Fill the DP table
+        for (int currWord = 1; currWord <= wordLength; ++currWord){
+            // Copy the previous row into the current row for DP.
+            dp = prevDp;
+            for (int currTarget = 1; currTarget <= targetLength; ++currTarget){
+                int currPos = target[currTarget - 1] - 97;
+                
+                // If the characters match, add the number of ways.
+                dp[currTarget] = (
+                    dp[currTarget] + charFreq[currWord - 1][currPos] * prevDp[currTarget - 1]
+                    ) % mod;            
+            }
+
+            // Move the current row to previous row for the next iteration.
+            prevDp = dp;
         }
 
-        return getWords(words, target, 0, 0, dp, charFreq);
+        // Step 4: The result is in prevDp[targetLength].
+        return prevDp[targetLength];
     }
-
-private:
-    int mod = 1'000'000'007;
-    long getWords(vector<string>& words, string& target, int wordIndex, int targetIndex,\
-     vector<vector<int>>& dp, vector<vector<int>>& charFreq){
-        // Base case
-        if (targetIndex == target.size()) return 1;
-
-        // Base case 2
-        if (wordIndex == words[0].size() || words[0].size() - wordIndex < target.size() - targetIndex)
-            return 0;
-
-        if (dp[wordIndex][targetIndex] != -1)
-            return dp[wordIndex][targetIndex];
-
-        long countWays = 0;
-        int currPos = target[targetIndex] - 97;
-
-        // Don't match any character of target with any word.
-        countWays += getWords(words, target, wordIndex + 1, targetIndex, dp, charFreq);
-
-        // Multiply the number of choices with getWords and add it to count.
-        countWays += charFreq[wordIndex][currPos] * getWords(words, target, wordIndex + 1, targetIndex + 1, dp, charFreq);
-
-        return dp[wordIndex][targetIndex] = countWays % mod;
-     }
 };
