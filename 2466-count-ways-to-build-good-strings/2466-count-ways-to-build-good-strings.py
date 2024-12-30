@@ -1,19 +1,18 @@
 class Solution:
-    def dfs(self, end: int, dp: List[int], zero: int, one: int) -> int:
-        if dp[end] != -1:
-            return dp[end]
-        count = 0
-        if end >= zero:
-            count += self.dfs(end - zero, dp, zero, one)
-        if end >= one:
-            count += self.dfs(end - one, dp, zero, one)
-        
-        dp[end] = count % self.mod
-        return dp[end]
-        
-    
     def countGoodStrings(self, low: int, high: int, zero: int, one: int) -> int:
-        dp = [1] + [-1] * high
-        self.mod = 10 ** 9 + 7
-        
-        return sum(self.dfs(end, dp, zero, one) for end in range(low, high + 1)) % self.mod
+        # Use dp[i] to record to number of good strings of length i.
+        dp, mod = [0] * (high + 1), 1_000_000_007
+        dp[0] = 1
+
+        # Iterate over each length 'end'.
+        for end in range(1, high + 1):
+            # Check if the current string can be made by append zero '0's or one '1's
+            if end >= zero:
+                dp[end] += dp[end - zero]
+
+            if end >= one:
+                dp[end] += dp[end - one]
+            dp[end] % mod
+
+        # Add up the number of strings with each valid length [low ~ high].
+        return sum(dp[low : high + 1]) % mod 
