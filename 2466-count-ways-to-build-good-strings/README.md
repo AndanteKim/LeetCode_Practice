@@ -1,8 +1,8 @@
-<h2><a href="https://leetcode.com/problems/count-ways-to-build-good-strings/">2466. Count Ways To Build Good Strings</a></h2><h3>Medium</h3><hr><div><p>Given the integers <code>zero</code>, <code>one</code>, <code>low</code>, and <code>high</code>, we can construct a string by starting with an empty string, and then at each step perform either of the following:</p>
+<h2><a href="https://leetcode.com/problems/count-ways-to-build-good-strings/description/">2466. Count Ways To Build Good Strings</a></h2><h3>Medium</h3><hr><p>Given the integers <code>zero</code>, <code>one</code>, <code>low</code>, and <code>high</code>, we can construct a string by starting with an empty string, and then at each step perform either of the following:</p>
 
 <ul>
-	<li>Append the character <code>'0'</code> <code>zero</code> times.</li>
-	<li>Append the character <code>'1'</code> <code>one</code> times.</li>
+	<li>Append the character <code>&#39;0&#39;</code> <code>zero</code> times.</li>
+	<li>Append the character <code>&#39;1&#39;</code> <code>one</code> times.</li>
 </ul>
 
 <p>This can be performed any number of times.</p>
@@ -14,19 +14,21 @@
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
 
-<pre><strong>Input:</strong> low = 3, high = 3, zero = 1, one = 1
+<pre>
+<strong>Input:</strong> low = 3, high = 3, zero = 1, one = 1
 <strong>Output:</strong> 8
 <strong>Explanation:</strong> 
-One possible valid good string is "011". 
-It can be constructed as follows: "" -&gt; "0" -&gt; "01" -&gt; "011". 
-All binary strings from "000" to "111" are good strings in this example.
+One possible valid good string is &quot;011&quot;. 
+It can be constructed as follows: &quot;&quot; -&gt; &quot;0&quot; -&gt; &quot;01&quot; -&gt; &quot;011&quot;. 
+All binary strings from &quot;000&quot; to &quot;111&quot; are good strings in this example.
 </pre>
 
 <p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>Input:</strong> low = 2, high = 3, zero = 1, one = 2
+<pre>
+<strong>Input:</strong> low = 2, high = 3, zero = 1, one = 2
 <strong>Output:</strong> 5
-<strong>Explanation:</strong> The good strings are "00", "11", "000", "110", and "011".
+<strong>Explanation:</strong> The good strings are &quot;00&quot;, &quot;11&quot;, &quot;000&quot;, &quot;110&quot;, and &quot;011&quot;.
 </pre>
 
 <p>&nbsp;</p>
@@ -36,4 +38,3 @@ All binary strings from "000" to "111" are good strings in this example.
 	<li><code>1 &lt;= low&nbsp;&lt;= high&nbsp;&lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= zero, one &lt;= low</code></li>
 </ul>
-</div>
