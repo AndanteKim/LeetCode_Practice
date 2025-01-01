@@ -1,20 +1,20 @@
 class Solution {
 public:
     int maxScore(string s) {
-        int leftZeros = (s[0] == '0')? 1 : 0, rightOnes = (s[0] == '1')? count(s.begin(), s.end(), '1') - 1 :\
-        count(s.begin(), s.end(), '1');
-        int n = s.size(), ans = leftZeros + rightOnes;
+        // One pass: score = Z_left - O_left + O_total
+        int zeros = 0, ones = 0, best = std::numeric_limits<int>::min();
 
-        for (int i = 1; i < n - 1; ++i){
-            if (s[i] == '0')
-                ++leftZeros;
-
+        for (int i = 0; i < s.size() - 1; ++i){
             if (s[i] == '1')
-                --rightOnes;
+                ++ones;
+            else
+                ++zeros;
             
-            ans = max(ans, leftZeros + rightOnes);
+            best = max(best, zeros - ones);
         }
 
-        return ans;
+        if (s.back() == '1') ++ones;
+
+        return best + ones;
     }
 };
