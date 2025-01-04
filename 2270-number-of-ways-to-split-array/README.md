@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/number-of-ways-to-split-array/">2270. Number of Ways to Split Array</a></h2><h3>Medium</h3><hr><div><p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code>.</p>
+<h2><a href="https://leetcode.com/problems/number-of-ways-to-split-array/?envType=daily-question&envId=2025-01-03">2270. Number of Ways to Split Array</a></h2><h3>Medium</h3><hr><p>You are given a <strong>0-indexed</strong> integer array <code>nums</code> of length <code>n</code>.</p>
 
 <p><code>nums</code> contains a <strong>valid split</strong> at index <code>i</code> if the following are true:</p>
 
@@ -12,7 +12,8 @@
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
 
-<pre><strong>Input:</strong> nums = [10,4,-8,7]
+<pre>
+<strong>Input:</strong> nums = [10,4,-8,7]
 <strong>Output:</strong> 2
 <strong>Explanation:</strong> 
 There are three ways of splitting nums into two non-empty parts:
@@ -24,7 +25,8 @@ Thus, the number of valid splits in nums is 2.
 
 <p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>Input:</strong> nums = [2,3,1,0]
+<pre>
+<strong>Input:</strong> nums = [2,3,1,0]
 <strong>Output:</strong> 2
 <strong>Explanation:</strong> 
 There are two valid splits in nums:
@@ -39,4 +41,3 @@ There are two valid splits in nums:
 	<li><code>2 &lt;= nums.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>-10<sup>5</sup> &lt;= nums[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
-</div>
