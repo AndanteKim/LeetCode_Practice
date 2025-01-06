@@ -6,7 +6,7 @@ public:
         int ballsToRight = 0, movesToRight = 0;
         vector<int> ans(n);
 
-        // Single pass: Calculate both left and right
+        // Single pass: Calculate moves from both left and right
         for (int i = 0; i < n; ++i){
             // Left pass
             ans[i] += movesToLeft;
