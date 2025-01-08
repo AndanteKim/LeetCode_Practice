@@ -1,28 +1,70 @@
+class Node:
+    def __init__(self):
+        self.links = [None] * 26
+    
+    # Check if the character is present in the current node
+    def _contains(self, c: chr) -> bool:
+        return self.links[ord(c) - 97] != None
+    
+    # Insert a new node for the character
+    def _put(self, c: chr, node: "Node") -> None:
+        self.links[ord(c) - 97] = node
+    
+    # Get the next node for the character
+    def _next(self, c: chr) -> "Node":
+        return self.links[ord(c) - 97]
+
+class Trie:
+    def __init__(self):
+        self.root = Node()
+
+    # Insert a word into the Trie
+    def insert(self, word: str) -> None:
+        node = self.root
+        for c in word:
+            if not node._contains(c):
+                node._put(c, Node())
+            node = node._next(c)
+
+    # Check if the Trie contains a given prefix
+    def starts_with(self, prefix: str) -> bool:
+        node = self.root
+        for c in prefix:
+            if not node._contains(c):
+                return False
+            node = node._next(c)
+        return True
+
 class Solution:
     def countPrefixSuffixPairs(self, words: List[str]) -> int:
-        def is_prefix_and_suffix(str1: str, str2: str) -> bool:
-            # Base case
-            if len(str1) > len(str2):
-                return False
-            
-            is_prefix, is_suffix = True, True
-            # Check prefix
-            for i in range(len(str1)):
-                if str1[i] != str2[i]:
-                    is_prefix = False
-                    break
-            
-            diff = len(str2) - len(str1)
-            # Check suffix
-            for i in range(len(str1) - 1, -1, -1):
-                if str1[i] != str2[i + diff]:
-                    is_suffix = False
-                    break
+        n, cnt = len(words), 0
 
-            return is_prefix and is_suffix
+        # Step 1: Iterate over each word
+        for i in range(n):
+            prefix_trie = Trie()
+            suffix_trie = Trie()
 
-        n, ans = len(words), 0
-        for i in range(n - 1):
-            for j in range(i + 1, n):
-                ans += is_prefix_and_suffix(words[i], words[j])
-        return ans
+            # Step 2: Insert the current word into the prefix Trie
+            prefix_trie.insert(words[i])
+
+            # Step 3: Reverse the word and insert it into the suffix Trie
+            rev_word = words[i][::-1]
+            suffix_trie.insert(rev_word)
+
+            # Step 4: Iterate over all previous words
+            for j in range(i):
+                # Step 5: Skip words[j] if it's longer than words[i]
+                if len(words[j]) > len(words[i]):
+                    continue
+                
+                # Step 6: Extract the prefix and reversed prefix of words[j]
+                prefix_word = words[j]
+                rev_prefix_word = prefix_word[::-1]
+
+                # Step 7: Check if words[j] is both a prefix and suffix of words[i]
+                if prefix_trie.starts_with(prefix_word)\
+                and suffix_trie.starts_with(rev_prefix_word):
+                    cnt += 1
+        
+        # Step 8: Return the total count of valid pairs
+        return cnt
