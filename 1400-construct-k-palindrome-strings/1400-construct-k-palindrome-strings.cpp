@@ -2,28 +2,19 @@ class Solution {
 public:
     bool canConstruct(string s, int k) {
         // Base case 1
-        if (s.size() < k)
-            return false;
-        
+        if (s.size() < k) return false;
         // Base case 2
-        if (s.size() == k)
-            return true;
+        if (s.size() == k) return true;
 
-        // Initialize frequency array and oddCount integer
-        vector<int> freq(26, 0);
+        // Initialize oddCount as an integer bitmask
         int oddCount = 0;
-        
-        // Increment the value of index corresponding to the current character
+        // Count the number of set bits in the bitmask
         for (const char& c : s){
-            ++freq[c - 'a'];
+            oddCount ^= 1 << (c - 'a');
         }
 
-        // Count the number of characters appearing an odd number of times in s
-        for (int i = 0; i < 26; ++i)
-            if (freq[i] % 2)
-                ++oddCount;
-
-        // Return true if the number of odd frequencies is less than or equal to k
-        return oddCount <= k;
+        // Count the number of set bits in the bitmask and
+        // return if the number of odd frequencies is less than or equal to k.
+        return __builtin_popcount(oddCount) <= k;
     }
 };
