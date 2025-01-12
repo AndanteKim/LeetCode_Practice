@@ -1,34 +1,51 @@
 class Solution {
 public:
     bool canBeValid(string s, string locked) {
-        // Base case
-        if (s.size() == 0 || s.size() % 2)
+        int n = s.size();
+
+        // Base case: If the length of s is odd or empty, then return false.
+        if (n == 0 || n % 2)
             return false;
 
-        stack<int> openBrackets, unlocked;
-
+        int openBrackets = 0, unlocked = 0;
         // Iterate through the string to handle '(' and ')'
-        for (int i = 0; i < s.size(); ++i){
+        for (int i = 0; i < n; ++i){
             if (locked[i] == '0')
-                unlocked.push(i);
+                ++unlocked;
             else if (s[i] == '(')
-                openBrackets.push(i);
+                ++openBrackets;
             else{
-                if (!openBrackets.empty())
-                    openBrackets.pop();
-                else if (!unlocked.empty())
-                    unlocked.pop();
+                if (openBrackets > 0)
+                    --openBrackets;
+                else if (unlocked > 0)
+                    --unlocked;
                 else
                     return false;
             }
         }
 
-        // Match remaining open brackets and the unlocked characters
-        while (!openBrackets.empty() && !unlocked.empty() && openBrackets.top() < unlocked.top()){
-            openBrackets.pop();
-            unlocked.pop();
+        // Match remaining open brackets with unlocked characters.
+        int balance = 0;
+        for (int i = n - 1; i >= 0; --i){
+            if (locked[i] == '0'){
+                --balance;
+                --unlocked;
+            }
+            else if (s[i] == '('){
+                ++balance;
+                --openBrackets;
+            }
+            else if (s[i] == ')'){
+                --balance;
+            }
+
+            if (balance > 0)
+                return false;
+
+            if ((unlocked == 0) && (openBrackets == 0))
+                break;
         }
 
-        return openBrackets.empty()? true : false;
+        return openBrackets > 0? false : true;
     }
 };
