@@ -4,26 +4,28 @@ public:
         int n = A.size();
         vector<int> prefixCommonArray(n);
 
-        // Loop through each index to calculate common elements for each prefix
+        // Initialize sets to store elements from A and B
+        unordered_set<int> elementsA, elementsB;
+        
+        // Iterate through the elements of both arrays
         for (int currIndex = 0; currIndex < n; ++currIndex){
+            // Add current elements from A and B to respective sets
+            elementsA.insert(A[currIndex]);
+            elementsB.insert(B[currIndex]);
+            
             int commonCount = 0;
             
-            // Compare elements in A and B within the range of current prefix
-            for (int aIndex = 0; aIndex < currIndex + 1; ++aIndex){
-                for (int bIndex = 0; bIndex < currIndex + 1; ++bIndex){
-                    // Check if elements match, and count if they do
-                    if (A[aIndex] == B[bIndex]){
-                        ++commonCount;
-                        break;
-                    }
-                }
+            // Count common elements between the sets
+            for (int elem : elementsA){
+                if (elementsB.count(elem))
+                    ++commonCount;
             }
-            
+
             // Store the count of common elements for the current prefix
             prefixCommonArray[currIndex] = commonCount;
         }
-
-        // Return the final array with counts of common elemtns in each prefix
+        
+        // Return the final array with counts of common elements in each prefix
         return prefixCommonArray;
     }
 };
