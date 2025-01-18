@@ -1,32 +1,36 @@
 class Solution:
-    # Direction lists: right, left, down, up (matching grid values 1, 2, 3, 4)
-    _dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
+    # Direction vectors: right, left, down, up (matching grid values 1, 2, 3, 4)
+    _dirs = ((0, 1), (0, -1), (1, 0), (-1, 0))
+
     def minCost(self, grid: List[List[int]]) -> int:
-        m, n = len(grid), len(grid[0])
+        self.m, self.n = len(grid), len(grid[0])
         
-        # Min-heap ordered by cost. Each element is (cost, row, col)
-        pq = [(0, 0, 0)]    # Using list as heap, elements are tuples
-        min_cost = [[float('inf')] * n for _ in range(m)]
-        min_cost[0][0] = 0
+        # Track minimum cost to reach each cell
+        min_cost = [[float('inf')] * self.n for _ in range(self.m)]
+        
+        # Use deque for 0-1 BFS - add zero cost moves to front, cost = 1 to back
+        dq, min_cost[0][0] = deque([(0, 0)]), 0
 
-        while pq:
-            cost, row, col = heappop(pq)
+        while dq:
+            row, col = dq.popleft()
 
-            # Skip if we've found a better path to this cell
-            if min_cost[row][col] != cost:
-                continue
-            
+            # Try all four directions
             for d, (dr, dc) in enumerate(self._dirs):
                 new_r, new_c = row + dr, col + dc
-                
-                # Check if new position is valid
-                if 0 <= new_r < m and 0 <= new_c < n:
-                    # Add cost = 1 if we need to change direction
-                    new_cost = cost + (d != (grid[row][col] - 1))
+                cost = 0 if grid[row][col] == d + 1 else 1
 
-                    # Update if we found a better path
-                    if min_cost[new_r][new_c] > new_cost:
-                        min_cost[new_r][new_c] = new_cost
-                        heappush(pq, (new_cost, new_r, new_c))
-
-        return min_cost[m - 1][n - 1]
+                # If position is valid and we found a better path
+                if (self._is_valid(new_r, new_c) 
+                and min_cost[row][col] + cost < min_cost[new_r][new_c]):
+                    min_cost[new_r][new_c] = min_cost[row][col] + cost
+                    # Add to back if cost = 1, front if cost = 0
+                    if cost == 1:
+                        dq.append((new_r, new_c))
+                    else:
+                        dq.appendleft((new_r, new_c))
+        
+        return min_cost[self.m - 1][self.n - 1]
+    
+    # Check if coordinates are within grid bounds
+    def _is_valid(self, row: int, col: int) -> bool:
+        return 0 <= row < self.m and 0 <= col < self.n
