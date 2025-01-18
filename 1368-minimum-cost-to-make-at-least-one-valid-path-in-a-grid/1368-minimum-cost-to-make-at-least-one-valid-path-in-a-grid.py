@@ -1,55 +1,32 @@
 class Solution:
+    # Direction lists: right, left, down, up (matching grid values 1, 2, 3, 4)
+    _dirs = [(0, 1), (0, -1), (1, 0), (-1, 0)]
     def minCost(self, grid: List[List[int]]) -> int:
         m, n = len(grid), len(grid[0])
         
-        # Initialize all cells with max value
-        min_changes = [[float('inf')] * n for _ in range(m)]
-        min_changes[0][0] = 0
+        # Min-heap ordered by cost. Each element is (cost, row, col)
+        pq = [(0, 0, 0)]    # Using list as heap, elements are tuples
+        min_cost = [[float('inf')] * n for _ in range(m)]
+        min_cost[0][0] = 0
 
-        while True:
-            # Store previous state to check for convergence
-            prev_state = [row[:] for row in min_changes]
+        while pq:
+            cost, row, col = heappop(pq)
 
-            # Forward pass: check cells coming from left and top
-            for row in range(m):
-                for col in range(n):
-                    # Check cell above
-                    if row > 0:
-                        min_changes[row][col] = min(
-                            min_changes[row][col],
-                            min_changes[row - 1][col]
-                            + (0 if grid[row - 1][col] == 3 else 1)
-                        )
-                    
-                    # Check cell to the left
-                    if col > 0:
-                        min_changes[row][col] = min(
-                            min_changes[row][col],
-                            min_changes[row][col - 1]
-                            + (0 if grid[row][col - 1] == 1 else 1)
-                        )
+            # Skip if we've found a better path to this cell
+            if min_cost[row][col] != cost:
+                continue
+            
+            for d, (dr, dc) in enumerate(self._dirs):
+                new_r, new_c = row + dr, col + dc
+                
+                # Check if new position is valid
+                if 0 <= new_r < m and 0 <= new_c < n:
+                    # Add cost = 1 if we need to change direction
+                    new_cost = cost + (d != (grid[row][col] - 1))
 
-            # Backward pass: check cells coming from right and bottom
-            for row in range(m - 1, -1, -1):
-                for col in range(n - 1, -1, -1):
-                    # Check cell below
-                    if row < m - 1:
-                        min_changes[row][col] = min(
-                            min_changes[row][col],
-                            min_changes[row + 1][col]
-                            + (0 if grid[row + 1][col] == 4 else 1)
-                        )
-                    
-                    # check cell to the right
-                    if col < n - 1:
-                        min_changes[row][col] = min(
-                            min_changes[row][col],
-                            min_changes[row][col + 1]
-                            + (0 if grid[row][col + 1] == 2 else 1)
-                        )
+                    # Update if we found a better path
+                    if min_cost[new_r][new_c] > new_cost:
+                        min_cost[new_r][new_c] = new_cost
+                        heappush(pq, (new_cost, new_r, new_c))
 
-            # If no changes were made in this iteration, we've found optimal solution
-            if min_changes == prev_state:
-                break
-                            
-        return min_changes[m - 1][n - 1]        
+        return min_cost[m - 1][n - 1]
