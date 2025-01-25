@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/find-eventual-safe-states/">802. Find Eventual Safe States</a></h2><h3>Medium</h3><hr><div><p>There is a directed graph of <code>n</code> nodes with each node labeled from <code>0</code> to <code>n - 1</code>. The graph is represented by a <strong>0-indexed</strong> 2D integer array <code>graph</code> where <code>graph[i]</code> is an integer array of nodes adjacent to node <code>i</code>, meaning there is an edge from node <code>i</code> to each node in <code>graph[i]</code>.</p>
+<h2><a href="https://leetcode.com/problems/find-eventual-safe-states/?envType=daily-question&envId=2025-01-24">802. Find Eventual Safe States</a></h2><h3>Medium</h3><hr><p>There is a directed graph of <code>n</code> nodes with each node labeled from <code>0</code> to <code>n - 1</code>. The graph is represented by a <strong>0-indexed</strong> 2D integer array <code>graph</code> where <code>graph[i]</code> is an integer array of nodes adjacent to node <code>i</code>, meaning there is an edge from node <code>i</code> to each node in <code>graph[i]</code>.</p>
 
 <p>A node is a <strong>terminal node</strong> if there are no outgoing edges. A node is a <strong>safe node</strong> if every possible path starting from that node leads to a <strong>terminal node</strong> (or another safe node).</p>
 
@@ -6,8 +6,9 @@
 
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
-<img alt="Illustration of graph" src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/03/17/picture1.png" style="height: 171px; width: 600px;">
-<pre><strong>Input:</strong> graph = [[1,2],[2,3],[5],[0],[5],[],[]]
+<img alt="Illustration of graph" src="https://s3-lc-upload.s3.amazonaws.com/uploads/2018/03/17/picture1.png" style="height: 171px; width: 600px;" />
+<pre>
+<strong>Input:</strong> graph = [[1,2],[2,3],[5],[0],[5],[],[]]
 <strong>Output:</strong> [2,4,5,6]
 <strong>Explanation:</strong> The given graph is shown above.
 Nodes 5 and 6 are terminal nodes as there are no outgoing edges from either of them.
@@ -15,7 +16,8 @@ Every path starting at nodes 2, 4, 5, and 6 all lead to either node 5 or 6.</pre
 
 <p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>Input:</strong> graph = [[1,2,3,4],[1,2],[3,4],[0,4],[]]
+<pre>
+<strong>Input:</strong> graph = [[1,2,3,4],[1,2],[3,4],[0,4],[]]
 <strong>Output:</strong> [4]
 <strong>Explanation:</strong>
 Only node 4 is a terminal node, and every path starting at node 4 leads to node 4.
@@ -33,4 +35,3 @@ Only node 4 is a terminal node, and every path starting at node 4 leads to node 
 	<li>The graph may contain self-loops.</li>
 	<li>The number of edges in the graph will be in the range <code>[1, 4 * 10<sup>4</sup>]</code>.</li>
 </ul>
-</div>
