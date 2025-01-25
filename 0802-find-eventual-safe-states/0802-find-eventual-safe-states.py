@@ -1,36 +1,34 @@
 class Solution:
     def eventualSafeNodes(self, graph: List[List[int]]) -> List[int]:
+        #
+        def dfs(node: int) -> bool:
+            # If the node is already in the stack, we have a cycle.
+            if in_stack[node]:
+                return True
+
+            if visit[node]:
+                return False
+            
+            # Mark the current node as visited and part of current recursion stack.
+            visit[node], in_stack[node] = True, True
+
+            for neighbor in graph[node]:
+                if dfs(neighbor):
+                    return True
+            
+            # Remove the node from the stack.
+            in_stack[node] = False
+            return False
+
         n = len(graph)
-        adj, indegree = [[] for _ in range(n)], [0] * n
-
-        for start in range(n):
-            for end in graph[start]:
-                adj[end].append(start)
-                indegree[start] += 1
-
-        q = deque()
-
-        # Push all the nodes with indegree zero in the queue
+        visit, in_stack = [False] * n, [False] * n
+        
         for node in range(n):
-            if indegree[node] == 0:
-                q.append(node)
-
-        safe = [False] * n
-
-        while q:
-            node = q.popleft()
-            safe[node] = True
-
-            for neighbor in adj[node]:
-                # Delete the edge "node -> neighbor".
-                indegree[neighbor] -= 1
-
-                if indegree[neighbor] == 0:
-                    q.append(neighbor)
-
+            dfs(node)
+        
         ans = []
         for node in range(n):
-            if safe[node]:
+            if not in_stack[node]:
                 ans.append(node)
-
-        return ans       
+            
+        return ans
