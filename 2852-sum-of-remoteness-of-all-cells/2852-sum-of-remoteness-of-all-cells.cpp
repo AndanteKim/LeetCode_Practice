@@ -1,64 +1,108 @@
+typedef long long ll;
+class UnionFind{
+private:
+    vector<int> parent;
+    vector<int> rank;
+public:
+    UnionFind(int n){
+        // Initialize all cells as individual components
+        parent.resize(n * n, -1);
+        rank.resize(n * n, 1);
+    }
+
+    int find(int index){
+        // Find with path compression for better performance
+        if (parent[index] == -1)
+            return index;
+
+        return parent[index] = find(parent[index]);
+    }
+
+    void merge(int index1, int index2){
+        // Union by linking roots directly
+        int root1 = find(index1), root2 = find(index2);
+
+        // Already in same component
+        if (root1 == root2) return;
+
+        // Make the root with the higher rank the parent of the other root
+        if (rank[root1] > rank[root2])
+            parent[root2] = root1;
+        else if (rank[root1] < rank[root2])
+            parent[root1] = root2;
+        else{
+            parent[root2] = root1;
+            ++rank[root1];
+        }
+    }
+};
+
+
 class Solution {
 private:
     int n;
-    // Direction array for moving up, down, left, right
-    const vector<pair<int, int>> dirs{{0, 1}, {0, -1}, {1, 0}, {-1, 0}};
 
-    // Checks if cell (row, col) is within grid bounds and not blocked / visited
+    // Direction arrays for moving up, down, left, right
+    const vector<pair<int, int>> dirs{{1, 0}, {-1, 0}, {0, -1}, {0, 1}};
     bool isValid(int row, int col, vector<vector<int>>& grid){
-        return 0 <= row && row < n && 0 <= col && col < n && grid[row][col] > 0;
+        return 0 <= row && row < n && 0 <= col && col < n && grid[row][col] != -1;
     }
 
-    // BFS to find sum and count of all cells reachable from (row, col)
-    long long bfs(int row, int col, long long total, vector<vector<int>>& grid){
-        // Sum of values in current component
-        // Number of cells in component and Mark as visited
-        long long compSum = grid[row][col], compCount = 1;
-        queue<pair<int, int>> q;
-        q.push({row, col});
-        grid[row][col] = -1;
-
-        while (!q.empty()){
-            auto [currRow, currCol] = q.front(); q.pop();
-
-            // Explore all 4 directions
-            for (const auto&[dr, dc] : dirs){
-                int newRow = currRow + dr, newCol = currCol + dc;
-                if (isValid(newRow, newCol, grid)){
-                    q.push({newRow, newCol});
-                    compSum += grid[newRow][newCol];
-                    ++compCount;
-                    grid[newRow][newCol] = -1;
-                }
-            }
-        }
-
-        // Return remoteness value for this component
-        return (total - compSum) * compCount;
+    int getIndex(int row, int col){
+        return n * row + col;
     }
 
 public:
     long long sumRemoteness(vector<vector<int>>& grid) {
         this -> n = grid.size();
-        // Calculate total sum of all non-blocked cells
-        long long total = 0;
+        
+        // Initialize Union-Find data structure with size n * n
+        UnionFind *uf = new UnionFind(n);
 
-        for (int i = 0; i < n; ++i){
-            for (int j = 0; j < n; ++j){
-                if (grid[i][j] != -1)
-                    total += grid[i][j];
+        // First pass: Connect all adjacent non-blocked cells into components
+        for (int row = 0; row < n; ++row){
+            for (int col = 0; col < n; ++col){
+                // Skip blocked cells
+                if (grid[row][col] == -1) continue;
+                
+                // For each valid cell, check all 4 adjacent cells
+                for (const auto& [di, dj] : dirs){
+                    int newRow = row + di, newCol = col + dj;
+
+                    // If adjacent cell is valid, connect it to current cell
+                    if (isValid(newRow, newCol, grid))
+                        // Convert 2D coordinates to 1D index and union them
+                        uf -> merge(getIndex(row, col), getIndex(newRow, newCol));
+                }
             }
         }
 
-        // Calculate remoteness for each non-blocked cell
-        long long ans = 0;
-        for (int i = 0; i < n; ++i){
-            for (int j = 0; j < n; ++j){
-                if (grid[i][j] != -1)
-                    ans += bfs(i, j, total, grid);
+        // Second pass: Calculate sum of values in each connected component
+        unordered_map<int, ll> compSum; // Maps component root to its sum
+        ll totalSum = 0;
+        for (int row = 0; row < n; ++row){
+            for (int col = 0; col < n; ++col){
+                if (grid[row][col] == -1) continue;
+
+                // Find the root of current cell's component
+                int parent = uf -> find(getIndex(row, col));
+
+                // Add current cell's value to its component sum
+                compSum[parent] = compSum[parent] + grid[row][col];
+                totalSum += grid[row][col];
             }
         }
 
+        // Third pass: Calculate remoteness sum
+        // For each cell, remoteness = (totalSum - sum of its component)
+        ll ans = 0;
+        for (int row = 0; row < n; ++row){
+            for (int col = 0; col < n; ++col){
+                if (grid[row][col] != -1)
+                    ans += totalSum - compSum[uf -> find(getIndex(row, col))];
+            }
+        }
+        
         return ans;
-    } 
+    }
 };
