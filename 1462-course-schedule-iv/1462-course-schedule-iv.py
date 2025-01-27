@@ -1,35 +1,19 @@
 class Solution:
     def checkIfPrerequisite(self, numCourses: int, prerequisites: List[List[int]], queries: List[List[int]]) -> List[bool]:
-        # Topological sort and Khan algorithm
-        adj = [[] for _ in range(numCourses)]
-        indegree = [0] * numCourses
+        is_prerequisite = [[False] * numCourses for _ in range(numCourses)]
 
-        for edge in prerequisites:
-            adj[edge[0]].append(edge[1])
-            indegree[edge[1]] += 1
-        
-        q = deque()
-        for i in range(numCourses):
-            if indegree[i] == 0:
-                q.append(i)
+        for start, end in prerequisites:
+            is_prerequisite[start][end] = True
 
-        node_prerequisites = defaultdict(set)
-
-        while q:
-            node = q.popleft()
-
-            for neighbor in adj[node]:
-                # Add node and prerequisite o f the node to the prerequisites of adj
-                node_prerequisites[neighbor].add(node)
-
-                for prerequisite in node_prerequisites[node]:
-                    node_prerequisites[neighbor].add(prerequisite)
-                indegree[neighbor] -= 1
-                if indegree[neighbor] == 0:
-                    q.append(neighbor)
+        for stopover in range(numCourses):
+            for start in range(numCourses):
+                for end in range(numCourses):
+                    # If there is a path start -> stopover and stopover -> target, then start -> end exists as well
+                    is_prerequisite[start][end] = is_prerequisite[start][end] or (is_prerequisite[start][stopover] \
+                    and is_prerequisite[stopover][end])
         
         ans = []
         for start, end in queries:
-            ans.append(start in node_prerequisites[end])
+            ans.append(is_prerequisite[start][end])
 
         return ans
