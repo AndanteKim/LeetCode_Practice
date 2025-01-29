@@ -1,57 +1,57 @@
-class Solution {
+class DSU{
 private:
-    int n, startCycle = -1;
+    vector<int> size, representatives;
 
-    // Perform the DFS and store a node in the cycle as cycleStart
-    void dfs(int src, vector<bool>& visited, vector<int>& parent, vector<vector<int>>& graph){
-        visited[src] = true;
-
-        for (int adj : graph[src]){
-            if (!visited[adj]){
-                parent[adj] = src;
-                dfs(adj, visited, parent, graph);
-            }
-
-            // If the node is visited and the parent is different then
-            // the node is part of the cycle
-            else if (parent[src] != adj && startCycle == -1){
-                parent[adj] = src;
-                startCycle = adj;
-            }
-        }
-
+    // Return the ultimate representative of the node.
+    int find(int node){
+        if (representatives[node] == node)
+            return node;
+        return representatives[node] = find(representatives[node]);
     }
 
 public:
-    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
-        this -> n = edges.size();
-        vector graph(n, vector<int>{});
-        
-        for (const vector<int>& edge : edges){
-            int u = edge[0], v = edge[1];
-            graph[u - 1].push_back(v - 1);
-            graph[v - 1].push_back(u - 1);
+    // Initialize DSU class, size of each component will be one and each node
+    // will be representative of it's own.
+    DSU(int n){
+        size.resize(n, 1);
+        representatives.resize(n);
+        iota(representatives.begin(), representatives.end(), 0);
+    }
+    
+    // Return true if node1 and 2 belong to different component and update the representatives accordingly,
+    // otherwise returns false.
+    bool doUnion(int node1, int node2){
+        node1 = find(node1), node2 = find(node2);
+
+        if (node1 == node2)
+            return false;
+
+        else{
+            if (size[node1] > size[node2]){
+                representatives[node2] = node1;
+                size[node1] += size[node2];
+            }
+            else{
+                representatives[node1] = node2;
+                size[node2] += size[node1];
+            }
+            return true;
         }
+    }
+};
 
-        vector<bool> visited(n, false);
-        vector<int> parent(n, -1);
-        dfs(0, visited, parent, graph);
-        
-        unordered_set<int> isConnected;
-        int node = startCycle;
 
-        // Start from the startCycle node and backtrack to get all the nodes
-        // in the cycle. Mark them all in the map.
-        do {
-            node = parent[node];
-            isConnected.insert(node);
-        } while(node != startCycle);
+class Solution {
+public:
+    vector<int> findRedundantConnection(vector<vector<int>>& edges) {
+        int n = edges.size();
+        DSU* dsu = new DSU(n);
 
-        // If both nodes of the edge were marked as cycle nodes then this edge
-        // can be removed.
-        for (int i = n - 1; i >= 0; --i){
-            if (isConnected.count(edges[i][0] - 1) && isConnected.count(edges[i][1] - 1))
-                return edges[i];
+        for (const vector<int>& edge : edges){
+            // If union returns false, we know the nodes are already connected
+            // and hence we can return this edge.
+            if (!dsu -> doUnion(edge[0] - 1, edge[1] - 1))
+                return edge;
         }
 
         return vector<int>{};
