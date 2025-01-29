@@ -1,30 +1,43 @@
 class Solution:
     def findRedundantConnection(self, edges: List[List[int]]) -> List[int]:
-        # Performs DFS and returns True if there's a path between src and target
-        def _is_connected(src: int, target: int, visited: List[bool], adj_list: List[List[bool]]) -> bool:
+        # Perform the DFS and store a node in the cycle s cycle_start
+        def dfs(src: int) -> None:
             visited[src] = True
 
-            if src == target:
-                return True
-            
-            is_found = False
             for adj in adj_list[src]:
                 if not visited[adj]:
-                    is_found = is_found or _is_connected(adj, target, visited, adj_list)
-
-            return is_found
+                    parent[adj] = src
+                    dfs(adj)
+                
+                # If the node is visited and the parent is different then the node
+                # is part of the cycle.
+                elif adj != parent[src] and self.cycle_start == -1:
+                    self.cycle_start, parent[adj] = adj, src
         
-        n = len(edges)
+        self.cycle_start, n = -1, len(edges)
+        visited, parent = [False] * n, [-1] * n
         adj_list = [[] for _ in range(n)]
 
-        for edge in edges:
-            visited = [False] * n
+        for u, v in edges:
+            adj_list[u - 1].append(v - 1)
+            adj_list[v - 1].append(u - 1)
 
-            # If DFS returns True, we'll return the edge
-            if _is_connected(edge[0] - 1, edge[1] - 1, visited, adj_list):
-                return edge
+        dfs(0)
+        cycle_nodes, node = dict(), self.cycle_start
 
-            adj_list[edge[0] - 1].append(edge[1] - 1)
-            adj_list[edge[1] - 1].append(edge[0] - 1)
+        # Start from the cycle_start node and backtrack to get all the nodes in the cycle.
+        # Mark them all in the map.
+        while True:
+            cycle_nodes[node] = 1
+            node = parent[node]
+            if node == self.cycle_start:
+                break
+        
+        # If both nodes of the edge were marked as cycle nodes then this edge
+        # can be removed
+        for i in range(n - 1, -1, -1):
+            if (edges[i][0] - 1) in cycle_nodes and (edges[i][1] - 1) in cycle_nodes:
+                return edges[i]
 
-        return []
+        return []   # This line should theoretically never be reached.
+        
