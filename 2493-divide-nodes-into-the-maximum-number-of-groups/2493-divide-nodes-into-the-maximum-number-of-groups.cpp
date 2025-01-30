@@ -2,125 +2,95 @@ class Solution {
 private:
     int n;
 
-    // Checks if the graph is bipartite starting from the given node
-    bool isBipartite(int node, vector<vector<int>>& graph, vector<int>& colors){
-
-        for (int neighbor : graph[node]){
-            // If a neighbor has the same color as the current node, the graph is not bipartite
-            if (colors[node] == colors[neighbor])
-                return false;
-
-            // If the neighbor is already colored, skip it
-            if (colors[neighbor] != -1)
-                continue;
-            
-            // Assign the opposite color to the neighbor
-            colors[neighbor] = (colors[node] + 1) % 2;
-
-            // Recursively check bipartiteness for the neighbor; return false if it fails
-            if (!isBipartite(neighbor, graph, colors))
-                return false;
-        }
-
-        // If all neighbors are properly colored, return true
-        return true;
+    // Find the root of the given node in the Union-Find structure
+    int find(int node, vector<int>& parent){
+        while (parent[node] != -1) node = parent[node];
+        
+        return node;
     }
 
-    // Compute the longest shortest path (height) in the graph starting from the source node
-    int getLongestShortestPath(int sourceNode, vector<vector<int>>& graph){
-        // Initialize a queue for BFS and a visited array
-        queue<int> q;
-        q.push(sourceNode);
-        vector<bool> visited(n, false);
-        visited[sourceNode] = true;
-        int dist = 0;
+    // Union operation to merge two sets
+    void unite(int node1, int node2, vector<int>& parent, vector<int>& depth){
+        int root1 = find(node1, parent), root2 = find(node2, parent);
 
-        // Perform BFS layer by layer
+        // If both nodes already belong to the same set, no action needed
+        if (root1 == root2) return;
+
+        // If both nodes already belong to the same set, no action needed
+        if (depth[root1] < depth[root2]) swap(root1, root2);
+        
+        // Union by rank (depth) to keep the tree balanced
+        parent[root2] = root1;
+
+        // If the depths are equal, increment the depth of the new root
+        if (depth[root1] == depth[root2]) ++depth[root1];
+        
+    }
+
+    // Function to calculate the number of groups for a given component starting from srcNode
+    int getNumberOfGroups(int srcNode, vector<vector<int>>& graph){
+        queue<int> q;
+        q.push(srcNode);
+        vector<int> layerSeen(n, -1);
+        layerSeen[srcNode] = 0;
+        int deepestLayer = 0;
+
+        // Perform BFS to calculate the number of layers (groups)
         while (!q.empty()){
-            // Process all nodes in the current layer
             int sz = q.size();
+
             for (int i = 0; i < sz; ++i){
                 int currNode = q.front(); q.pop();
-
-                // Visit all unvisited neighbors of the current node
                 for (int neighbor : graph[currNode]){
-                    if (visited[neighbor])
-                        continue;
-                    visited[neighbor] = true;
-                    q.push(neighbor);
-                    
+                    // If neighbor hasn't been visited, assign it to the next layer
+                    if (layerSeen[neighbor] == -1){
+                        layerSeen[neighbor] = deepestLayer + 1;
+                        q.push(neighbor);
+                    }
+                    else{
+                        // If the neighbor is already in the same layer, return -1
+                        if (layerSeen[neighbor] == deepestLayer)
+                            return -1;
+                    }
                 }
             }
-
-            // Increment the distance for each layer
-            ++dist;
+            ++deepestLayer;
         }
 
-        // Return the total distance (longest shortest path)
-        return dist;
-    }
-
-    // Calculates the maximum number of groups for a connected component
-    int getNumberOfGroupsForComponent(int node, vector<vector<int>>& graph, vector<bool>& visited, vector<int>& distances){
-        // Start with the distance of the current node as the maximum
-        int maxNumberOfGroups = distances[node];
-        visited[node] = true;
-
-        // Recursively calculate the maximum for all unvisited neighbors
-        for (int neighbor : graph[node]){
-            if (visited[neighbor]) continue;
-            maxNumberOfGroups = max(maxNumberOfGroups, getNumberOfGroupsForComponent(neighbor, graph, visited, distances));
-        }
-
-        return maxNumberOfGroups;
+        return deepestLayer;
     }
 
 public:
-    // Main function to calculate the maximum number of magnificent sets
+    // Main function to calculate the maximum number of groups for the entire graph
     int magnificentSets(int n, vector<vector<int>>& edges) {
         this -> n = n;
-
-        // Create adjacency list for the graph
         vector graph(n, vector<int>());
+        vector<int> parent(n, -1), depth(n);
+
+        // Build the adjacency list and apply Union-Find for each edge
         for (const vector<int>& edge : edges){
-            // Transition to 0-index
             graph[edge[0] - 1].push_back(edge[1] - 1);
             graph[edge[1] - 1].push_back(edge[0] - 1);
-        }
-
-        // Initialize color array to -1
-        vector<int> colors(n, -1);
-
-        // Check if the graph is bipartite
-        for (int node = 0; node < n; ++node){
-            if (colors[node] != -1)
-                continue;
-
-            // Start coloring from uncolored nodes
-            colors[node] = 0;
-
-            // If the graph isn't bipartite, return -1
-            if (!isBipartite(node, graph, colors))
-                return -1;
+            unite(edge[0] - 1, edge[1] - 1, parent, depth);
         }
         
-        // Calculate the longest shortest path for each node
-        vector<int> distances(n);
+        unordered_map<int, int> numberOfGroupsForComponent;
+
+        // For each node, calculate the maximum number of groups for its component
         for (int node = 0; node < n; ++node){
-            distances[node] = getLongestShortestPath(node, graph);
+            int numberOfGroups = getNumberOfGroups(node, graph);
+            if (numberOfGroups == -1) return -1;    // If invalid split, return -1
+
+            int rootNode = find(node, parent);
+            numberOfGroupsForComponent[rootNode] = max(numberOfGroupsForComponent[rootNode], numberOfGroups);
         }
         
-        // Calculate the total maximum number of groups across all components
+        // Calculate the total number of groups across all components
         int maxNumberOfGroups = 0;
-        vector<bool> visited(n);
-        for (int node = 0; node < n; ++node){
-            if (visited[node])
-                continue;
 
-            // Add the number of groups for this component to the total
-            maxNumberOfGroups += getNumberOfGroupsForComponent(node, graph, visited, distances);
-        }
-
+        for (const auto& [node, numberOfGroups] : numberOfGroupsForComponent)
+            maxNumberOfGroups += numberOfGroups;
+        
         return maxNumberOfGroups;
     }
 };
