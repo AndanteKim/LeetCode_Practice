@@ -1,6 +1,5 @@
 class Solution:
     def validTree(self, n: int, edges: List[List[int]]) -> bool:
-        # Iterative DFS
         if len(edges) != n - 1:
             return False
 
@@ -9,20 +8,20 @@ class Solution:
             graph[u].append(v)
             graph[v].append(u)
 
-        parent = {0: -1}
-        stack = [0]
+        queue = deque([0])
+        parent = {0 : -1}
 
-        while stack:
-            node = stack.pop()
+        while queue:
+            node = queue.popleft()
+
             for neighbor in graph[node]:
                 if neighbor == parent[node]:
                     continue
-                
+
                 if neighbor in parent:
                     return False
-                
+
                 parent[neighbor] = node
-                stack.append(neighbor)
+                queue.append(neighbor)
 
         return len(parent) == n
-        
