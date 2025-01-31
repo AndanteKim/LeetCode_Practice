@@ -1,24 +1,7 @@
 class Solution {
-private:
-    bool dfs(int node, int parent, vector<vector<int>>& graph, unordered_set<int>& seen){
-        if (seen.count(node))
-            return false;
-
-        seen.insert(node);
-        for (int neighbor : graph[node]){
-            if (neighbor == parent)
-                continue;
-            
-            if (seen.count(neighbor) || !dfs(neighbor, node, graph, seen))
-                return false;
-        }
-
-        return true;
-    }
-
 public:
     bool validTree(int n, vector<vector<int>>& edges) {
-        // Base case
+        // Iterative DFS
         if (edges.size() != n - 1)
             return false;
 
@@ -29,9 +12,23 @@ public:
             graph[edge[1]].push_back(edge[0]);
         }
 
-        // We return True if and only if no cycles were detected,
-        // and the entire graph has been reached.
-        unordered_set<int> seen;
-        return dfs(0, -1, graph, seen) && seen.size() == n;
+        unordered_map<int, int> parent{{0, -1}};
+        stack<int> st;
+        st.push(0);
+
+        while (!st.empty()){
+            int node = st.top(); st.pop();
+            
+            for (int neighbor : graph[node]){
+                if (neighbor == parent[node])
+                    continue;
+                
+                if (parent.count(neighbor)) return false;
+                parent[neighbor] = node;
+                st.push(neighbor);
+            }
+        }
+        
+        return parent.size() == n;
     }
 };
