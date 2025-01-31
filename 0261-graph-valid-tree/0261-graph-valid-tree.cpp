@@ -1,9 +1,7 @@
 class Solution {
 public:
     bool validTree(int n, vector<vector<int>>& edges) {
-        // Iterative DFS
-        if (edges.size() != n - 1)
-            return false;
+        if (n - 1 != edges.size()) return false;
 
         vector graph(n, vector<int>());
 
@@ -13,19 +11,18 @@ public:
         }
 
         unordered_map<int, int> parent{{0, -1}};
-        stack<int> st;
-        st.push(0);
+        queue<int> q;
+        q.push(0);
 
-        while (!st.empty()){
-            int node = st.top(); st.pop();
-            
+        while (!q.empty()){
+            int node = q.front(); q.pop();
+
             for (int neighbor : graph[node]){
-                if (neighbor == parent[node])
-                    continue;
-                
+                if (neighbor == parent[node]) continue;
+
                 if (parent.count(neighbor)) return false;
                 parent[neighbor] = node;
-                st.push(neighbor);
+                q.push(neighbor);
             }
         }
         
