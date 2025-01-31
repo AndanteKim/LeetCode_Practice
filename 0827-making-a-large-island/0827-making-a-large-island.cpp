@@ -1,81 +1,128 @@
+class UnionFind{
+private:
+    vector<int> parent, islandSize;
+
+public:
+    // Constructo to initialize DSU with 'n' elements
+    UnionFind(int n){
+        parent.resize(n);
+        // Each node is its own parent initially with size 1
+        iota(parent.begin(), parent.end(), 0);
+        islandSize.resize(n, 1);
+    }
+
+    // Function to find the root of a node with path compression
+    int find(int node){
+        if (parent[node] == node)
+            return node;
+        return parent[node] = find(parent[node]);
+    }
+
+    // Function to union two sets based on size
+    void unite(int node1, int node2){
+        int root1 = find(node1), root2 = find(node2);
+
+        // Already in the same set
+        if (root1 == root2) return;
+
+        // Union by size: Attach the smaller island to the larger one
+        if (islandSize[root1] < islandSize[root2]){
+            // Attach root1 to root2
+            parent[root1] = root2;
+
+            // Update size of root2's island
+            islandSize[root2] += islandSize[root1];
+        }
+        else{
+            //Attach root2 to root1
+            parent[root2] = root1;
+
+            // Update size of rootA's island
+            islandSize[root1] += islandSize[root2];
+        }
+    }
+
+    int getIslandSize(int root){
+        return islandSize[root];
+    }
+};
+
 class Solution {
 private:
     int m, n;
-    bool isValid(int row, int col, vector<vector<int>>& grid){
-        return 0 <= row && row < m && 0 <= col && col < n && grid[row][col] == 1;
-    }
 
-    int exploreIslands(int islandId, int row, int col, vector<vector<int>>& grid){
-        if (!isValid(row, col, grid))
-            return 0;
-
-        grid[row][col] = islandId;
-        return 1 + (exploreIslands(islandId, row + 1, col, grid)\
-        + exploreIslands(islandId, row - 1, col, grid)\
-        + exploreIslands(islandId, row, col - 1, grid)\
-        + exploreIslands(islandId, row, col + 1, grid));
+    // Direction vectors for traversing up, down, left, and right
+    const vector<pair<int, int>> dirs{{1, 0}, {-1, 0}, {0, -1}, {0, 1}};
+    bool isValid(int i, int j, vector<vector<int>>& grid){
+        return 0 <= i && i < m && 0 <= j && j < n && grid[i][j] == 1;
     }
 
 public:
     int largestIsland(vector<vector<int>>& grid) {
         this -> m = grid.size(), this -> n = grid[0].size();
 
-        // Step 1: Mark all islands and calculate their sizes
-        unordered_map<int, int> islandSizes;
-        int islandId = 2;
+        // Initialize DSU for the entire grid
+        UnionFind *uf = new UnionFind(m * n);
+
+        // Step 1: Union adjacent 1's in the grid
         for (int row = 0; row < m; ++row){
             for (int col = 0; col < n; ++col){
-                if (grid[row][col] == 1){
-                    islandSizes[islandId] = exploreIslands(islandId, row, col, grid);
-                    ++islandId;
+                if (grid[row][col]){
+                    // Flatten 2D index to 1D
+                    int currNode = row * n + col;
+
+                    for (const auto& [dr, dc] : dirs){
+                        int nextR = row + dr, nextC = col + dc;
+
+                        // Check bounds and ensure the neighbor is also '1'
+                        if (isValid(nextR, nextC, grid)){
+                            int neighborNode = nextR * n + nextC;
+                            uf -> unite(currNode, neighborNode);
+                        }
+                    }
+
                 }
             }
         }
 
-        // If there are no islands, return 1
-        if (islandSizes.empty()) return 1;
+        // Step 2: Calculate the maximum possible island size
+        int maxIslandSize = 0;
 
-        // If the entire grid is one island, return its size or size + 1
-        if (islandSizes.size() == 1){
-            --islandId;
-            return islandSizes[islandId] == m * n? islandSizes[islandId] : islandSizes[islandId] + 1;
-        }
+        // Flag to check if there are any zeros in the grid
+        bool hasZero = false;
 
-        int maxIslandSizes = 1;
-
-        // Step2: Try converting every 0 to 1 and calculate the resulting island size
         for (int row = 0; row < m; ++row){
             for (int col = 0; col < n; ++col){
                 if (grid[row][col] == 0){
-                    int currIslandSizes = 1;
-                    unordered_set<int> neighboringIslands;
+                    hasZero = true;
 
-                    // Check down
-                    if (row + 1 < m && grid[row + 1][col] > 1)
-                        neighboringIslands.insert(grid[row + 1][col]);
-                    
-                    // Check up
-                    if (row - 1 >= 0 && grid[row - 1][col] > 1)
-                        neighboringIslands.insert(grid[row - 1][col]);
+                    // Start with the flipped '0'
+                    int currIslandSize = 1;
 
-                    // Check right
-                    if (col + 1 < n && grid[row][col + 1] > 1)
-                        neighboringIslands.insert(grid[row][col + 1]);
+                    // To store unique roots for a '0' neighbors
+                    unordered_set<int> uniqueIsland;
 
-                    // Check left
-                    if (col - 1 >= 0 && grid[row][col - 1] > 1)
-                        neighboringIslands.insert(grid[row][col - 1]);
+                    for (const auto& [dr, dc] : dirs){
+                        int nextR = row + dr, nextC = col + dc;
+
+                        // Check bounds and ensure the neighbor is '1'
+                        if (isValid(nextR, nextC, grid)){
+                            int rootIsland = uf -> find(nextR * n + nextC);
+                            uniqueIsland.insert(rootIsland);
+                        }
+                    }
+
+                    // Sum up the sizes of unique neighboring islands
+                    for (int island : uniqueIsland)
+                        currIslandSize += uf -> getIslandSize(island);
                     
-                    // Sum the sizes of all unique neighboring islands
-                    for (int id : neighboringIslands)
-                        currIslandSizes += islandSizes[id];
-                    
-                    maxIslandSizes = max(maxIslandSizes, currIslandSizes);
+                    // Update the result with the largest island size found
+                    maxIslandSize = max(maxIslandSize, currIslandSize);
                 }
             }
-
         }
 
-        return maxIslandSizes;
+        // If there are no zeros, the largest island is the entire grid
+        return hasZero? maxIslandSize : m * n;
     }
 };
