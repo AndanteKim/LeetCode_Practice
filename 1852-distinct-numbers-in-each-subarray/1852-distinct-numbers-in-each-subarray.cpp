@@ -1,30 +1,26 @@
 class Solution {
 public:
     vector<int> distinctNumbers(vector<int>& nums, int k) {
-        int n = nums.size();
-        vector<int> ans(n - k + 1);
+        // Find the maximum value in the input array
+        int maxVal = *max_element(nums.begin(), nums.end()), n = nums.size();
+        vector<int> freq(maxVal + 1), ans(n - k + 1);
+        int distinctCount = 0;
+        
+        // Create a frequency array based on the maximum value in the input
+        for (int pos = 0; pos < n; ++pos){
+            // Add new number to window
+            ++freq[nums[pos]];
+            if (freq[nums[pos]] == 1) ++distinctCount;
 
-        // Map to store number -> frequency count
-        unordered_map<int, int> freq;
-        for (int i = 0; i < k; ++i){
-            ++freq[nums[i]];
-        }
-
-        ans[0] = freq.size();
-
-        // Slide window and update counts
-        for (int pos = k; pos < n; ++pos){
-            // Remove the leftmost element of previous window
-            int left = nums[pos - k];
-            --freq[left];
-            if (freq[left] == 0) freq.erase(left);
-
-            // Add rightmost element of current window
-            int right = nums[pos];
-            ++freq[right];
-
-            // Store distinct count for current window
-            ans[pos - k + 1] = freq.size();
+            // Remove number from previous window
+            if (pos >= k){
+                --freq[nums[pos - k]];
+                if (freq[nums[pos - k]] == 0) --distinctCount;
+            }
+            
+            // Store result when window is complete
+            if (pos + 1 >= k)
+                ans[pos + 1 - k] = distinctCount; 
         }
 
         return ans;
