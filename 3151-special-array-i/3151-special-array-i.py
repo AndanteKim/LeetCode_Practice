@@ -1,9 +1,9 @@
 class Solution:
     def isArraySpecial(self, nums: List[int]) -> bool:
-        # Iterate  through indics 0 to n - 1
+        # Iterate through indices 0 to n - 1
         for i in range(len(nums) - 1):
-            # Compare the parities of the current and next number
-            if nums[i] % 2 == nums[i + 1] % 2:
+            # Compare the parities using bitwise operations
+            if ((nums[i] & 1) ^ (nums[i + 1] & 1)) == 0:
                 # If the two adjacent numbers have the same parity, return False
                 return False
 
