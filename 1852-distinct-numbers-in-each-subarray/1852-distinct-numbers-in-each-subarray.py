@@ -1,30 +1,28 @@
 class Solution:
     def distinctNumbers(self, nums: List[int], k: int) -> List[int]:
-        n = len(nums)
+        # Find the maximum value in nums
+        max_val, n = max(nums), len(nums)
+
+        # Create a frequency array based on the maximum value
+        freq, distinct_cnt = [0] * (max_val + 1), 0
         ans = [0] * (n - k + 1)
 
-        # Track frequency of numbers in current window
-        freq = dict()
+        for pos in range(n):
+            # Add new number
+            freq[nums[pos]] += 1
 
-        # Process the first window
-        for i in range(k):
-            freq[nums[i]]= freq.get(nums[i], 0) + 1
+            if freq[nums[pos]] == 1:
+                distinct_cnt += 1
 
-        ans[0] = len(freq)
+            # Remove old number
+            if pos >= k:
+                freq[nums[pos - k]] -= 1
+                if freq[nums[pos - k]] == 0:
+                    distinct_cnt -= 1
+            
+            # Store result for complete window
+            if pos + 1 >= k:
+                ans[pos + 1 - k] = distinct_cnt
 
-        # Slide window and update counts
-        for pos in range(k, n):
-            # Remove leftmost element
-            left = nums[pos - k]
-            freq[left] -= 1
+        return ans
 
-            if freq[left] == 0:
-                del freq[left]
-
-            # Add rightmost element
-            right = nums[pos]
-            freq[right] = freq.get(right, 0) + 1
-
-            ans[pos - k + 1] = len(freq)
-
-        return ans  
