@@ -2,19 +2,19 @@ class Solution {
 public:
     bool check(vector<int>& nums) {
         int n = nums.size();
-        vector<int> sortedNums(nums.begin(), nums.end());
-        sort(sortedNums.begin(), sortedNums.end());
 
-        for (int i = 0; i < n; ++i){
-            bool isMatch = true;
-            for (int j = 0; j < n; ++j){
-                if (sortedNums[(i + j) % n] != nums[j]){
-                    isMatch = false;
-                    break;
-                }
-            }
-            if (isMatch) return true;
+        // Base case
+        if (n <= 1) return true;
+
+        int inversion = 0;
+        // For every pair, count the number of inversions
+        for (int i = 1; i < n; ++i){
+            if (nums[i - 1] > nums[i]) ++inversion;
         }
-        return false;
+        
+        // Also, check between the first and last element due to the rotation
+        if (nums[0] < nums[n - 1]) ++inversion;
+
+        return inversion <= 1;
     }
 };
