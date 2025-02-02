@@ -1,16 +1,17 @@
 class Solution:
     def check(self, nums: List[int]) -> bool:
-        sorted_nums, n = nums[:], len(nums)
-        sorted_nums.sort()
+        if len(nums) <= 1:
+            return True
+
+        n, inversion = len(nums), 0
+
+        # For every pair, count the number of inversions
+        for i in range(1, n):
+            if nums[i - 1] > nums[i]:
+                inversion += 1
         
-        for i in range(n):
-            matching = True
-            for j in range(n):
-                if sorted_nums[(i + j) % n] != nums[j]:
-                    matching = False
-                    break
+        # Also check between the last and the first element due to rotation
+        if nums[0] < nums[n - 1]:
+            inversion += 1
 
-            if matching:
-                return True 
-
-        return False
+        return True if inversion <= 1 else False
