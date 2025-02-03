@@ -1,25 +1,29 @@
 class Solution {
 public:
     int longestMonotonicSubarray(vector<int>& nums) {
-        int n = nums.size(), increasing = std::numeric_limits<int>::min(), decreasing = std::numeric_limits<int>::max();
-        int ans = 0, incCount = 0, decCount = 0;
+        // Track current lengths of increasing and decreasing sequences
+        int incLength = 1, decLength = 1, maxLength = 1;
 
-        for (int i = 0; i < n; ++i){
-            if (increasing < nums[i])
-                ++incCount;
-            
+        // Iterate through array comparing adjacent elements.
+        for (int pos = 0; pos < nums.size() - 1; ++pos){
+            if (nums[pos + 1] > nums[pos]){
+                // If the next element is larger, extend increasing sequence
+                ++incLength;
+                decLength = 1;  // Reset decreasing sequence
+            }
+            else if (nums[pos + 1] < nums[pos]){
+                // If next element is smaller, extend decreasing sequence
+                ++decLength;
+                incLength = 1;  // Reset increasing sequence
+            }
             else
-                incCount = 1;
+                // If elements are equal, reset both sequences.
+                incLength = 1, decLength = 1;
 
-            if (decreasing > nums[i])
-                ++decCount;
-            else
-                decCount = 1;
-
-            increasing = nums[i], decreasing = nums[i];
-            ans = max(ans, max(incCount, decCount));
+            // Update max length considering both sequences
+            maxLength = max(maxLength, max(incLength, decLength));
         }
 
-        return ans;
+        return maxLength;
     }
 };
