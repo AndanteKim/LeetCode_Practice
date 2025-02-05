@@ -1,15 +1,21 @@
 class Solution:
     def areAlmostEqual(self, s1: str, s2: str) -> bool:
-        n, freq1, freq2, unmatch_cnt = len(s1), dict(), dict(), 0
+        first_idx_diff, second_idx_diff = 0, 0
+        num_diffs = 0
 
-        for i in range(n):
+        for i in range(len(s1)):
             if s1[i] != s2[i]:
-                unmatch_cnt += 1
-            
-            if unmatch_cnt > 2:
-                return False
+                num_diffs += 1
+                # num_diffs is more than 2, one string swap won't make two strings equal
+                if num_diffs > 2:
+                    return False
+                elif num_diffs == 1:
+                    # Store the index of first difference
+                    first_idx_diff = i
+                else:
+                    # Store the index of second difference
+                    second_idx_diff = i
 
-            freq1[s1[i]] = freq1.get(s1[i], 0) + 1
-            freq2[s2[i]] = freq2.get(s2[i], 0) + 1
+        # Check if swap is possible
+        return s1[first_idx_diff] == s2[second_idx_diff] and s1[second_idx_diff] == s2[first_idx_diff]
 
-        return freq1 == freq2
