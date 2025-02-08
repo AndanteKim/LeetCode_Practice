@@ -1,33 +1,37 @@
 class NumberContainers {
 private:
-    unordered_map<int, set<int>> numberToIndices;
+    unordered_map<int, priority_queue<int, vector<int>, greater<int>>> numberToIndex;
     unordered_map<int, int> indexToNumber;
 
 public:
-    // Constructor
-    // The data structures are already initialized as
-    // part of the member variable declarations
     NumberContainers() {}
     
     void change(int index, int number) {
-        if (indexToNumber.count(index)){
-            if (indexToNumber[index] != number){
-                int prevNumber = indexToNumber[index];
-                numberToIndices[prevNumber].erase(index);
-
-                if (numberToIndices[prevNumber].size() == 0)
-                    numberToIndices.erase(prevNumber);
-            }
-        }
-
+        // Update index to number mapping
         indexToNumber[index] = number;
-        numberToIndices[number].insert(index);
+
+        // Add index to the min heap for this number
+        numberToIndex[number].push(index);
     }
     
     int find(int number) {
-        if (numberToIndices.count(number))
-            // Get the smallest index
-            return *numberToIndices[number].begin();
+        // If number doesn't exist in our map
+        if (!numberToIndex.count(number)) return -1;
+
+        // Get reference to min heap for this number
+        auto& minHeap = numberToIndex[number];
+
+        // Keep checking top element until we valid index
+        while (!minHeap.empty()){
+            int index = minHeap.top();
+
+            // If index still maps to our target number, return it.
+            if (indexToNumber[index] == number)
+                return index;
+
+            // Otherwise remove this tale index
+            minHeap.pop();
+        }
 
         return -1;
     }
