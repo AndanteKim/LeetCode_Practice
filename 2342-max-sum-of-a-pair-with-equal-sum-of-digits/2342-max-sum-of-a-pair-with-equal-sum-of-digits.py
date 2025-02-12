@@ -1,19 +1,20 @@
 class Solution:
-    def get_digit_sum(self, num: int) -> int:
-        digit_sum = 0
-        while num:
-            digit_sum += num % 10
-            num //= 10
-        
-        return digit_sum
-    
     def maximumSum(self, nums: List[int]) -> int:
-        dic = defaultdict(int)
-        ans = -1
+        def find_sum_digits(num: int) -> int:
+            sum_digits = 0
+            while num > 0:
+                sum_digits += num % 10
+                num //= 10
+
+            return sum_digits
+
+        seen = defaultdict(list)
         for num in nums:
-            digit_sum = self.get_digit_sum(num)
-            if digit_sum in dic:
-                ans = max(ans, num + dic[digit_sum])
-            dic[digit_sum] = max(dic[digit_sum], num)
+            heappush(seen[find_sum_digits(num)], -num)
+        
+        ans = -1
+        for key in seen:
+            if len(seen[key]) >= 2:
+                ans = max(ans, -(heappop(seen[key]) + heappop(seen[key])))
         
         return ans
