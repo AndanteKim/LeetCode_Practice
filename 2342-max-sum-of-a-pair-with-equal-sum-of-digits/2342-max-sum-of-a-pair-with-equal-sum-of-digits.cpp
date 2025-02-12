@@ -1,32 +1,43 @@
 class Solution {
 private:
-    int findSumDigits(int num){
-        int ans = 0;
-
+    // Helper function to compute the sum of digits of a number
+    int calculateDigitSum(int num){
+        int digitSum = 0;
         while (num > 0){
-            ans += num % 10;
+            digitSum += num % 10;
             num /= 10;
         }
 
-        return ans;
+        return digitSum;
     }
 
 public:
     int maximumSum(vector<int>& nums) {
-        unordered_map<int, priority_queue<int, vector<int>>> seen;
-        for (int num : nums){
-            seen[findSumDigits(num)].push(num);
+        vector<pair<int, int>> digitSumPairs;
+
+        // Store numbers with their digit sums as pairs
+        for (int num: nums){
+            int digitSum = calculateDigitSum(num);
+            digitSumPairs.push_back({digitSum, num});
         }
+
+        // Sort based on digit sums, and if equal, by number value
+        sort(digitSumPairs.begin(), digitSumPairs.end());
 
         int ans = -1;
-        for (auto& [num, maxHeap] : seen){
-            if (maxHeap.size() >= 2){
-                int pairSum = maxHeap.top(); maxHeap.pop();
-                pairSum += maxHeap.top(); maxHeap.pop();
-                ans = max(ans, pairSum);
+
+        // Iterate through the sorted array to find the maximum sum of pairs
+        for (int index = 1; index < digitSumPairs.size(); ++index){
+            int currDigitSum = digitSumPairs[index].first, prevDigitSum = digitSumPairs[index - 1].first;
+
+            // If two consecutive numbers have the same digit sum
+            if (currDigitSum == prevDigitSum){
+                int currSum = digitSumPairs[index].second + digitSumPairs[index - 1].second;
+
+                ans = max(ans, currSum);
             }
         }
-
+        
         return ans;
     }
 };
