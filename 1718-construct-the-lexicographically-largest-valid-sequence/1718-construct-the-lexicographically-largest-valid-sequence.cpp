@@ -4,7 +4,7 @@ private:
     
     // Recursive function to generate the desired sequence
     bool findLexicographicallyLargestSequence(int currIndex, vector<int>& resultSequence, vector<bool>& isNumberUsed){
-        // If we've filled all positions, return true indicatingsuccess
+        // If we've filled all positions, return true indicating success
         if (currIndex == resultSequence.size())
             return true;
 
