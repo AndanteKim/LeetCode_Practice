@@ -1,15 +1,17 @@
 class MRUQueue:
 
     def __init__(self, n: int):
-        self.nums = SortedList((v, v) for v in range(1, n + 1))
+        # Initialize the queue with numbers from 1 to n
+        self.queue = [i for i in range(1, n + 1)]
 
     def fetch(self, k: int) -> int:
-        ans = self.nums[k - 1][1]
-        last_pos = self.nums[-1][0]
-        del self.nums[k - 1]
-        self.nums.add((last_pos + 1, ans))
+        # Get the k-th element (1-indexed)
+        val = self.queue.pop(k - 1)
+        # Append the element to the end of the queue
+        self.queue.append(val)
 
-        return ans
+        return val
+
 
 # Your MRUQueue object will be instantiated and called as such:
 # obj = MRUQueue(n)
