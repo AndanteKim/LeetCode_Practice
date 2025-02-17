@@ -1,30 +1,29 @@
 class Solution {
 private:
-    int n;
-    void backtrack(int i, int& ans, unordered_map<char, int>& count){
-        if (i == n) return;
+    int findSequences(unordered_map<char, int>& charCount){
+        int total = 0;
 
-        for (auto& it : count){
-            if (count[it.first] > 0){
-                --count[it.first];
-                ++ans;
-                backtrack(i + 1, ans, count);
-                ++count[it.first];
-            }
+        // Try using each available character
+        for (auto& [ch, freq] : charCount){
+            if (charCount[ch] == 0) continue;
+
+            // Add current character and recurse
+            ++total;
+            --charCount[ch];
+            total += findSequences(charCount);
+            ++charCount[ch];
         }
+
+        return total;
     }
 
 public:
     int numTilePossibilities(string tiles) {
-        this -> n = tiles.size();
-        int ans = 0;
-        unordered_map<char, int> count;
+        // Track frequency of each characters
+        unordered_map<char, int> charCount;
+        for (const char& c : tiles) ++charCount[c];
 
-        for (const char& c : tiles){
-            ++count[c];
-        }
-        backtrack(0, ans, count); 
-
-        return ans;   
+        // Find all possible sequences using character frequencies
+        return findSequences(charCount);
     }
 };
