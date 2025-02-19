@@ -1,30 +1,24 @@
 class Solution {
 private:
-    int n, k;
-    void backtrack(int start, string& word, vector<string>& ansList){
-        if (start == n){
-            ansList.push_back(word);
+    int n;
+    void backtrack(int i, string curr, vector<string>& ans){
+        // Base case
+        if (i == n) {
+            ans.push_back(curr);
             return;
         }
-        
-        for (const char& c: vector<char>{'a','b','c'}){
-            if (!word.empty() && word.back() == c) continue;
-            else{
-                word.push_back(c);
-                backtrack(start + 1, word, ansList);
-                word.pop_back();
-            }
+
+        for (const char& c : vector<char>{'a','b','c'}){
+            if (curr.empty() || curr.back() != c)
+                backtrack(i + 1, curr + c, ans);
         }
-        
     }
-    
+
 public:
     string getHappyString(int n, int k) {
-        vector<string> ansList;
-        string word = "";
-        this -> n = n, this -> k = k;
-        backtrack(0, word, ansList);
-        
-        return ansList.size() < k? "" : ansList[k - 1];
+        this -> n = n;
+        vector<string> ans;
+        backtrack(0, "", ans);
+        return k <= ans.size()? ans[k - 1] : ""; 
     }
 };
