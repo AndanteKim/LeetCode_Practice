@@ -1,26 +1,37 @@
 class Solution:
     def mergeArrays(self, nums1: List[List[int]], nums2: List[List[int]]) -> List[List[int]]:
-        def count_nums(nums: List[List[int]]) -> int:
-            cnt = 0
-            for id, val in nums:
-                cnt = max(cnt, id)
-            return cnt + 1
-        
-        def allocation(rows: List[int], nums: List[List[int]]) -> None:
-            for id, val in nums:
-                rows[id] += val
-        
-        count = count_nums(nums1)
-        count = max(count, count_nums(nums2))
+        n1, n2 = len(nums1), len(nums2)
+        ptr1, ptr2 = 0, 0
 
-        rows = [0] * (count + 1)
-
-        allocation(rows, nums1)
-        allocation(rows, nums2)
         ans = []
 
-        for i, val in enumerate(rows):
-            if val > 0:
-                ans.append([i, val])
+        while ptr1 < n1 and ptr2 < n2:
+            # If the id is same, add the values and insert to the result.
+            # Increment both pointers.
+            if nums1[ptr1][0] == nums2[ptr2][0]:
+                ans.append(
+                    [nums1[ptr1][0], nums1[ptr1][1] + nums2[ptr2][1]]
+                )
+                ptr1 += 1
+                ptr2 += 1
 
+            elif nums1[ptr1][0] < nums2[ptr2][0]:
+                # If the id in nums1 is smaller, add it to result and increment the pointer
+                ans.append(nums1[ptr1])
+                ptr1 += 1
+            else:
+                # If the id in nums2 is smaller, add it to result and increment the pointer
+                ans.append(nums2[ptr2])
+                ptr2 += 1
+        
+        # If pairs are remaining in the nums1, then add them to the result.
+        while ptr1 < n1:
+            ans.append(nums1[ptr1])
+            ptr1 += 1
+
+        # If pairs are remaining in the nums2, then add them to the result.
+        while ptr2 < n2:
+            ans.append(nums2[ptr2])
+            ptr2 += 1
+        
         return ans
