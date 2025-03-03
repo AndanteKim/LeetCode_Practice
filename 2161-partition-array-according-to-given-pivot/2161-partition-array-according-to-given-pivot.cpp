@@ -1,30 +1,23 @@
 class Solution {
-private:
-    void merge(vector<int>& ans, queue<int>& elems){
-        while(!elems.empty()){
-            ans.push_back(elems.front());
-            elems.pop();
-        }
-    }
-
 public:
     vector<int> pivotArray(vector<int>& nums, int pivot) {
-        queue<int> left, center, right;
-
-        for (int num : nums){
-            if (num == pivot)
-                center.push(num);
-            else if (num < pivot)
-                left.push(num);
-            else
-                right.push(num);
+        int n = nums.size(), lessI = 0, greaterI = n - 1;
+        vector<int> ans(n);
+        
+        for (int i = 0, j = n - 1; i < n && j >= 0; ++i, --j){
+            if (nums[i] < pivot){
+                ans[lessI++] = nums[i];
+            }
+            
+            if (nums[j] > pivot){
+                ans[greaterI--] = nums[j];
+            }
         }
 
-        vector<int> ans;
+        while (lessI <= greaterI){
+            ans[lessI++] = pivot;
+        }
 
-        merge(ans, left);
-        merge(ans, center);
-        merge(ans, right);
         return ans;
     }
 };
