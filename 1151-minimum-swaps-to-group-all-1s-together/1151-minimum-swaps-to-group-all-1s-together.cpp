@@ -1,19 +1,22 @@
 class Solution {
 public:
     int minSwaps(vector<int>& data) {
-        int k = count(data.begin(), data.end(), 1), n = data.size();
-        int left = 0, ans = std::numeric_limits<int>::max(), swapCount = 0;
-        
-        for (int right = 0; right < n; ++right){
-            if (data[right] == 0) ++swapCount;
-            
-            while (right - left >= k){
-                if (data[left++] == 0) --swapCount;
+        int ones = count(data.begin(), data.end(), 1), left = 0, maxOne = 0, countOne = 0;
+
+        for (int right = 0; right < data.size(); ++right){
+            // Updating the number of 1's by adding the new element
+            countOne += data[right];
+
+            // Maintain the length of the window to ones
+            if (right - left >= ones){
+                // Updating the number of 1's by removing the oldest element
+                countOne -= data[left++];
             }
 
-            if (right + 1 >= k) ans = min(ans, swapCount);
+            // Record the maximum number of 1's in the window
+            maxOne = max(maxOne, countOne);
         }
 
-        return ans;
+        return ones - maxOne;
     }
 };
