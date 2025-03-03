@@ -1,18 +1,22 @@
 class Solution:
     def minSwaps(self, data: List[int]) -> int:
-        k, n, left = data.count(1), len(data), 0
-        ans, swap_count = float('inf'), 0
+        ones = sum(data)
+        cnt_one = max_one = 0
+        left = 0
 
-        for right in range(n):
-            if data[right] == 0:
-                swap_count += 1
+        for right in range(len(data)):
+            # Updating the number of 1's by adding the new element
+            cnt_one += data[right]
+            right += 1
+
+            # Maintain the length of the window to ones
+            if right - left > ones:
+                # updating the number of 1's by removing the oldest element
+                cnt_one -= data[left]
+                left += 1
             
-            while right - left >= k:
-                if data[left] == 0:
-                    swap_count -= 1
-                left += 1 
-            
-            if right + 1 >= k:
-                ans = min(ans, swap_count)
+            # Record the maximum number of 1's in the window
+            max_one = max(max_one, cnt_one)
         
-        return ans
+        return ones - max_one
+        
