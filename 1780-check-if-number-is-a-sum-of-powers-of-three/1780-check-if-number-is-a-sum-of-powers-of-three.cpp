@@ -1,22 +1,15 @@
 class Solution {
 public:
     bool checkPowersOfThree(int n) {
-        int power = 0;
-
-        // Find the largest power that is smaller or equal to n
-        while (pow(3, power) <= n) ++power;
-
         while (n > 0){
-            // Add current power to the sum
-            if (n >= pow(3, power)) n -= pow(3, power);
+            // Check if this power should be used twice
+            if (n % 3 == 2) return false;
 
-            // We cannot use the same power twice
-            if (n >= pow(3, power)) return false;
-
-            --power;
+            // Divide n by 3 to move to the next greater power
+            n /= 3;
         }
 
-        // n has reached 0
+        // The ternary representation of n consists only of 0s and 1s
         return true;
     }
 };
