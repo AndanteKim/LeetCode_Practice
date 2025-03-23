@@ -54,5 +54,5 @@ class Solution:
                             ) % self.MOD
 
         # Return the number of shortest paths from node (n - 1) to 0
-        return dp[n - 1][0][1]
+        return dp[0][n - 1][1]
         
