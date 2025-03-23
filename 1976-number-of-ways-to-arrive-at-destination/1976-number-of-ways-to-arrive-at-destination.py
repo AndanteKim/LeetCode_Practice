@@ -1,38 +1,58 @@
 class Solution:
+    MOD = 10 ** 9 + 7
     def countPaths(self, n: int, roads: List[List[int]]) -> int:
-        graph, mod = [[] for _ in range(n)], 10 ** 9 + 7
+        # dp[src][dst][0] stores the minimum time between src and dest
+        # dp[src][dst][1] stores the number of ways to reach dest from src
+        # with the minimum time
+        dp = [[[0, 0] for _ in range(n)] for _ in range(n)]
 
-        # Build adjacency list
-        for u, v, time in roads:
-            graph[u].append((v, time))
-            graph[v].append((u, time))
-        
-        # Min-Heap (priority queue) for Dijkstra
-        min_heap = [(0, 0)] # (time, node)
-        # Store the shortest time to each node
-        shortest_time = [float('inf')] * n
-        # Number of ways to reach each node in the shortest time
-        path_count = [0] * n
-        
-        shortest_time[0] = 0    # Distance to source is 0
-        path_count[0] = 1   # 1 way to reach node 0
-        
-        while min_heap:
-            t, curr_node = heappop(min_heap)
+        # Initialize the dp table
+        for src in range(n):
+            for dst in range(n):
+                if src != dst:
+                    # Set a large initial time
+                    dp[src][dst][0] = int(1e12)
+                    # No paths yet
+                    dp[src][dst][1] = 0
+                else:
+                    # Distance from a node to itself is 0
+                    dp[src][dst][0] = 0
+                    # Only one trivial way (staying at the node)
+                    dp[src][dst][1] = 1
 
-            # Skip outdated distances
-            if t > shortest_time[curr_node]:
-                continue
+        # Initialize direct roads from the input
+        for start, end, t in roads:
+            dp[start][end][0] = t
+            dp[end][start][0] = t
 
-            for neighbor, run_time in graph[curr_node]:
-                # Found a new shortest path → Update the shortest time and reset path count
-                if t + run_time < shortest_time[neighbor]:
-                    shortest_time[neighbor] = t + run_time
-                    path_count[neighbor] = path_count[curr_node]
-                    heappush(min_heap, (shortest_time[neighbor], neighbor))
+            # There is one direct path
+            dp[start][end][1] = 1
 
-                # Found another way with the same shortest time → Add to path count
-                elif t + run_time == shortest_time[neighbor]:
-                    path_count[neighbor] = (path_count[neighbor] + path_count[curr_node]) % mod
+            # Since the roads are bidirectional
+            dp[end][start][1] = 1
         
-        return path_count[n - 1]
+        # Apply the Floyd-Warshall algorithm to compute the shortest paths
+        # Intermediate node
+        for mid in range(n):
+            # Starting node
+            for src in range(n):
+                # Destination node
+                for dst in range(n):
+                    # Avoid self-loops
+                    if src != mid and dst != mid:
+                        new_t = dp[src][mid][0] + dp[mid][dst][0]
+
+                        if new_t < dp[src][dst][0]:
+                            # Found a shorter path
+                            dp[src][dst][0] = new_t
+                            dp[src][dst][1] = (dp[src][mid][1] * dp[mid][dst][1]) % self.MOD
+                        elif new_t == dp[src][dst][0]:
+                            # Another way to achieve the same shortest time
+                            dp[src][dst][1] = (
+                                dp[src][dst][1]
+                                + dp[src][mid][1] * dp[mid][dst][1]
+                            ) % self.MOD
+
+        # Return the number of shortest paths from node (n - 1) to 0
+        return dp[n - 1][0][1]
+        
