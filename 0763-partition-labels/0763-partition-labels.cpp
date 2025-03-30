@@ -1,24 +1,35 @@
 class Solution {
 public:
     vector<int> partitionLabels(string s) {
-        // Stores the last index of each character in 's'
-        int partitionStart = 0, partitionEnd = 0;
-        vector<int> lastOccurrence(26);
+        int n = s.size();
+        vector<int> firstOccurrence(26, -1), lastOccurrence(26);
 
-        for (int i = 0; i < s.size(); ++i){
+        // Store the last occurrence index of each character
+        for (int i = 0; i < n; ++i){
             lastOccurrence[s[i] - 97] = i;
         }
 
         vector<int> ans;
-        for (int i = 0; i < s.size(); ++i){
-            partitionEnd = max(partitionEnd, lastOccurrence[s[i] - 97]);
+        int partitionStart = 0, partitionEnd = 0;
+        
+        for (int i = 0; i < n; ++i){
+            // Store the first occurrence index of each character (if not set)
+            if (firstOccurrence[s[i] - 97] == -1)
+                firstOccurrence[s[i] - 97] = i;
 
-            // End of the current partition
-            if (i == partitionEnd){
-                ans.push_back(i - partitionStart + 1);
-                partitionStart = i + 1;
+            // If we find a new partition start
+            if (partitionEnd < firstOccurrence[s[i] - 97]){
+                ans.push_back(partitionEnd - partitionStart + 1);
+                partitionStart = i; partitionEnd = i;
             }
+
+            // Update partition end boundary
+            partitionEnd = max(partitionEnd, lastOccurrence[s[i] - 97]);
         }
+
+        // Add the last partition if it exists
+        if (partitionEnd - partitionStart + 1 > 0)
+            ans.push_back(partitionEnd - partitionStart + 1);
 
         return ans;
     }
