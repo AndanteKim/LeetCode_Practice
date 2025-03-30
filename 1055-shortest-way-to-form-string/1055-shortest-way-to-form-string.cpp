@@ -1,33 +1,37 @@
 class Solution {
+private:
+    // To check if toCheck is a substring of inString
+    bool isSubsequence(string& toCheck, string& inString){
+        int i = 0, j = 0;
+
+        while (i < toCheck.size() && j < inString.size()){
+            if (toCheck[i] == inString[j])
+                ++i;
+            ++j;
+        }
+
+        return i == toCheck.size();
+    }
+
 public:
     int shortestWay(string source, string target) {
-        int source_length = source.size();
-        int nextOccurrence[source.length()][26];
-        
-        for (int c = 0; c < 26; ++c) nextOccurrence[source.size() - 1][c] = -1;
-        
-        nextOccurrence[source.size() - 1][source[source.size() - 1] - 'a'] = source.size() - 1;
-        
-        for (int idx = source.size() - 2; idx >= 0; --idx){
-            for (int c = 0; c < 26; ++c) nextOccurrence[idx][c] = nextOccurrence[idx + 1][c];
-            
-            nextOccurrence[idx][source[idx] - 'a'] = idx;
+        unordered_set<char> sourceChars(source.begin(), source.end());
+
+        // Check if all characters of the target are present in the source
+        // If any charactr is not present, return -1
+        for (const char& t : target){
+            if (!sourceChars.count(t)) return -1;
         }
         
-        int source_iterator = 0, count = 1;
-        
-        for (const char&c : target){
-            if (nextOccurrence[0][c - 'a'] == -1) return -1;
-            
-            if (source_iterator == source.size() || nextOccurrence[source_iterator][c - 'a'] == -1){
-                ++count;
-                source_iterator = 0;
-            }
-            
-            source_iterator = nextOccurrence[source_iterator][c - 'a'] + 1;
+        // Concatenate source until the target is a subsequence of the concatenated string
+        string sourceSubsequence = source;
+        int ans = 1;
+        while (!isSubsequence(target, sourceSubsequence)){
+            sourceSubsequence += source;
+            ++ans;
         }
-        
-        return count;
-        
+
+        // Number of concatenations done
+        return ans;
     }
 };
