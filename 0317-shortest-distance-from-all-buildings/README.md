@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/shortest-distance-from-all-buildings/">317. Shortest Distance from All Buildings</a></h2><h3>Hard</h3><hr><div><p>You are given an <code>m x n</code> grid <code>grid</code> of values <code>0</code>, <code>1</code>, or <code>2</code>, where:</p>
+<h2><a href="https://leetcode.com/problems/shortest-distance-from-all-buildings/?envType=weekly-question&envId=2025-04-01">317. Shortest Distance from All Buildings</a></h2><h3>Hard</h3><hr><p>You are given an <code>m x n</code> grid <code>grid</code> of values <code>0</code>, <code>1</code>, or <code>2</code>, where:</p>
 
 <ul>
 	<li>each <code>0</code> marks <strong>an empty land</strong> that you can pass by freely,</li>
@@ -16,8 +16,9 @@
 
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://assets.leetcode.com/uploads/2021/03/14/buildings-grid.jpg" style="width: 413px; height: 253px;">
-<pre><strong>Input:</strong> grid = [[1,0,2,0,1],[0,0,0,0,0],[0,0,1,0,0]]
+<img alt="" src="https://assets.leetcode.com/uploads/2021/03/14/buildings-grid.jpg" style="width: 413px; height: 253px;" />
+<pre>
+<strong>Input:</strong> grid = [[1,0,2,0,1],[0,0,0,0,0],[0,0,1,0,0]]
 <strong>Output:</strong> 7
 <strong>Explanation:</strong> Given three buildings at (0,0), (0,4), (2,2), and an obstacle at (0,2).
 The point (1,2) is an ideal empty land to build a house, as the total travel distance of 3+3+1=7 is minimal.
@@ -26,13 +27,15 @@ So return 7.
 
 <p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>Input:</strong> grid = [[1,0]]
+<pre>
+<strong>Input:</strong> grid = [[1,0]]
 <strong>Output:</strong> 1
 </pre>
 
 <p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>Input:</strong> grid = [[1]]
+<pre>
+<strong>Input:</strong> grid = [[1]]
 <strong>Output:</strong> -1
 </pre>
 
@@ -46,4 +49,3 @@ So return 7.
 	<li><code>grid[i][j]</code> is either <code>0</code>, <code>1</code>, or <code>2</code>.</li>
 	<li>There will be <strong>at least one</strong> building in the <code>grid</code>.</li>
 </ul>
-</div>
