@@ -1,21 +1,20 @@
 class Solution {
-private:
-    int n;
-    long long dp(int i, vector<long long>& memo, vector<vector<int>>& questions){
-        // Base case
-        if (i >= n)
-            return 0;
-
-        if (memo[i] != -1)  return memo[i];
-
-        memo[i] = max(questions[i][0] + dp(i + 1 + questions[i][1], memo, questions), dp(i + 1, memo, questions));
-        return memo[i];
-    }
-
 public:
     long long mostPoints(vector<vector<int>>& questions) {
-        this -> n = questions.size();
-        vector<long long> memo(n, -1);
-        return dp(0, memo, questions);
+        int n = questions.size();
+        vector<long long> dp(n);
+        dp[n - 1] = questions[n - 1][0];
+
+        for (int i = n - 2; i >= 0; --i){
+            int solved = questions[i][0], skip = questions[i][1];
+            dp[i] = solved;
+            if (i + 1 + skip < n)
+                dp[i] += dp[i + 1 + skip];
+
+            // dp[i] = max(solve it, skip it)
+            dp[i] = max(dp[i], dp[i + 1]);
+        }
+        
+        return dp[0];
     }
 };
