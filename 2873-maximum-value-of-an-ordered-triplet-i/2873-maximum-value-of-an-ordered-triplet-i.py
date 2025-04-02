@@ -2,9 +2,10 @@ class Solution:
     def maximumTripletValue(self, nums: List[int]) -> int:
         ans, n = 0, len(nums)
 
-        for i in range(n - 2):
-            for j in range(i + 1, n - 1):
-                for k in range(j + 1, n):
-                    ans = max(ans, (nums[i] - nums[j]) * nums[k])
+        for k in range(2, n):
+            max_prefix = nums[0]
+            for j in range(1, k):
+                ans = max(ans, (max_prefix - nums[j]) * nums[k])
+                max_prefix = max(max_prefix, nums[j])
 
         return ans
