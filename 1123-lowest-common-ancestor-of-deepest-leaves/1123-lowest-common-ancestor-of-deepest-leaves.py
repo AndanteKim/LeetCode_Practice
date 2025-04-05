@@ -5,18 +5,39 @@
 #         self.left = left
 #         self.right = right
 class Solution:
+    def bfs(self, root: Optional[TreeNode]) -> List[List[Tuple[int]]]:
+        q_tree = deque([root])
+        depth, tree_set = 0,[]
+        
+        while q_tree:
+            inter_set = []
+            for i in range(len(q_tree)):
+                curr = q_tree.popleft()
+                inter_set.append((depth, curr.val))
+                if curr.left:
+                    q_tree.append(curr.left)
+                
+                if curr.right:
+                    q_tree.append(curr.right)
+            tree_set.append(inter_set)
+            depth += 1
+        
+        return tree_set[-1]
+
     def lcaDeepestLeaves(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
-        def dfs(root: Optional[TreeNode]) -> Tuple[int, Optional[TreeNode]]:
-            if not root:
-                return 0, None
+        def lca(node: Optional[TreeNode], a: int, b: int) -> Optional[TreeNode]:
+            if not node or node.val == a or node.val == b:
+                return node
+            left = lca(node.left, a, b)
+            right = lca(node.right, a, b)
 
-            left, right = dfs(root.left), dfs(root.right)
-
-            if left[0] > right[0]:
-                return left[0] + 1, left[1]
-
-            if left[0] < right[0]:
-                return right[0] + 1, right[1]
-            return left[0] + 1, root
-
-        return dfs(root)[1]
+            if not left:
+                return right
+            elif not right:
+                return left
+            return node
+        
+        last_set = self.bfs(root)
+        
+        a, b = last_set[0][1], last_set[-1][1]
+        return lca(root, a, b)
