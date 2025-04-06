@@ -1,39 +1,34 @@
 class Solution:
     def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
+        def EDS(i: int) -> List[int]:
+            # Recursion with memoization
+            if i in memo:
+                return memo[i]
+            
+            tail, max_subset = nums[i], []
+
+            # The value of EDS(i) depends on it previous elements
+            for p in range(0, i):
+                if tail % nums[p] == 0:
+                    subset = EDS(p)
+                    if len(max_subset) < len(subset):
+                        max_subset = subset
+            
+            # extend the found max subset with the current tail.
+            max_subset = max_subset[:]
+            max_subset.append(tail)
+
+            # memorize the intermediate solutions for reuse.
+            memo[i] = max_subset
+            return memo[i]
+
+        
+        # Base case
         if len(nums) == 0:
             return []
 
         nums.sort()
+        memo = dict()
 
-        # The container keeping the size of the largest divisible subset endings with X_i
-        # dp[i] corresponds to len(EDS(X_i))
-        dp = [0] * len(nums)
-
-        """ Build the DP matrix/vector """
-
-        for i, num in enumerate(nums):
-            max_subset_sz = 0
-
-            for k in range(0, i):
-                if nums[i] % nums[k] == 0:
-                    max_subset_sz = max(max_subset_sz, dp[k])
-            
-            max_subset_sz += 1
-            dp[i] = max_subset_sz
-        
-        """ Find both the size of largest divisible set and its index """
-        max_size, max_size_idx = max([(v, i) for i, v in enumerate(dp)])
-        ans = []
-
-        """ Reconstruct the largest divisible subset """
-        # curr_size: the size of the current subset
-        # curr_tail: the last element in the current subset
-        curr_size, curr_tail = max_size, nums[max_size_idx]
-
-        for i in range(max_size_idx, -1, -1):
-            if curr_size == dp[i] and curr_tail % nums[i] == 0:
-                ans.append(nums[i])
-                curr_size -= 1
-                curr_tail = nums[i]
-        
-        return ans[::-1]
+        # Find the largest divisible subset
+        return max([EDS(i) for i in range(len(nums))], key = len)
