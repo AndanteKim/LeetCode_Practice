@@ -1,34 +1,35 @@
 class Solution {
-private:
-    int n;
-    vector<int> EDS(int i, vector<vector<int>>& memo, vector<int>& nums){
-        if (!memo[i].empty()) return memo[i];
-        int tail = nums[i];
-        vector<int> maxSubset;
-        
-        for (int p = 0; p < i; ++p){
-            if (tail % nums[p] == 0){
-                vector<int> subset = EDS(p, memo, nums);
-                if (maxSubset.size() < subset.size()) maxSubset = subset;
-            }
-        }
-        
-        maxSubset.push_back(tail);
-        return memo[i] = maxSubset;
-    }
-    
 public:
     vector<int> largestDivisibleSubset(vector<int>& nums) {
+        // Base case
+        int n = nums.size();
+        if (n == 0) return vector<int>{};
+
+        // Container to keep the largest divisible subset
+        // ending with each of the nums
+        map<int, vector<int>> EDS;
+        for (int num : nums) EDS[num] = vector<int>{};
+        
+        // Sort the original list in ascending order
         sort(nums.begin(), nums.end());
-        this -> n = nums.size();
-        vector<vector<int>> memo(this -> n);
-        vector<int> ans;
-        
+
         for (int i = 0; i < n; ++i){
-            vector<int> curr = EDS(i, memo, nums);
-            if (curr.size() > ans.size()) ans = curr;
+            vector<int> maxCurr;
+
+            // Find the largest divisible subset of previous elements
+            for (int k = 0; k < i; ++k){
+                if (nums[i] % nums[k] == 0 && maxCurr.size() < EDS[k].size())
+                    maxCurr = EDS[k];
+            }
+
+            EDS[i] = maxCurr;
+            EDS[i].push_back(nums[i]);
         }
-        
+
+        // Find the largest of EDS values
+        vector<int> ans;
+        for (int i = 0; i < n; ++i) if (ans.size() < EDS[i].size()) ans = EDS[i];
+
         return ans;
     }
 };
