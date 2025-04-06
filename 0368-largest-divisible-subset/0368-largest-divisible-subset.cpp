@@ -1,51 +1,46 @@
 class Solution {
+private:
+    int n;
+    vector<int> dp(int i, unordered_map<int, vector<int>>& memo, vector<int>& nums){
+        if (memo.count(i))
+            return memo[i];
+
+        vector<int> maxSubset;
+        int tail = nums[i];
+
+        // The value of EDS(i) depends on it previous elements
+        for (int p = 0; p < i; ++p){
+            if (tail % nums[p] == 0){
+                vector<int> subset = dp(p, memo, nums);
+                if (maxSubset.size() < subset.size()) maxSubset = subset;
+            }
+        }
+
+        // Extend the found max subset with the current tail.
+        maxSubset.push_back(tail);
+
+        // Memorize the intermediate solutions for reuse.
+        return memo[i] = maxSubset;
+    }
+
+
 public:
     vector<int> largestDivisibleSubset(vector<int>& nums) {
         // Base case
         if (nums.size() == 0) return {};
 
-        // Sort the nums
         sort(nums.begin(), nums.end());
-
-        // The container keeping the size of the largest divisible subset ending with X_i
-        // dp[i] corresponds to the length of EDS(X_i)
-        int n = nums.size(), maxSubsetSize = 0;
-        vector<int> dp(n);
-
-        // Build the dynamic programming matrix/vector
-        for (int i = 0; i < n; ++i){
-            int maxSubsetSize = 0;
-            for (int k = 0; k < i; ++k){
-                if (nums[i] % nums[k] == 0)
-                    maxSubsetSize = max(maxSubsetSize, dp[k]);
-            }
-            ++maxSubsetSize;
-            dp[i] = maxSubsetSize;
-        }
-
-        // Find both the size of largest divisible set and its index
-        int maxSize = 0, maxSizeIndex = 0;
-        for (int i = 0; i < n; ++i){
-            if (maxSize < dp[i]){
-                maxSize = dp[i];
-                maxSizeIndex = i;
-            }
-        }
-
-        // Reconstruct the largest divisible subset
-        // currSize: the size of the current subset
-        // currTail: the last element in the current subset
-        int currSize = maxSize, currTail = nums[maxSizeIndex];
+        this -> n = nums.size();
         vector<int> ans;
-        for (int i = maxSizeIndex; i >= 0; --i){
-            if (currSize == dp[i] && currTail % nums[i] == 0){
-                ans.push_back(nums[i]);
-                --currSize;
-                currTail = nums[i];
-            }
+        unordered_map<int, vector<int>> memo;
+
+        // Find the largest divisible subset
+        for (int i = 0; i < n; ++i){
+            vector<int> subset = dp(i, memo, nums);
+            if (ans.size() < subset.size())
+                ans = subset;
         }
 
-        reverse(ans.begin(), ans.end());
         return ans;
     }
 };
