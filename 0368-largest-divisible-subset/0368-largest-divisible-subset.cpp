@@ -1,6 +1,5 @@
 class Solution {
 private:
-    int n;
     vector<int> dp(int i, unordered_map<int, vector<int>>& memo, vector<int>& nums){
         if (memo.count(i))
             return memo[i];
@@ -30,7 +29,7 @@ public:
         if (nums.size() == 0) return {};
 
         sort(nums.begin(), nums.end());
-        this -> n = nums.size();
+        int n = nums.size();
         vector<int> ans;
         unordered_map<int, vector<int>> memo;
 
