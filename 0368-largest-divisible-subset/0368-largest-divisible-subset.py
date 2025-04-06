@@ -1,22 +1,10 @@
 class Solution:
     def largestDivisibleSubset(self, nums: List[int]) -> List[int]:
-        nums.sort()
-        memo = dict()
-        
-        def EDS(i: int) -> int:
-            if i in memo:
-                return memo[i]
-            tail = nums[i]
-            maxSubset = []
-            
-            for p in range(0, i):
-                if tail % nums[p] == 0:
-                    subset = EDS(p)
-                    if len(maxSubset) < len(subset):
-                        maxSubset = subset
-            maxSubset = maxSubset[:]
-            maxSubset.append(tail)
-            memo[i] = maxSubset
-            return maxSubset
-        
-        return max([EDS(i) for i in range(len(nums))], key = len)
+        # The container holding all intermediate solutions.
+        # key: the largest element in a valid subset.
+        subsets = {-1: set()}
+
+        for num in sorted(nums):
+            subsets[num] = max([subsets[k] for k in subsets if num % k == 0], key = len) | {num}
+
+        return list(max(subsets.values(), key = len))
