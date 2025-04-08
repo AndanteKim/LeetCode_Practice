@@ -1,27 +1,23 @@
 class Solution {
+private:
+    int n;
+    bool checkUnique(int start, vector<int>& nums){
+        unordered_set<int> seen;
+
+        for (int i = start; i < n; ++i){
+            if (seen.count(nums[i])) return false;
+            seen.insert(nums[i]);
+        }
+        return true;
+    }
+
 public:
     int minimumOperations(vector<int>& nums) {
-        int ans = 0, i = 0, n = nums.size();
-        unordered_map<int, int> freq;
-        for (int num : nums) ++freq[num];
+        this -> n = nums.size();
+        int ans = 0;
 
-        while (true){
-            int uniqueCount = 0;
-
-            for (auto& [key, val]: freq){
-                if (val == 1) ++uniqueCount;
-            }
-
-            if (uniqueCount == freq.size()) break;
-            
-            int left = n - i;
-            for (int j = 0; j < min(3, left); ++j){
-                --freq[nums[i]];
-                
-                if (freq[nums[i]] == 0) freq.erase(nums[i]);
-                ++i;
-            }
-
+        for (int i = 0; i < n; i += 3){
+            if (checkUnique(i, nums)) return ans;
             ++ans;
         }
 
