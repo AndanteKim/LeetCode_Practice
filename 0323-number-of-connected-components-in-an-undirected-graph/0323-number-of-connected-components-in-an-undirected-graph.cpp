@@ -1,47 +1,30 @@
-class UnionFind{
+class Solution {
 private:
-    vector<int> parent, rank;
-public:
-    UnionFind(int size){
-        parent.resize(size);
-        rank.resize(size, 0);
-        for (int i = 0; i < size; ++i) parent[i] = i;
-    }
-    
-    int find(int x){
-        if (parent[x] != x) parent[x] = find(parent[x]);
-        return parent[x];
-    }
-    
-    int UnionSet(int x, int y){
-        int xset = find(x), yset = find(y);
-        if (xset == yset)
-            return 0;
-        else{
-            if (rank[xset] > rank[yset]){
-                rank[xset] += rank[yset];
-                parent[yset] = xset;
-            }
-            else{
-                rank[yset] += rank[xset];
-                parent[xset] = yset;
-            }
-            
-            return 1;
+    void dfs(int node, vector<bool>& visited, vector<vector<int>>& graph){
+        if (visited[node]) return;
+
+        visited[node] = true;
+        for (int neighbor : graph[node]){
+            dfs(neighbor, visited, graph);
         }
     }
-};
 
-class Solution {
 public:
     int countComponents(int n, vector<vector<int>>& edges) {
-        int components = n;
-        UnionFind uf(n);
-        
-        for (const vector<int>& edge : edges){
-            components -= uf.UnionSet(edge[0], edge[1]);
+        vector<bool> visited(n, false);
+        vector<vector<int>> graph(n);
+        int ans = 0;
+        for (vector<int>& edge : edges){
+            graph[edge[0]].push_back(edge[1]);
+            graph[edge[1]].push_back(edge[0]);
         }
-        
-        return components;
+
+        for (int node = 0; node < n; ++node){
+            if (visited[node]) continue;
+            ++ans;
+            dfs(node, visited, graph);
+        }
+
+        return ans;
     }
 };
