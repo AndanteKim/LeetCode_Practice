@@ -1,22 +1,18 @@
 class Solution:
     def minimumOperations(self, nums: List[int]) -> int:
-        ans, counter, i, n = 0, Counter(nums), 0, len(nums)
+        def check_unique(start: int) -> bool:
+            seen = set()
+            for num in nums[start:]:
+                if num in seen:
+                    return False
+                seen.add(num)
+            return True
 
-        while True:
-            unique_count = 0
-            for key, val in counter.items():
-                if val == 1:
-                    unique_count += 1
-            
-            if unique_count == len(counter):
-                break
+        ans = 0
 
-            for _ in range(min(3, n - i)):
-                counter[nums[i]] -= 1
-                if counter[nums[i]] == 0:
-                    del counter[nums[i]]
-                i += 1
-
+        for i in range(0, len(nums), 3):
+            if check_unique(i):
+                return ans
             ans += 1
 
         return ans
