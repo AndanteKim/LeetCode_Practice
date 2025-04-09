@@ -1,15 +1,11 @@
 class Solution:
     def minOperations(self, nums: List[int], k: int) -> int:
-        ans, seen = 0, set()
-
-        for num in nums:
-            if num in seen:
-                continue
-            
-            if num < k:
+        st = set()
+        
+        for x in nums:
+            if x < k:
                 return -1
-            elif num > k:
-                ans += 1
-            seen.add(num)
+            elif x > k:
+                st.add(x)
 
-        return ans
+        return len(st)
