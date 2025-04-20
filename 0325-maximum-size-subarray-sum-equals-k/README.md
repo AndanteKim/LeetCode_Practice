@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/maximum-size-subarray-sum-equals-k/?envType=weekly-question&envId=2025-04-15">325. Maximum Size Subarray Sum Equals k</a></h2><h3>Medium</h3><hr><p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the maximum length of a </em><span data-keyword="subarray"><em>subarray</em></span><em> that sums to</em> <code>k</code>. If there is not one, return <code>0</code> instead.</p>
+<h2><a href="https://leetcode.com/problems/maximum-size-subarray-sum-equals-k/">325. Maximum Size Subarray Sum Equals k</a></h2><h3>Medium</h3><hr><p>Given an integer array <code>nums</code> and an integer <code>k</code>, return <em>the maximum length of a </em><span data-keyword="subarray"><em>subarray</em></span><em> that sums to</em> <code>k</code>. If there is not one, return <code>0</code> instead.</p>
 
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
