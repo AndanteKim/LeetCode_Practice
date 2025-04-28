@@ -1,18 +1,33 @@
 class Solution {
 public:
     long long countSubarrays(vector<int>& nums, long long k) {
-        long long ans = 0, curr = 0;
-        int n = nums.size(), left = 0, length;
+        int n = nums.size();
+        vector<long long> prefix(n + 1);
 
-        for (int right = 0; right < n; ++right){
-            curr += nums[right];
+        for (int i = 0; i < n; ++i) prefix[i + 1] = prefix[i] + nums[i];
 
-            while (left <= right && curr * (right - left + 1) >= k){
-                curr -= nums[left++];
+        long long ans = 0, score, total;
+
+        for (int j = 0; j < n; ++j){
+            int lo = 0, hi = j, i = j;
+
+            while (lo <= hi){
+                int mid = lo + ((hi - lo) >> 1);
+                int length = j - mid + 1;
+                total = prefix[j + 1] - prefix[mid];
+                score = total * length;
+                if (score < k){
+                    hi = mid - 1;
+                    i = mid;
+                }
+                else
+                    lo = mid + 1;
             }
 
-            length = right - left + 1;
-            ans += length;
+            // If length 1 and score is greater than or equal to k, skip it.
+            if (i == j && nums[j] >= k) continue;
+            // else this will be valid because of binary search
+            ans += j - i + 1;
         }
 
         return ans;
