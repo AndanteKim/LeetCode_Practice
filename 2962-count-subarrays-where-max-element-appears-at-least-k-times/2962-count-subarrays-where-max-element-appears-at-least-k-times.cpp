@@ -1,19 +1,17 @@
 class Solution {
 public:
     long long countSubarrays(vector<int>& nums, int k) {
-        int n = nums.size();
-        int maxElementInWindow = 0, maxElement = *max_element(nums.begin(), nums.end()), start = 0;
         long long ans = 0;
-        
-        for (int end = 0; end < n; ++end){
-            if (nums[end] == maxElement) ++maxElementInWindow;
+        int n = nums.size(), start = 0, maxElement = *max_element(nums.begin(), nums.end());
+        vector<int> indicesOfMaxElement;
 
-            while (maxElementInWindow == k){
-                if (nums[start] == maxElement) --maxElementInWindow;
-                ++start;
-            }
+        for (int i = 0; i < n; ++i){
+            if (nums[i] == maxElement) indicesOfMaxElement.push_back(i);
 
-            ans += start;
+            int freq = indicesOfMaxElement.size();
+
+            if (freq >= k)
+                ans += indicesOfMaxElement[freq - k] + 1;
         }
 
         return ans;
