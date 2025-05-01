@@ -19,7 +19,7 @@ class SnakeGame:
         Moves the snake
         @param direction - 'U' = Up, 'L' = Left, 'R' = Right, 'D' = Down
         @return The game's score after the move. Return -1 if game over.
-        Game over when snake crosses the screen boundary or bits its body.
+        Game over when snake crosses the screen boundary or bites its body.
         """
         new_head = (self.snake[0][0] + self.movement[direction][0],
                     self.snake[0][1] + self.movement[direction][1])
