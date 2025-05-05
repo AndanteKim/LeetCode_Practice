@@ -1,29 +1,32 @@
 class Solution {
 public:
     string pushDominoes(string dominoes) {
-        string ans = dominoes;
         int n = dominoes.size();
-        vector<pair<int, char>> symbols;
 
+        vector<int> force(n, 0);
+        int f = 0;
+        // Populate forces going from left to right
         for (int i = 0; i < n; ++i){
-            if (dominoes[i] != '.') symbols.push_back({i, dominoes[i]});
+            if (dominoes[i] == 'R') f = n;
+            else if (dominoes[i] == 'L') f = 0;
+            else f = max(f - 1, 0);
+            force[i] += f;
         }
 
-        symbols.insert(symbols.begin(), {-1, 'L'});
-        symbols.push_back({n, 'R'});
+        f = 0;
+        // Populate forces going from right to left
+        for (int i = n - 1; i >= 0; --i){
+            if (dominoes[i] == 'L') f = n;
+            else if (dominoes[i] == 'R') f = 0;
+            else f = max(f - 1, 0);
+            force[i] -= f;
+        }
 
-        for (int i = 0; i < symbols.size() - 1; ++i){
-            auto [i1, x] = symbols[i]; auto [i2, y] = symbols[i + 1];
-
-            if (x == y){
-                for (int k = i1 + 1; k < i2; ++k)
-                    ans[k] = x;
-            }
-            else if (x > y){    // RL case
-                string candidates = ".LR";
-                for (int k = i1 + 1; k < i2; ++k)
-                    ans[k] = (k - i1 == i2 - k)? '.' : (k - i1 > i2 - k)? 'L' : 'R';
-            }
+        string ans = "";
+        for (int f : force){
+            if (f == 0) ans.push_back('.');
+            else if (f > 0) ans.push_back('R');
+            else ans.push_back('L');
         }
 
         return ans;
