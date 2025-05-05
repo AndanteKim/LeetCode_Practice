@@ -3,25 +3,23 @@ typedef long long ll;
 class Solution {
 private:
     int mod = 1'000'000'007;
-    ll p(int n, vector<ll>& fCache, vector<ll>& pCache){
-        if (n == 2) return 1;
-
-        if (pCache[n] != -1) return pCache[n];
-
-        return pCache[n] = (p(n - 1, fCache, pCache) + f(n - 2, fCache, pCache)) % mod;
-    }
-
-    ll f(int n, vector<ll>& fCache, vector<ll>& pCache){
-        if (n <= 2) return n;
-
-        if (fCache[n] != -1) return fCache[n];
-
-        return fCache[n] = (f(n - 1, fCache, pCache) + f(n - 2, fCache, pCache) + 2 * p(n - 1, fCache, pCache)) % mod;
-    }
-
 public:
     int numTilings(int n) {
-        vector<ll> fCache(n + 1, -1), pCache(n + 1, -1);
-        return static_cast<int>(f(n, fCache, pCache));
+        // Base case
+        if (n <= 2) return n;
+        
+        // f[k]: the number of ways to "fully cover a board" of width k
+        // p[k]: the number of ways to "partially cover a board" of width k
+        vector<ll> f(n + 1, 0), p(n + 1, 0);
+
+        // Initialize f and p with results for the base case scenarios
+        f[1] = 1; p[2] = 1; f[2] = 2;
+
+        for (int i = 3; i <= n; ++i){
+            f[i] = (f[i - 1] + f[i - 2] + 2 * p[i - 1]) % mod;
+            p[i] = (f[i - 2] + p[i - 1]) % mod;
+        }
+
+        return static_cast<int>(f[n]);
     }
 };
