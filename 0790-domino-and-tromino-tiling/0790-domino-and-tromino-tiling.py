@@ -1,25 +1,22 @@
 class Solution:
     def numTilings(self, n: int) -> int:
-        def p(n: int) -> int:
-            if n == 2:
-                return 1
-            
-            if p_cache[n] != -1:
-                return p_cache[n]
-
-            p_cache[n] = (p(n - 1) + f(n - 2)) % mod
-            return p_cache[n]
-
-        def f(n: int) -> int:
-            if n <= 2:
-                return n
-            
-            if f_cache[n] != -1:
-                return f_cache[n]
-
-            f_cache[n] = (f(n - 1) + f(n - 2) + 2 * p(n - 1)) % mod
-            return f_cache[n]
-
         mod = 1_000_000_007
-        f_cache, p_cache = [-1] * (n + 1), [-1] * (n + 1)
-        return f(n)
+
+        # base case
+        if n <= 2:
+            return n
+
+        # f[k]: the number of ways to "fully cover a board" of width k
+        f = [0] * (n + 1)
+
+        # p[k]: the number of ways to "partially cover a board" of width k
+        p = [0] * (n + 1)
+
+        # Initialize f and p with results for the base case scenarios
+        f[1], f[2], p[2] = 1, 2, 1
+
+        for k in range(3, n + 1):
+            f[k] = (f[k - 1] + f[k - 2] + 2 * p[k - 1]) % mod
+            p[k] = (p[k - 1] + f[k - 2]) % mod
+        
+        return f[n]
