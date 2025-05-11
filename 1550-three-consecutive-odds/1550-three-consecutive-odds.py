@@ -1,12 +1,13 @@
 class Solution:
     def threeConsecutiveOdds(self, arr: List[int]) -> bool:
-        n = len(arr)
-        
-        for i in range(n - 2):
-            product = arr[i] * arr[i + 1] * arr[i + 2]
+        count = 0
+        for num in arr:
+            if num % 2:
+                count += 1
+            else:
+                count = 0
             
-            # Check if the product is odd
-            if product % 2:
+            if count == 3:
                 return True
-            
+
         return False
