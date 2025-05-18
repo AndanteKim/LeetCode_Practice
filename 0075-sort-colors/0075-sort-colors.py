@@ -3,15 +3,18 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        colors, ans = [0] * 3, []
-        
+        count, n = {0:0, 1:0, 2:0}, len(nums)
+
         for num in nums:
-            colors[num] += 1
-            
-        color = 0
-        for i in range(len(nums)):
-            while colors[color] == 0:
-                color += 1
-            
-            nums[i] = color
-            colors[color] -= 1
+            count[num] += 1
+
+        for i in range(n):
+            if count[0] > 0:
+                nums[i] = 0
+                count[0] -= 1
+            elif count[1] > 0:
+                nums[i] = 1
+                count[1] -= 1
+            else:
+                nums[i] = 2
+                count[2] -= 1
