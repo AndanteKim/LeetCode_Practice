@@ -2,7 +2,7 @@ class Solution {
 public:
     int longestPalindrome(vector<string>& words) {
         int alphabetSize = 26;
-        vector count(26, vector<int>(26, 0));
+        vector count(alphabetSize, vector<int>(alphabetSize, 0));
 
         for (const string& word : words){
             ++count[word[0] - 97][word[1] - 97];
