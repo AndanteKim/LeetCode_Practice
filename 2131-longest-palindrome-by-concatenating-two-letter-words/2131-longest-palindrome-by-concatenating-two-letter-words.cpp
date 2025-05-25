@@ -10,7 +10,7 @@ public:
 
         int ans = 0;
         bool central = false;
-        for (int i = 0; i < 26; ++i){
+        for (int i = 0; i < alphabetSize; ++i){
             if (count[i][i] % 2 == 0)
                 ans += count[i][i];
             else{
@@ -18,7 +18,7 @@ public:
                 central = true;
             }
 
-            for (int j = i + 1; j < 26; ++j)
+            for (int j = i + 1; j < alphabetSize; ++j)
                 ans += 2 * min(count[i][j], count[j][i]);
         }
 
