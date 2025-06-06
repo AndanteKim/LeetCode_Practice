@@ -17,4 +17,3 @@ class Solution:
                 ans += t.pop()
         
         return ans
-                
