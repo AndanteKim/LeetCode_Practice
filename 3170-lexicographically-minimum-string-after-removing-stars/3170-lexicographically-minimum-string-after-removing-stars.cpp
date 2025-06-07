@@ -1,27 +1,24 @@
 class Solution {
 public:
     string clearStars(string s) {
-        vector<stack<int>> cnt(26);
-        string ans = "";
+        unordered_set<int> remove;
+        priority_queue<pair<char, int>, vector<pair<char, int>>, greater<pair<char, int>>> minHeap;
 
+        string ans = "";
         for (int i = 0; i < s.size(); ++i){
-            if (s[i] != '*'){
-                cnt[s[i] - 97].push(i);
+            if (s[i] == '*'){
+                remove.insert(i);
+                remove.insert(-minHeap.top().second);
+                minHeap.pop();
             }
             else{
-                for (int j = 0; j < 26; ++j){
-                    if (!cnt[j].empty()){
-                        s[cnt[j].top()] = '*';
-                        cnt[j].pop();
-                        break;
-                    }
-                }
+                minHeap.push({s[i], -i});
             }
         }
 
-        for (int i = 0; i < s.size(); ++i)
-            if (s[i] != '*') ans.push_back(s[i]);
-
+        for (int i = 0; i < s.size(); ++i){
+            if (!remove.count(i)) ans.push_back(s[i]);
+        }
         return ans;
     }
 };
