@@ -1,17 +1,23 @@
 class Solution:
     def maxDiff(self, num: int) -> int:
-        def change(x: int, y: int) -> str:
-            return str(num).replace(str(x), str(y))
+        min_num, max_num = str(num), str(num)
 
-        min_num = max_num = num
+        # Find a high position and repalce it with 9.
+        for digit in max_num:
+            if digit != "9":
+                max_num = max_num.replace(digit, "9")
+                break
 
-        for x in range(10):
-            for y in range(10):
-                res = change(x, y)
-                # Check if there are leading zeros
-                if res[0] != "0":
-                    res_i = int(res)
-                    min_num = min(min_num, res_i)
-                    max_num = max(max_num, res_i)
+        # Replace the most significant bit with 1
+        # Or find a high-order digit that is not equal to the highest digit and replace it with 0.
+        for i, digit in enumerate(min_num):
+            if i == 0:
+                if digit != "1":
+                    min_num = min_num.replace(digit, "1")
+                    break
+            else:
+                if digit != "0" and digit != min_num[0]:
+                    min_num = min_num.replace(digit, "0")
+                    break
 
-        return max_num - min_num
+        return int(max_num) - int(min_num)
