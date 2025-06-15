@@ -11,17 +11,42 @@
  */
 class Solution {
 private:
-    int dfs(TreeNode* node, vector<int>& seen){
-        if (!node) return 0;
-        seen.push_back(dfs(node -> left, seen) + dfs(node -> right, seen) + node -> val);
-        return seen.back();
+    int sum(TreeNode* node){
+        int s = 0;
+        stack<TreeNode*> st;
+        st.push(node);
+        
+        while (!st.empty()){
+            TreeNode* curr = st.top();
+            s += curr -> val; st.pop();
+            
+            if (curr -> left) st.push(curr -> left);
+            if (curr -> right) st.push(curr -> right);
+        }
+
+        return s;
     }
 
 public:
     bool checkEqualTree(TreeNode* root) {
-        vector<int> seen;
-        int total = dfs(root, seen);
-        seen.pop_back();
-        return find(seen.begin(), seen.end(), total / 2.0) != seen.end();
+        int total = sum(root);
+
+        if (total % 2) return false;
+
+        stack<TreeNode*> st;
+        if (root -> left) st.push(root -> left);
+        if (root -> right) st.push(root -> right);
+
+        while (!st.empty()){
+            TreeNode* curr = st.top(); st.pop();
+            int s = sum(curr);
+            if (s * 2 == total) return true;
+            else{
+                if (curr -> left) st.push(curr -> left);
+                if (curr -> right) st.push(curr -> right);
+            }
+        }
+
+        return false;
     }
 };
