@@ -1,9 +1,13 @@
 class Solution:
     def maximumDifference(self, nums: List[int]) -> int:
-        ans, n = -1, len(nums)
-        for i in range(n - 1):
-            for j in range(i + 1, n):
-                if nums[j] != nums[i]:
-                    ans = max(ans, nums[j] - nums[i])
-        
+        ans, increasing = -1, []
+
+        for num in nums:
+            while increasing and increasing[-1] > num:
+                increasing.pop()
+
+            if increasing and num > increasing[0]:
+                ans = max(ans, num - increasing[0])
+            increasing.append(num)
+            
         return ans
