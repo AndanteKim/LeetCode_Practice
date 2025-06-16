@@ -1,15 +1,15 @@
 class Solution {
 public:
     int maximumDifference(vector<int>& nums) {
-        int ans = -1, n = nums.size();
-        vector<int> increasing;
+        int n = nums.size(), ans = -1, premin = nums[0];
 
-        for (int num : nums){
-            while (!increasing.empty() && increasing.back() > num) increasing.pop_back();
-            if (!increasing.empty() && increasing[0] < num) ans = max(ans, num - increasing[0]);
-            increasing.push_back(num);
+        for (int i = 1; i < n; ++i){
+            if (nums[i] > premin)
+                ans = max(ans, nums[i] - premin);
+            else
+                premin = nums[i];
         }
-        
+
         return ans;
     }
 };
