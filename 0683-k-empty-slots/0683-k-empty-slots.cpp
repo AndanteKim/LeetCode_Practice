@@ -1,31 +1,28 @@
-
 class Solution {
 public:
-    int kEmptySlots(std::vector<int>& bulbs, int k) {
-        std::set<int> active;  // keeps the bulb in sorted order
+    int kEmptySlots(vector<int>& bulbs, int k) {
+        vector<int> active; // Sorted array of bulbs
         int n = bulbs.size();
 
-        for (int day = 0; day < n; ++day) {
+        for (int day = 0; day < n; ++day){
             int bulb = bulbs[day];
-            
-            // Insert current bulb
-            auto it = active.insert(bulb).first;
-            
+
+            // Find insertion point using lower_bound
+            auto it = lower_bound(active.begin(), active.end(), bulb);
+
             // Check the right neighbor
-            auto next = std::next(it);
-            if (next != active.end() && abs(*next - bulb) - 1 == k) {
-                return day + 1;  // day is 0-based in C++, add 1
-            }
-            
-            // Check the left neighbor
-            if (it != active.begin()) {
-                auto prev = std::prev(it);
-                if (abs(*prev - bulb) - 1 == k) {
-                    return day + 1;
-                }
-            }
-        }
+            if (it != active.end() && abs(*it - bulb) - 1 == k) return day + 1;
         
+            // Check left neighbor
+            if (it != active.begin()){
+                auto prev = std::prev(it);
+                if (abs(*prev - bulb) - 1 == k) return day + 1;
+            }
+
+            // Insert at position
+            active.insert(it, bulb);
+        }
+
         return -1;
     }
 };
