@@ -1,14 +1,14 @@
 class Solution:
     def divideString(self, s: str, k: int, fill: str) -> List[str]:
-        ans, curr = [], ""
+        ans = []    # Grouped string
+        n, curr = len(s), 0     # Starting index of each group
 
-        for c in s:
-            curr += c
-            if len(curr) == k:
-                ans.append(curr)
-                curr = ""
+        # Split string
+        while curr < n:
+            ans.append(s[curr : curr + k])
+            curr += k
 
-        if curr:
-            curr += fill * (k - len(curr))
-            ans.append(curr)
-        return ans 
+        # Try to fill in the last group
+        ans[-1] += fill * (k - len(ans[-1]))
+
+        return ans
