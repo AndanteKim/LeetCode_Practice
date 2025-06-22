@@ -1,28 +1,47 @@
+class MinQueue{
+private:
+    deque<int> mins, q;
+
+public:
+    void push(int x){
+        q.push_back(x);
+        while (!mins.empty() && x < mins.back()) mins.pop_back();
+        mins.push_back(x);
+    }
+
+    void pop(){
+        if (!q.empty()){
+            int x = q.front(); q.pop_front();
+            if (mins.front() == x) mins.pop_front();
+        }
+    }
+
+    int getMin() const{
+        return mins.front();
+    }
+};
+
 class Solution {
 public:
     int kEmptySlots(vector<int>& bulbs, int k) {
-        vector<int> active; // Sorted array of bulbs
         int n = bulbs.size();
+        vector<int> days(n);
 
-        for (int day = 0; day < n; ++day){
-            int bulb = bulbs[day];
+        // Map to bulbs position
+        for (int day = 1; day < n; ++day) days[bulbs[day] - 1] = day + 1;
 
-            // Find insertion point using lower_bound
-            auto it = lower_bound(active.begin(), active.end(), bulb);
+        MinQueue window;
+        int ans = n;
 
-            // Check the right neighbor
-            if (it != active.end() && abs(*it - bulb) - 1 == k) return day + 1;
-        
-            // Check left neighbor
-            if (it != active.begin()){
-                auto prev = std::prev(it);
-                if (abs(*prev - bulb) - 1 == k) return day + 1;
+        for (int i = 0; i < n; ++i){
+            window.push(days[i]);
+            if (k <= i && i < n - 1){
+                window.pop();
+                if (k == 0 || (days[i - k] < window.getMin() && window.getMin() > days[i + 1]))
+                    ans = min(ans, max(days[i - k], days[i + 1]));
             }
-
-            // Insert at position
-            active.insert(it, bulb);
         }
 
-        return -1;
+        return (ans < n)? ans : -1;
     }
 };
