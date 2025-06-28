@@ -1,16 +1,12 @@
 class Solution:
     def maxSubsequence(self, nums: List[int], k: int) -> List[int]:
-        ans, min_heap = [], []
-        for i, num in enumerate(nums):
-            if len(min_heap) >= k:
-                if min_heap[0][0] < num:
-                    heappop(min_heap)
-                    heappush(min_heap, (num, i))
-            else:
-                heappush(min_heap, (num, i))
+        n = len(nums)
+        vals = [[i, nums[i]] for i in range(n)]     # auxiliary array
         
-        min_heap.sort(key = lambda x : x[1])
-        for (num, i) in min_heap:
-            ans.append(num)
+        # Sort by numerical value in descending order
+        vals.sort(key = lambda x: -x[1])
 
-        return ans
+        # Select the first k elements and sort them in ascending order by index
+        vals = sorted(vals[:k])
+        ans = [val for idx, val in vals]
+        return ans 
