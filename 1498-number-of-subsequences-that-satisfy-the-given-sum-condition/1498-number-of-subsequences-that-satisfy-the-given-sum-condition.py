@@ -1,15 +1,14 @@
 class Solution:
     def numSubseq(self, nums: List[int], target: int) -> int:
         nums.sort()
-        mod = 10 ** 9 + 7
-        ans = 0
-        left, right = 0, len(nums) - 1
-        
-        while left <= right:
-            if nums[left] + nums[right] <= target:
-                ans = (ans + (1 << right - left) % mod) % mod;
-                left += 1
-            else:
-                right -= 1
-        return ans
-        
+        ans, n, mod = 0, len(nums), 10 ** 9 + 7
+
+        for left in range(n):
+            # Find the insertion position for 'target - nums[left]'
+            # 'right' equals the insertion index minus - 1
+            right = bisect_right(nums, target - nums[left]) - 1
+
+            if right >= left:
+                ans += 2 ** (right - left) % mod
+
+        return ans % mod
