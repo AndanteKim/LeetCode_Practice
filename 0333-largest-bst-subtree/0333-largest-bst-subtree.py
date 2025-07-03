@@ -4,49 +4,32 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
+
+class NodeValue:
+    def __init__(self, min_node: int, max_node: int, max_size: int):
+        self.max_node = max_node
+        self.min_node = min_node
+        self.max_size = max_size
+
 class Solution:
-    def is_valid_bst(self, root: Optional[TreeNode]) -> bool:
-        """
-        Check if given tree is a valid BST using in-order traversal.
-        """
-        # An empty tree is a valid Binary Search Tree.
-        if not root:
-            return True
-        
-        # If left subtree isn't a valid BST return false.
-        if not self.is_valid_bst(root.left):
-            return False
+    def helper(self, node: Optional[TreeNode]) -> 'NodeValue':
+        # An empty tree is a BST of size 0
+        if not node:
+            return NodeValue(float('inf'), float('-inf'), 0)
 
-        # If current node's value isn't greater than the previous
-        # node's value in the in-order traversal return false.
-        if self.prev and self.prev.val >= root.val:
-            return False
-        
-        # Update previous node to current node.
-        self.prev = root
+        # Get values from left and right subtrees of current tree.
+        left = self.helper(node.left)
+        right = self.helper(node.right)
 
-        # If right subtree isn't a valid BST return False
-        return self.is_valid_bst(root.right)
+        # Current node is greater than max in left and smaller than in right, it's a BST.
+        if left.max_node < node.val < right.min_node:
+            # It's a BST.
+            return NodeValue(min(node.val, left.min_node), max(node.val, right.max_node), left.max_size + right.max_size + 1)
 
-    # Count nodes in current tree.
-    def count_nodes(self, root: Optional[TreeNode]) -> int:
-        if not root:
-            return 0
+        # Otherwise, return [-inf, inf], so that parent can't be a valid BST
+        return NodeValue(float('-inf'), float('inf'), max(left.max_size, right.max_size))
 
-        # Add nodes in left and right subtree.
-        # Add 1 and return total size.
-        return 1 + self.count_nodes(root.left) + self.count_nodes(root.right)
-        
     def largestBSTSubtree(self, root: Optional[TreeNode]) -> int:
-        if not root:
-            return 0
+        return self.helper(root).max_size
 
-        # Previous node is initially null.
-        self.prev = None
-
-        # If current subtree is a valid BST, its children will have smaller size BST.
-        if self.is_valid_bst(root):
-            return self.count_nodes(root)
         
-        # Find BST in left and right subtrees of current nodes.
-        return max(self.largestBSTSubtree(root.left), self.largestBSTSubtree(root.right))
