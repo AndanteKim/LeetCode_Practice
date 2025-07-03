@@ -7,44 +7,28 @@
 class Solution:
     def is_valid_bst(self, root: Optional[TreeNode]) -> bool:
         """
-        Check if given tree is a valid Binary Search Tree.
+        Check if given tree is a valid BST using in-order traversal.
         """
+        # An empty tree is a valid Binary Search Tree.
         if not root:
             return True
         
-        # Find the max node in the left subtree of current node.
-        left_max = self.find_max(root.left)
-
-        # If the left subtrees has a node greater than or equal to the current node.
-        # then it's not a valid Binary Search Tree.
-        if left_max >= root.val:
-            return False
-        
-        # Find the min node in the right subtree of current node.
-        right_min = self.find_min(root.right)
-        if right_min <= root.val:
+        # If left subtree isn't a valid BST return false.
+        if not self.is_valid_bst(root.left):
             return False
 
-        # If the left and right subtrees of current tree are also valid BST,
-        # then the whole tree is a BST.
-        return self.is_valid_bst(root.left) and self.is_valid_bst(root.right)
-
-    def find_max(self, root: Optional[TreeNode]) -> int:
-        # Max node in a empty tree should be smaller than parent.
-        if not root:
-            return float('-inf')
-
-        # Check the maximum node from the current node, left and right subtree of the current tree.
-        return max(root.val, self.find_max(root.left), self.find_max(root.right))
-
-    def find_min(self, root: Optional[TreeNode]) -> int:
-        # Min node in a empty tree should be larger than parent.
-        if not root:
-            return float('inf')
+        # If current node's value isn't greater than the previous
+        # node's value in the in-order traversal return false.
+        if self.prev and self.prev.val >= root.val:
+            return False
         
-        # Check the minimum node from the current node, left and right subtree of the current tree
-        return min(root.val, self.find_min(root.left), self.find_min(root.right))
+        # Update previous node to current node.
+        self.prev = root
 
+        # If right subtree isn't a valid BST return False
+        return self.is_valid_bst(root.right)
+
+    # Count nodes in current tree.
     def count_nodes(self, root: Optional[TreeNode]) -> int:
         if not root:
             return 0
@@ -52,11 +36,14 @@ class Solution:
         # Add nodes in left and right subtree.
         # Add 1 and return total size.
         return 1 + self.count_nodes(root.left) + self.count_nodes(root.right)
-
+        
     def largestBSTSubtree(self, root: Optional[TreeNode]) -> int:
         if not root:
             return 0
-        
+
+        # Previous node is initially null.
+        self.prev = None
+
         # If current subtree is a valid BST, its children will have smaller size BST.
         if self.is_valid_bst(root):
             return self.count_nodes(root)
