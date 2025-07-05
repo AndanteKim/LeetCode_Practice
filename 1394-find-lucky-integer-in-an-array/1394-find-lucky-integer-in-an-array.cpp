@@ -1,12 +1,14 @@
 class Solution {
 public:
     int findLucky(vector<int>& arr) {
-        int lucky_max = -1;
-        unordered_map<int, int> Counter;
-        
-        for (const int& n : arr) ++Counter[n];
-        
-        for (const auto&[key, value] : Counter) if (key == value) lucky_max = max(lucky_max, key);
-        return lucky_max;
+        int ans = -1;
+        unordered_map<int, int> freq;
+
+        for (int num : arr) ++freq[num];
+        for (const auto& [num, val] : freq){
+            if (num == val) ans = max(ans, num);
+        }
+
+        return ans;
     }
 };
