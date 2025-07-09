@@ -1,14 +1,13 @@
 class Solution:
     def maxFreeTime(self, eventTime: int, k: int, startTime: List[int], endTime: List[int]) -> int:
-        ans, n = 0, len(startTime)
-        total = [0] * (n + 1)
+        n, ans, t = len(startTime), 0, 0
 
         for i in range(n):
-            total[i + 1] = total[i] + endTime[i] - startTime[i]
-        
-        for i in range(k - 1, n):
-            right = eventTime if i == n - 1 else startTime[i + 1]
+            t += endTime[i] - startTime[i]
             left = 0 if i == k - 1 else endTime[i - k]
-            ans = max(ans, right - left - (total[i + 1] - total[i - k + 1]))
-    
+            right = eventTime if i == n - 1 else startTime[i + 1]
+            ans = max(ans, right - left - t)
+            if i >= k - 1:
+                t -= endTime[i - k + 1] - startTime[i - k + 1]
+        
         return ans
