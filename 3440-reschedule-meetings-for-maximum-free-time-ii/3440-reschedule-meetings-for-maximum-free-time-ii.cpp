@@ -2,7 +2,7 @@ class Solution {
 public:
     int maxFreeTime(int eventTime, vector<int>& startTime, vector<int>& endTime) {
         int n = startTime.size(), ans = 0, t1 = 0, t2 = 0;
-        vector<int> q(n);
+        vector<bool> q(n);
 
         for (int i = 0; i < n; ++i) {
             if (endTime[i] - startTime[i] <= t1)
