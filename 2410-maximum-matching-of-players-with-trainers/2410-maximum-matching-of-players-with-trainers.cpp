@@ -2,19 +2,21 @@ class Solution {
 public:
     int matchPlayersAndTrainers(vector<int>& players, vector<int>& trainers) {
         sort(players.begin(), players.end());
-        sort(trainers.begin(), trainers.end());
-        
-        int p_i = 0, t_i = 0, ans = 0;
-        
-        while (p_i < players.size() && t_i < trainers.size()){
-            if (players[p_i] <= trainers[t_i]){
-                ++p_i;
-                ++t_i;
-                ++ans;
+        priority_queue<int, vector<int>, greater<int>> minHeap;
+        int ans = 0;
+
+        for (int trainer : trainers) minHeap.push(trainer);
+
+        for (int player : players){
+            while (!minHeap.empty()){
+                int capacity = minHeap.top(); minHeap.pop();
+                if (capacity >= player){
+                    ++ans;
+                    break;
+                }
             }
-            else ++t_i;
         }
-        
-        return ans;
+
+        return ans;  
     }
 };
