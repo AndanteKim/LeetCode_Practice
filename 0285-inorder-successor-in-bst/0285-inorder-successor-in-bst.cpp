@@ -8,26 +8,16 @@
  * };
  */
 class Solution {
-private:
-    TreeNode* ans = nullptr;
-    void dfs(TreeNode* curr, TreeNode* p){
-        if (!curr) return;
-
-        if (curr -> val > p -> val && (!ans || ans -> val > curr -> val)){
-            ans = curr;
-        }
-
-        dfs(curr -> left, p);
-        dfs(curr -> right, p);
-    }
-
 public:
     TreeNode* inorderSuccessor(TreeNode* root, TreeNode* p) {
-        dfs(root, p);
+        TreeNode* ans = nullptr;
 
-        if (ans){
-            ans -> left = nullptr;
-            ans -> right = nullptr;
+        while (root){
+            if (p -> val >= root -> val) root = root -> right;
+            else{
+                ans = root;
+                root = root -> left;
+            }
         }
 
         return ans;
