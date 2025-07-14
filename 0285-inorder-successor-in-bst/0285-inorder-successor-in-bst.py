@@ -7,18 +7,13 @@
 
 class Solution:
     def inorderSuccessor(self, root: TreeNode, p: TreeNode) -> Optional[TreeNode]:
-        def dfs(curr: TreeNode) -> None:
-            if not curr:
-                return
+        ans = None
 
-            if curr.val > p.val and (self.ans == None or self.ans.val > curr.val):
-                self.ans = curr
+        while root:
+            if p.val >= root.val:
+                root = root.right
+            else:
+                ans = root
+                root = root.left
 
-            dfs(curr.left)
-            dfs(curr.right)
-        
-        self.ans = None
-        dfs(root)
-        if self.ans:
-            self.ans.left, self.ans.right = None, None
-        return self.ans
+        return ans
