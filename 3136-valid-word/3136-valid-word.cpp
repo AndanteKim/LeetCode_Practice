@@ -1,19 +1,19 @@
 class Solution {
 public:
     bool isValid(string word) {
-        // Base case
         if (word.size() < 3) return false;
 
-        bool vowelExist = false, consonantExist = false;
-        unordered_set<char> vowels{'A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'}, chars(word.begin(), word.end());
+        bool hasVowels = false, hasConsonants = false;
+        string vowels = "aeiou";
 
-        for (const char& c : chars){
-            if (!(('0' <= c && c <= '9') || ('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z'))) return false;
-            if (vowels.contains(c)) vowelExist = true;
-            else if ((('A' <= c && c <= 'Z') || ('a' <= c && c <= 'z')) && !vowels.contains(c)) consonantExist = true;
+        for (char& c : word){
+            if (isalpha(c)){
+                if (vowels.find(tolower(c)) != string::npos) hasVowels = true;
+                else hasConsonants = true;
+            }
+            else if (!isdigit(c)) return false;
         }
 
-
-        return vowelExist && consonantExist;
+        return hasVowels && hasConsonants;
     }
 };
