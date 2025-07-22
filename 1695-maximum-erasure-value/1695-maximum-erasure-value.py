@@ -1,19 +1,15 @@
 class Solution:
     def maximumUniqueSubarray(self, nums: List[int]) -> int:
-        counts = defaultdict(list)
-        ans = curr = 0
-        left = 0
+        left, seen, curr, ans = 0, set(), 0, 0
+
         for right in range(len(nums)):
-            if counts[nums[right]] == []:
-                curr += nums[right]
-                counts[nums[right]].append(right)
-            else:
-                while (left <= counts[nums[right]][-1]):
-                    curr -= nums[left]
-                    left += 1
-                counts[nums[right]].append(right)
-                curr += nums[right]
+            while nums[right] in seen:
+                curr -= nums[left]
+                seen.remove(nums[left])
+                left += 1
             
+            curr += nums[right]
+            seen.add(nums[right])
             ans = max(ans, curr)
-            
+
         return ans
