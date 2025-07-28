@@ -1,17 +1,19 @@
 class Solution:
     def countMaxOrSubsets(self, nums: List[int]) -> int:
-        max_or_val, dp = 0, [0] * (1 << 17)
-        
-        # Initialize the empty subset
-        dp[0] = 1
-        
-        # Iterate through each number in the input array
-        for num in nums:
-            for i in range(max_or_val, -1, -1):
-                # For each existing subset, create a new subset by including the current number
-                dp[i | num] += dp[i]
+        def backtrack(i: int, curr: int) -> None:
+            if i == n:
+                if curr == max_num:
+                    self.ans += 1
+                return
             
-            # Update the maximum OR value
-            max_or_val |= num
+            backtrack(i + 1, curr)
+            backtrack(i + 1, curr | nums[i])
+        
+        max_num = 0
+        for num in nums:
+            max_num |= num
 
-        return dp[max_or_val]
+        self.ans, n = 0, len(nums)
+        backtrack(0, 0)
+
+        return self.ans
