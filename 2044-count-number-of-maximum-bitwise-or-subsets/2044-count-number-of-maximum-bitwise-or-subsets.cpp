@@ -1,25 +1,23 @@
 class Solution {
-private:
-    int ans = 0, n;
-    long maxNum = 0;
-
-    void backtrack(int i, long curr, vector<int>& nums){
-        if (i == n){
-            if (curr == maxNum) ++ans;
-            return;
-        }
-
-        backtrack(i + 1, curr, nums);
-        backtrack(i + 1, curr | nums[i], nums);
-    }
-
 public:
     int countMaxOrSubsets(vector<int>& nums) {
-        this -> n = nums.size();
-        long curr = 0;
+        int maxVal = 0;
+        vector<int> dp(1 << 17);
 
-        for (int num : nums) maxNum |= num;
-        backtrack(0, curr, nums);
-        return ans;
+        // Initialize the empty subset
+        dp[0] = 1;
+
+        // Iterate through each number in the input array
+        for (int num : nums){
+            for (int i = maxVal; i >= 0; --i){
+                // For each existing subset, create a new subset by including the current number
+                dp[i | num] += dp[i];
+            }
+            
+            // Update the maximum OR value
+            maxVal |= num;
+        }
+
+        return dp[maxVal];
     }
 };
