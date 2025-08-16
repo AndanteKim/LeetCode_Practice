@@ -1,21 +1,18 @@
 class Solution:
     def maximum69Number (self, num: int) -> int:
-        digits, n = [], num
+        # Since we start with the lowest digit, initialize curr_digit = 0.
+        curr_digit, idx_1st_6, num_cp = 0, -1, num
 
-        while n > 0:
-            digits.append(n % 10)
-            n //= 10
+        # Check every digit of 'num_copy' from low to high.
+        while num_cp:
+            # If the current digit is '6', record it as the highest digit of 6.
+            if num_cp % 10 == 6:
+                idx_1st_6 = curr_digit
+            
+            # Move on to the next digit.
+            num_cp //= 10
+            curr_digit += 1
 
-        digits.reverse()
-        digit, changeable = len(digits) - 1, True
-        ans = 0
-
-        for d in digits:
-            if changeable and d == 6:
-                ans += 9 * (10 ** digit)
-                changeable = False
-            else:
-                ans += d * (10 ** digit)
-            digit -= 1
-        
-        return ans
+        # If we don't find any digit of '6', return the original number,
+        # otherwise, increment 'num' by the difference made by the first '6'.
+        return num if idx_1st_6 == -1 else num + 3 * 10 ** idx_1st_6
