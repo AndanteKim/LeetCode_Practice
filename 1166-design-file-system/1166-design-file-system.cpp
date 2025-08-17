@@ -1,25 +1,60 @@
 class FileSystem {
 private:
-    unordered_map<string, int> paths;
+    struct TrieNode{
+        unordered_map<string, TrieNode*> children;
+        int value;
+
+        TrieNode(): value(-1){}
+    };
+    TrieNode *root;
 
 public:
-    FileSystem() {}
+    FileSystem() {
+        root = new TrieNode();
+    }
     
     bool createPath(string path, int value) {
-        // Step-1: Basic path validations
-        if (path == "/" || path.size() == 0 || paths.contains(path)) return false;
+        vector<string> components;
+        stringstream ss(path);
+        string component = "";
 
-        // Step-2: If the parent doesn't exist. Note that "/" is a valid parent.
-        string parent = path.substr(0, path.rfind('/'));
-        if (parent.size() > 1 && !paths.contains(parent)) return false;
+        while (getline(ss, component, '/')){
+            components.push_back(component);
+        }
 
-        // Step-3: add this new path and return true.
-        paths[path] = value;
+        TrieNode *curr = root;
+        for (int i = 1; i < components.size(); ++i){
+            if (!curr -> children.contains(components[i])){
+                if (i != components.size() - 1) return false;
+                curr -> children[components[i]] = new TrieNode();
+            }
+            curr = curr -> children[components[i]];
+        }
+
+        if (curr -> value != -1) return false;
+
+        curr -> value = value;
+
         return true;
     }
     
     int get(string path) {
-        return !paths.contains(path)? -1 : paths[path];
+        vector<string> components;
+        stringstream ss(path);
+        string component = "";
+        TrieNode* curr = root;
+
+        while (getline(ss, component, '/')){
+            components.push_back(component);
+        }
+        
+        int ans = -1;
+        for (int i = 1; i < components.size(); ++i){
+            if (!curr -> children.contains(components[i])) return -1;
+            curr = curr -> children[components[i]];
+        }
+
+        return curr -> value;
     }
 };
 
