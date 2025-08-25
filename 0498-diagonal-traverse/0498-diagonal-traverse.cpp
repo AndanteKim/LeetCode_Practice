@@ -11,7 +11,7 @@ public:
         
         // We have to go over all the elements in the first
         // row and the last column to cover all possible diagonals
-        for (int d = 0; d <= R + C - 1; ++d){
+        for (int d = 0; d < R + C - 1; ++d){
             // Clear the intermediate array everytime we start
             // to process another diagonal
             curr.clear();
