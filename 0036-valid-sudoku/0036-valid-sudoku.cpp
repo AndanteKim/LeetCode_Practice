@@ -1,32 +1,29 @@
 class Solution {
 public:
     bool isValidSudoku(vector<vector<char>>& board) {
-        const int n = 9;
-        // Use binary number to check previous occurrence
-        int rows[n]{0}, cols[n]{0}, boxes[n]{0};
-        
-        for (int i = 0; i < n; ++i){
+        unordered_map<int, unordered_set<char>> rows, cols;
+        int m = board.size(), n = board[0].size();
+
+        for (int i = 0; i < m; ++i){
             for (int j = 0; j < n; ++j){
-                // Check if the position is filled with number
-                if (board[i][j] == '.') continue;
-                
-                int pos = board[i][j] - '1';
-                
-                // Check the row
-                if (rows[i] & (1 << pos))
-                    return false;
-                rows[i] |= (1 << pos);
-                
-                // Check the column
-                if (cols[j] & (1 << pos))
-                    return false;
-                cols[j] |= (1 << pos);
-                
-                // Check the boxes
-                int boxesIdx = (i / 3) * 3 + (j / 3);
-                if (boxes[boxesIdx] & (1 << pos))
-                    return false;
-                boxes[boxesIdx] |= (1 << pos);
+                if (board[i][j] != '.'){
+                    if (rows[i].count(board[i][j]) || cols[j].count(board[i][j])) return false;
+                    rows[i].insert(board[i][j]);
+                    cols[j].insert(board[i][j]);
+                }
+            }
+        }
+
+        for (int currCube = 0; currCube < 9; ++currCube){
+            int startRow = (currCube / 3) * 3, startCol = (3 * currCube) % 9;
+            unordered_set<char> seen;
+            for (int row = startRow; row < startRow + 3; ++row){
+                for (int col = startCol; col < startCol + 3; ++col){
+                    if (board[row][col] != '.'){
+                        if (seen.count(board[row][col])) return false;
+                        seen.insert(board[row][col]);
+                    }
+                }
             }
         }
         
