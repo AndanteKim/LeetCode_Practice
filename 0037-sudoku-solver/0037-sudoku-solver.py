@@ -82,4 +82,3 @@ class Solution:
                     
         sudoku_solved = False
         backtrack()
-        
