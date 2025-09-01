@@ -1,29 +1,21 @@
 class Solution:
     def maxAverageRatio(self, classes: List[List[int]], extraStudents: int) -> float:
-        # Lambda to calculate the gain of adding an extra student
-        def _calculate_gain(passes: int, total_students: int) -> float:
-            return (passes + 1) / (total_students + 1) - passes / total_students
+        n, min_heap = len(classes), []
+
+        for numerator, denominator in classes:
+            ratio, next_ratio = numerator / denominator, (numerator + 1) / (denominator + 1)
+            heappush(min_heap, (-(next_ratio - ratio), numerator, denominator))
         
-        # Max heap to store (-gain, passes, total_students)
-        max_heap = []
-        
-        for passes, total_students in classes:
-            gain = _calculate_gain(passes, total_students)
-            heappush(max_heap, (-gain, passes, total_students))
-            
-        # Distribute extra students
         for _ in range(extraStudents):
-            curr_gain, passes, total_students = heappop(max_heap)
-            heappush(max_heap, (-_calculate_gain(passes + 1, total_students + 1),
-                                passes + 1,
-                                total_students + 1,
-                               ),
-                    )
+            _, numerator, denominator = heappop(min_heap)
+            numerator += 1
+            denominator += 1
+            ratio, next_ratio = numerator / denominator, (numerator + 1) / (denominator + 1)
+            heappush(min_heap, (-(next_ratio - ratio), numerator, denominator))
         
-        # Calculate the final average pass ratio
-        total_pass_ratio = 0
-        while max_heap:
-            _, passes, total_students = heappop(max_heap)
-            total_pass_ratio += passes / total_students
+        total_avg = 0.0
+        while min_heap:
+            _, numerator, denominator = heappop(min_heap)
+            total_avg += numerator / denominator
         
-        return total_pass_ratio / len(classes)
+        return total_avg / n
