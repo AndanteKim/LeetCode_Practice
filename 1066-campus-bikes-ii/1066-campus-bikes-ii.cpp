@@ -1,62 +1,38 @@
 class Solution {
 private:
-    // Manhattan Distance
-    int findDistance(vector<int>& worker, vector<int>& bike){
+    // Maximum number of bikes is 10
+    int m, n, ans = std::numeric_limits<int>::max();
+    int visited[10];
+
+    // Manhattan distance
+    int findDist(vector<int>& worker, vector<int>& bike){
         return abs(worker[0] - bike[0]) + abs(worker[1] - bike[1]);
     }
     
-    // Count the number of ones using Brian Kernighan's algorithm
-    int countNumOfOnes(int mask){
-        int count = 0;
-        while(mask != 0){
-            mask &= (mask - 1);
-            ++count;
+    void findMinDist(vector<vector<int>>& workers, int workerIndex, vector<vector<int>>& bikes, int currDist){
+        if (workerIndex == m) {
+            ans = min(ans, currDist);
+            return;
         }
-        return count;
-    }
-    
-public:
-    int assignBikes(vector<vector<int>>& workers, vector<vector<int>>& bikes) {
-        int m = bikes.size(), n = workers.size();
-        unordered_set<int> visited;
-        priority_queue<pair<int, int>, vector<pair<int, int>>, greater<pair<int, int>>> minHeap;
         
-        // Initially both distance sum and mask is 0
-        minHeap.push({0, 0});
-        
-        while (!minHeap.empty()){
-            auto [currentDistSum, currentMask] = minHeap.top();
-            minHeap.pop();
-            
-            // Continue if the mask is already traversed
-            if (visited.find(currentMask) != visited.end())
-                continue;
-            
-            // Marking the mask as visited
-            visited.insert(currentMask);
-            
-            // Next worker index would be equal to the number of 1's in currentMask
-            int workerIndex = countNumOfOnes(currentMask);
-            
-            // Return the current distance sum if all workers are covered
-            if (workerIndex == n)
-                return currentDistSum;
-           
-            
-            for (int bikeIndex = 0; bikeIndex < m; ++bikeIndex){
-                // Checking if the bike at bikeIndex has been assigned or not
-                if ((currentMask & (1 << bikeIndex)) == 0){
-                    int nextStateDistSum = currentDistSum + findDistance(workers[workerIndex], bikes[bikeIndex]);
-                    
-                    // Put the next state pair into the priority queue
-                    int newStateMask = currentMask | (1 << bikeIndex);
-                    minHeap.push({nextStateDistSum, newStateMask});
-                }
+        // If the curretn distance sum is greater than the smallest result
+        // found then stop exploring this combination of workers and bikes
+        if (currDist >= ans) return;
+
+        for (int bikeIndex = 0; bikeIndex < n; ++bikeIndex){
+            // If bike is available
+            if (!visited[bikeIndex]){
+                visited[bikeIndex] = 1;
+                findMinDist(workers, workerIndex + 1, bikes, currDist + findDist(workers[workerIndex], bikes[bikeIndex]));
+                visited[bikeIndex] = 0;
             }
         }
-        
-        // This statement will never be executed provided that there is at least one bike per a worker
-        return -1;
     }
-    
+
+public:
+    int assignBikes(vector<vector<int>>& workers, vector<vector<int>>& bikes) {
+        this -> m = workers.size(), this -> n = bikes.size();
+        findMinDist(workers, 0, bikes, 0);
+        return ans;
+    }
 };
