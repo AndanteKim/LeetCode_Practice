@@ -1,12 +1,13 @@
 class Solution:
     def largestUniqueNumber(self, nums: List[int]) -> int:
-        ans, freq = -1, dict()
-        
-        for x in nums:
-            freq[x] = freq.get(x, 0) + 1
-            
-        for key, val in freq.items():
-            if val == 1 and key > ans:
-                ans = key
-                
+        freq = dict()
+        for num in nums:
+            freq[num] = freq.get(num, 0) + 1
+
+        ans = -1
+
+        for num, cnt in freq.items():
+            if cnt == 1:
+                ans = max(ans, num)
+
         return ans
