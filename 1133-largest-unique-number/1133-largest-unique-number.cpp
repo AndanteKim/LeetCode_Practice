@@ -1,13 +1,16 @@
 class Solution {
 public:
     int largestUniqueNumber(vector<int>& nums) {
-        unordered_map<int, int> lookup;
-        for (const int num: nums) ++lookup[num];
-        vector<int> ans_candidates;
-        for (const auto&[key, value] : lookup){
-            if (value == 1) ans_candidates.push_back(key);
+        unordered_map<int, int> freq;
+
+        for (int num : nums)
+            ++freq[num];
+
+        int ans = -1;
+        for (auto& [num, cnt] : freq){
+            if (cnt == 1) ans = max(ans, num);
         }
-        
-        return (ans_candidates.empty())? -1 : *max_element(ans_candidates.begin(), ans_candidates.end());
+
+        return ans;
     }
 };
