@@ -1,23 +1,13 @@
 class Solution:
     def maxFrequencyElements(self, nums: List[int]) -> int:
-        freqs, max_freq, total_freq = dict(), 0, 0
-        
-        # Find the frequency of each element
-        # Determine the maximum frequency
-        # Calculate the total frequencies of elements with the maximum frequency
+        ans, max_freq, freq = 0, 0, dict()
+
         for num in nums:
-            freqs[num] = freqs.get(num, 0) + 1
-            freq = freqs[num]
-            
-            # If we discover a higher frequency element
-            # Update max_frequency
-            # Re-set total_freqs to the new max_freq
-            if freq > max_freq:
-                max_freq = freq
-                total_freq = freq
-            # If we find an element with the max frequency, add it to the total
-            elif freq == max_freq:
-                total_freq += freq
-            
-        return total_freq
-            
+            freq[num] = freq.get(num, 0) + 1
+            max_freq = max(max_freq, freq[num])
+
+        for _, f in freq.items():
+            if f == max_freq:
+                ans += f
+
+        return ans
