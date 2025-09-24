@@ -8,7 +8,6 @@ class Solution:
             fraction.append('-')
 
         dividend, divisor = abs(numerator), abs(denominator)
-
         fraction.append(str(dividend // divisor))
         remainder = dividend % divisor
         if remainder == 0:
