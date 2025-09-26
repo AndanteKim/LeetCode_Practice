@@ -1,11 +1,17 @@
 class Solution:
     def minimumTotal(self, triangle: List[List[int]]) -> int:
-        below_row, n = triangle[-1], len(triangle)
-        
-        for row in range(n - 2, -1, -1):
-            curr_row = []
-            for col in range(row + 1):
-                smallest = min(below_row[col], below_row[col + 1])
-                curr_row.append(triangle[row][col] + smallest)
-            below_row = curr_row
-        return below_row[0]
+        @lru_cache(maxsize = None)
+        def dp(row: int, col: int) -> int:
+            if row == n:
+                return 0
+            
+            if col == len(triangle[row]):
+                return float('inf')
+
+            min_path = float('inf')
+            min_path = triangle[row][col] + min(dp(row + 1, col), dp(row + 1, col + 1))
+            
+            return min_path
+
+        n = len(triangle)
+        return dp(0, 0)
