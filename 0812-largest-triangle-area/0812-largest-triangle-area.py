@@ -1,17 +1,6 @@
 class Solution:
     def largestTriangleArea(self, points: List[List[int]]) -> float:
-        points.sort()
-        ans, n = 0.0, len(points)
-        height, width = defaultdict(list), defaultdict(list)
+        def area(p: Tuple[int, int], q: Tuple[int, int], r: Tuple[int, int]) -> int:
+            return 0.5 * abs(p[0] * q[1] + q[0] * r[1] + r[0] * p[1] - p[1] * q[0] - q[1] * r[0] - r[1] * p[0])
 
-        for i in range(n):
-            x, y = points[i]
-            height[x].append(y)
-            width[y].append(x)
-
-        ans = 0
-        for x, y_pts in height.items():
-            if x in width:
-                ans = max(ans, (width[x][-1] - width[x][0]) * (y_pts[-1] - y_pts[0]) / 2.0)
-
-        return ans
+        return max(area(*triangle) for triangle in itertools.combinations(points, 3))
