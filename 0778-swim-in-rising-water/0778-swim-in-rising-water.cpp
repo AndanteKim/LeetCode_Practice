@@ -1,53 +1,52 @@
-class UnionFind{
-private:
-    vector<int> parents;
-    vector<int> rank;
-    
-public:
-    UnionFind(int n){
-        parents.resize(n * n);
-        iota(parents.begin(), parents.end(), 0);
-        rank.resize(n * n, 0);
-    }
-    
-    int find(int x){
-        if (x != parents[x]) parents[x] = find(parents[x]);
-        return parents[x];
-    }
-    
-    void unionSet(int x, int y){
-        int xset = find(x), yset = find(y);
-        
-        if (xset == yset) return;
-        if (rank[xset] > rank[yset]) parents[yset] = xset;
-        else if (rank[xset] == rank[yset]) {
-            parents[yset] = xset;
-            ++rank[xset];
-        }
-        else parents[xset] = yset;
-    }
-};
-
 class Solution {
+private:
+    int n;
+
+    bool isValid(int x, int y, vector<vector<bool>>& visited){
+        return x >= 0 && x < n && y >= 0 && y < n && !visited[x][y];
+    }
+
+    bool isPossible(int t, vector<vector<int>>& grid){
+        queue<pair<int, int>> q;
+        q.push({0, 0});
+        vector visited(n, vector<bool>(n, false));
+        visited[0][0] = true;
+
+        while (!q.empty()){
+            auto [x, y] = q.front(); q.pop();
+
+            if (x == n - 1 && y == n - 1) return true;
+
+            for (auto [dx, dy] : vector<pair<int, int>>{{0, 1}, {0, -1}, {1, 0}, {-1, 0}}){
+                int newX = x + dx, newY = y + dy;
+
+                if (isValid(newX, newY, visited) && grid[newX][newY] <= t){
+                    visited[newX][newY] = true;
+                    q.push({newX, newY});
+                }
+            }
+        }
+
+        return false;
+    }
+
 public:
     int swimInWater(vector<vector<int>>& grid) {
-        int n = grid.size();
-        vector<vector<bool>> visited(n, vector<bool>(n, false));
-        vector<pair<int, int>> positions;
-        for (int i = 0; i < n; ++i){
-            for (int j = 0; j < n; ++j)
-                positions.push_back(make_pair(i, j));
-        }
-        sort(positions.begin(), positions.end(), [grid](pair<int, int> &p1, pair<int, int> &p2){return grid[p1.first][p1.second] < grid[p2.first][p2.second];});
-        UnionFind *uf = new UnionFind(n);
-        
-        for (auto& [i, j] : positions){
-            for (auto& [x, y] : vector<pair<int, int>>{make_pair(i + 1, j), make_pair(i - 1, j), make_pair(i, j + 1), make_pair(i, j - 1)}){
-                if (0 <= x && x < n && 0 <= y && y < n && visited[x][y]) uf -> unionSet(i * n + j, x * n + y);
+        this -> n = grid.size();
+
+        int ans = -1, left = grid[0][0], right = n * n + 1, mid;
+
+        while (left <= right){
+            mid = left + ((right - left) >> 1);
+
+            if (isPossible(mid, grid)){
+                ans = mid;
+                right = mid - 1;
             }
-            if (uf -> find(0) == uf -> find(n * n - 1)) return grid[i][j];
-            visited[i][j] = true;
+            else
+                left = mid + 1;
         }
-        return -1;
+
+        return ans;
     }
 };
