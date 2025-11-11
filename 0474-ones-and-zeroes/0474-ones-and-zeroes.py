@@ -1,13 +1,19 @@
 class Solution:
     def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
-        dp = [[0] * (n + 1) for _ in range(m + 1)]
-        for s in strs:
-            cnt0 = s.count('0')
-            cnt1 = len(s) - cnt0
+        @lru_cache(maxsize = None)
+        def dp(i: int, rem_m: int, rem_n: int) -> int:
+            if i < 0:
+                return 0
             
-            for zeroes in range(m, cnt0 - 1, -1):
-                for ones in range(n, cnt1 - 1, -1):
-                    dp[zeroes][ones] = max(1 + dp[zeroes - cnt0][ones - cnt1], dp[zeroes][ones])
-            
-        return dp[m][n]
+            subset = 0
+            cnt_m = strs[i].count('0')
+            cnt_n = len(strs[i]) - cnt_m
+            if cnt_m <= rem_m and cnt_n <= rem_n:
+                subset += max(1 + dp(i - 1, rem_m - cnt_m, rem_n - cnt_n), dp(i - 1, rem_m, rem_n))
+            else:
+                subset += dp(i - 1, rem_m, rem_n)
+                
+            return subset
         
+        length = len(strs)
+        return dp(length - 1, m, n)
