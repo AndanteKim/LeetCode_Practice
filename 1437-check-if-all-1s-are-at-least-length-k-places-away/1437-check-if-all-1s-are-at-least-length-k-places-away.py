@@ -1,13 +1,25 @@
 class Solution:
     def kLengthApart(self, nums: List[int], k: int) -> bool:
-        count = k
+        x = 0
 
         for num in nums:
-            if num == 1:
-                if count < k:
-                    return False
-                count = 0 
-            else:
+            x = (x << 1) | num
+
+        if x == 0 or k == 0:
+            return True
+
+        while x & 1 == 0:
+            x >>= 1
+        
+        while x != 1:
+            x >>= 1
+
+            count = 0
+            while x & 1 == 0:
+                x >>= 1
                 count += 1
+            
+            if count < k:
+                return False
 
         return True
