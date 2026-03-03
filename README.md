@@ -87,4 +87,16 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
+## String
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [1545-find-kth-bit-in-nth-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1545-find-kth-bit-in-nth-binary-string/) | Medium |
+## Recursion
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [1545-find-kth-bit-in-nth-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1545-find-kth-bit-in-nth-binary-string/) | Medium |
+## Simulation
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [1545-find-kth-bit-in-nth-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1545-find-kth-bit-in-nth-binary-string/) | Medium |
 <!---LeetCode Topics End-->
