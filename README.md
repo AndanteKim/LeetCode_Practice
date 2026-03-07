@@ -25,6 +25,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
+| [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0689-maximum-sum-of-3-non-overlapping-subarrays](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0689-maximum-sum-of-3-non-overlapping-subarrays) |
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
@@ -88,11 +89,13 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Matrix
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
 | [1582-special-positions-in-a-binary-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1582-special-positions-in-a-binary-matrix/) | Easy |
 ## String
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [1545-find-kth-bit-in-nth-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1545-find-kth-bit-in-nth-binary-string/) | Medium |
 | [1758-minimum-changes-to-make-alternating-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1758-minimum-changes-to-make-alternating-binary-string/) | Easy |
 | [1784-check-if-binary-string-has-at-most-one-segment-of-ones](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1784-check-if-binary-string-has-at-most-one-segment-of-ones/) | Easy |
@@ -109,4 +112,20 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1888-minimum-number-of-flips-to-make-the-binary-string-alternating](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1888-minimum-number-of-flips-to-make-the-binary-string-alternating/) | Medium |
+## Hash Table
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
+## Graph Theory
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
+## Design
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
+## Topological Sort
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 <!---LeetCode Topics End-->
