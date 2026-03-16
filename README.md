@@ -31,6 +31,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
 | [1582-special-positions-in-a-binary-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1582-special-positions-in-a-binary-matrix/) | Easy |
+| [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 | [3296-minimum-number-of-seconds-to-make-mountain-height-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3296-minimum-number-of-seconds-to-make-mountain-height-zero/) | Medium |
@@ -57,6 +58,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
+| [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 | [3296-minimum-number-of-seconds-to-make-mountain-height-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3296-minimum-number-of-seconds-to-make-mountain-height-zero/) | Medium |
 ## Monotonic Stack
@@ -106,6 +108,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
 | [1582-special-positions-in-a-binary-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1582-special-positions-in-a-binary-matrix/) | Easy |
+| [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 ## String
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -159,6 +162,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Prefix Sum
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [3129-find-all-possible-stable-binary-arrays-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3129-find-all-possible-stable-binary-arrays-i/) | Medium |
 | [3130-find-all-possible-stable-binary-arrays-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3130-find-all-possible-stable-binary-arrays-ii/) | Hard |
 ## Bit Manipulation
@@ -177,6 +181,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1622-fancy-sequence](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1622-fancy-sequence/) | Hard |
+| [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [3296-minimum-number-of-seconds-to-make-mountain-height-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3296-minimum-number-of-seconds-to-make-mountain-height-zero/) | Medium |
 ## Trie
 | Problem Name | Difficulty |
@@ -186,6 +191,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
+| [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 ## Data Stream
 | Problem Name | Difficulty |
 | ------- | ------- |
