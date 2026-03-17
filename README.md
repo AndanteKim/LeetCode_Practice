@@ -200,4 +200,8 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
+## Database
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0627-swap-sex-of-employees](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0627-swap-sex-of-employees/) | Easy |
 <!---LeetCode Topics End-->
