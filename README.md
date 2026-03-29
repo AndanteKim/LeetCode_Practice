@@ -246,6 +246,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Database
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0175-combine-two-tables](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0175-combine-two-tables/) | Easy |
 | [0627-swap-sex-of-employees](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0627-swap-sex-of-employees/) | Easy |
 ## Two Pointers
 | Problem Name | Difficulty |
