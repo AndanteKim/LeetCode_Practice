@@ -32,6 +32,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0689-maximum-sum-of-3-non-overlapping-subarrays](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0689-maximum-sum-of-3-non-overlapping-subarrays) |
+| [0874-walking-robot-simulation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0874-walking-robot-simulation/) | Medium |
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
 | [1582-special-positions-in-a-binary-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1582-special-positions-in-a-binary-matrix/) | Easy |
@@ -178,6 +179,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0657-robot-return-to-origin](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0657-robot-return-to-origin/) | Easy |
+| [0874-walking-robot-simulation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0874-walking-robot-simulation/) | Medium |
 | [1545-find-kth-bit-in-nth-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1545-find-kth-bit-in-nth-binary-string/) | Medium |
 | [1756-design-most-recently-used-queue](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1756-design-most-recently-used-queue/) | Medium |
 | [2075-decode-the-slanted-ciphertext](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2075-decode-the-slanted-ciphertext/) | Medium |
@@ -194,6 +196,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0635-design-log-storage-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0635-design-log-storage-system/) | Medium |
+| [0874-walking-robot-simulation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0874-walking-robot-simulation/) | Medium |
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
 | [2840-check-if-strings-can-be-made-equal-with-operations-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2840-check-if-strings-can-be-made-equal-with-operations-ii/) | Medium |
 | [3548-equal-sum-grid-partition-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3548-equal-sum-grid-partition-ii/) | Hard |
