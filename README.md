@@ -59,6 +59,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3655-xor-after-range-multiplication-queries-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3655-xor-after-range-multiplication-queries-ii/) | Hard |
 | [3661-maximum-walls-destroyed-by-robots](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3661-maximum-walls-destroyed-by-robots/) | Hard |
 | [3740-minimum-distance-between-three-equal-elements-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3740-minimum-distance-between-three-equal-elements-i/) | Easy |
+| [3741-minimum-distance-between-three-equal-elements-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3741-minimum-distance-between-three-equal-elements-ii/) | Medium |
 ## Binary Search
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -206,6 +207,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2840-check-if-strings-can-be-made-equal-with-operations-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2840-check-if-strings-can-be-made-equal-with-operations-ii/) | Medium |
 | [3548-equal-sum-grid-partition-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3548-equal-sum-grid-partition-ii/) | Hard |
 | [3740-minimum-distance-between-three-equal-elements-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3740-minimum-distance-between-three-equal-elements-i/) | Easy |
+| [3741-minimum-distance-between-three-equal-elements-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3741-minimum-distance-between-three-equal-elements-ii/) | Medium |
 ## Graph Theory
 | Problem Name | Difficulty |
 | ------- | ------- |
