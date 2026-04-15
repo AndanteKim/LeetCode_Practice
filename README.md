@@ -27,6 +27,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Array
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0163-missing-ranges](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0163-missing-ranges/) | Easy |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
