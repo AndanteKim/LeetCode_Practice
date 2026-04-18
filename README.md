@@ -278,6 +278,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2946-matrix-similarity-after-cyclic-shifts](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2946-matrix-similarity-after-cyclic-shifts/) | Easy |
 | [3296-minimum-number-of-seconds-to-make-mountain-height-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3296-minimum-number-of-seconds-to-make-mountain-height-zero/) | Medium |
 | [3761-minimum-absolute-distance-between-mirror-pairs](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3761-minimum-absolute-distance-between-mirror-pairs/) | Medium |
+| [3783-mirror-distance-of-an-integer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3783-mirror-distance-of-an-integer/) | Easy |
 ## Trie
 | Problem Name | Difficulty |
 | ------- | ------- |
