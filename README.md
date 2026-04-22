@@ -29,6 +29,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0163-missing-ranges](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0163-missing-ranges/) | Easy |
+| [0281-zigzag-iterator](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0281-zigzag-iterator/) | Medium |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
@@ -239,6 +240,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Design
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0281-zigzag-iterator](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0281-zigzag-iterator/) | Medium |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0635-design-log-storage-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0635-design-log-storage-system/) | Medium |
@@ -342,9 +344,14 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Queue
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0281-zigzag-iterator](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0281-zigzag-iterator/) | Medium |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
 ## String Matching
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [3474-lexicographically-smallest-generated-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3474-lexicographically-smallest-generated-string/) | Hard |
+## Iterator
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0281-zigzag-iterator](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0281-zigzag-iterator/) | Medium |
 <!---LeetCode Topics End-->
