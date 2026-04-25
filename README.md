@@ -63,6 +63,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3212-count-submatrices-with-equal-frequency-of-x-and-y](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3212-count-submatrices-with-equal-frequency-of-x-and-y/) | Medium |
 | [3296-minimum-number-of-seconds-to-make-mountain-height-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3296-minimum-number-of-seconds-to-make-mountain-height-zero/) | Medium |
 | [3418-maximum-amount-of-money-robot-can-earn](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3418-maximum-amount-of-money-robot-can-earn/) | Medium |
+| [3464-maximize-the-distance-between-points-on-a-square](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3464-maximize-the-distance-between-points-on-a-square/) | Hard |
 | [3488-closest-equal-element-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3488-closest-equal-element-queries/) | Medium |
 | [3546-equal-sum-grid-partition-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3546-equal-sum-grid-partition-i/) | Medium |
 | [3548-equal-sum-grid-partition-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3548-equal-sum-grid-partition-ii/) | Hard |
@@ -80,6 +81,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1855-maximum-distance-between-a-pair-of-values](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1855-maximum-distance-between-a-pair-of-values/) | Medium |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 | [3296-minimum-number-of-seconds-to-make-mountain-height-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3296-minimum-number-of-seconds-to-make-mountain-height-zero/) | Medium |
+| [3464-maximize-the-distance-between-points-on-a-square](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3464-maximize-the-distance-between-points-on-a-square/) | Hard |
 | [3488-closest-equal-element-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3488-closest-equal-element-queries/) | Medium |
 | [3600-maximize-spanning-tree-stability-with-upgrades](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3600-maximize-spanning-tree-stability-with-upgrades/) | Hard |
 | [3661-maximum-walls-destroyed-by-robots](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3661-maximum-walls-destroyed-by-robots/) | Hard |
@@ -292,6 +294,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [2946-matrix-similarity-after-cyclic-shifts](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2946-matrix-similarity-after-cyclic-shifts/) | Easy |
 | [3296-minimum-number-of-seconds-to-make-mountain-height-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3296-minimum-number-of-seconds-to-make-mountain-height-zero/) | Medium |
+| [3464-maximize-the-distance-between-points-on-a-square](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3464-maximize-the-distance-between-points-on-a-square/) | Hard |
 | [3761-minimum-absolute-distance-between-mirror-pairs](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3761-minimum-absolute-distance-between-mirror-pairs/) | Medium |
 | [3783-mirror-distance-of-an-integer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3783-mirror-distance-of-an-integer/) | Easy |
 ## Trie
@@ -308,6 +311,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2463-minimum-total-distance-traveled](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2463-minimum-total-distance-traveled/) | Hard |
 | [2751-robot-collisions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2751-robot-collisions/) | Hard |
 | [2840-check-if-strings-can-be-made-equal-with-operations-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2840-check-if-strings-can-be-made-equal-with-operations-ii/) | Medium |
+| [3464-maximize-the-distance-between-points-on-a-square](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3464-maximize-the-distance-between-points-on-a-square/) | Hard |
 | [3567-minimum-absolute-difference-in-sliding-submatrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3567-minimum-absolute-difference-in-sliding-submatrix/) | Medium |
 | [3661-maximum-walls-destroyed-by-robots](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3661-maximum-walls-destroyed-by-robots/) | Hard |
 ## Data Stream
@@ -362,4 +366,8 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [2833-furthest-point-from-origin](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2833-furthest-point-from-origin/) | Easy |
+## Geometry
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [3464-maximize-the-distance-between-points-on-a-square](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3464-maximize-the-distance-between-points-on-a-square/) | Hard |
 <!---LeetCode Topics End-->
