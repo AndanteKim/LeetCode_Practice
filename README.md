@@ -21,6 +21,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
+| [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
 | [1722-minimize-hamming-distance-after-swap-operations](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1722-minimize-hamming-distance-after-swap-operations/) | Medium |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
@@ -39,6 +40,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0755-pour-water](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0755-pour-water/) | Medium |
 | [0874-walking-robot-simulation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0874-walking-robot-simulation/) | Medium |
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
+| [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
 | [1582-special-positions-in-a-binary-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1582-special-positions-in-a-binary-matrix/) | Easy |
@@ -123,6 +125,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
+| [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
 | [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
@@ -165,6 +168,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
+| [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
 | [1582-special-positions-in-a-binary-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1582-special-positions-in-a-binary-matrix/) | Easy |
@@ -284,6 +288,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Union-Find
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
 | [1722-minimize-hamming-distance-after-swap-operations](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1722-minimize-hamming-distance-after-swap-operations/) | Medium |
 | [2573-find-the-string-with-lcp](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2573-find-the-string-with-lcp/) | Hard |
