@@ -254,6 +254,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
+| [1059-all-paths-from-source-lead-to-destination](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1059-all-paths-from-source-lead-to-destination/) | Medium |
 | [3600-maximize-spanning-tree-stability-with-upgrades](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3600-maximize-spanning-tree-stability-with-upgrades/) | Hard |
 ## Design
 | Problem Name | Difficulty |
@@ -270,6 +271,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
+| [1059-all-paths-from-source-lead-to-destination](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1059-all-paths-from-source-lead-to-destination/) | Medium |
 ## Ordered Set
 | Problem Name | Difficulty |
 | ------- | ------- |
