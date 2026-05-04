@@ -30,6 +30,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Array
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0048-rotate-image](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0048-rotate-image/) | Medium |
 | [0163-missing-ranges](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0163-missing-ranges/) | Easy |
 | [0281-zigzag-iterator](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0281-zigzag-iterator/) | Medium |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
@@ -177,6 +178,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Matrix
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0048-rotate-image](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0048-rotate-image/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
@@ -317,6 +319,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Math
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0048-rotate-image](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0048-rotate-image/) | Medium |
 | [0396-rotate-function](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0396-rotate-function/) | Medium |
 | [0788-rotated-digits](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0788-rotated-digits/) | Medium |
 | [1622-fancy-sequence](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1622-fancy-sequence/) | Hard |
