@@ -363,11 +363,13 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Two Pointers
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0061-rotate-list](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0061-rotate-list/) | Medium |
 | [1855-maximum-distance-between-a-pair-of-values](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1855-maximum-distance-between-a-pair-of-values/) | Medium |
 | [3643-flip-square-submatrix-vertically](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3643-flip-square-submatrix-vertically/) | Easy |
 ## Linked List
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0061-rotate-list](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0061-rotate-list/) | Medium |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
 | [1756-design-most-recently-used-queue](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1756-design-most-recently-used-queue/) | Medium |
 ## Divide and Conquer
