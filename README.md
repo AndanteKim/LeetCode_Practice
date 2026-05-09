@@ -168,6 +168,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Backtracking
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0489-robot-room-cleaner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0489-robot-room-cleaner/) | Hard |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
 | [1415-the-k-th-lexicographical-string-of-all-happy-strings-of-length-n](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1415-the-k-th-lexicographical-string-of-all-happy-strings-of-length-n/) | Medium |
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
@@ -429,4 +430,8 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [3629-minimum-jumps-to-reach-end-via-prime-teleportation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3629-minimum-jumps-to-reach-end-via-prime-teleportation/) | Medium |
+## Interactive
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0489-robot-room-cleaner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0489-robot-room-cleaner/) | Hard |
 <!---LeetCode Topics End-->
