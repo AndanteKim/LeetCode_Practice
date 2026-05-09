@@ -56,6 +56,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1861-rotating-the-box](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1861-rotating-the-box/) | Medium |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [1886-determine-whether-matrix-can-be-obtained-by-rotation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1886-determine-whether-matrix-can-be-obtained-by-rotation/) | Easy |
+| [1914-cyclically-rotating-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1914-cyclically-rotating-a-grid/) | Medium |
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
 | [2033-minimum-operations-to-make-a-uni-value-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2033-minimum-operations-to-make-a-uni-value-grid/) | Medium |
 | [2078-two-furthest-houses-with-different-colors](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2078-two-furthest-houses-with-different-colors/) | Easy |
@@ -194,6 +195,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1861-rotating-the-box](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1861-rotating-the-box/) | Medium |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [1886-determine-whether-matrix-can-be-obtained-by-rotation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1886-determine-whether-matrix-can-be-obtained-by-rotation/) | Easy |
+| [1914-cyclically-rotating-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1914-cyclically-rotating-a-grid/) | Medium |
 | [2033-minimum-operations-to-make-a-uni-value-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2033-minimum-operations-to-make-a-uni-value-grid/) | Medium |
 | [2573-find-the-string-with-lcp](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2573-find-the-string-with-lcp/) | Hard |
 | [2906-construct-product-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2906-construct-product-matrix/) | Medium |
@@ -242,6 +244,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0874-walking-robot-simulation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0874-walking-robot-simulation/) | Medium |
 | [1545-find-kth-bit-in-nth-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1545-find-kth-bit-in-nth-binary-string/) | Medium |
 | [1756-design-most-recently-used-queue](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1756-design-most-recently-used-queue/) | Medium |
+| [1914-cyclically-rotating-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1914-cyclically-rotating-a-grid/) | Medium |
 | [2069-walking-robot-simulation-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2069-walking-robot-simulation-ii/) | Medium |
 | [2075-decode-the-slanted-ciphertext](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2075-decode-the-slanted-ciphertext/) | Medium |
 | [2751-robot-collisions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2751-robot-collisions/) | Hard |
