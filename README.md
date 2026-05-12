@@ -48,6 +48,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
 | [1582-special-positions-in-a-binary-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1582-special-positions-in-a-binary-matrix/) | Easy |
 | [1594-maximum-non-negative-product-in-a-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1594-maximum-non-negative-product-in-a-matrix/) | Medium |
+| [1665-minimum-initial-energy-to-finish-tasks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1665-minimum-initial-energy-to-finish-tasks/) | Hard |
 | [1722-minimize-hamming-distance-after-swap-operations](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1722-minimize-hamming-distance-after-swap-operations/) | Medium |
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
 | [1756-design-most-recently-used-queue](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1756-design-most-recently-used-queue/) | Medium |
@@ -179,6 +180,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
+| [1665-minimum-initial-energy-to-finish-tasks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1665-minimum-initial-energy-to-finish-tasks/) | Hard |
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
 | [2078-two-furthest-houses-with-different-colors](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2078-two-furthest-houses-with-different-colors/) | Easy |
 | [2573-find-the-string-with-lcp](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2573-find-the-string-with-lcp/) | Hard |
@@ -356,6 +358,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
 | [0759-employee-free-time](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0759-employee-free-time/) | Hard |
+| [1665-minimum-initial-energy-to-finish-tasks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1665-minimum-initial-energy-to-finish-tasks/) | Hard |
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [2033-minimum-operations-to-make-a-uni-value-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2033-minimum-operations-to-make-a-uni-value-grid/) | Medium |
