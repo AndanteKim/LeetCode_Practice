@@ -31,6 +31,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0048-rotate-image](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0048-rotate-image/) | Medium |
+| [0153-find-minimum-in-rotated-sorted-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0153-find-minimum-in-rotated-sorted-array/) | Medium |
 | [0163-missing-ranges](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0163-missing-ranges/) | Easy |
 | [0281-zigzag-iterator](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0281-zigzag-iterator/) | Medium |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
@@ -97,6 +98,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Binary Search
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0153-find-minimum-in-rotated-sorted-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0153-find-minimum-in-rotated-sorted-array/) | Medium |
 | [1855-maximum-distance-between-a-pair-of-values](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1855-maximum-distance-between-a-pair-of-values/) | Medium |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 | [3296-minimum-number-of-seconds-to-make-mountain-height-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3296-minimum-number-of-seconds-to-make-mountain-height-zero/) | Medium |
