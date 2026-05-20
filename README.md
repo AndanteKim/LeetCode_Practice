@@ -75,6 +75,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2553-separate-the-digits-in-an-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2553-separate-the-digits-in-an-array/) | Easy |
 | [2573-find-the-string-with-lcp](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2573-find-the-string-with-lcp/) | Hard |
 | [2615-sum-of-distances](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2615-sum-of-distances/) | Medium |
+| [2657-find-the-prefix-common-array-of-two-arrays](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2657-find-the-prefix-common-array-of-two-arrays/) | Medium |
 | [2751-robot-collisions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2751-robot-collisions/) | Hard |
 | [2770-maximum-number-of-jumps-to-reach-the-last-index](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2770-maximum-number-of-jumps-to-reach-the-last-index/) | Medium |
 | [2784-check-if-array-is-good](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2784-check-if-array-is-good/) | Easy |
@@ -290,6 +291,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
 | [2540-minimum-common-value](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2540-minimum-common-value/) | Easy |
 | [2615-sum-of-distances](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2615-sum-of-distances/) | Medium |
+| [2657-find-the-prefix-common-array-of-two-arrays](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2657-find-the-prefix-common-array-of-two-arrays/) | Medium |
 | [2784-check-if-array-is-good](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2784-check-if-array-is-good/) | Easy |
 | [2840-check-if-strings-can-be-made-equal-with-operations-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2840-check-if-strings-can-be-made-equal-with-operations-ii/) | Medium |
 | [3488-closest-equal-element-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3488-closest-equal-element-queries/) | Medium |
@@ -342,6 +344,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1009-complement-of-base-10-integer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1009-complement-of-base-10-integer/) | Easy |
+| [2657-find-the-prefix-common-array-of-two-arrays](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2657-find-the-prefix-common-array-of-two-arrays/) | Medium |
 ## Union-Find
 | Problem Name | Difficulty |
 | ------- | ------- |
