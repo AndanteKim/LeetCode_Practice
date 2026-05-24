@@ -49,6 +49,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 | [1064-fixed-point](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1064-fixed-point/) | Easy |
 | [1306-jump-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1306-jump-game-iii/) | Medium |
+| [1340-jump-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1340-jump-game-v/) | Hard |
 | [1345-jump-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1345-jump-game-iv/) | Hard |
 | [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
@@ -178,6 +179,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0788-rotated-digits](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0788-rotated-digits/) | Medium |
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 | [1320-minimum-distance-to-type-a-word-using-two-fingers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1320-minimum-distance-to-type-a-word-using-two-fingers/) | Hard |
+| [1340-jump-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1340-jump-game-v/) | Hard |
 | [1594-maximum-non-negative-product-in-a-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1594-maximum-non-negative-product-in-a-matrix/) | Medium |
 | [1888-minimum-number-of-flips-to-make-the-binary-string-alternating](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1888-minimum-number-of-flips-to-make-the-binary-string-alternating/) | Medium |
 | [2463-minimum-total-distance-traveled](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2463-minimum-total-distance-traveled/) | Hard |
@@ -391,6 +393,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
 | [0759-employee-free-time](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0759-employee-free-time/) | Hard |
+| [1340-jump-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1340-jump-game-v/) | Hard |
 | [1665-minimum-initial-energy-to-finish-tasks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1665-minimum-initial-energy-to-finish-tasks/) | Hard |
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
