@@ -384,6 +384,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0048-rotate-image](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0048-rotate-image/) | Medium |
 | [0396-rotate-function](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0396-rotate-function/) | Medium |
 | [0788-rotated-digits](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0788-rotated-digits/) | Medium |
+| [1056-confusing-number](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1056-confusing-number/) | Easy |
 | [1622-fancy-sequence](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1622-fancy-sequence/) | Hard |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [2033-minimum-operations-to-make-a-uni-value-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2033-minimum-operations-to-make-a-uni-value-grid/) | Medium |
