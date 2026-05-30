@@ -88,6 +88,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3043-find-the-length-of-the-longest-common-prefix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3043-find-the-length-of-the-longest-common-prefix/) | Medium |
 | [3070-count-submatrices-with-top-left-element-and-sum-less-than-k](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3070-count-submatrices-with-top-left-element-and-sum-less-than-k/) | Medium |
 | [3093-longest-common-suffix-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3093-longest-common-suffix-queries/) | Hard |
+| [3161-block-placement-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3161-block-placement-queries/) | Hard |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 | [3212-count-submatrices-with-equal-frequency-of-x-and-y](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3212-count-submatrices-with-equal-frequency-of-x-and-y/) | Medium |
 | [3225-maximum-score-from-grid-operations](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3225-maximum-score-from-grid-operations/) | Hard |
@@ -118,6 +119,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1064-fixed-point](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1064-fixed-point/) | Easy |
 | [1855-maximum-distance-between-a-pair-of-values](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1855-maximum-distance-between-a-pair-of-values/) | Medium |
 | [2540-minimum-common-value](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2540-minimum-common-value/) | Easy |
+| [3161-block-placement-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3161-block-placement-queries/) | Hard |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 | [3296-minimum-number-of-seconds-to-make-mountain-height-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3296-minimum-number-of-seconds-to-make-mountain-height-zero/) | Medium |
 | [3464-maximize-the-distance-between-points-on-a-square](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3464-maximize-the-distance-between-points-on-a-square/) | Hard |
@@ -132,11 +134,13 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Binary Indexed Tree
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [3161-block-placement-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3161-block-placement-queries/) | Hard |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 ## Segment Tree
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1622-fancy-sequence](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1622-fancy-sequence/) | Hard |
+| [3161-block-placement-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3161-block-placement-queries/) | Hard |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 ## Heap (Priority Queue)
 | Problem Name | Difficulty |
