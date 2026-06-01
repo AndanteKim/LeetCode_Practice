@@ -73,6 +73,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2061-number-of-spaces-cleaning-robot-cleaned](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2061-number-of-spaces-cleaning-robot-cleaned/) | Medium |
 | [2078-two-furthest-houses-with-different-colors](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2078-two-furthest-houses-with-different-colors/) | Easy |
 | [2126-destroying-asteroids](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2126-destroying-asteroids/) | Medium |
+| [2144-minimum-cost-of-buying-candies-with-discount](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2144-minimum-cost-of-buying-candies-with-discount/) | Easy |
 | [2452-words-within-two-edits-of-dictionary](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2452-words-within-two-edits-of-dictionary/) | Medium |
 | [2463-minimum-total-distance-traveled](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2463-minimum-total-distance-traveled/) | Hard |
 | [2515-shortest-distance-to-target-string-in-a-circular-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2515-shortest-distance-to-target-string-in-a-circular-array/) | Easy |
@@ -215,6 +216,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
 | [2078-two-furthest-houses-with-different-colors](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2078-two-furthest-houses-with-different-colors/) | Easy |
 | [2126-destroying-asteroids](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2126-destroying-asteroids/) | Medium |
+| [2144-minimum-cost-of-buying-candies-with-discount](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2144-minimum-cost-of-buying-candies-with-discount/) | Easy |
 | [2573-find-the-string-with-lcp](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2573-find-the-string-with-lcp/) | Hard |
 | [3296-minimum-number-of-seconds-to-make-mountain-height-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3296-minimum-number-of-seconds-to-make-mountain-height-zero/) | Medium |
 | [3474-lexicographically-smallest-generated-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3474-lexicographically-smallest-generated-string/) | Hard |
@@ -419,6 +421,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [2033-minimum-operations-to-make-a-uni-value-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2033-minimum-operations-to-make-a-uni-value-grid/) | Medium |
 | [2126-destroying-asteroids](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2126-destroying-asteroids/) | Medium |
+| [2144-minimum-cost-of-buying-candies-with-discount](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2144-minimum-cost-of-buying-candies-with-discount/) | Easy |
 | [2463-minimum-total-distance-traveled](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2463-minimum-total-distance-traveled/) | Hard |
 | [2751-robot-collisions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2751-robot-collisions/) | Hard |
 | [2784-check-if-array-is-good](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2784-check-if-array-is-good/) | Easy |
