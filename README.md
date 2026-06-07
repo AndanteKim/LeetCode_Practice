@@ -12,6 +12,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
+| [2196-create-binary-tree-from-descriptions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2196-create-binary-tree-from-descriptions/) | Medium |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
 | [3058-maximum-number-of-k-divisible-components](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3058-maximum-number-of-k-divisible-components) |
 | [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
@@ -75,6 +76,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2078-two-furthest-houses-with-different-colors](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2078-two-furthest-houses-with-different-colors/) | Easy |
 | [2126-destroying-asteroids](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2126-destroying-asteroids/) | Medium |
 | [2144-minimum-cost-of-buying-candies-with-discount](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2144-minimum-cost-of-buying-candies-with-discount/) | Easy |
+| [2196-create-binary-tree-from-descriptions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2196-create-binary-tree-from-descriptions/) | Medium |
 | [2452-words-within-two-edits-of-dictionary](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2452-words-within-two-edits-of-dictionary/) | Medium |
 | [2463-minimum-total-distance-traveled](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2463-minimum-total-distance-traveled/) | Hard |
 | [2515-shortest-distance-to-target-string-in-a-circular-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2515-shortest-distance-to-target-string-in-a-circular-array/) | Easy |
@@ -167,6 +169,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
+| [2196-create-binary-tree-from-descriptions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2196-create-binary-tree-from-descriptions/) | Medium |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
 ## Breadth-First Search
 | Problem Name | Difficulty |
@@ -326,6 +329,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1345-jump-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1345-jump-game-iv/) | Hard |
 | [1674-minimum-moves-to-make-array-complementary](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1674-minimum-moves-to-make-array-complementary/) | Medium |
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
+| [2196-create-binary-tree-from-descriptions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2196-create-binary-tree-from-descriptions/) | Medium |
 | [2540-minimum-common-value](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2540-minimum-common-value/) | Easy |
 | [2615-sum-of-distances](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2615-sum-of-distances/) | Medium |
 | [2657-find-the-prefix-common-array-of-two-arrays](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2657-find-the-prefix-common-array-of-two-arrays/) | Medium |
