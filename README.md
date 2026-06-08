@@ -74,6 +74,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2033-minimum-operations-to-make-a-uni-value-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2033-minimum-operations-to-make-a-uni-value-grid/) | Medium |
 | [2061-number-of-spaces-cleaning-robot-cleaned](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2061-number-of-spaces-cleaning-robot-cleaned/) | Medium |
 | [2078-two-furthest-houses-with-different-colors](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2078-two-furthest-houses-with-different-colors/) | Easy |
+| [2107-number-of-unique-flavors-after-sharing-k-candies](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2107-number-of-unique-flavors-after-sharing-k-candies/) | Medium |
 | [2126-destroying-asteroids](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2126-destroying-asteroids/) | Medium |
 | [2144-minimum-cost-of-buying-candies-with-discount](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2144-minimum-cost-of-buying-candies-with-discount/) | Easy |
 | [2161-partition-array-according-to-given-pivot](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2161-partition-array-according-to-given-pivot/) | Medium |
@@ -320,6 +321,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [1871-jump-game-vii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1871-jump-game-vii/) | Medium |
 | [1888-minimum-number-of-flips-to-make-the-binary-string-alternating](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1888-minimum-number-of-flips-to-make-the-binary-string-alternating/) | Medium |
+| [2107-number-of-unique-flavors-after-sharing-k-candies](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2107-number-of-unique-flavors-after-sharing-k-candies/) | Medium |
 ## Hash Table
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -331,6 +333,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1345-jump-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1345-jump-game-iv/) | Hard |
 | [1674-minimum-moves-to-make-array-complementary](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1674-minimum-moves-to-make-array-complementary/) | Medium |
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
+| [2107-number-of-unique-flavors-after-sharing-k-candies](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2107-number-of-unique-flavors-after-sharing-k-candies/) | Medium |
 | [2196-create-binary-tree-from-descriptions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2196-create-binary-tree-from-descriptions/) | Medium |
 | [2540-minimum-common-value](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2540-minimum-common-value/) | Easy |
 | [2615-sum-of-distances](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2615-sum-of-distances/) | Medium |
