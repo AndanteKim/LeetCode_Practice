@@ -470,6 +470,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0620-not-boring-movies](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0620-not-boring-movies/) | Easy |
 | [0627-swap-sex-of-employees](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0627-swap-sex-of-employees/) | Easy |
 | [1148-article-views-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1148-article-views-i/) | Easy |
+| [1693-daily-leads-and-partners](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1693-daily-leads-and-partners/) | Easy |
 | [1978-employees-whose-manager-left-the-company](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1978-employees-whose-manager-left-the-company/) | Easy |
 ## Two Pointers
 | Problem Name | Difficulty |
