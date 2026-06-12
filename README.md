@@ -17,6 +17,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3058-maximum-number-of-k-divisible-components](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3058-maximum-number-of-k-divisible-components) |
 | [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
 | [3558-number-of-ways-to-assign-edge-weights-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3558-number-of-ways-to-assign-edge-weights-i/) | Medium |
+| [3559-number-of-ways-to-assign-edge-weights-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3559-number-of-ways-to-assign-edge-weights-ii/) | Hard |
 ## Depth-First Search
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -31,6 +32,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3058-maximum-number-of-k-divisible-components](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3058-maximum-number-of-k-divisible-components) |
 | [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
 | [3558-number-of-ways-to-assign-edge-weights-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3558-number-of-ways-to-assign-edge-weights-i/) | Medium |
+| [3559-number-of-ways-to-assign-edge-weights-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3559-number-of-ways-to-assign-edge-weights-ii/) | Hard |
 ## Array
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -109,6 +111,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3488-closest-equal-element-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3488-closest-equal-element-queries/) | Medium |
 | [3546-equal-sum-grid-partition-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3546-equal-sum-grid-partition-i/) | Medium |
 | [3548-equal-sum-grid-partition-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3548-equal-sum-grid-partition-ii/) | Hard |
+| [3559-number-of-ways-to-assign-edge-weights-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3559-number-of-ways-to-assign-edge-weights-ii/) | Hard |
 | [3567-minimum-absolute-difference-in-sliding-submatrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3567-minimum-absolute-difference-in-sliding-submatrix/) | Medium |
 | [3629-minimum-jumps-to-reach-end-via-prime-teleportation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3629-minimum-jumps-to-reach-end-via-prime-teleportation/) | Medium |
 | [3633-earliest-finish-time-for-land-and-water-rides-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3633-earliest-finish-time-for-land-and-water-rides-i/) | Easy |
@@ -215,6 +218,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3130-find-all-possible-stable-binary-arrays-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3130-find-all-possible-stable-binary-arrays-ii/) | Hard |
 | [3225-maximum-score-from-grid-operations](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3225-maximum-score-from-grid-operations/) | Hard |
 | [3418-maximum-amount-of-money-robot-can-earn](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3418-maximum-amount-of-money-robot-can-earn/) | Medium |
+| [3559-number-of-ways-to-assign-edge-weights-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3559-number-of-ways-to-assign-edge-weights-ii/) | Hard |
 | [3660-jump-game-ix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3660-jump-game-ix/) | Medium |
 | [3661-maximum-walls-destroyed-by-robots](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3661-maximum-walls-destroyed-by-robots/) | Hard |
 | [3742-maximum-path-score-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3742-maximum-path-score-in-a-grid/) | Medium |
@@ -404,6 +408,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [1009-complement-of-base-10-integer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1009-complement-of-base-10-integer/) | Easy |
 | [2657-find-the-prefix-common-array-of-two-arrays](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2657-find-the-prefix-common-array-of-two-arrays/) | Medium |
+| [3559-number-of-ways-to-assign-edge-weights-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3559-number-of-ways-to-assign-edge-weights-ii/) | Hard |
 ## Union-Find
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -431,6 +436,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3300-minimum-element-after-replacement-with-digit-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3300-minimum-element-after-replacement-with-digit-sum/) | Easy |
 | [3464-maximize-the-distance-between-points-on-a-square](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3464-maximize-the-distance-between-points-on-a-square/) | Hard |
 | [3558-number-of-ways-to-assign-edge-weights-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3558-number-of-ways-to-assign-edge-weights-i/) | Medium |
+| [3559-number-of-ways-to-assign-edge-weights-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3559-number-of-ways-to-assign-edge-weights-ii/) | Hard |
 | [3629-minimum-jumps-to-reach-end-via-prime-teleportation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3629-minimum-jumps-to-reach-end-via-prime-teleportation/) | Medium |
 | [3751-total-waviness-of-numbers-in-range-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3751-total-waviness-of-numbers-in-range-i/) | Medium |
 | [3753-total-waviness-of-numbers-in-range-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3753-total-waviness-of-numbers-in-range-ii/) | Hard |
