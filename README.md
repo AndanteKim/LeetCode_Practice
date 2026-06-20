@@ -69,6 +69,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1732-find-the-highest-altitude](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1732-find-the-highest-altitude/) | Easy |
 | [1752-check-if-array-is-sorted-and-rotated](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1752-check-if-array-is-sorted-and-rotated/) | Easy |
 | [1756-design-most-recently-used-queue](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1756-design-most-recently-used-queue/) | Medium |
+| [1840-maximum-building-height](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1840-maximum-building-height/) | Hard |
 | [1848-minimum-distance-to-the-target-element](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1848-minimum-distance-to-the-target-element/) | Easy |
 | [1855-maximum-distance-between-a-pair-of-values](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1855-maximum-distance-between-a-pair-of-values/) | Medium |
 | [1861-rotating-the-box](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1861-rotating-the-box/) | Medium |
@@ -442,6 +443,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1259-handshakes-that-dont-cross](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1259-handshakes-that-dont-cross/) | Hard |
 | [1344-angle-between-hands-of-a-clock](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1344-angle-between-hands-of-a-clock/) | Medium |
 | [1622-fancy-sequence](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1622-fancy-sequence/) | Hard |
+| [1840-maximum-building-height](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1840-maximum-building-height/) | Hard |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [2033-minimum-operations-to-make-a-uni-value-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2033-minimum-operations-to-make-a-uni-value-grid/) | Medium |
 | [2946-matrix-similarity-after-cyclic-shifts](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2946-matrix-similarity-after-cyclic-shifts/) | Easy |
@@ -470,6 +472,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1340-jump-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1340-jump-game-v/) | Hard |
 | [1665-minimum-initial-energy-to-finish-tasks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1665-minimum-initial-energy-to-finish-tasks/) | Hard |
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
+| [1840-maximum-building-height](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1840-maximum-building-height/) | Hard |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [2033-minimum-operations-to-make-a-uni-value-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2033-minimum-operations-to-make-a-uni-value-grid/) | Medium |
 | [2126-destroying-asteroids](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2126-destroying-asteroids/) | Medium |
