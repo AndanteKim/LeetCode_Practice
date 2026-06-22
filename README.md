@@ -11,6 +11,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
+| [1485-clone-binary-tree-with-random-pointer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1485-clone-binary-tree-with-random-pointer/) | Medium |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
 | [2196-create-binary-tree-from-descriptions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2196-create-binary-tree-from-descriptions/) | Medium |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
@@ -26,6 +27,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
 | [1306-jump-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1306-jump-game-iii/) | Medium |
 | [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
+| [1485-clone-binary-tree-with-random-pointer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1485-clone-binary-tree-with-random-pointer/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
 | [1722-minimize-hamming-distance-after-swap-operations](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1722-minimize-hamming-distance-after-swap-operations/) | Medium |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
@@ -184,6 +186,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
+| [1485-clone-binary-tree-with-random-pointer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1485-clone-binary-tree-with-random-pointer/) | Medium |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
 | [2196-create-binary-tree-from-descriptions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2196-create-binary-tree-from-descriptions/) | Medium |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
@@ -195,6 +198,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1306-jump-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1306-jump-game-iii/) | Medium |
 | [1345-jump-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1345-jump-game-iv/) | Hard |
 | [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
+| [1485-clone-binary-tree-with-random-pointer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1485-clone-binary-tree-with-random-pointer/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
 | [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
@@ -358,6 +362,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0874-walking-robot-simulation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0874-walking-robot-simulation/) | Medium |
 | [1189-maximum-number-of-balloons](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1189-maximum-number-of-balloons/) | Easy |
 | [1345-jump-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1345-jump-game-iv/) | Hard |
+| [1485-clone-binary-tree-with-random-pointer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1485-clone-binary-tree-with-random-pointer/) | Medium |
 | [1674-minimum-moves-to-make-array-complementary](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1674-minimum-moves-to-make-array-complementary/) | Medium |
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
 | [2107-number-of-unique-flavors-after-sharing-k-candies](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2107-number-of-unique-flavors-after-sharing-k-candies/) | Medium |
