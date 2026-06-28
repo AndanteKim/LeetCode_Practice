@@ -73,6 +73,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1756-design-most-recently-used-queue](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1756-design-most-recently-used-queue/) | Medium |
 | [1833-maximum-ice-cream-bars](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1833-maximum-ice-cream-bars/) | Medium |
 | [1840-maximum-building-height](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1840-maximum-building-height/) | Hard |
+| [1846-maximum-element-after-decreasing-and-rearranging](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1846-maximum-element-after-decreasing-and-rearranging/) | Medium |
 | [1848-minimum-distance-to-the-target-element](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1848-minimum-distance-to-the-target-element/) | Easy |
 | [1855-maximum-distance-between-a-pair-of-values](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1855-maximum-distance-between-a-pair-of-values/) | Medium |
 | [1861-rotating-the-box](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1861-rotating-the-box/) | Medium |
@@ -255,6 +256,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1665-minimum-initial-energy-to-finish-tasks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1665-minimum-initial-energy-to-finish-tasks/) | Hard |
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
 | [1833-maximum-ice-cream-bars](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1833-maximum-ice-cream-bars/) | Medium |
+| [1846-maximum-element-after-decreasing-and-rearranging](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1846-maximum-element-after-decreasing-and-rearranging/) | Medium |
 | [2078-two-furthest-houses-with-different-colors](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2078-two-furthest-houses-with-different-colors/) | Easy |
 | [2126-destroying-asteroids](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2126-destroying-asteroids/) | Medium |
 | [2144-minimum-cost-of-buying-candies-with-discount](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2144-minimum-cost-of-buying-candies-with-discount/) | Easy |
@@ -497,6 +499,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
 | [1833-maximum-ice-cream-bars](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1833-maximum-ice-cream-bars/) | Medium |
 | [1840-maximum-building-height](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1840-maximum-building-height/) | Hard |
+| [1846-maximum-element-after-decreasing-and-rearranging](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1846-maximum-element-after-decreasing-and-rearranging/) | Medium |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [2033-minimum-operations-to-make-a-uni-value-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2033-minimum-operations-to-make-a-uni-value-grid/) | Medium |
 | [2126-destroying-asteroids](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2126-destroying-asteroids/) | Medium |
