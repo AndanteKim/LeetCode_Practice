@@ -525,6 +525,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0182-duplicate-emails](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0182-duplicate-emails/) | Easy |
 | [0511-game-play-analysis-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0511-game-play-analysis-i/) | Easy |
 | [0584-find-customer-referee](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0584-find-customer-referee/) | Easy |
+| [0586-customer-placing-the-largest-number-of-orders](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0586-customer-placing-the-largest-number-of-orders/) | Easy |
 | [0620-not-boring-movies](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0620-not-boring-movies/) | Easy |
 | [0627-swap-sex-of-employees](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0627-swap-sex-of-employees/) | Easy |
 | [1050-actors-and-directors-who-cooperated-at-least-three-times](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1050-actors-and-directors-who-cooperated-at-least-three-times/) | Easy |
