@@ -46,6 +46,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0154-find-minimum-in-rotated-sorted-array-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0154-find-minimum-in-rotated-sorted-array-ii/) | Hard |
 | [0163-missing-ranges](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0163-missing-ranges/) | Easy |
 | [0281-zigzag-iterator](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0281-zigzag-iterator/) | Medium |
+| [0288-unique-word-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0288-unique-word-abbreviation/) | Medium |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
 | [0396-rotate-function](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0396-rotate-function/) | Medium |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
@@ -310,6 +311,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## String
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0288-unique-word-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0288-unique-word-abbreviation/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0635-design-log-storage-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0635-design-log-storage-system/) | Medium |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
@@ -376,6 +378,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Hash Table
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0288-unique-word-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0288-unique-word-abbreviation/) | Medium |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
@@ -417,6 +420,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0281-zigzag-iterator](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0281-zigzag-iterator/) | Medium |
+| [0288-unique-word-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0288-unique-word-abbreviation/) | Medium |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0635-design-log-storage-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0635-design-log-storage-system/) | Medium |
