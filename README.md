@@ -60,6 +60,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0874-walking-robot-simulation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0874-walking-robot-simulation/) | Medium |
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 | [1064-fixed-point](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1064-fixed-point/) | Easy |
+| [1301-number-of-paths-with-max-score](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1301-number-of-paths-with-max-score/) | Hard |
 | [1306-jump-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1306-jump-game-iii/) | Medium |
 | [1340-jump-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1340-jump-game-v/) | Hard |
 | [1345-jump-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1345-jump-game-iv/) | Hard |
@@ -239,6 +240,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0788-rotated-digits](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0788-rotated-digits/) | Medium |
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 | [1259-handshakes-that-dont-cross](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1259-handshakes-that-dont-cross/) | Hard |
+| [1301-number-of-paths-with-max-score](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1301-number-of-paths-with-max-score/) | Hard |
 | [1320-minimum-distance-to-type-a-word-using-two-fingers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1320-minimum-distance-to-type-a-word-using-two-fingers/) | Hard |
 | [1340-jump-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1340-jump-game-v/) | Hard |
 | [1594-maximum-non-negative-product-in-a-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1594-maximum-non-negative-product-in-a-matrix/) | Medium |
@@ -292,6 +294,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0048-rotate-image](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0048-rotate-image/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0723-candy-crush](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0723-candy-crush/) | Medium |
+| [1301-number-of-paths-with-max-score](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1301-number-of-paths-with-max-score/) | Hard |
 | [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
