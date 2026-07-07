@@ -518,6 +518,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3700-number-of-zigzag-arrays-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3700-number-of-zigzag-arrays-ii/) | Hard |
 | [3751-total-waviness-of-numbers-in-range-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3751-total-waviness-of-numbers-in-range-i/) | Medium |
 | [3753-total-waviness-of-numbers-in-range-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3753-total-waviness-of-numbers-in-range-ii/) | Hard |
+| [3754-concatenate-non-zero-digits-and-multiply-by-sum-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3754-concatenate-non-zero-digits-and-multiply-by-sum-i/) | Easy |
 | [3761-minimum-absolute-distance-between-mirror-pairs](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3761-minimum-absolute-distance-between-mirror-pairs/) | Medium |
 | [3783-mirror-distance-of-an-integer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3783-mirror-distance-of-an-integer/) | Easy |
 ## Trie
