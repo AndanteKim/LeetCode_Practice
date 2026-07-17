@@ -278,6 +278,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0291-word-pattern-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0291-word-pattern-ii/) | Medium |
+| [0320-generalized-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0320-generalized-abbreviation/) | Medium |
 | [0489-robot-room-cleaner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0489-robot-room-cleaner/) | Hard |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
 | [1415-the-k-th-lexicographical-string-of-all-happy-strings-of-length-n](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1415-the-k-th-lexicographical-string-of-all-happy-strings-of-length-n/) | Medium |
@@ -340,6 +341,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0288-unique-word-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0288-unique-word-abbreviation/) | Medium |
 | [0291-word-pattern-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0291-word-pattern-ii/) | Medium |
+| [0320-generalized-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0320-generalized-abbreviation/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0635-design-log-storage-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0635-design-log-storage-system/) | Medium |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
@@ -501,6 +503,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Bit Manipulation
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0320-generalized-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0320-generalized-abbreviation/) | Medium |
 | [1009-complement-of-base-10-integer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1009-complement-of-base-10-integer/) | Easy |
 | [2657-find-the-prefix-common-array-of-two-arrays](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2657-find-the-prefix-common-array-of-two-arrays/) | Medium |
 | [3534-path-existence-queries-in-a-graph-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3534-path-existence-queries-in-a-graph-ii/) | Hard |
