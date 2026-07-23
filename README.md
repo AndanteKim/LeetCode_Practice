@@ -132,6 +132,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3464-maximize-the-distance-between-points-on-a-square](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3464-maximize-the-distance-between-points-on-a-square/) | Hard |
 | [3488-closest-equal-element-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3488-closest-equal-element-queries/) | Medium |
 | [3501-maximize-active-section-with-trade-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3501-maximize-active-section-with-trade-ii/) | Hard |
+| [3513-number-of-unique-xor-triplets-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3513-number-of-unique-xor-triplets-i/) | Medium |
 | [3532-path-existence-queries-in-a-graph-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3532-path-existence-queries-in-a-graph-i/) | Medium |
 | [3534-path-existence-queries-in-a-graph-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3534-path-existence-queries-in-a-graph-ii/) | Hard |
 | [3546-equal-sum-grid-partition-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3546-equal-sum-grid-partition-i/) | Medium |
@@ -523,6 +524,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0320-generalized-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0320-generalized-abbreviation/) | Medium |
 | [1009-complement-of-base-10-integer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1009-complement-of-base-10-integer/) | Easy |
 | [2657-find-the-prefix-common-array-of-two-arrays](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2657-find-the-prefix-common-array-of-two-arrays/) | Medium |
+| [3513-number-of-unique-xor-triplets-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3513-number-of-unique-xor-triplets-i/) | Medium |
 | [3534-path-existence-queries-in-a-graph-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3534-path-existence-queries-in-a-graph-ii/) | Hard |
 | [3559-number-of-ways-to-assign-edge-weights-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3559-number-of-ways-to-assign-edge-weights-ii/) | Hard |
 ## Union-Find
@@ -561,6 +563,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3312-sorted-gcd-pair-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3312-sorted-gcd-pair-queries/) | Hard |
 | [3336-find-the-number-of-subsequences-with-equal-gcd](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3336-find-the-number-of-subsequences-with-equal-gcd/) | Hard |
 | [3464-maximize-the-distance-between-points-on-a-square](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3464-maximize-the-distance-between-points-on-a-square/) | Hard |
+| [3513-number-of-unique-xor-triplets-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3513-number-of-unique-xor-triplets-i/) | Medium |
 | [3558-number-of-ways-to-assign-edge-weights-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3558-number-of-ways-to-assign-edge-weights-i/) | Medium |
 | [3559-number-of-ways-to-assign-edge-weights-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3559-number-of-ways-to-assign-edge-weights-ii/) | Hard |
 | [3629-minimum-jumps-to-reach-end-via-prime-teleportation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3629-minimum-jumps-to-reach-end-via-prime-teleportation/) | Medium |
