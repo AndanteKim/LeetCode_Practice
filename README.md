@@ -63,6 +63,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0758-bold-words-in-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0758-bold-words-in-string/) | Medium |
 | [0759-employee-free-time](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0759-employee-free-time/) | Hard |
 | [0874-walking-robot-simulation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0874-walking-robot-simulation/) | Medium |
+| [0877-stone-game](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0877-stone-game/) | Medium |
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 | [1064-fixed-point](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1064-fixed-point/) | Easy |
 | [1199-minimum-time-to-build-blocks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1199-minimum-time-to-build-blocks/) | Hard |
@@ -269,6 +270,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
 | [0689-maximum-sum-of-3-non-overlapping-subarrays](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0689-maximum-sum-of-3-non-overlapping-subarrays) |
 | [0788-rotated-digits](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0788-rotated-digits/) | Medium |
+| [0877-stone-game](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0877-stone-game/) | Medium |
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 | [1259-handshakes-that-dont-cross](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1259-handshakes-that-dont-cross/) | Hard |
 | [1301-number-of-paths-with-max-score](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1301-number-of-paths-with-max-score/) | Hard |
@@ -576,6 +578,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0486-predict-the-winner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0486-predict-the-winner/) | Medium |
 | [0628-maximum-product-of-three-numbers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0628-maximum-product-of-three-numbers/) | Easy |
 | [0788-rotated-digits](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0788-rotated-digits/) | Medium |
+| [0877-stone-game](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0877-stone-game/) | Medium |
 | [1056-confusing-number](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1056-confusing-number/) | Easy |
 | [1199-minimum-time-to-build-blocks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1199-minimum-time-to-build-blocks/) | Hard |
 | [1259-handshakes-that-dont-cross](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1259-handshakes-that-dont-cross/) | Hard |
@@ -785,4 +788,5 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0486-predict-the-winner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0486-predict-the-winner/) | Medium |
+| [0877-stone-game](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0877-stone-game/) | Medium |
 <!---LeetCode Topics End-->
