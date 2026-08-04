@@ -1,13 +1,19 @@
 class Solution:
     def stoneGameIII(self, stoneValue: List[int]) -> str:
+        @lru_cache(maxsize = None)
+        def dp(i: int) -> int:
+            if i == n:
+                return 0
+
+            max_diff = stoneValue[i] - dp(i + 1)
+
+            if i < n - 1:
+                max_diff = max(max_diff, stoneValue[i] + stoneValue[i + 1] - dp(i + 2))
+            
+            if i < n - 2:
+                max_diff = max(max_diff, stoneValue[i] + stoneValue[i + 1] + stoneValue[i + 2] - dp(i + 3))
+
+            return max_diff
+
         n = len(stoneValue)
-        dp = [0] * 4
-        
-        for i in range(n - 1, -1, -1):
-            dp[i % 4] = stoneValue[i] - dp[(i + 1) % 4]
-            if i + 2 <= n:
-                dp[i % 4] = max(dp[i % 4], stoneValue[i] + stoneValue[i + 1] - dp[(i + 2) % 4])
-            if i + 3 <= n:
-                dp[i % 4] = max(dp[i % 4], stoneValue[i] + stoneValue[i + 1] + stoneValue[i + 2] - dp[(i + 3) % 4])
-        
-        return "Alice" if dp[0] >0 else "Bob" if dp[0] < 0 else "Tie"
+        return "Alice" if dp(0) > 0 else "Bob" if dp(0) < 0 else "Tie"
