@@ -37,6 +37,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2492-minimum-score-of-a-path-between-two-cities](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2492-minimum-score-of-a-path-between-two-cities/) | Medium |
 | [2685-count-the-number-of-complete-components](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2685-count-the-number-of-complete-components/) | Medium |
 | [3058-maximum-number-of-k-divisible-components](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3058-maximum-number-of-k-divisible-components) |
+| [3310-remove-methods-from-project](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3310-remove-methods-from-project/) | Medium |
 | [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
 | [3558-number-of-ways-to-assign-edge-weights-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3558-number-of-ways-to-assign-edge-weights-i/) | Medium |
 | [3559-number-of-ways-to-assign-edge-weights-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3559-number-of-ways-to-assign-edge-weights-ii/) | Hard |
@@ -258,6 +259,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2685-count-the-number-of-complete-components](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2685-count-the-number-of-complete-components/) | Medium |
 | [2812-find-the-safest-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2812-find-the-safest-path-in-a-grid/) | Medium |
 | [3286-find-a-safe-walk-through-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3286-find-a-safe-walk-through-a-grid/) | Medium |
+| [3310-remove-methods-from-project](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3310-remove-methods-from-project/) | Medium |
 | [3439-find-minimum-diameter-after-merging-two-trees](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3439-find-minimum-diameter-after-merging-two-trees) |
 | [3629-minimum-jumps-to-reach-end-via-prime-teleportation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3629-minimum-jumps-to-reach-end-via-prime-teleportation/) | Medium |
 ## Graph
@@ -500,6 +502,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2492-minimum-score-of-a-path-between-two-cities](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2492-minimum-score-of-a-path-between-two-cities/) | Medium |
 | [2685-count-the-number-of-complete-components](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2685-count-the-number-of-complete-components/) | Medium |
 | [3286-find-a-safe-walk-through-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3286-find-a-safe-walk-through-a-grid/) | Medium |
+| [3310-remove-methods-from-project](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3310-remove-methods-from-project/) | Medium |
 | [3532-path-existence-queries-in-a-graph-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3532-path-existence-queries-in-a-graph-i/) | Medium |
 | [3534-path-existence-queries-in-a-graph-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3534-path-existence-queries-in-a-graph-ii/) | Hard |
 | [3600-maximize-spanning-tree-stability-with-upgrades](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3600-maximize-spanning-tree-stability-with-upgrades/) | Hard |
