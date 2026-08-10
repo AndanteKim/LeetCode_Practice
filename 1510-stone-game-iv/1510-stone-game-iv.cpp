@@ -1,19 +1,16 @@
 class Solution {
 public:
     bool winnerSquareGame(int n) {
-        unordered_map<int, bool> memo {{0, false}};
+        vector<bool> dp(n + 1);
 
-        auto dp = [&](auto&& self, int remain) {
-            if (memo.contains(remain)) return memo[remain];
+        for (int i = 0; i <= n; ++i) {
+            if (dp[i]) continue;
 
-            int range = (int)sqrt(remain);
-            for (int i = 1; i <= range; ++i) {
-                if (!self(self, remain - i * i)) return memo[remain] = true;
-            }
+            for (int k = 1; i + k * k <= n; ++k)
+                dp[i + k * k] = true;
+            
+        }
 
-            return memo[remain] = false;
-        };
-
-       return dp(dp, n);
+        return dp[n];
     }
 };
