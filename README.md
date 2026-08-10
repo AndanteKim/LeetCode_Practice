@@ -287,6 +287,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1320-minimum-distance-to-type-a-word-using-two-fingers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1320-minimum-distance-to-type-a-word-using-two-fingers/) | Hard |
 | [1340-jump-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1340-jump-game-v/) | Hard |
 | [1406-stone-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1406-stone-game-iii/) | Hard |
+| [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
 | [1594-maximum-non-negative-product-in-a-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1594-maximum-non-negative-product-in-a-matrix/) | Medium |
 | [1871-jump-game-vii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1871-jump-game-vii/) | Medium |
 | [1888-minimum-number-of-flips-to-make-the-binary-string-alternating](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1888-minimum-number-of-flips-to-make-the-binary-string-alternating/) | Medium |
@@ -607,6 +608,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1259-handshakes-that-dont-cross](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1259-handshakes-that-dont-cross/) | Hard |
 | [1344-angle-between-hands-of-a-clock](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1344-angle-between-hands-of-a-clock/) | Medium |
 | [1406-stone-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1406-stone-game-iii/) | Hard |
+| [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
 | [1622-fancy-sequence](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1622-fancy-sequence/) | Hard |
 | [1840-maximum-building-height](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1840-maximum-building-height/) | Hard |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
@@ -821,16 +823,19 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0877-stone-game](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0877-stone-game/) | Medium |
 | [1140-stone-game-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1140-stone-game-ii/) | Medium |
 | [1406-stone-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1406-stone-game-iii/) | Hard |
+| [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
 ## Minimax
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1140-stone-game-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1140-stone-game-ii/) | Medium |
 | [1406-stone-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1406-stone-game-iii/) | Hard |
+| [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
 ## Zero-Sum Game
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1140-stone-game-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1140-stone-game-ii/) | Medium |
 | [1406-stone-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1406-stone-game-iii/) | Hard |
+| [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
 ## Binary Lifting
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -839,4 +844,12 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
+## Nim Game
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
+## Sprague–Grundy Theorem
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
 <!---LeetCode Topics End-->
