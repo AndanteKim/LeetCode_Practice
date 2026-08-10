@@ -1,16 +1,14 @@
 class Solution:
     def winnerSquareGame(self, n: int) -> bool:
-        def dp(remain: int) -> int:
-            if remain in memo:
-                return memo[remain]
-
-            for i in range(1, int(remain ** 0.5) + 1):
-                if not dp(remain - i * i):
-                    memo[remain] = True
-                    return True
+        dp = [False] * (n + 1)
+        for i in range(n + 1):
+            if dp[i]:
+                continue
             
-            memo[remain] = False
-            return False 
-        
-        memo = {0 : False}
-        return dp(n)
+            for k in range(1, int(n ** 0.5) + 1):
+                if i + k * k <= n:
+                    dp[i + k * k] = True
+                else:
+                    break
+
+        return dp[n]
