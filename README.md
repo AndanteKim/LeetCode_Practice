@@ -114,6 +114,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2144-minimum-cost-of-buying-candies-with-discount](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2144-minimum-cost-of-buying-candies-with-discount/) | Easy |
 | [2161-partition-array-according-to-given-pivot](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2161-partition-array-according-to-given-pivot/) | Medium |
 | [2196-create-binary-tree-from-descriptions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2196-create-binary-tree-from-descriptions/) | Medium |
+| [2213-longest-substring-of-one-repeating-character](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2213-longest-substring-of-one-repeating-character/) | Hard |
 | [2452-words-within-two-edits-of-dictionary](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2452-words-within-two-edits-of-dictionary/) | Medium |
 | [2463-minimum-total-distance-traveled](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2463-minimum-total-distance-traveled/) | Hard |
 | [2515-shortest-distance-to-target-string-in-a-circular-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2515-shortest-distance-to-target-string-in-a-circular-array/) | Easy |
@@ -216,6 +217,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1622-fancy-sequence](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1622-fancy-sequence/) | Hard |
+| [2213-longest-substring-of-one-repeating-character](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2213-longest-substring-of-one-repeating-character/) | Hard |
 | [3161-block-placement-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3161-block-placement-queries/) | Hard |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 | [3501-maximize-active-section-with-trade-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3501-maximize-active-section-with-trade-ii/) | Hard |
@@ -409,6 +411,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1967-number-of-strings-that-appear-as-substrings-in-word](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1967-number-of-strings-that-appear-as-substrings-in-word/) | Easy |
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
 | [2075-decode-the-slanted-ciphertext](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2075-decode-the-slanted-ciphertext/) | Medium |
+| [2213-longest-substring-of-one-repeating-character](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2213-longest-substring-of-one-repeating-character/) | Hard |
 | [2452-words-within-two-edits-of-dictionary](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2452-words-within-two-edits-of-dictionary/) | Medium |
 | [2515-shortest-distance-to-target-string-in-a-circular-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2515-shortest-distance-to-target-string-in-a-circular-array/) | Easy |
 | [2573-find-the-string-with-lcp](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2573-find-the-string-with-lcp/) | Hard |
@@ -549,6 +552,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0635-design-log-storage-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0635-design-log-storage-system/) | Medium |
+| [2213-longest-substring-of-one-repeating-character](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2213-longest-substring-of-one-repeating-character/) | Hard |
 ## Prefix Sum
 | Problem Name | Difficulty |
 | ------- | ------- |
