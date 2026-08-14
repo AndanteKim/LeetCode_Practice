@@ -421,6 +421,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3014-minimum-number-of-pushes-to-type-word-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3014-minimum-number-of-pushes-to-type-word-i/) | Easy |
 | [3016-minimum-number-of-pushes-to-type-word-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3016-minimum-number-of-pushes-to-type-word-ii/) | Medium |
 | [3043-find-the-length-of-the-longest-common-prefix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3043-find-the-length-of-the-longest-common-prefix/) | Medium |
+| [3090-maximum-length-substring-with-two-occurrences](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3090-maximum-length-substring-with-two-occurrences/) | Easy |
 | [3093-longest-common-suffix-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3093-longest-common-suffix-queries/) | Hard |
 | [3120-count-the-number-of-special-characters-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3120-count-the-number-of-special-characters-i/) | Easy |
 | [3121-count-the-number-of-special-characters-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3121-count-the-number-of-special-characters-ii/) | Medium |
@@ -471,6 +472,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1888-minimum-number-of-flips-to-make-the-binary-string-alternating](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1888-minimum-number-of-flips-to-make-the-binary-string-alternating/) | Medium |
 | [2107-number-of-unique-flavors-after-sharing-k-candies](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2107-number-of-unique-flavors-after-sharing-k-candies/) | Medium |
 | [2958-length-of-longest-subarray-with-at-most-k-frequency](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2958-length-of-longest-subarray-with-at-most-k-frequency/) | Medium |
+| [3090-maximum-length-substring-with-two-occurrences](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3090-maximum-length-substring-with-two-occurrences/) | Easy |
 ## Hash Table
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -503,6 +505,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3016-minimum-number-of-pushes-to-type-word-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3016-minimum-number-of-pushes-to-type-word-ii/) | Medium |
 | [3020-find-the-maximum-number-of-elements-in-subset](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3020-find-the-maximum-number-of-elements-in-subset/) | Medium |
 | [3043-find-the-length-of-the-longest-common-prefix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3043-find-the-length-of-the-longest-common-prefix/) | Medium |
+| [3090-maximum-length-substring-with-two-occurrences](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3090-maximum-length-substring-with-two-occurrences/) | Easy |
 | [3120-count-the-number-of-special-characters-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3120-count-the-number-of-special-characters-i/) | Easy |
 | [3121-count-the-number-of-special-characters-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3121-count-the-number-of-special-characters-ii/) | Medium |
 | [3312-sorted-gcd-pair-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3312-sorted-gcd-pair-queries/) | Hard |
