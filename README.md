@@ -53,6 +53,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0163-missing-ranges](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0163-missing-ranges/) | Easy |
 | [0281-zigzag-iterator](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0281-zigzag-iterator/) | Medium |
 | [0288-unique-word-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0288-unique-word-abbreviation/) | Medium |
+| [0308-range-sum-query-2d-mutable](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0308-range-sum-query-2d-mutable/) | Medium |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
 | [0396-rotate-function](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0396-rotate-function/) | Medium |
 | [0486-predict-the-winner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0486-predict-the-winner/) | Medium |
@@ -213,11 +214,13 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Binary Indexed Tree
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0308-range-sum-query-2d-mutable](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0308-range-sum-query-2d-mutable/) | Medium |
 | [3161-block-placement-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3161-block-placement-queries/) | Hard |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 ## Segment Tree
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0308-range-sum-query-2d-mutable](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0308-range-sum-query-2d-mutable/) | Medium |
 | [1622-fancy-sequence](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1622-fancy-sequence/) | Hard |
 | [2213-longest-substring-of-one-repeating-character](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2213-longest-substring-of-one-repeating-character/) | Hard |
 | [3161-block-placement-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3161-block-placement-queries/) | Hard |
@@ -357,6 +360,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0048-rotate-image](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0048-rotate-image/) | Medium |
+| [0308-range-sum-query-2d-mutable](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0308-range-sum-query-2d-mutable/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0723-candy-crush](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0723-candy-crush/) | Medium |
 | [1260-shift-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1260-shift-2d-grid/) | Easy |
@@ -541,6 +545,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0281-zigzag-iterator](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0281-zigzag-iterator/) | Medium |
 | [0288-unique-word-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0288-unique-word-abbreviation/) | Medium |
+| [0308-range-sum-query-2d-mutable](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0308-range-sum-query-2d-mutable/) | Medium |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0635-design-log-storage-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0635-design-log-storage-system/) | Medium |
@@ -875,4 +880,8 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
+## Sqrt Decomposition
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0308-range-sum-query-2d-mutable](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0308-range-sum-query-2d-mutable/) | Medium |
 <!---LeetCode Topics End-->
