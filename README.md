@@ -106,6 +106,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1967-number-of-strings-that-appear-as-substrings-in-word](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1967-number-of-strings-that-appear-as-substrings-in-word/) | Easy |
 | [1979-find-greatest-common-divisor-of-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1979-find-greatest-common-divisor-of-array/) | Easy |
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
+| [2029-stone-game-ix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2029-stone-game-ix/) | Medium |
 | [2033-minimum-operations-to-make-a-uni-value-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2033-minimum-operations-to-make-a-uni-value-grid/) | Medium |
 | [2061-number-of-spaces-cleaning-robot-cleaned](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2061-number-of-spaces-cleaning-robot-cleaned/) | Medium |
 | [2078-two-furthest-houses-with-different-colors](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2078-two-furthest-houses-with-different-colors/) | Easy |
@@ -335,6 +336,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
 | [1833-maximum-ice-cream-bars](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1833-maximum-ice-cream-bars/) | Medium |
 | [1846-maximum-element-after-decreasing-and-rearranging](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1846-maximum-element-after-decreasing-and-rearranging/) | Medium |
+| [2029-stone-game-ix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2029-stone-game-ix/) | Medium |
 | [2078-two-furthest-houses-with-different-colors](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2078-two-furthest-houses-with-different-colors/) | Easy |
 | [2126-destroying-asteroids](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2126-destroying-asteroids/) | Medium |
 | [2144-minimum-cost-of-buying-candies-with-discount](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2144-minimum-cost-of-buying-candies-with-discount/) | Easy |
@@ -627,6 +629,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1840-maximum-building-height](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1840-maximum-building-height/) | Hard |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [1979-find-greatest-common-divisor-of-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1979-find-greatest-common-divisor-of-array/) | Easy |
+| [2029-stone-game-ix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2029-stone-game-ix/) | Medium |
 | [2033-minimum-operations-to-make-a-uni-value-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2033-minimum-operations-to-make-a-uni-value-grid/) | Medium |
 | [2946-matrix-similarity-after-cyclic-shifts](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2946-matrix-similarity-after-cyclic-shifts/) | Easy |
 | [3014-minimum-number-of-pushes-to-type-word-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3014-minimum-number-of-pushes-to-type-word-i/) | Easy |
@@ -784,6 +787,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1189-maximum-number-of-balloons](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1189-maximum-number-of-balloons/) | Easy |
+| [2029-stone-game-ix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2029-stone-game-ix/) | Medium |
 | [2833-furthest-point-from-origin](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2833-furthest-point-from-origin/) | Easy |
 | [3016-minimum-number-of-pushes-to-type-word-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3016-minimum-number-of-pushes-to-type-word-ii/) | Medium |
 | [3312-sorted-gcd-pair-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3312-sorted-gcd-pair-queries/) | Hard |
@@ -839,18 +843,21 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1140-stone-game-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1140-stone-game-ii/) | Medium |
 | [1406-stone-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1406-stone-game-iii/) | Hard |
 | [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
+| [2029-stone-game-ix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2029-stone-game-ix/) | Medium |
 ## Minimax
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1140-stone-game-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1140-stone-game-ii/) | Medium |
 | [1406-stone-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1406-stone-game-iii/) | Hard |
 | [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
+| [2029-stone-game-ix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2029-stone-game-ix/) | Medium |
 ## Zero-Sum Game
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1140-stone-game-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1140-stone-game-ii/) | Medium |
 | [1406-stone-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1406-stone-game-iii/) | Hard |
 | [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
+| [2029-stone-game-ix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2029-stone-game-ix/) | Medium |
 ## Binary Lifting
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -863,6 +870,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
+| [2029-stone-game-ix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2029-stone-game-ix/) | Medium |
 ## Sprague–Grundy Theorem
 | Problem Name | Difficulty |
 | ------- | ------- |
