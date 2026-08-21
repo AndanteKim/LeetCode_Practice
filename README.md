@@ -141,6 +141,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3069-distribute-elements-into-two-arrays-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3069-distribute-elements-into-two-arrays-i/) | Easy |
 | [3070-count-submatrices-with-top-left-element-and-sum-less-than-k](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3070-count-submatrices-with-top-left-element-and-sum-less-than-k/) | Medium |
 | [3093-longest-common-suffix-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3093-longest-common-suffix-queries/) | Hard |
+| [3116-kth-smallest-amount-with-single-denomination-combination](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3116-kth-smallest-amount-with-single-denomination-combination/) | Hard |
 | [3161-block-placement-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3161-block-placement-queries/) | Hard |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 | [3212-count-submatrices-with-equal-frequency-of-x-and-y](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3212-count-submatrices-with-equal-frequency-of-x-and-y/) | Medium |
@@ -194,6 +195,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1855-maximum-distance-between-a-pair-of-values](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1855-maximum-distance-between-a-pair-of-values/) | Medium |
 | [2540-minimum-common-value](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2540-minimum-common-value/) | Easy |
 | [2812-find-the-safest-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2812-find-the-safest-path-in-a-grid/) | Medium |
+| [3116-kth-smallest-amount-with-single-denomination-combination](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3116-kth-smallest-amount-with-single-denomination-combination/) | Hard |
 | [3161-block-placement-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3161-block-placement-queries/) | Hard |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 | [3296-minimum-number-of-seconds-to-make-mountain-height-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3296-minimum-number-of-seconds-to-make-mountain-height-zero/) | Medium |
@@ -603,6 +605,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1009-complement-of-base-10-integer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1009-complement-of-base-10-integer/) | Easy |
 | [1386-cinema-seat-allocation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1386-cinema-seat-allocation/) | Medium |
 | [2657-find-the-prefix-common-array-of-two-arrays](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2657-find-the-prefix-common-array-of-two-arrays/) | Medium |
+| [3116-kth-smallest-amount-with-single-denomination-combination](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3116-kth-smallest-amount-with-single-denomination-combination/) | Hard |
 | [3513-number-of-unique-xor-triplets-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3513-number-of-unique-xor-triplets-i/) | Medium |
 | [3514-number-of-unique-xor-triplets-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3514-number-of-unique-xor-triplets-ii/) | Medium |
 | [3534-path-existence-queries-in-a-graph-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3534-path-existence-queries-in-a-graph-ii/) | Hard |
@@ -649,6 +652,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2033-minimum-operations-to-make-a-uni-value-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2033-minimum-operations-to-make-a-uni-value-grid/) | Medium |
 | [2946-matrix-similarity-after-cyclic-shifts](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2946-matrix-similarity-after-cyclic-shifts/) | Easy |
 | [3014-minimum-number-of-pushes-to-type-word-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3014-minimum-number-of-pushes-to-type-word-i/) | Easy |
+| [3116-kth-smallest-amount-with-single-denomination-combination](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3116-kth-smallest-amount-with-single-denomination-combination/) | Hard |
 | [3296-minimum-number-of-seconds-to-make-mountain-height-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3296-minimum-number-of-seconds-to-make-mountain-height-zero/) | Medium |
 | [3300-minimum-element-after-replacement-with-digit-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3300-minimum-element-after-replacement-with-digit-sum/) | Easy |
 | [3312-sorted-gcd-pair-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3312-sorted-gcd-pair-queries/) | Hard |
@@ -821,6 +825,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1979-find-greatest-common-divisor-of-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1979-find-greatest-common-divisor-of-array/) | Easy |
+| [3116-kth-smallest-amount-with-single-denomination-combination](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3116-kth-smallest-amount-with-single-denomination-combination/) | Hard |
 | [3312-sorted-gcd-pair-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3312-sorted-gcd-pair-queries/) | Hard |
 | [3336-find-the-number-of-subsequences-with-equal-gcd](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3336-find-the-number-of-subsequences-with-equal-gcd/) | Hard |
 | [3348-smallest-divisible-digit-product-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3348-smallest-divisible-digit-product-ii/) | Hard |
@@ -849,6 +854,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Combinatorics
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [3116-kth-smallest-amount-with-single-denomination-combination](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3116-kth-smallest-amount-with-single-denomination-combination/) | Hard |
 | [3312-sorted-gcd-pair-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3312-sorted-gcd-pair-queries/) | Hard |
 | [3518-smallest-palindromic-rearrangement-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3518-smallest-palindromic-rearrangement-ii/) | Hard |
 ## Game Theory
