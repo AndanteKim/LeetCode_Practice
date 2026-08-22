@@ -289,6 +289,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Dynamic Programming
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0351-android-unlock-patterns](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0351-android-unlock-patterns/) | Medium |
 | [0396-rotate-function](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0396-rotate-function/) | Medium |
 | [0486-predict-the-winner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0486-predict-the-winner/) | Medium |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
@@ -331,6 +332,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0291-word-pattern-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0291-word-pattern-ii/) | Medium |
 | [0320-generalized-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0320-generalized-abbreviation/) | Medium |
+| [0351-android-unlock-patterns](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0351-android-unlock-patterns/) | Medium |
 | [0489-robot-room-cleaner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0489-robot-room-cleaner/) | Hard |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
 | [1415-the-k-th-lexicographical-string-of-all-happy-strings-of-length-n](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1415-the-k-th-lexicographical-string-of-all-happy-strings-of-length-n/) | Medium |
@@ -602,6 +604,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0320-generalized-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0320-generalized-abbreviation/) | Medium |
+| [0351-android-unlock-patterns](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0351-android-unlock-patterns/) | Medium |
 | [1009-complement-of-base-10-integer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1009-complement-of-base-10-integer/) | Easy |
 | [1386-cinema-seat-allocation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1386-cinema-seat-allocation/) | Medium |
 | [2657-find-the-prefix-common-array-of-two-arrays](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2657-find-the-prefix-common-array-of-two-arrays/) | Medium |
@@ -903,4 +906,8 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0308-range-sum-query-2d-mutable](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0308-range-sum-query-2d-mutable/) | Medium |
+## Bitmask
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [0351-android-unlock-patterns](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0351-android-unlock-patterns/) | Medium |
 <!---LeetCode Topics End-->
