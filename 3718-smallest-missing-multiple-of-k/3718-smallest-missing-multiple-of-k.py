@@ -1,10 +1,8 @@
 class Solution:
     def missingMultiple(self, nums: List[int], k: int) -> int:
-        nums, x = set(nums), k
+        ans, seen = k, set(nums)
 
-        while x <= 1000:
-            if x not in nums:
-                return x
-            x += k
-
-        return -1
+        while ans in seen:
+            ans += k
+        
+        return ans
