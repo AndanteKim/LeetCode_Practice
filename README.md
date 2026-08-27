@@ -370,6 +370,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3635-earliest-finish-time-for-land-and-water-rides-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3635-earliest-finish-time-for-land-and-water-rides-ii/) | Medium |
 | [3689-maximum-total-subarray-value-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3689-maximum-total-subarray-value-i/) | Medium |
 | [3691-maximum-total-subarray-value-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3691-maximum-total-subarray-value-ii/) | Hard |
+| [3720-lexicographically-smallest-permutation-greater-than-target](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3720-lexicographically-smallest-permutation-greater-than-target/) | Medium |
 ## Matrix
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -457,6 +458,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3518-smallest-palindromic-rearrangement-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3518-smallest-palindromic-rearrangement-ii/) | Hard |
 | [3612-process-string-with-special-operations-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3612-process-string-with-special-operations-i/) | Medium |
 | [3614-process-string-with-special-operations-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3614-process-string-with-special-operations-ii/) | Hard |
+| [3720-lexicographically-smallest-permutation-greater-than-target](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3720-lexicographically-smallest-permutation-greater-than-target/) | Medium |
 | [3756-concatenate-non-zero-digits-and-multiply-by-sum-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3756-concatenate-non-zero-digits-and-multiply-by-sum-ii/) | Medium |
 | [3838-weighted-word-mapping](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3838-weighted-word-mapping/) | Easy |
 ## Recursion
@@ -542,6 +544,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3548-equal-sum-grid-partition-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3548-equal-sum-grid-partition-ii/) | Hard |
 | [3629-minimum-jumps-to-reach-end-via-prime-teleportation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3629-minimum-jumps-to-reach-end-via-prime-teleportation/) | Medium |
 | [3718-smallest-missing-multiple-of-k](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3718-smallest-missing-multiple-of-k/) | Easy |
+| [3720-lexicographically-smallest-permutation-greater-than-target](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3720-lexicographically-smallest-permutation-greater-than-target/) | Medium |
 | [3731-find-missing-elements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3731-find-missing-elements/) | Easy |
 | [3737-count-subarrays-with-majority-element-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3737-count-subarrays-with-majority-element-i/) | Medium |
 | [3739-count-subarrays-with-majority-element-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3739-count-subarrays-with-majority-element-ii/) | Hard |
@@ -802,6 +805,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3514-number-of-unique-xor-triplets-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3514-number-of-unique-xor-triplets-ii/) | Medium |
 | [3546-equal-sum-grid-partition-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3546-equal-sum-grid-partition-i/) | Medium |
 | [3548-equal-sum-grid-partition-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3548-equal-sum-grid-partition-ii/) | Hard |
+| [3720-lexicographically-smallest-permutation-greater-than-target](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3720-lexicographically-smallest-permutation-greater-than-target/) | Medium |
 | [3751-total-waviness-of-numbers-in-range-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3751-total-waviness-of-numbers-in-range-i/) | Medium |
 ## Queue
 | Problem Name | Difficulty |
@@ -827,6 +831,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3016-minimum-number-of-pushes-to-type-word-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3016-minimum-number-of-pushes-to-type-word-ii/) | Medium |
 | [3312-sorted-gcd-pair-queries](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3312-sorted-gcd-pair-queries/) | Hard |
 | [3518-smallest-palindromic-rearrangement-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3518-smallest-palindromic-rearrangement-ii/) | Hard |
+| [3720-lexicographically-smallest-permutation-greater-than-target](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3720-lexicographically-smallest-permutation-greater-than-target/) | Medium |
 | [3737-count-subarrays-with-majority-element-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3737-count-subarrays-with-majority-element-i/) | Medium |
 ## Geometry
 | Problem Name | Difficulty |
