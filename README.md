@@ -418,6 +418,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0657-robot-return-to-origin](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0657-robot-return-to-origin/) | Easy |
 | [0758-bold-words-in-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0758-bold-words-in-string/) | Medium |
 | [0796-rotate-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0796-rotate-string/) | Easy |
+| [0800-similar-rgb-color](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0800-similar-rgb-color/) | Easy |
 | [1081-smallest-subsequence-of-distinct-characters](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1081-smallest-subsequence-of-distinct-characters/) | Medium |
 | [1189-maximum-number-of-balloons](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1189-maximum-number-of-balloons/) | Easy |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
@@ -651,6 +652,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0486-predict-the-winner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0486-predict-the-winner/) | Medium |
 | [0628-maximum-product-of-three-numbers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0628-maximum-product-of-three-numbers/) | Easy |
 | [0788-rotated-digits](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0788-rotated-digits/) | Medium |
+| [0800-similar-rgb-color](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0800-similar-rgb-color/) | Easy |
 | [0877-stone-game](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0877-stone-game/) | Medium |
 | [1056-confusing-number](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1056-confusing-number/) | Easy |
 | [1140-stone-game-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1140-stone-game-ii/) | Medium |
@@ -800,6 +802,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Enumeration
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0800-similar-rgb-color](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0800-similar-rgb-color/) | Easy |
 | [1291-sequential-digits](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1291-sequential-digits/) | Medium |
 | [3020-find-the-maximum-number-of-elements-in-subset](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3020-find-the-maximum-number-of-elements-in-subset/) | Medium |
 | [3345-smallest-divisible-digit-product-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3345-smallest-divisible-digit-product-i/) | Easy |
