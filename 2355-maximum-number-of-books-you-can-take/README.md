@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/maximum-number-of-books-you-can-take/">2355. Maximum Number of Books You Can Take</a></h2><h3>Hard</h3><hr><div><p>You are given a <strong>0-indexed</strong> integer array <code>books</code> of length <code>n</code> where <code>books[i]</code> denotes the number of books on the <code>i<sup>th</sup></code> shelf of a bookshelf.</p>
+<h2><a href="https://leetcode.com/problems/maximum-number-of-books-you-can-take">2355. Maximum Number of Books You Can Take</a></h2><h3>Hard</h3><hr><p>You are given a <strong>0-indexed</strong> integer array <code>books</code> of length <code>n</code> where <code>books[i]</code> denotes the number of books on the <code>i<sup>th</sup></code> shelf of a bookshelf.</p>
 
 <p>You are going to take books from a <strong>contiguous</strong> section of the bookshelf spanning from <code>l</code> to <code>r</code> where <code>0 &lt;= l &lt;= r &lt; n</code>. For each index <code>i</code> in the range <code>l &lt;= i &lt; r</code>, you must take <strong>strictly fewer</strong> books from shelf <code>i</code> than shelf <code>i + 1</code>.</p>
 
@@ -7,7 +7,8 @@
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
 
-<pre><strong>Input:</strong> books = [8,5,2,7,9]
+<pre>
+<strong>Input:</strong> books = [8,5,2,7,9]
 <strong>Output:</strong> 19
 <strong>Explanation:</strong>
 - Take 1 book from shelf 1.
@@ -20,7 +21,8 @@ It can be proven that 19 is the maximum number of books you can take.
 
 <p><strong class="example">Example 2:</strong></p>
 
-<pre><strong>Input:</strong> books = [7,0,3,4,5]
+<pre>
+<strong>Input:</strong> books = [7,0,3,4,5]
 <strong>Output:</strong> 12
 <strong>Explanation:</strong>
 - Take 3 books from shelf 2.
@@ -32,7 +34,8 @@ It can be proven that 12 is the maximum number of books you can take.
 
 <p><strong class="example">Example 3:</strong></p>
 
-<pre><strong>Input:</strong> books = [8,2,3,7,3,4,0,1,4,3]
+<pre>
+<strong>Input:</strong> books = [8,2,3,7,3,4,0,1,4,3]
 <strong>Output:</strong> 13
 <strong>Explanation:</strong>
 - Take 1 book from shelf 0.
@@ -50,4 +53,3 @@ It can be proven that 13 is the maximum number of books you can take.
 	<li><code>1 &lt;= books.length &lt;= 10<sup>5</sup></code></li>
 	<li><code>0 &lt;= books[i] &lt;= 10<sup>5</sup></code></li>
 </ul>
-</div>
