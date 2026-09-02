@@ -121,6 +121,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [2161-partition-array-according-to-given-pivot](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2161-partition-array-according-to-given-pivot/) | Medium |
 | [2196-create-binary-tree-from-descriptions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2196-create-binary-tree-from-descriptions/) | Medium |
 | [2213-longest-substring-of-one-repeating-character](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2213-longest-substring-of-one-repeating-character/) | Hard |
+| [2355-maximum-number-of-books-you-can-take](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2355-maximum-number-of-books-you-can-take/) | Hard |
 | [2452-words-within-two-edits-of-dictionary](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2452-words-within-two-edits-of-dictionary/) | Medium |
 | [2463-minimum-total-distance-traveled](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2463-minimum-total-distance-traveled/) | Hard |
 | [2515-shortest-distance-to-target-string-in-a-circular-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/2515-shortest-distance-to-target-string-in-a-circular-array/) | Easy |
@@ -221,6 +222,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [1081-smallest-subsequence-of-distinct-characters](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1081-smallest-subsequence-of-distinct-characters/) | Medium |
 | [2130-maximum-twin-sum-of-a-linked-list](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2130-maximum-twin-sum-of-a-linked-list/) | Medium |
+| [2355-maximum-number-of-books-you-can-take](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2355-maximum-number-of-books-you-can-take/) | Hard |
 | [2751-robot-collisions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2751-robot-collisions/) | Hard |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 ## Binary Indexed Tree
@@ -259,6 +261,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1081-smallest-subsequence-of-distinct-characters](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1081-smallest-subsequence-of-distinct-characters/) | Medium |
+| [2355-maximum-number-of-books-you-can-take](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2355-maximum-number-of-books-you-can-take/) | Hard |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 ## Binary Tree
 | Problem Name | Difficulty |
@@ -316,6 +319,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1871-jump-game-vii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1871-jump-game-vii/) | Medium |
 | [1872-stone-game-viii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1872-stone-game-viii/) | Hard |
 | [1888-minimum-number-of-flips-to-make-the-binary-string-alternating](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1888-minimum-number-of-flips-to-make-the-binary-string-alternating/) | Medium |
+| [2355-maximum-number-of-books-you-can-take](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2355-maximum-number-of-books-you-can-take/) | Hard |
 | [2463-minimum-total-distance-traveled](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2463-minimum-total-distance-traveled/) | Hard |
 | [2573-find-the-string-with-lcp](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2573-find-the-string-with-lcp/) | Hard |
 | [2770-maximum-number-of-jumps-to-reach-the-last-index](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2770-maximum-number-of-jumps-to-reach-the-last-index/) | Medium |
