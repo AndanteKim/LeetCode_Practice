@@ -192,6 +192,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3838-weighted-word-mapping](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3838-weighted-word-mapping/) | Easy |
 | [3867-sum-of-gcd-of-formed-pairs](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3867-sum-of-gcd-of-formed-pairs/) | Medium |
 | [3875-construct-uniform-parity-array-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3875-construct-uniform-parity-array-i/) | Easy |
+| [3876-construct-uniform-parity-array-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3876-construct-uniform-parity-array-ii/) | Medium |
 ## Binary Search
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -712,6 +713,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3783-mirror-distance-of-an-integer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3783-mirror-distance-of-an-integer/) | Easy |
 | [3867-sum-of-gcd-of-formed-pairs](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3867-sum-of-gcd-of-formed-pairs/) | Medium |
 | [3875-construct-uniform-parity-array-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3875-construct-uniform-parity-array-i/) | Easy |
+| [3876-construct-uniform-parity-array-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3876-construct-uniform-parity-array-ii/) | Medium |
 ## Trie
 | Problem Name | Difficulty |
 | ------- | ------- |
