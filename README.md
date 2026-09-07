@@ -310,6 +310,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0689-maximum-sum-of-3-non-overlapping-subarrays](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0689-maximum-sum-of-3-non-overlapping-subarrays) |
 | [0788-rotated-digits](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0788-rotated-digits/) | Medium |
 | [0877-stone-game](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0877-stone-game/) | Medium |
+| [0940-distinct-subsequences-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0940-distinct-subsequences-ii/) | Hard |
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 | [1140-stone-game-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1140-stone-game-ii/) | Medium |
 | [1259-handshakes-that-dont-cross](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1259-handshakes-that-dont-cross/) | Hard |
@@ -435,6 +436,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0758-bold-words-in-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0758-bold-words-in-string/) | Medium |
 | [0796-rotate-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0796-rotate-string/) | Easy |
 | [0800-similar-rgb-color](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0800-similar-rgb-color/) | Easy |
+| [0940-distinct-subsequences-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0940-distinct-subsequences-ii/) | Hard |
 | [1081-smallest-subsequence-of-distinct-characters](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1081-smallest-subsequence-of-distinct-characters/) | Medium |
 | [1189-maximum-number-of-balloons](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1189-maximum-number-of-balloons/) | Easy |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
