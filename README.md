@@ -70,6 +70,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0877-stone-game](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0877-stone-game/) | Medium |
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
 | [1064-fixed-point](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1064-fixed-point/) | Easy |
+| [1086-high-five](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1086-high-five/) | Easy |
 | [1140-stone-game-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1140-stone-game-ii/) | Medium |
 | [1199-minimum-time-to-build-blocks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1199-minimum-time-to-build-blocks/) | Hard |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
@@ -251,6 +252,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
 | [0759-employee-free-time](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0759-employee-free-time/) | Hard |
+| [1086-high-five](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1086-high-five/) | Easy |
 | [1199-minimum-time-to-build-blocks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1199-minimum-time-to-build-blocks/) | Hard |
 | [1464-maximum-product-of-two-elements-in-an-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1464-maximum-product-of-two-elements-in-an-array/) | Easy |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
@@ -531,6 +533,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0635-design-log-storage-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0635-design-log-storage-system/) | Medium |
 | [0758-bold-words-in-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0758-bold-words-in-string/) | Medium |
 | [0874-walking-robot-simulation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0874-walking-robot-simulation/) | Medium |
+| [1086-high-five](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1086-high-five/) | Easy |
 | [1189-maximum-number-of-balloons](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1189-maximum-number-of-balloons/) | Easy |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
 | [1331-rank-transform-of-an-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1331-rank-transform-of-an-array/) | Easy |
@@ -739,6 +742,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0628-maximum-product-of-three-numbers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0628-maximum-product-of-three-numbers/) | Easy |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
 | [0759-employee-free-time](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0759-employee-free-time/) | Hard |
+| [1086-high-five](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1086-high-five/) | Easy |
 | [1288-remove-covered-intervals](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1288-remove-covered-intervals/) | Medium |
 | [1331-rank-transform-of-an-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1331-rank-transform-of-an-array/) | Easy |
 | [1340-jump-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1340-jump-game-v/) | Hard |
