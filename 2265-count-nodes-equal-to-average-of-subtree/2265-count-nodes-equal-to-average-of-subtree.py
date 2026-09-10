@@ -5,23 +5,20 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def averageOfSubtree(self, root: Optional[TreeNode]) -> int:
-        def post_order(node: Optional[TreeNode]) -> Tuple[int]:
-            nonlocal count
+    def averageOfSubtree(self, root: TreeNode) -> int:
+        def dfs(node: TreeNode) -> Tuple[int, int]:
             if not node:
                 return (0, 0)
-            
-            left = post_order(node.left)
-            right = post_order(node.right)
-            
-            node_sum = left[0] + right[0] + node.val
-            node_count = left[1] + right[1] + 1
-            
-            # check if the average of the subtree == node value
-            if node.val == node_sum // node_count:
-                count += 1
-            return (node_sum, node_count)
-        
-        count = 0
-        post_order(root)
-        return count
+
+            left, right = dfs(node.left), dfs(node.right)
+            total = node.val + left[0] + right[0]
+            cnt = 1 + left[1] + right[1]
+
+            if (total // cnt) == node.val:
+                self.ans += 1
+
+            return (total, cnt)
+
+        self.ans = 0
+        dfs(root)
+        return self.ans
