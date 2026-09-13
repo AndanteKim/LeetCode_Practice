@@ -68,6 +68,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0755-pour-water](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0755-pour-water/) | Medium |
 | [0758-bold-words-in-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0758-bold-words-in-string/) | Medium |
 | [0759-employee-free-time](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0759-employee-free-time/) | Hard |
+| [0835-image-overlap](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0835-image-overlap/) | Medium |
 | [0874-walking-robot-simulation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0874-walking-robot-simulation/) | Medium |
 | [0877-stone-game](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0877-stone-game/) | Medium |
 | [1063-best-sightseeing-pair](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1063-best-sightseeing-pair) |
@@ -402,6 +403,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0308-range-sum-query-2d-mutable](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0308-range-sum-query-2d-mutable/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0723-candy-crush](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0723-candy-crush/) | Medium |
+| [0835-image-overlap](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0835-image-overlap/) | Medium |
 | [1260-shift-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1260-shift-2d-grid/) | Easy |
 | [1301-number-of-paths-with-max-score](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1301-number-of-paths-with-max-score/) | Hard |
 | [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
