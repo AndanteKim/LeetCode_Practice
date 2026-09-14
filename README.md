@@ -690,6 +690,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0628-maximum-product-of-three-numbers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0628-maximum-product-of-three-numbers/) | Easy |
 | [0788-rotated-digits](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0788-rotated-digits/) | Medium |
 | [0800-similar-rgb-color](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0800-similar-rgb-color/) | Easy |
+| [0836-rectangle-overlap](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0836-rectangle-overlap/) | Easy |
 | [0877-stone-game](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0877-stone-game/) | Medium |
 | [1056-confusing-number](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1056-confusing-number/) | Easy |
 | [1140-stone-game-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1140-stone-game-ii/) | Medium |
@@ -887,6 +888,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Geometry
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0836-rectangle-overlap](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0836-rectangle-overlap/) | Easy |
 | [3464-maximize-the-distance-between-points-on-a-square](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3464-maximize-the-distance-between-points-on-a-square/) | Hard |
 ## Sweep Line
 | Problem Name | Difficulty |
