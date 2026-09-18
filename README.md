@@ -376,6 +376,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1081-smallest-subsequence-of-distinct-characters](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1081-smallest-subsequence-of-distinct-characters/) | Medium |
 | [1199-minimum-time-to-build-blocks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1199-minimum-time-to-build-blocks/) | Hard |
 | [1386-cinema-seat-allocation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1386-cinema-seat-allocation/) | Medium |
+| [1520-maximum-number-of-non-overlapping-substrings](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1520-maximum-number-of-non-overlapping-substrings/) | Hard |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
 | [1665-minimum-initial-energy-to-finish-tasks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1665-minimum-initial-energy-to-finish-tasks/) | Hard |
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
@@ -460,6 +461,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1320-minimum-distance-to-type-a-word-using-two-fingers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1320-minimum-distance-to-type-a-word-using-two-fingers/) | Hard |
 | [1358-number-of-substrings-containing-all-three-characters](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1358-number-of-substrings-containing-all-three-characters/) | Medium |
 | [1415-the-k-th-lexicographical-string-of-all-happy-strings-of-length-n](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1415-the-k-th-lexicographical-string-of-all-happy-strings-of-length-n/) | Medium |
+| [1520-maximum-number-of-non-overlapping-substrings](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1520-maximum-number-of-non-overlapping-substrings/) | Hard |
 | [1545-find-kth-bit-in-nth-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1545-find-kth-bit-in-nth-binary-string/) | Medium |
 | [1758-minimum-changes-to-make-alternating-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1758-minimum-changes-to-make-alternating-binary-string/) | Easy |
 | [1784-check-if-binary-string-has-at-most-one-segment-of-ones](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1784-check-if-binary-string-has-at-most-one-segment-of-ones/) | Easy |
@@ -561,6 +563,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1477-find-two-non-overlapping-sub-arrays-each-with-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1477-find-two-non-overlapping-sub-arrays-each-with-target-sum/) | Medium |
 | [1485-clone-binary-tree-with-random-pointer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1485-clone-binary-tree-with-random-pointer/) | Medium |
 | [1490-clone-n-ary-tree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1490-clone-n-ary-tree/) | Medium |
+| [1520-maximum-number-of-non-overlapping-substrings](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1520-maximum-number-of-non-overlapping-substrings/) | Hard |
 | [1674-minimum-moves-to-make-array-complementary](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1674-minimum-moves-to-make-array-complementary/) | Medium |
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
 | [2107-number-of-unique-flavors-after-sharing-k-candies](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2107-number-of-unique-flavors-after-sharing-k-candies/) | Medium |
@@ -770,6 +773,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1331-rank-transform-of-an-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1331-rank-transform-of-an-array/) | Easy |
 | [1340-jump-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1340-jump-game-v/) | Hard |
 | [1464-maximum-product-of-two-elements-in-an-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1464-maximum-product-of-two-elements-in-an-array/) | Easy |
+| [1520-maximum-number-of-non-overlapping-substrings](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1520-maximum-number-of-non-overlapping-substrings/) | Hard |
 | [1665-minimum-initial-energy-to-finish-tasks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1665-minimum-initial-energy-to-finish-tasks/) | Hard |
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
 | [1833-maximum-ice-cream-bars](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1833-maximum-ice-cream-bars/) | Medium |
