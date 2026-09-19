@@ -101,6 +101,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1732-find-the-highest-altitude](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1732-find-the-highest-altitude/) | Easy |
 | [1752-check-if-array-is-sorted-and-rotated](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1752-check-if-array-is-sorted-and-rotated/) | Easy |
 | [1756-design-most-recently-used-queue](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1756-design-most-recently-used-queue/) | Medium |
+| [1762-buildings-with-an-ocean-view](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1762-buildings-with-an-ocean-view/) | Medium |
 | [1833-maximum-ice-cream-bars](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1833-maximum-ice-cream-bars/) | Medium |
 | [1840-maximum-building-height](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1840-maximum-building-height/) | Hard |
 | [1846-maximum-element-after-decreasing-and-rearranging](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1846-maximum-element-after-decreasing-and-rearranging/) | Medium |
@@ -233,6 +234,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1081-smallest-subsequence-of-distinct-characters](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1081-smallest-subsequence-of-distinct-characters/) | Medium |
+| [1762-buildings-with-an-ocean-view](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1762-buildings-with-an-ocean-view/) | Medium |
 | [2130-maximum-twin-sum-of-a-linked-list](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2130-maximum-twin-sum-of-a-linked-list/) | Medium |
 | [2355-maximum-number-of-books-you-can-take](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2355-maximum-number-of-books-you-can-take/) | Hard |
 | [2751-robot-collisions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/2751-robot-collisions/) | Hard |
@@ -274,6 +276,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1081-smallest-subsequence-of-distinct-characters](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1081-smallest-subsequence-of-distinct-characters/) | Medium |
+| [1762-buildings-with-an-ocean-view](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1762-buildings-with-an-ocean-view/) | Medium |
 | [2355-maximum-number-of-books-you-can-take](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2355-maximum-number-of-books-you-can-take/) | Hard |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 ## Binary Tree
