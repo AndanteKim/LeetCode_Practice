@@ -710,6 +710,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1199-minimum-time-to-build-blocks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1199-minimum-time-to-build-blocks/) | Hard |
 | [1259-handshakes-that-dont-cross](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1259-handshakes-that-dont-cross/) | Hard |
 | [1344-angle-between-hands-of-a-clock](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1344-angle-between-hands-of-a-clock/) | Medium |
+| [1401-circle-and-rectangle-overlapping](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1401-circle-and-rectangle-overlapping/) | Medium |
 | [1406-stone-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1406-stone-game-iii/) | Hard |
 | [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
 | [1563-stone-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1563-stone-game-v/) | Hard |
@@ -905,6 +906,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0836-rectangle-overlap](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0836-rectangle-overlap/) | Easy |
+| [1401-circle-and-rectangle-overlapping](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1401-circle-and-rectangle-overlapping/) | Medium |
 | [3464-maximize-the-distance-between-points-on-a-square](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3464-maximize-the-distance-between-points-on-a-square/) | Hard |
 ## Sweep Line
 | Problem Name | Difficulty |
