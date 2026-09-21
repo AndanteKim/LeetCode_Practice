@@ -170,6 +170,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3501-maximize-active-section-with-trade-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3501-maximize-active-section-with-trade-ii/) | Hard |
 | [3513-number-of-unique-xor-triplets-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3513-number-of-unique-xor-triplets-i/) | Medium |
 | [3514-number-of-unique-xor-triplets-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3514-number-of-unique-xor-triplets-ii/) | Medium |
+| [3524-find-x-value-of-array-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3524-find-x-value-of-array-i/) | Medium |
 | [3532-path-existence-queries-in-a-graph-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3532-path-existence-queries-in-a-graph-i/) | Medium |
 | [3534-path-existence-queries-in-a-graph-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3534-path-existence-queries-in-a-graph-ii/) | Hard |
 | [3546-equal-sum-grid-partition-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3546-equal-sum-grid-partition-i/) | Medium |
@@ -352,6 +353,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3336-find-the-number-of-subsequences-with-equal-gcd](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3336-find-the-number-of-subsequences-with-equal-gcd/) | Hard |
 | [3414-maximum-score-of-non-overlapping-intervals](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3414-maximum-score-of-non-overlapping-intervals/) | Hard |
 | [3418-maximum-amount-of-money-robot-can-earn](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3418-maximum-amount-of-money-robot-can-earn/) | Medium |
+| [3524-find-x-value-of-array-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3524-find-x-value-of-array-i/) | Medium |
 | [3534-path-existence-queries-in-a-graph-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3534-path-existence-queries-in-a-graph-ii/) | Hard |
 | [3559-number-of-ways-to-assign-edge-weights-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3559-number-of-ways-to-assign-edge-weights-ii/) | Hard |
 | [3620-network-recovery-pathways](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3620-network-recovery-pathways/) | Hard |
@@ -741,6 +743,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3513-number-of-unique-xor-triplets-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3513-number-of-unique-xor-triplets-i/) | Medium |
 | [3514-number-of-unique-xor-triplets-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3514-number-of-unique-xor-triplets-ii/) | Medium |
 | [3518-smallest-palindromic-rearrangement-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3518-smallest-palindromic-rearrangement-ii/) | Hard |
+| [3524-find-x-value-of-array-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3524-find-x-value-of-array-i/) | Medium |
 | [3536-maximum-product-of-two-digits](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3536-maximum-product-of-two-digits/) | Easy |
 | [3558-number-of-ways-to-assign-edge-weights-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3558-number-of-ways-to-assign-edge-weights-i/) | Medium |
 | [3559-number-of-ways-to-assign-edge-weights-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3559-number-of-ways-to-assign-edge-weights-ii/) | Hard |
