@@ -461,6 +461,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0635-design-log-storage-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0635-design-log-storage-system/) | Medium |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
 | [0657-robot-return-to-origin](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0657-robot-return-to-origin/) | Easy |
+| [0751-ip-to-cidr](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0751-ip-to-cidr/) | Medium |
 | [0758-bold-words-in-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0758-bold-words-in-string/) | Medium |
 | [0796-rotate-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0796-rotate-string/) | Easy |
 | [0800-similar-rgb-color](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0800-similar-rgb-color/) | Easy |
@@ -682,6 +683,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0320-generalized-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0320-generalized-abbreviation/) | Medium |
 | [0351-android-unlock-patterns](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0351-android-unlock-patterns/) | Medium |
+| [0751-ip-to-cidr](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0751-ip-to-cidr/) | Medium |
 | [1009-complement-of-base-10-integer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1009-complement-of-base-10-integer/) | Easy |
 | [1386-cinema-seat-allocation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1386-cinema-seat-allocation/) | Medium |
 | [2657-find-the-prefix-common-array-of-two-arrays](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2657-find-the-prefix-common-array-of-two-arrays/) | Medium |
