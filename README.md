@@ -239,6 +239,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1081-smallest-subsequence-of-distinct-characters](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1081-smallest-subsequence-of-distinct-characters/) | Medium |
+| [1096-brace-expansion-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1096-brace-expansion-ii/) | Hard |
 | [1762-buildings-with-an-ocean-view](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1762-buildings-with-an-ocean-view/) | Medium |
 | [2130-maximum-twin-sum-of-a-linked-list](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2130-maximum-twin-sum-of-a-linked-list/) | Medium |
 | [2355-maximum-number-of-books-you-can-take](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2355-maximum-number-of-books-you-can-take/) | Hard |
@@ -299,6 +300,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
+| [1096-brace-expansion-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1096-brace-expansion-ii/) | Hard |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
 | [1306-jump-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1306-jump-game-iii/) | Medium |
 | [1345-jump-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1345-jump-game-iv/) | Hard |
@@ -377,6 +379,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0351-android-unlock-patterns](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0351-android-unlock-patterns/) | Medium |
 | [0489-robot-room-cleaner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0489-robot-room-cleaner/) | Hard |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
+| [1096-brace-expansion-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1096-brace-expansion-ii/) | Hard |
 | [1415-the-k-th-lexicographical-string-of-all-happy-strings-of-length-n](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1415-the-k-th-lexicographical-string-of-all-happy-strings-of-length-n/) | Medium |
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
 | [3348-smallest-divisible-digit-product-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3348-smallest-divisible-digit-product-ii/) | Hard |
@@ -467,6 +470,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0800-similar-rgb-color](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0800-similar-rgb-color/) | Easy |
 | [0940-distinct-subsequences-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0940-distinct-subsequences-ii/) | Hard |
 | [1081-smallest-subsequence-of-distinct-characters](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1081-smallest-subsequence-of-distinct-characters/) | Medium |
+| [1096-brace-expansion-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1096-brace-expansion-ii/) | Hard |
 | [1189-maximum-number-of-balloons](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1189-maximum-number-of-balloons/) | Easy |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
 | [1320-minimum-distance-to-type-a-word-using-two-fingers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1320-minimum-distance-to-type-a-word-using-two-fingers/) | Hard |
@@ -568,6 +572,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0758-bold-words-in-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0758-bold-words-in-string/) | Medium |
 | [0874-walking-robot-simulation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0874-walking-robot-simulation/) | Medium |
 | [1086-high-five](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1086-high-five/) | Easy |
+| [1096-brace-expansion-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1096-brace-expansion-ii/) | Hard |
 | [1189-maximum-number-of-balloons](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1189-maximum-number-of-balloons/) | Easy |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
 | [1331-rank-transform-of-an-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1331-rank-transform-of-an-array/) | Easy |
@@ -790,6 +795,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
 | [0759-employee-free-time](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0759-employee-free-time/) | Hard |
 | [1086-high-five](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1086-high-five/) | Easy |
+| [1096-brace-expansion-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1096-brace-expansion-ii/) | Hard |
 | [1288-remove-covered-intervals](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1288-remove-covered-intervals/) | Medium |
 | [1331-rank-transform-of-an-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1331-rank-transform-of-an-array/) | Easy |
 | [1340-jump-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1340-jump-game-v/) | Hard |
