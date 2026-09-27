@@ -1,38 +1,22 @@
 class Solution {
 public:
     string reverseParentheses(string s) {
-        int n = s.size();
-        vector<int> pairs(n);
-        stack<int> openParenthesesIndices;
-        
-        // First pass: Pair up parentheses
-        for (int i = 0; i < n; ++i){
-            if (s[i] == '('){
-                openParenthesesIndices.push(i);
-            }
-            else if (s[i] == ')'){
-                int j = openParenthesesIndices.top();
-                openParenthesesIndices.pop();
-                pairs[i] = j;
-                pairs[j] = i;
-            }
-        }
-        
-        // Second pass: Build the string ans
-        int currIndex = 0, direction = 1;
         string ans = "";
-        
-        while (currIndex < n){
-            if (s[currIndex] == '(' || s[currIndex] == ')'){
-                currIndex = pairs[currIndex];
-                direction *= -1;
+
+        for (const char& c : s) {
+            if (c == ')') {
+                string curr = "";
+                while (!ans.empty() && ans.back() != '(') {
+                    curr.push_back(ans.back());
+                    ans.pop_back();
+                }
+                ans.pop_back();
+
+                for (const char& c : curr) ans.push_back(c);
             }
-            else
-                ans.push_back(s[currIndex]);
-            
-            currIndex += direction;
+            else ans.push_back(c);
         }
-        
+
         return ans;
     }
 };
