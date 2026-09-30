@@ -28,6 +28,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
+| [1236-web-crawler](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1236-web-crawler/) | Medium |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
 | [1306-jump-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1306-jump-game-iii/) | Medium |
 | [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
@@ -306,6 +307,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
 | [1096-brace-expansion-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1096-brace-expansion-ii/) | Hard |
+| [1236-web-crawler](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1236-web-crawler/) | Medium |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
 | [1306-jump-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1306-jump-game-iii/) | Medium |
 | [1345-jump-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1345-jump-game-iv/) | Hard |
@@ -481,6 +483,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1111-maximum-nesting-depth-of-two-valid-parentheses-strings](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1111-maximum-nesting-depth-of-two-valid-parentheses-strings/) | Medium |
 | [1189-maximum-number-of-balloons](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1189-maximum-number-of-balloons/) | Easy |
 | [1190-reverse-substrings-between-each-pair-of-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1190-reverse-substrings-between-each-pair-of-parentheses/) | Medium |
+| [1236-web-crawler](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1236-web-crawler/) | Medium |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
 | [1320-minimum-distance-to-type-a-word-using-two-fingers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1320-minimum-distance-to-type-a-word-using-two-fingers/) | Hard |
 | [1358-number-of-substrings-containing-all-three-characters](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1358-number-of-substrings-containing-all-three-characters/) | Medium |
@@ -965,6 +968,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0489-robot-room-cleaner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0489-robot-room-cleaner/) | Hard |
+| [1236-web-crawler](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1236-web-crawler/) | Medium |
 ## Counting Sort
 | Problem Name | Difficulty |
 | ------- | ------- |
