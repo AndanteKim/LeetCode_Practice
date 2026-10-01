@@ -1,4 +1,4 @@
-<h2><a href="https://leetcode.com/problems/minimum-costs-using-the-train-line/">2361. Minimum Costs Using the Train Line</a></h2><h3>Hard</h3><hr><div><p>A train line going through a city has two routes, the regular route and the express route. Both routes go through the <strong>same</strong> <code>n + 1</code> stops labeled from <code>0</code> to <code>n</code>. Initially, you start on the regular route at stop <code>0</code>.</p>
+<h2><a href="https://leetcode.com/problems/minimum-costs-using-the-train-line">2361. Minimum Costs Using the Train Line</a></h2><h3>Hard</h3><hr><p>A train line going through a city has two routes, the regular route and the express route. Both routes go through the <strong>same</strong> <code>n + 1</code> stops labeled from <code>0</code> to <code>n</code>. Initially, you start on the regular route at stop <code>0</code>.</p>
 
 <p>You are given two <strong>1-indexed</strong> integer arrays <code>regular</code> and <code>express</code>, both of length <code>n</code>. <code>regular[i]</code> describes the cost it takes to go from stop <code>i - 1</code> to stop <code>i</code> using the regular route, and <code>express[i]</code> describes the cost it takes to go from stop <code>i - 1</code> to stop <code>i</code> using the express route.</p>
 
@@ -18,8 +18,9 @@
 
 <p>&nbsp;</p>
 <p><strong class="example">Example 1:</strong></p>
-<img alt="" src="https://assets.leetcode.com/uploads/2022/07/25/ex1drawio.png" style="width: 442px; height: 150px;">
-<pre><strong>Input:</strong> regular = [1,6,9,5], express = [5,2,3,10], expressCost = 8
+<img alt="" src="https://assets.leetcode.com/uploads/2022/07/25/ex1drawio.png" style="width: 442px; height: 150px;" />
+<pre>
+<strong>Input:</strong> regular = [1,6,9,5], express = [5,2,3,10], expressCost = 8
 <strong>Output:</strong> [1,7,14,19]
 <strong>Explanation:</strong> The diagram above shows how to reach stop 4 from stop 0 with minimum cost.
 - Take the regular route from stop 0 to stop 1, costing 1.
@@ -31,8 +32,9 @@ Note that a different route could be taken to reach the other stops with minimum
 </pre>
 
 <p><strong class="example">Example 2:</strong></p>
-<img alt="" src="https://assets.leetcode.com/uploads/2022/07/25/ex2drawio.png" style="width: 346px; height: 150px;">
-<pre><strong>Input:</strong> regular = [11,5,13], express = [7,10,6], expressCost = 3
+<img alt="" src="https://assets.leetcode.com/uploads/2022/07/25/ex2drawio.png" style="width: 346px; height: 150px;" />
+<pre>
+<strong>Input:</strong> regular = [11,5,13], express = [7,10,6], expressCost = 3
 <strong>Output:</strong> [10,15,24]
 <strong>Explanation:</strong> The diagram above shows how to reach stop 3 from stop 0 with minimum cost.
 - Take the express route from stop 0 to stop 1, costing 3 + 7 = 10.
@@ -50,4 +52,3 @@ Note that the expressCost is paid again to transfer back to the express route.
 	<li><code>1 &lt;= n &lt;= 10<sup>5</sup></code></li>
 	<li><code>1 &lt;= regular[i], express[i], expressCost &lt;= 10<sup>5</sup></code></li>
 </ul>
-</div>
