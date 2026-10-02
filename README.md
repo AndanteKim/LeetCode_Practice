@@ -333,6 +333,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Dynamic Programming
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0022-generate-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0022-generate-parentheses/) | Medium |
 | [0115-distinct-subsequences](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0115-distinct-subsequences/) | Hard |
 | [0351-android-unlock-patterns](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0351-android-unlock-patterns/) | Medium |
 | [0396-rotate-function](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0396-rotate-function/) | Medium |
@@ -385,6 +386,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Backtracking
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0022-generate-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0022-generate-parentheses/) | Medium |
 | [0291-word-pattern-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0291-word-pattern-ii/) | Medium |
 | [0320-generalized-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0320-generalized-abbreviation/) | Medium |
 | [0351-android-unlock-patterns](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0351-android-unlock-patterns/) | Medium |
@@ -469,6 +471,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0020-valid-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0020-valid-parentheses/) | Easy |
+| [0022-generate-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0022-generate-parentheses/) | Medium |
 | [0115-distinct-subsequences](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0115-distinct-subsequences/) | Hard |
 | [0288-unique-word-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0288-unique-word-abbreviation/) | Medium |
 | [0291-word-pattern-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0291-word-pattern-ii/) | Medium |
@@ -1052,6 +1055,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [0020-valid-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0020-valid-parentheses/) | Easy |
+| [0022-generate-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0022-generate-parentheses/) | Medium |
 | [1111-maximum-nesting-depth-of-two-valid-parentheses-strings](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1111-maximum-nesting-depth-of-two-valid-parentheses-strings/) | Medium |
 | [1190-reverse-substrings-between-each-pair-of-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1190-reverse-substrings-between-each-pair-of-parentheses/) | Medium |
 | [1614-maximum-nesting-depth-of-the-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1614-maximum-nesting-depth-of-the-parentheses/) | Easy |
