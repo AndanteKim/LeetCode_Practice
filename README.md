@@ -310,6 +310,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Breadth-First Search
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0301-remove-invalid-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0301-remove-invalid-parentheses/) | Hard |
 | [0515-find-largest-value-in-each-tree-row](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0515-find-largest-value-in-each-tree-row) |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
 | [1096-brace-expansion-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1096-brace-expansion-ii/) | Hard |
@@ -394,6 +395,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0022-generate-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0022-generate-parentheses/) | Medium |
 | [0291-word-pattern-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0291-word-pattern-ii/) | Medium |
+| [0301-remove-invalid-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0301-remove-invalid-parentheses/) | Hard |
 | [0320-generalized-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0320-generalized-abbreviation/) | Medium |
 | [0351-android-unlock-patterns](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0351-android-unlock-patterns/) | Medium |
 | [0489-robot-room-cleaner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0489-robot-room-cleaner/) | Hard |
@@ -484,6 +486,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0115-distinct-subsequences](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0115-distinct-subsequences/) | Hard |
 | [0288-unique-word-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0288-unique-word-abbreviation/) | Medium |
 | [0291-word-pattern-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0291-word-pattern-ii/) | Medium |
+| [0301-remove-invalid-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0301-remove-invalid-parentheses/) | Hard |
 | [0320-generalized-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0320-generalized-abbreviation/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0635-design-log-storage-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0635-design-log-storage-system/) | Medium |
