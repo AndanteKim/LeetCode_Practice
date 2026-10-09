@@ -287,6 +287,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1199-minimum-time-to-build-blocks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1199-minimum-time-to-build-blocks/) | Hard |
 | [1464-maximum-product-of-two-elements-in-an-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1464-maximum-product-of-two-elements-in-an-array/) | Easy |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
+| [2093-minimum-cost-to-reach-city-with-discounts](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2093-minimum-cost-to-reach-city-with-discounts/) | Medium |
 | [2812-find-the-safest-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2812-find-the-safest-path-in-a-grid/) | Medium |
 | [3181-find-building-where-alice-and-bob-can-meet](https://github.com/AndanteKim/LeetCode_Practice/tree/master/3181-find-building-where-alice-and-bob-can-meet) |
 | [3286-find-a-safe-walk-through-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3286-find-a-safe-walk-through-a-grid/) | Medium |
@@ -665,6 +666,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [1059-all-paths-from-source-lead-to-destination](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1059-all-paths-from-source-lead-to-destination/) | Medium |
+| [2093-minimum-cost-to-reach-city-with-discounts](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2093-minimum-cost-to-reach-city-with-discounts/) | Medium |
 | [2492-minimum-score-of-a-path-between-two-cities](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2492-minimum-score-of-a-path-between-two-cities/) | Medium |
 | [2685-count-the-number-of-complete-components](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2685-count-the-number-of-complete-components/) | Medium |
 | [3286-find-a-safe-walk-through-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3286-find-a-safe-walk-through-a-grid/) | Medium |
@@ -1009,6 +1011,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Shortest Path
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [2093-minimum-cost-to-reach-city-with-discounts](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2093-minimum-cost-to-reach-city-with-discounts/) | Medium |
 | [3286-find-a-safe-walk-through-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3286-find-a-safe-walk-through-a-grid/) | Medium |
 | [3620-network-recovery-pathways](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3620-network-recovery-pathways/) | Hard |
 ## Combinatorics
@@ -1086,4 +1089,8 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1541-minimum-insertions-to-balance-a-parentheses-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1541-minimum-insertions-to-balance-a-parentheses-string/) | Medium |
 | [1614-maximum-nesting-depth-of-the-parentheses](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1614-maximum-nesting-depth-of-the-parentheses/) | Easy |
 | [2267-check-if-there-is-a-valid-parentheses-string-path](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2267-check-if-there-is-a-valid-parentheses-string-path/) | Hard |
+## Dijkstra's Algorithm
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [2093-minimum-cost-to-reach-city-with-discounts](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2093-minimum-cost-to-reach-city-with-discounts/) | Medium |
 <!---LeetCode Topics End-->
