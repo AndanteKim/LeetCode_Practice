@@ -103,6 +103,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1674-minimum-moves-to-make-array-complementary](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1674-minimum-moves-to-make-array-complementary/) | Medium |
 | [1722-minimize-hamming-distance-after-swap-operations](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1722-minimize-hamming-distance-after-swap-operations/) | Medium |
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
+| [1730-shortest-path-to-get-food](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1730-shortest-path-to-get-food/) | Medium |
 | [1732-find-the-highest-altitude](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1732-find-the-highest-altitude/) | Easy |
 | [1752-check-if-array-is-sorted-and-rotated](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1752-check-if-array-is-sorted-and-rotated/) | Easy |
 | [1756-design-most-recently-used-queue](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1756-design-most-recently-used-queue/) | Medium |
@@ -342,6 +343,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1485-clone-binary-tree-with-random-pointer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1485-clone-binary-tree-with-random-pointer/) | Medium |
 | [1490-clone-n-ary-tree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1490-clone-n-ary-tree/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
+| [1730-shortest-path-to-get-food](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1730-shortest-path-to-get-food/) | Medium |
 | [2492-minimum-score-of-a-path-between-two-cities](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2492-minimum-score-of-a-path-between-two-cities/) | Medium |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
 | [2685-count-the-number-of-complete-components](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2685-count-the-number-of-complete-components/) | Medium |
@@ -483,6 +485,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1582-special-positions-in-a-binary-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1582-special-positions-in-a-binary-matrix/) | Easy |
 | [1594-maximum-non-negative-product-in-a-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1594-maximum-non-negative-product-in-a-matrix/) | Medium |
 | [1727-largest-submatrix-with-rearrangements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1727-largest-submatrix-with-rearrangements/) | Medium |
+| [1730-shortest-path-to-get-food](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1730-shortest-path-to-get-food/) | Medium |
 | [1861-rotating-the-box](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1861-rotating-the-box/) | Medium |
 | [1878-get-biggest-three-rhombus-sums-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1878-get-biggest-three-rhombus-sums-in-a-grid/) | Medium |
 | [1886-determine-whether-matrix-can-be-obtained-by-rotation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1886-determine-whether-matrix-can-be-obtained-by-rotation/) | Easy |
