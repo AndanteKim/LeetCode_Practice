@@ -221,6 +221,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3867-sum-of-gcd-of-formed-pairs](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3867-sum-of-gcd-of-formed-pairs/) | Medium |
 | [3875-construct-uniform-parity-array-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3875-construct-uniform-parity-array-i/) | Easy |
 | [3876-construct-uniform-parity-array-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3876-construct-uniform-parity-array-ii/) | Medium |
+| [3886-sum-of-sortable-integers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3886-sum-of-sortable-integers/) | Hard |
 | [3903-smallest-stable-index-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3903-smallest-stable-index-i/) | Easy |
 | [3904-smallest-stable-index-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3904-smallest-stable-index-ii/) | Medium |
 ## Binary Search
@@ -861,6 +862,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3871-count-commas-in-range-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3871-count-commas-in-range-ii/) | Medium |
 | [3875-construct-uniform-parity-array-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3875-construct-uniform-parity-array-i/) | Easy |
 | [3876-construct-uniform-parity-array-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3876-construct-uniform-parity-array-ii/) | Medium |
+| [3886-sum-of-sortable-integers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3886-sum-of-sortable-integers/) | Hard |
 ## Trie
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -914,6 +916,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3727-maximum-alternating-sum-of-squares](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3727-maximum-alternating-sum-of-squares/) | Medium |
 | [3731-find-missing-elements](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3731-find-missing-elements/) | Easy |
 | [3867-sum-of-gcd-of-formed-pairs](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3867-sum-of-gcd-of-formed-pairs/) | Medium |
+| [3886-sum-of-sortable-integers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3886-sum-of-sortable-integers/) | Hard |
 ## Data Stream
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -990,6 +993,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3720-lexicographically-smallest-permutation-greater-than-target](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3720-lexicographically-smallest-permutation-greater-than-target/) | Medium |
 | [3734-lexicographically-smallest-palindromic-permutation-greater-than-target](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3734-lexicographically-smallest-palindromic-permutation-greater-than-target/) | Hard |
 | [3751-total-waviness-of-numbers-in-range-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3751-total-waviness-of-numbers-in-range-i/) | Medium |
+| [3886-sum-of-sortable-integers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3886-sum-of-sortable-integers/) | Hard |
 ## Queue
 | Problem Name | Difficulty |
 | ------- | ------- |
