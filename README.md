@@ -224,6 +224,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3886-sum-of-sortable-integers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3886-sum-of-sortable-integers/) | Hard |
 | [3903-smallest-stable-index-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3903-smallest-stable-index-i/) | Easy |
 | [3904-smallest-stable-index-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3904-smallest-stable-index-ii/) | Medium |
+| [3942-minimum-operations-to-sort-a-permutation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3942-minimum-operations-to-sort-a-permutation/) | Medium |
 ## Binary Search
 | Problem Name | Difficulty |
 | ------- | ------- |
