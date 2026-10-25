@@ -30,6 +30,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
 | [0642-design-search-autocomplete-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0642-design-search-autocomplete-system/) | Hard |
 | [1236-web-crawler](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1236-web-crawler/) | Medium |
+| [1254-number-of-closed-islands](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1254-number-of-closed-islands/) | Medium |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
 | [1306-jump-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1306-jump-game-iii/) | Medium |
 | [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
@@ -79,6 +80,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1086-high-five](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1086-high-five/) | Easy |
 | [1140-stone-game-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1140-stone-game-ii/) | Medium |
 | [1199-minimum-time-to-build-blocks](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1199-minimum-time-to-build-blocks/) | Hard |
+| [1254-number-of-closed-islands](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1254-number-of-closed-islands/) | Medium |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
 | [1260-shift-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1260-shift-2d-grid/) | Easy |
 | [1288-remove-covered-intervals](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1288-remove-covered-intervals/) | Medium |
@@ -341,6 +343,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
 | [1096-brace-expansion-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1096-brace-expansion-ii/) | Hard |
 | [1236-web-crawler](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1236-web-crawler/) | Medium |
+| [1254-number-of-closed-islands](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1254-number-of-closed-islands/) | Medium |
 | [1257-smallest-common-region](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1257-smallest-common-region/) | Medium |
 | [1306-jump-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1306-jump-game-iii/) | Medium |
 | [1345-jump-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1345-jump-game-iv/) | Hard |
@@ -482,6 +485,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0723-candy-crush](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0723-candy-crush/) | Medium |
 | [0835-image-overlap](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0835-image-overlap/) | Medium |
+| [1254-number-of-closed-islands](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1254-number-of-closed-islands/) | Medium |
 | [1260-shift-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1260-shift-2d-grid/) | Easy |
 | [1301-number-of-paths-with-max-score](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1301-number-of-paths-with-max-score/) | Hard |
 | [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
@@ -787,6 +791,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Union-Find
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [1254-number-of-closed-islands](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1254-number-of-closed-islands/) | Medium |
 | [1391-check-if-there-is-a-valid-path-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1391-check-if-there-is-a-valid-path-in-a-grid/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
 | [1569-number-of-ways-to-reorder-array-to-get-same-bst](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1569-number-of-ways-to-reorder-array-to-get-same-bst/) | Hard |
