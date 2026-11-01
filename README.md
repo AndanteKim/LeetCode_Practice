@@ -70,6 +70,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0465-optimal-account-balancing](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0465-optimal-account-balancing/) | Hard |
 | [0486-predict-the-winner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0486-predict-the-winner/) | Medium |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
+| [0531-lonely-pixel-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0531-lonely-pixel-i/) | Medium |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
 | [0628-maximum-product-of-three-numbers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/0628-maximum-product-of-three-numbers/) | Easy |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
@@ -500,6 +501,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | ------- | ------- |
 | [0048-rotate-image](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0048-rotate-image/) | Medium |
 | [0308-range-sum-query-2d-mutable](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0308-range-sum-query-2d-mutable/) | Medium |
+| [0531-lonely-pixel-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0531-lonely-pixel-i/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0723-candy-crush](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0723-candy-crush/) | Medium |
 | [0835-image-overlap](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0835-image-overlap/) | Medium |
@@ -669,6 +671,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0288-unique-word-abbreviation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0288-unique-word-abbreviation/) | Medium |
 | [0291-word-pattern-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0291-word-pattern-ii/) | Medium |
 | [0379-design-phone-directory](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0379-design-phone-directory/) | Medium |
+| [0531-lonely-pixel-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0531-lonely-pixel-i/) | Medium |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
 | [0631-design-excel-sum-formula](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/0631-design-excel-sum-formula/) | Hard |
 | [0635-design-log-storage-system](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0635-design-log-storage-system/) | Medium |
