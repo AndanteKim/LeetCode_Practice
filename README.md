@@ -70,6 +70,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0462-minimum-moves-to-equal-array-elements-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0462-minimum-moves-to-equal-array-elements-ii/) | Medium |
 | [0465-optimal-account-balancing](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0465-optimal-account-balancing/) | Hard |
 | [0486-predict-the-winner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0486-predict-the-winner/) | Medium |
+| [0487-max-consecutive-ones-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0487-max-consecutive-ones-ii/) | Medium |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
 | [0531-lonely-pixel-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0531-lonely-pixel-i/) | Medium |
 | [0582-kill-process](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0582-kill-process/) | Medium |
@@ -401,6 +402,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [0396-rotate-function](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0396-rotate-function/) | Medium |
 | [0465-optimal-account-balancing](https://github.com/AndanteKim/LeetCode_Practice/tree/main/0465-optimal-account-balancing/) | Hard |
 | [0486-predict-the-winner](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0486-predict-the-winner/) | Medium |
+| [0487-max-consecutive-ones-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0487-max-consecutive-ones-ii/) | Medium |
 | [0494-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0494-target-sum) |
 | [0678-valid-parenthesis-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0678-valid-parenthesis-string/) | Medium |
 | [0689-maximum-sum-of-3-non-overlapping-subarrays](https://github.com/AndanteKim/LeetCode_Practice/tree/master/0689-maximum-sum-of-3-non-overlapping-subarrays) |
@@ -666,6 +668,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 ## Sliding Window
 | Problem Name | Difficulty |
 | ------- | ------- |
+| [0487-max-consecutive-ones-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/0487-max-consecutive-ones-ii/) | Medium |
 | [1358-number-of-substrings-containing-all-three-characters](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1358-number-of-substrings-containing-all-three-characters/) | Medium |
 | [1477-find-two-non-overlapping-sub-arrays-each-with-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1477-find-two-non-overlapping-sub-arrays-each-with-target-sum/) | Medium |
 | [1658-minimum-operations-to-reduce-x-to-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1658-minimum-operations-to-reduce-x-to-zero/) | Medium |
