@@ -229,6 +229,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3665-twisted-mirror-path-count](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3665-twisted-mirror-path-count/) | Medium |
 | [3689-maximum-total-subarray-value-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3689-maximum-total-subarray-value-i/) | Medium |
 | [3691-maximum-total-subarray-value-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3691-maximum-total-subarray-value-ii/) | Hard |
+| [3693-climbing-stairs-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3693-climbing-stairs-ii/) | Medium |
 | [3702-longest-subsequence-with-non-zero-bitwise-xor](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3702-longest-subsequence-with-non-zero-bitwise-xor/) | Medium |
 | [3718-smallest-missing-multiple-of-k](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3718-smallest-missing-multiple-of-k/) | Easy |
 | [3727-maximum-alternating-sum-of-squares](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3727-maximum-alternating-sum-of-squares/) | Medium |
@@ -452,6 +453,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3660-jump-game-ix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3660-jump-game-ix/) | Medium |
 | [3661-maximum-walls-destroyed-by-robots](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3661-maximum-walls-destroyed-by-robots/) | Hard |
 | [3665-twisted-mirror-path-count](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3665-twisted-mirror-path-count/) | Medium |
+| [3693-climbing-stairs-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3693-climbing-stairs-ii/) | Medium |
 | [3699-number-of-zigzag-arrays-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3699-number-of-zigzag-arrays-i/) | Hard |
 | [3700-number-of-zigzag-arrays-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3700-number-of-zigzag-arrays-ii/) | Hard |
 | [3742-maximum-path-score-in-a-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3742-maximum-path-score-in-a-grid/) | Medium |
