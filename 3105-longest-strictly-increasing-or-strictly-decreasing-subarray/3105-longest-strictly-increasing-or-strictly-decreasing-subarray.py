@@ -1,24 +1,25 @@
 class Solution:
     def longestMonotonicSubarray(self, nums: List[int]) -> int:
-        # Track current lengths of increasing and decreasing sequences
-        inc_len, dec_len, max_len = 1, 1, 1
+        n, ans = len(nums), 0
 
-        # Iterate through array comparing adjacent elements
-        for pos in range(len(nums) - 1):
-            if nums[pos + 1] > nums[pos]:
-                # If the next element is larger, extend increasing sequence
-                inc_len += 1
-                dec_len = 1     # Reset decreasing sequence
-            elif nums[pos + 1] < nums[pos]:
-                # If the next element is smaller, extend decreasing sequence
-                inc_len = 1     # Reset increasing sequence
-                dec_len += 1
-            else:
-                # If elements are equal, reset both sequences
-                inc_len = dec_len = 1
+        for i in range(n):
+            inc_cnt, prev = 1, nums[i]
+            for j in range(i + 1, n):
+                if prev < nums[j]:
+                    inc_cnt += 1
+                    prev = nums[j]
+                else:
+                    break
+                ans = max(ans, inc_cnt)
 
-            # Updapte max length considering both sequences
-            max_len = max(max_len, inc_len, dec_len)
+        for i in range(n):
+            dec_cnt, prev = 1, nums[i]
+            for j in range(i + 1, n):
+                if prev > nums[j]:
+                    dec_cnt += 1
+                    prev = nums[j]
+                else:
+                    break
+                ans = max(ans, dec_cnt)
 
-        return max_len
-
+        return max(ans, 1)
