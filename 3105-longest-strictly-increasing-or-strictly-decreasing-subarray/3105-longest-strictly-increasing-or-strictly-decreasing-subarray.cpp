@@ -1,29 +1,24 @@
 class Solution {
 public:
     int longestMonotonicSubarray(vector<int>& nums) {
-        // Track current lengths of increasing and decreasing sequences
-        int incLength = 1, decLength = 1, maxLength = 1;
+        int inc = 1, dec = 1, mx = 1;
 
-        // Iterate through array comparing adjacent elements.
-        for (int pos = 0; pos < nums.size() - 1; ++pos){
-            if (nums[pos + 1] > nums[pos]){
-                // If the next element is larger, extend increasing sequence
-                ++incLength;
-                decLength = 1;  // Reset decreasing sequence
+        for (int i = 0; i < nums.size() - 1; ++i) {
+            if (nums[i] < nums[i + 1]) {
+                ++inc;
+                dec = 1;
             }
-            else if (nums[pos + 1] < nums[pos]){
-                // If next element is smaller, extend decreasing sequence
-                ++decLength;
-                incLength = 1;  // Reset increasing sequence
+            else if (nums[i] > nums[i + 1]) {
+                inc = 1;
+                ++dec;
             }
-            else
-                // If elements are equal, reset both sequences.
-                incLength = 1, decLength = 1;
-
-            // Update max length considering both sequences
-            maxLength = max(maxLength, max(incLength, decLength));
+            else {
+                inc = 1;
+                dec = 1;
+            }
+            mx = max(mx, max(inc, dec));
         }
 
-        return maxLength;
+        return mx;
     }
 };
