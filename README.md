@@ -107,6 +107,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1406-stone-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1406-stone-game-iii/) | Hard |
 | [1464-maximum-product-of-two-elements-in-an-array](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/1464-maximum-product-of-two-elements-in-an-array/) | Easy |
 | [1477-find-two-non-overlapping-sub-arrays-each-with-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1477-find-two-non-overlapping-sub-arrays-each-with-target-sum/) | Medium |
+| [1524-number-of-sub-arrays-with-odd-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1524-number-of-sub-arrays-with-odd-sum/) | Medium |
 | [1536-minimum-swaps-to-arrange-a-binary-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1536-minimum-swaps-to-arrange-a-binary-grid/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
 | [1563-stone-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1563-stone-game-v/) | Hard |
@@ -430,6 +431,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1406-stone-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1406-stone-game-iii/) | Hard |
 | [1477-find-two-non-overlapping-sub-arrays-each-with-target-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1477-find-two-non-overlapping-sub-arrays-each-with-target-sum/) | Medium |
 | [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
+| [1524-number-of-sub-arrays-with-odd-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1524-number-of-sub-arrays-with-odd-sum/) | Medium |
 | [1563-stone-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1563-stone-game-v/) | Hard |
 | [1569-number-of-ways-to-reorder-array-to-get-same-bst](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1569-number-of-ways-to-reorder-array-to-get-same-bst/) | Hard |
 | [1594-maximum-non-negative-product-in-a-matrix](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1594-maximum-non-negative-product-in-a-matrix/) | Medium |
@@ -809,6 +811,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [1140-stone-game-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1140-stone-game-ii/) | Medium |
+| [1524-number-of-sub-arrays-with-odd-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1524-number-of-sub-arrays-with-odd-sum/) | Medium |
 | [1621-number-of-sets-of-k-non-overlapping-line-segments](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1621-number-of-sets-of-k-non-overlapping-line-segments/) | Medium |
 | [1658-minimum-operations-to-reduce-x-to-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1658-minimum-operations-to-reduce-x-to-zero/) | Medium |
 | [1674-minimum-moves-to-make-array-complementary](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1674-minimum-moves-to-make-array-complementary/) | Medium |
@@ -897,6 +900,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1401-circle-and-rectangle-overlapping](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1401-circle-and-rectangle-overlapping/) | Medium |
 | [1406-stone-game-iii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1406-stone-game-iii/) | Hard |
 | [1510-stone-game-iv](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1510-stone-game-iv/) | Hard |
+| [1524-number-of-sub-arrays-with-odd-sum](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1524-number-of-sub-arrays-with-odd-sum/) | Medium |
 | [1563-stone-game-v](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1563-stone-game-v/) | Hard |
 | [1569-number-of-ways-to-reorder-array-to-get-same-bst](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1569-number-of-ways-to-reorder-array-to-get-same-bst/) | Hard |
 | [1621-number-of-sets-of-k-non-overlapping-line-segments](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1621-number-of-sets-of-k-non-overlapping-line-segments/) | Medium |
