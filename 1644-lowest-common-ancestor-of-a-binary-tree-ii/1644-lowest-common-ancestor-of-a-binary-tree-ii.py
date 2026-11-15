@@ -6,26 +6,29 @@
 #         self.right = None
 
 class Solution:
-    nodes_found = False
-    def dfs(self, node: 'TreeNode', p, q) -> 'TreeNode':
-        if not node:
-            return node
-        
-        left, right = self.dfs(node.left, p, q), self.dfs(node.right, p, q)
-        conditions = 0
-        if node in (p, q):
-            conditions += 1
-        if left:
-            conditions += 1
-        if right:
-            conditions += 1
-        if conditions == 2:
-            self.nodes_found = True
-        
-        if (left and right) or node in (p, q):
-            return node
-        return left or right
-    
     def lowestCommonAncestor(self, root: 'TreeNode', p: 'TreeNode', q: 'TreeNode') -> 'TreeNode':
-        ans = self.dfs(root, p, q)
-        return ans if self.nodes_found else None
+        ancestor, st = dict(), [(None, root)]
+
+        while st:
+            parent, child = st.pop()
+            ancestor[child] = parent
+
+            if child.left:
+                st.append((child, child.left))
+
+            if child.right:
+                st.append((child, child.right))
+
+        if not (p in ancestor and q in ancestor):
+            return None
+
+        while p:
+            q_cp = q
+            while q_cp:
+                if p and q_cp and p.val == q_cp.val:
+                    return p
+                q_cp = ancestor[q_cp]
+
+            p = ancestor[p]
+
+        return None
