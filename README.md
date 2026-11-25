@@ -263,6 +263,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3886-sum-of-sortable-integers](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3886-sum-of-sortable-integers/) | Hard |
 | [3903-smallest-stable-index-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/3903-smallest-stable-index-i/) | Easy |
 | [3904-smallest-stable-index-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3904-smallest-stable-index-ii/) | Medium |
+| [3934-smallest-unique-subarray](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3934-smallest-unique-subarray/) | Hard |
 | [3942-minimum-operations-to-sort-a-permutation](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3942-minimum-operations-to-sort-a-permutation/) | Medium |
 ## Binary Search
 | Problem Name | Difficulty |
@@ -295,6 +296,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3633-earliest-finish-time-for-land-and-water-rides-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3633-earliest-finish-time-for-land-and-water-rides-i/) | Easy |
 | [3635-earliest-finish-time-for-land-and-water-rides-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3635-earliest-finish-time-for-land-and-water-rides-ii/) | Medium |
 | [3661-maximum-walls-destroyed-by-robots](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3661-maximum-walls-destroyed-by-robots/) | Hard |
+| [3934-smallest-unique-subarray](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3934-smallest-unique-subarray/) | Hard |
 ## Stack
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -787,6 +789,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [3740-minimum-distance-between-three-equal-elements-i](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Easy/3740-minimum-distance-between-three-equal-elements-i/) | Easy |
 | [3741-minimum-distance-between-three-equal-elements-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3741-minimum-distance-between-three-equal-elements-ii/) | Medium |
 | [3761-minimum-absolute-distance-between-mirror-pairs](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/3761-minimum-absolute-distance-between-mirror-pairs/) | Medium |
+| [3934-smallest-unique-subarray](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3934-smallest-unique-subarray/) | Hard |
 ## Graph Theory
 | Problem Name | Difficulty |
 | ------- | ------- |
@@ -1288,4 +1291,16 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | Problem Name | Difficulty |
 | ------- | ------- |
 | [3420-count-non-decreasing-subarrays-after-k-operations](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3420-count-non-decreasing-subarrays-after-k-operations/) | Hard |
+## Rolling Hash
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [3934-smallest-unique-subarray](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3934-smallest-unique-subarray/) | Hard |
+## Suffix Array
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [3934-smallest-unique-subarray](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3934-smallest-unique-subarray/) | Hard |
+## Hash Function
+| Problem Name | Difficulty |
+| ------- | ------- |
+| [3934-smallest-unique-subarray](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/3934-smallest-unique-subarray/) | Hard |
 <!---LeetCode Topics End-->
