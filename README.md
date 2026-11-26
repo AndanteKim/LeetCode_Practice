@@ -17,6 +17,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1490-clone-n-ary-tree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1490-clone-n-ary-tree/) | Medium |
 | [1569-number-of-ways-to-reorder-array-to-get-same-bst](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1569-number-of-ways-to-reorder-array-to-get-same-bst/) | Hard |
 | [1644-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1644-lowest-common-ancestor-of-a-binary-tree-ii/) | Medium |
+| [1660-correct-a-binary-tree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1660-correct-a-binary-tree/) | Medium |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
 | [2196-create-binary-tree-from-descriptions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2196-create-binary-tree-from-descriptions/) | Medium |
 | [2265-count-nodes-equal-to-average-of-subtree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2265-count-nodes-equal-to-average-of-subtree/) | Medium |
@@ -44,6 +45,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1490-clone-n-ary-tree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1490-clone-n-ary-tree/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
 | [1644-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1644-lowest-common-ancestor-of-a-binary-tree-ii/) | Medium |
+| [1660-correct-a-binary-tree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1660-correct-a-binary-tree/) | Medium |
 | [1722-minimize-hamming-distance-after-swap-operations](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1722-minimize-hamming-distance-after-swap-operations/) | Medium |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
 | [1858-longest-word-with-all-prefixes](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1858-longest-word-with-all-prefixes/) | Medium |
@@ -381,6 +383,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1485-clone-binary-tree-with-random-pointer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1485-clone-binary-tree-with-random-pointer/) | Medium |
 | [1569-number-of-ways-to-reorder-array-to-get-same-bst](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1569-number-of-ways-to-reorder-array-to-get-same-bst/) | Hard |
 | [1644-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/main/1644-lowest-common-ancestor-of-a-binary-tree-ii/) | Medium |
+| [1660-correct-a-binary-tree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1660-correct-a-binary-tree/) | Medium |
 | [1780-lowest-common-ancestor-of-a-binary-tree-ii](https://github.com/AndanteKim/LeetCode_Practice/tree/master/1780-lowest-common-ancestor-of-a-binary-tree-ii) |
 | [2196-create-binary-tree-from-descriptions](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2196-create-binary-tree-from-descriptions/) | Medium |
 | [2265-count-nodes-equal-to-average-of-subtree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/2265-count-nodes-equal-to-average-of-subtree/) | Medium |
@@ -402,6 +405,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1485-clone-binary-tree-with-random-pointer](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1485-clone-binary-tree-with-random-pointer/) | Medium |
 | [1490-clone-n-ary-tree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1490-clone-n-ary-tree/) | Medium |
 | [1559-detect-cycles-in-2d-grid](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1559-detect-cycles-in-2d-grid/) | Medium |
+| [1660-correct-a-binary-tree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1660-correct-a-binary-tree/) | Medium |
 | [1730-shortest-path-to-get-food](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1730-shortest-path-to-get-food/) | Medium |
 | [2492-minimum-score-of-a-path-between-two-cities](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/2492-minimum-score-of-a-path-between-two-cities/) | Medium |
 | [2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level](https://github.com/AndanteKim/LeetCode_Practice/tree/master/2558-minimum-number-of-operations-to-sort-a-binary-tree-by-level) |
@@ -748,6 +752,7 @@ Welcome to Andrew Kim's LeetCode Practice Repository. This repository reflects m
 | [1490-clone-n-ary-tree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1490-clone-n-ary-tree/) | Medium |
 | [1520-maximum-number-of-non-overlapping-substrings](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Hard/1520-maximum-number-of-non-overlapping-substrings/) | Hard |
 | [1658-minimum-operations-to-reduce-x-to-zero](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1658-minimum-operations-to-reduce-x-to-zero/) | Medium |
+| [1660-correct-a-binary-tree](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1660-correct-a-binary-tree/) | Medium |
 | [1674-minimum-moves-to-make-array-complementary](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1674-minimum-moves-to-make-array-complementary/) | Medium |
 | [1807-evaluate-the-bracket-pairs-of-a-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1807-evaluate-the-bracket-pairs-of-a-string/) | Medium |
 | [1980-find-unique-binary-string](https://github.com/AndanteKim/LeetCode_Practice/tree/main/LeetCode/Medium/1980-find-unique-binary-string/) | Medium |
